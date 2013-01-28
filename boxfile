@@ -1,7 +1,8 @@
 web1:
   name: devhub
   shared_writable_dirs:
-    - data
+	- data
+    - data/pages
     - lib/plugins
   php_date_timezone: "Australia/ACT"
   php_upload_max_filesize: "8M"
