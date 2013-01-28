@@ -1,0 +1,16 @@
+====== Web Programming ======
+
+Intro to web programming
+
+===== Software Development Process =====
+===== Frameworks & Content Management =====
+===== Understanding the Application Stack =====
+===== Bug Testing =====
+===== Coding =====
+===== Security =====
+
+Should make a security "checklist" before deployment.
+===== Database =====
+===== Dynamic Client Side =====
+===== RESTful Web Services =====
+===== Code Libraries (DRY) =====
