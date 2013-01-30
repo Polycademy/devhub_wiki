@@ -1,10 +1,10 @@
 ====== Vision & Plan ======
 
-To start a project, we must first have an idea. We can start by brainstorming ideas or selecting from [[Course Examples]]. Once we have the idea, we then expand on the idea's feature set. These features are turned into a logical workflow of components. Then we can figure out what standards and technologies we will use in order to create it. This will give us an idea of the timing and deployment of the project.
+To start a project, we must first have an idea. We can start by brainstorming ideas or selecting from the [[:Wishlist]]. Once we have the idea, we then expand on the idea's feature set. These features are turned into a logical workflow of components. Then we can figure out what standards and technologies we will use in order to create it. This will give us an idea of the timing and deployment of the project.
 
 ===== Brainstorming =====
 
-Creative brainstorming relies often relies on three aspects:
+Creative brainstorming often relies on three aspects:
 
   * Individual reflection on //identifying problems//.
   * Inspiration, debate and constructive criticism from //different complex fields//.
@@ -12,29 +12,42 @@ Creative brainstorming relies often relies on three aspects:
 
 Scientific studies have shown that groups don't necessarily produce more ideas than individuals. While brainstorming sessions in groups were meant to sustain a no criticism rule, group dynamics stifle creative thought and some people are simply uncomfortable in groups. The individual needs to first reflect on problems. There is no point in thinking about solutions or the ideal product or service, if the problem isn't tackled first. People also find it easier to identify problems than ideal products. However don't let this stop you about dreaming about ideas that have no specific or defined problem. Henry Ford once said that if he asked what consumers want, they would have said a faster horse.
 
-In this course, you may already arrive with a problem and solution set. If you don't have any specific ideas, this is when getting into groups is the most fun. After a problem has been identified by you or one of your group members, let people react to your the problem and the proposed solution. Constructive criticism is a good thing in creative brainstorming as it allows people to reformulate the problem to take into account complex factors that the original definition did not attend to. Reformulating the problem or solution works best when it is inspired and debated from different perspectives and fields. The Medici effect is the phenomenon that breakthrough insights comes from an intersection of ideas, concepts and cultures. Allow the group to connect the dots between disparate fields. Remember too little familiarity between group members stifles interaction, but too much familiarity increases group think. 
+In this course, you may already arrive with a problem and solution set. If you don't have any specific ideas, this is when getting into groups is the most fun. After a problem has been identified by you or one of your group members, let people react to your problem and the proposed solution. Constructive criticism is a good thing in creative brainstorming as it allows people to reformulate the problem to take into account complex factors that the original definition did not attend to. Reformulating the problem or solution works best when it is inspired and debated from different perspectives and fields. The Medici effect is the phenomenon that breakthrough insights comes from an intersection of ideas, concepts and cultures. Allow the group to connect the dots between disparate fields. Remember too little familiarity between group members stifles interaction, but too much familiarity increases group think. 
 
 The third points follows on from the second point. Get out there and talk to people you would normally never talk too! Innovative companies such as Vitra are designing workplaces that enhance serendipitous conversations by removing the cubicles and creating a balance between relaxed solitude and easy going sociability. Diverse people bring diverse backgrounds and cultures. In the modern day, there has been a greater focus on convergence and cross-disciplinary studies as modern complex problems are finding parallels in diverse academic fields.
 
 Brainstorming doesn't stop after the problem has been defined and appropriate solution proposed. There is a cycle of brainstorming as the development of the solution meets unexpected threats and opportunities. So don't be afraid of going back to the drawing board, but make sure to keep in sight a constant theme and that is your vision.
 
-Note that if your web application is content focused such as a web magazine, then you need to brainstorm on your content as well.
-
-Some tips for the brainstorming cycle:
+==== Brainstorming Tips ====
 
   * Do use the internet, there is a wealth of information. In the realm of web development, check out websites like FastCompany, NetTuts, Smashing Magazine, UXMag, Kickstarter, Youtube, Lifehacker, Internet Forums (stackoverflow)
+  * Read books you wouldn't normally read, and talk to people you would never talk to.
   * Take an existing problem or maybe an existing solution and improve it. This could be in the packaging, usability, marketing, deployment, licensing, obscurity, complexity or distribution.
-  * Use mindmaps to keep track of how your idea progresses. Check out xmind.
+  * Use mindmaps to keep track of how your idea progresses.
+  * If your idea is visual, draw many variations of them, allow yourself to focus on the different iterations and features.
   * Different market segments will have different problems, but sometimes they will have the same. Think about taking a problem solution set from one market context to another. This could be geographical or abstract.
   * Check out the patent literature. This is free.
   * Think about using open source developments for inspiration. Sometimes it's as easy as taking a corporate solution and turning it open source.
   * Attach yourself onto an existing product or service. Examples include plugins for internet browsers, plugins for various software, utilising APIs of existing web services.
   * Think foreign languages, Facebook is big in the Western World, but what about China?
+  * Make sure to read Paul Graham's essay on [[http://www.paulgraham.com/startupideas.html | How to Get Startup Ideas]] and [[http://paulgraham.com/ambitious.html | Frighteningly Ambitious Startup Ideas]]
+  * Read up on the concept of pivots. As you start working on your idea, you'll discover opportunities that would not reveal itself by through experiments alone. Don't be afraid of experimenting and changing if your idea doesn't work out.
+
 ===== Feature Set =====
 
-Once you have a problem and solution defined. It is time to turn that into a feature set of the final product or service. If the web application is content focused, then your feature set should involve categories of content. Each category of content solves a particular problem for your customer. If you were a comedy site, you could have lists, stand up videos, jokes and reviews. We will use the concept of [[wp>Minimum Viable Product]] to create feature set.
+Once you have a problem and solution defined. It is time to define a feature set for the first iteration of the product. If the web application is content focused, then your feature set should involve categories of content. Each category of content solves a particular problem for your customer. If you were a comedy site, you could have lists, stand up videos, jokes and reviews. We will use the concept of [[wp>Minimum Viable Product]] to create feature set.
 
-This means to develop your product to have only features that allow it to be deployed and no more. MVP is defined in two ways. The first is as a smoke test of a whole product or a set of features. The MVP approach deploys a website or mock up of the service but has no real functionality. This is to test customer response. The second way is to deploy a minimum product which is viable to be used with satisfaction to its primary purpose. At this point, the second aspect of MVP is useful. However, we will also be considering the first aspect of MVP during the deployment stage. 
+==== Minimum Viable Product ====
+
+MVP is defined in two ways:
+
+  * 1. as a smoke test of a whole product or a set of features. The MVP approach deploys a website or mock up of the service but has no real functionality. This is to test customer response.
+
+  * 2. to deploy a product that is minimum enough to produce quickly and viable enough so it is differentiated from the competition and actually useful.
+
+For our purposes, the second definition of MVP is what we follow. However we'll also be executing the first way by iterating through the feature set when producing the product.
+
+==== Feature Filtering ====
 
 In order to create a MVP, we take all the ideas from the brainstorming stage and categorise the features into "core", "value adding", "optional" and "extraneous". There are a lot of cool features we would want in our ideal solution, but we have limited time and budget.
 
@@ -45,109 +58,28 @@ In order to create a MVP, we take all the ideas from the brainstorming stage and
 
 It is possible for value adding features to become core, optional features to become value adding and extraneous to become optional. This is based how you scale up your product or service in the future. But for development purposes, we will only focus on the core and value adding.
 
-Once you have your features separated in core or value adding. Development will focus first on the core, then layer on the value adding.
+Once you have your features separated in core or value adding. Development will focus first on the core, then layer on the value adding. We'll forget about the optional and extraneous for our first iteration, but they will be in our long term roadmap.
 ===== Components =====
 
-Taking the features from core and value adding, we then have to conceptualise them as components with inputs, logical processes and outputs. If your web application is content focused, then your components would not only be the functional features but also categories of content.
+[{{ :web_application_development:use_case_restaurant_model.png?300|A UML Use Case Diagram for the interaction of a client (the actor) and a restaurant (the system) ((By Marcel Douwe Dekker (Own work) [GNU Free Documentation License (http://commons.wikimedia.org/wiki/Commons:GNU_Free_Documentation_License_1.2)], via Wikimedia Commons))}}]
 
-Let's use an example:
+From the feature set, we'll focus on what is in the core and the value adding. For each feature, conceptualise them in the form of a workflow component. It is important to map out the workflow or scenario of how someone will use the product. At the same time this will reveal the dependencies and the side effects of each feature.
 
-Simple Search Engine Product for customers looking at websites
+Each feature/component will have some input that is fed into the logical processes and finally off to some output. The inputs and outputs could be triggers or meta information that needs to be processed. This way we create a [[wp>Scenario_(computing)|user based workflow]] and the overall architecture of our application. This will be done during class. This becomes easier as you become more aware of the technologies that can be used.
 
-Core Features:
+Try drawing this workflow diagram and architecture on paper and iterate through different ones.
 
-  * Search Form
-  * Database that can be searched
-  * Ranking algorithm
-  * Advertising for income
-
-Value Adding Features:
-
-  * Search criteria form
-  * AJAX loaded results
-  * Picture search
-  * Search Spider that aggregates more results into the database
-
-Optional Features:
-
-  * Accessibility for disabled people (this depends on your target market)
-  * Social search (depends on your target market liking search results)
-  * Statistics of search results
-
-Extraneous Features:
-
-  * Weather results
-  * Time
-  * Being able to draw your search query
-  * Having virtual assistant with your search (remember clip from Microsoft Word?)
-
-Taking the core and value adding features, we now to have construct components from them.
-
-=== Core Components ===
-
-**Search Form**
-
-  * Input: Text data
-  * Logical Process: Process text into query form
-  * Output: Query string
-
-**Database**
-
-  * Input: Query strings
-  * Logical Process: Look for relevance
-  * Output: List of relevant matches
-
-**Ranking Algorithm**
-
-  * Input: Database matches + query string
-  * Logical Process: Ranking according to algorithm and query string
-  * Output: List of ranked matches
-
-**Advertising for Income**
-
-  * Input: Advertisers
-  * Logical Process: Matching relevant advertisement to search query
-  * Output: Display advertisement next to list of ranked matches
-
-=== Value Adding Components ===
-
-**Search Criteria Form**
-
-  * Input: search conditions form
-  * Logical Process: Turning form conditions into booleans
-  * Output: Conditional Query string
-
-**AJAX Loaded Results**
-
-  * Input: live user changes to query string
-  * Logical Process: Hook into json/xml data and retrieve it via javascript get/post
-  * Output: Javascript DOM changes
-
-**Picture Search**
-
-  * Input: Conditional query string with picture condition
-  * Logical Process: Search database for picture data only
-  * Output: List of relevant pictures
-
-**Search Spider**
-
-  * Input: External websites to look at
-  * Logical Process: Go to website and parse data and enter into full text search engine
-  * Output: Add to database
-
-Each component can be further separated into more specific components. Once you have your list of components, try to map your components into a flow diagram. There may be components inside components. One component's output may lead to another component's input. There is not just one logical flow, but many different flows.
-
-This gives you an idea of how your overall project will work. This is your project road map which you will refer back to in order to complete the project and you can also add time estimates to the completion of each component.
-
-Here is an example of the component map based on the above product:
+Each component can be further separated into more specific components. There may be components inside components. One component's output may lead to another component's input. There is not just one logical flow, but many different flows.
 
 ===== Standards & Technologies =====
 
-Once you have your component map. You can then figure out what kind of technologies are appropriate to your project. Considering the above example, we can see that we require some form technology, a database technology, text parsing technology, advertising platform... etc. We will also need to consider some development tools, and the stack that this product/service will be delivered from.
+Once we have a component workflow map and an idea of our overall architecture, we can then figure out what technologies are suitable to your project.
 
-Thankfully, web application development has many of these tools already, and these tools are widely available and are free. For the user input stage, we can use HTML. For the database, we can use MySQL or the many other SQL databases. For the text parsing we can use PHP. For the advertising platform we can use Google Adsense. For development tools we can use Notepad++. For the stack, we can use a standard LAMP stack on the many web hosts.
+We'll need to figure out our solution stack, our development tools, our deployment mechanism, our hosts, and of course the appropriate skills and knowledge required to use these technologies.
 
-Here is a basic explanation of these technologies (we'll get into them in more detail later):
+Thankfully, web application development has many of these tools already, and these tools are widely available and are free. The world of development thrives on open source technology. With the wealth of opensource, it's the best time in history to begin software development.
+
+Here is a basic list of some the technologies we'll be using. There will definitely be more, but it's out of the scope at this point in the course:
 
   * [[wp>HTML]] - Hyper Text Markup Language is a markup language that displays content in web browsers.
   * [[wp>CSS]] - Cascading Style Sheets is a language that is used to style the HTML such as colours and displacement.
@@ -162,13 +94,135 @@ Here is a basic explanation of these technologies (we'll get into them in more d
   * [[wp>JSON]] - Javascript Object Notation is a text based open standard for human readable data interchange. It represents simple data structures and associative arrays. We will be using this in place of XML.
   * [[wp>Photoshop]] - Photoshop is an Adobe graphics editing program. We'll be using this to prototype our websites.
   * [[wp>Caching (Computing)]] - Is the process where dynamic data is stored so future requests can be served quicker.
-===== Timing & Deployment =====
+===== Agile Workflow =====
 
-Through considering the component map, you can adding durations to each component. This can give you an idea of how long the project will take. Your teacher will help you with this. Here are some questions to ask:
+Polycademy will be running its course with 3 philosophies. The first has already been explained as MVP. The second and third are flipped classroom and agile development. Flipped classroom is what you're doing right now. Read, watch and listen to material online and when you come to class we'll stick to being practical. Agile development is about rapid and flexible incremental iteration to code. Not only will you as a developer begin your development journey as an agile developer, but Polycademy will attempt to service you in an agile manner.
 
-  * How long is everything going to take?
-  * What are the milestones?
-  * When are we releasing the alpha?
-  * When are we releasing the beta?
-  * When are we releasing the 1.0?
-  * What will be the future releases?
+[{{ :web_application_development:generic_diagram_of_an_agile_methodology_for_software_development.png?400|Generic diagram showing the main steps that are usually found on agile methodologies for sofware development. ((By Benzirpi (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons))}}]
+
+The [[http://agilemanifesto.org/ | Agile Manifesto]] was created by 17 developers in February 2001.
+
+//We are uncovering better ways of developing software by doing it and helping others do it. Through this work we have come to value://
+
+  * **Individuals and interactions** over processes and tools
+  * **Working software** over comprehensive documentation
+  * **Customer collaboration** over contract negotiation
+  * **Responding to change** over following a plan
+
+//That is, while there is value in the items on the right, we value the items on the left more.//
+
+It has [[http://net.tutsplus.com/articles/general/the-principles-of-agile-development/ | 12 principles]]:
+
+=== 1. Customer Satisfaction ===
+
+//Our highest priority is to satisfy the customer through early and continuous delivery of valuable software.//
+
+As software developers, we should satisfy the customer through early, continuous and iterative delivery of features. This allows our customers to see real progress and provide early feedback. There's no need for stealth development, instead release early and release often.
+
+=== 2. Adapt to Changing Requirements ===
+
+//Welcome changing requirements, even late in development. Agile processes harness change for the customer's competitive advantage.//
+
+If we are able to react quickly to changing requirements, then we are the best development for our customer. We do work in an just in time manner, and we make software finish faster and reap rewards faster. This is because we develop small pieces which allows us to take advantage of the changing landscape of opportunities.
+
+=== 3. Deliver Frequently ===
+
+//Deliver working software frequently, from a couple of weeks to a couple of months, with a preference to the shorter timescale.//
+
+Customers and developers become more confident as the features of our product are updated and deployed one by one. We won’t wake up after days or months of work, only to see that everything is going into the trash.
+
+=== 4. Work Together Frequently ===
+
+//Business people and developers must work together daily throughout the project.//
+
+It is important to maintain communication between the business elements and the development team. As developers may speak a different language to business people, it is best to describe software features as a simple story with characters (who is it for), context (in what situation) and morals (why is it useful?).
+
+=== 5. Build Projects with Motivated Individuals ===
+
+//Build projects around motivated individuals. Give them the environment and support they need, and trust them to get the job done.//
+
+Polycademy will try its earnest to create an engaging atmosphere and provide you the best tools to create your application.
+
+=== 6. Use Face to Face Communication ===
+
+[{{ :web_application_development:daily_sprint_meeting.jpg?200|Developers having a daily scrum ((By Klean Denmark (Own work) [CC-BY-SA-2.0 (http://creativecommons.org/licenses/by-sa/2.0/deed.en)], via Wikimedia Commons))}}]
+
+//The most efficient and effective method of conveying information to and within a development team is face-to-face conversation.//
+
+Learning is a social activity. Face to face communication is more engaging and creates a closer feedback loop with both your teacher and your peers. This is why Polycademy teaches in a physical manner but isn't afraid of taking advantage of online technologies to help. Being face to face also means when you ask a question, you'll get an answer immediately.
+
+=== 7. Measure Progress with Working Software ===
+
+//Working software is the primary measure of progress.//
+
+In the end the customer wants a working product. It doesn't matter how to got there as long as you got there. While in Polycademy we'll advocate some tools, you're free to choose how you want to work.
+
+=== 8. Maintain a Constant Pace ===
+
+//Agile processes promote sustainable development. The sponsors, developers, and users should be able to maintain a constant pace indefinitely.//
+
+After committing to agile workflow for some time, it becomes easier to gauge the capacity of work a team can do, and so it becomes easier to estimate how long it will take to do something.
+
+=== 9. Pay Attention to Industrial Progress ===
+
+//Continuous attention to technical excellence and good design enhances agility.//
+
+As developers we are committed to life long learning. Our skills have a half-life of 5 years. We have to keep learning. Learning is fun!
+
+=== 10. Simplicity is Essential ===
+
+//Simplicity--the art of maximizing the amount of work not done--is essential.//
+
+KISS means keep it simple stupid. Making something simple work is more difficult than making something complex. The more simpler the better. Forget technical innovation, if we can do it with sticks and stones, then it is better to do it that way. The same goes for development. There's a hundred ways to skin a cat, but the simplest is the best.
+
+=== 11. Self-Organize ===
+
+//The best architectures, requirements, and designs emerge from self-organizing teams.//
+
+As you develop with a team, the more you work, the more you discover ways you could have done things in the past better. This is especially true with software development. Often we don't know exactly our end product, so we keep ourselves lean and hungry to learn. Roles and workflows arise from self-organisation, these will hardly ever match the top-heavy plans we create at the start.
+
+=== 12. Reflect and Adjust ===
+
+//At regular intervals, the team reflects on how to become more effective, then tunes and adjusts its behavior accordingly.//
+
+We need to reflect on the software we build and the team we forge. This is essential when we're developing agilely, we need to know when something isn't working and adjust our direction. This has to be honest and regular.
+
+==== Workflow in Polycademy ====
+
+[{{ :web_application_development:xp-feedback.gif?200|Extreme Programming (XP) requires planning and feedback at many levels and many frequencies.((By DonWells (Own Work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons))}}]
+
+There are many implementations of the agile philosophy such as [[wp>Extreme Programming|XP]] and [[wp>Scrum_(development)|Scrum]]. For Polycademy, we'll mix and match what works for the teacher and students.
+
+=== Sprint Review ===
+
+At the beginning of each week we'll review and recap on our theory and practice according to each student's respective user stories and code contributions. This will last only 30 minutes.
+
+Polycademy will be checking up on your Github project profile to keep track of your progress. We'll let you know if we think your pace is too slow for your project to be done.
+
+We are committed to constant deployment. We deploy all our features every week.
+
+=== Daily Scrum ===
+
+At the beginning of each session (day), we'll have a 5 - 10 minute stand up meeting. This session is for feedback between the members of each group or between the students and teachers. This is a good session to talk about what you want to achieve by the end of the day, what problems you're facing and what you need help with. Any important problems will be written on the whiteboard.
+
+Here are our guidelines for the scrum:
+
+  * All members of the development Team come prepared with the updates for the meeting
+  * The meeting starts precisely on time even if some development team members are missing
+  * The meeting should happen at the same location and same time every day
+  * The meeting length is set (timeboxed) to 5 - 10 minutes
+  * No detailed discussions shall happen in this meeting.
+
+During the meeting, each team member answers three questions:
+
+  * What have you done since yesterday?
+  * What are you planning to do today?
+  * Any impediments/stumbling blocks?
+
+=== Development Philosophy ===
+
+Our development is time-boxed to keep it flexible. The quality and deadline of our product is fixed, but we can adjust the amount features we are going to release. Everyday is minor milestone, every week is a major milestone.
+
+=== Session Time ===
+
+Although we'll be doing practical work during the sessions, this will not be enough to complete your application. You need to work at home or at the classroom during downtime. You need to read the material on this codex or otherwise before you come to class. Polycademy will be moving on breakneck pace, don't fall behind.

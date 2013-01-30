@@ -1,0 +1,14 @@
+====== Wishlist ======
+
+Polycademy has a repository of ideas and projects that either haven't been made, or has been made but can be improved. This is where you describe your ideas that you want others to make or make with you! They don't all have to be monetisable, they just have to be interesting!
+
+===== Web Apps =====
+
+==== Webapp Number 1 ====
+
+Description: Blah
+===== Mobile Apps =====
+
+===== Desktop Apps =====
+
+===== Embedded Apps =====

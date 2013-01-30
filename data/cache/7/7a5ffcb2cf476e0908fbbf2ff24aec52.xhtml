@@ -1,0 +1,896 @@
+
+<h1 class="sectionedit1" id="solution_stack">Solution Stack</h1>
+<div class="level1">
+
+<p>
+Solution stack are a set of software solutions that are needed to deliver a fully functional solution. For a web application the stack requires an operating system, a web server, a database, and programming language. For the development of the web application, you require an integrated development environment (IDE). Understanding how these solution stacks are set up is important part of web application development. This section provides an introduction to the various stacks we will use, how to use them and how to install them on your computer.
+</p>
+
+<p>
+Polycademy offers you two solution stacks. The Cloud stack is useful for portable deployment. You can access it anywhere you have an internet connection. This allows you to forgo installing your development environment every time you use a new computer. This comes at a cost of flexibility as you don&#039;t control the environment fully and a potential point of failure. What happens if Cloud9 goes offline one day? At any case that&#039;s why we also show you how to setup your own local development stack. This gets more complicated as we have to cater to different operating systems, but in the end it is more powerful. You can choose which one you prefer to use, but you need to read both options to get the best of both worlds. In fact the local stack has some tools you cannot use in Cloud 9 which you need.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Solution Stack" [1-1387] -->
+<h2 class="sectionedit2" id="cloud_stack">Cloud Stack</h2>
+<div class="level2">
+
+<p>
+<a href="https://c9.io/" class="urlextern" title="https://c9.io/"  rel="nofollow">Cloud9 IDE</a> is an online development environment for Javascript, Node.js, <abbr title="Hypertext Preprocessor">PHP</abbr>, Java, Ruby and 23 other languages.
+</p>
+
+<p>
+It is full featured environment with <abbr title="Secure Shell">SSH</abbr> and shell access allowing you to install your own command line utilities. It integrates with your Github projects and allows live editing and real time collaboration between team members. It is free for open source projects. For you as a student, we don&#039;t have to license our project open source, it is only openly accessible, but prying eyes would need to actively search for your shareable url or nobody will ever know. Cloud9 offers practically everything we will need to develop your application.
+</p>
+
+<p>
+Even with most of the work done, we still need to get acquainted with Cloud9&#039;s environment and do some extra installations for Cloud 9. The below instructions will be demonstrated via text/images and video.
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Cloud Stack" [1388-2296] -->
+<h3 class="sectionedit3" id="git_project">Git Project</h3>
+<div class="level3">
+
+<p>
+Cloud 9 integrates with <a href="https://github.com/" class="urlextern" title="https://github.com/"  rel="nofollow">Github</a>. Github is a web service providing Git functionality. Think of Git as a time machine for your code. Please refer to the <a href="/doku.php?id=web_application_development:git" class="wikilink1" title="web_application_development:git">Git</a> article for a full explanation on using this amazing tool.
+</p>
+
+<p>
+First create a Github account and initialise your first project. We&#039;ll be registering on Cloud9 using our Github account. Name your project something memorable, we&#039;ll be using this as your repository to do work.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/vnXi0gGTVS8?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/vnXi0gGTVS8?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+<!-- EDIT3 SECTION "Git Project" [2297-2836] -->
+<h3 class="sectionedit4" id="playing_with_cloud9_s_tools">Playing with Cloud9&#039;s Tools</h3>
+<div class="level3">
+
+<p>
+Cloud9 may seem daunting at first, so let&#039;s go through some of the common tools you&#039;ll be using. This section will also demonstrate the installation of extra tools that Cloud9 doesn&#039;t provide natively.
+</p>
+
+</div>
+
+<h4 id="apache_mysql_php_amp">Apache MySQL PHP (AMP)</h4>
+<div class="level4">
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:640px-lampp_architecture.png" class="media" title="web_application_development:640px-lampp_architecture.png"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:640px-lampp_architecture.png" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:640px-lampp_architecture.png"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>LAMP Architecture <sup><a href="#fn__1" id="fnt__1" class="fn_top">1)</a></sup></div></div></div>
+<p>
+The AMP stack in fact provides bundled software, namely Apache, MySQL, <abbr title="Hypertext Preprocessor">PHP</abbr>, that are used to run dynamic Web sites or servers. Strictly speaking, this is all that is required to run and serve a website either locally or on the internet. There are other kinds of stacks used to run other kinds of applications, but the AMP stack is the most commonly used, and is appropriate for Polycademy&#039;s <abbr title="Hypertext Preprocessor">PHP</abbr> based web application development course. The AMP stack is commonly bundled with the Linux <abbr title="Operating System">OS</abbr>, which means this is usually called the <a href="http://en.wikipedia.org/wiki//LAMP_(software_bundle)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki//LAMP_(software_bundle)">LAMP stack</a>.
+</p>
+
+<p>
+Apache is an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> web server. This is what responds to requests from client browsers over the internet. MySQL is an relational database management system. <abbr title="Hypertext Preprocessor">PHP</abbr> refers to the programming language, however in the context of LAMP, it is actually an Apache module. Apache runs <abbr title="Hypertext Preprocessor">PHP</abbr> in order to process requests and return dynamic content. Apache has many modules, but this is the one we use in order to learn and develop in the <abbr title="Hypertext Preprocessor">PHP</abbr> language.
+</p>
+
+<p>
+For the purposes of using Cloud9, it provides us with preinstalled Linux, Apache and <abbr title="Hypertext Preprocessor">PHP</abbr>. The MySQL will have to come from an external provider, and that is explained in the <span class="curid"><a href="/doku.php?id=web_application_development:solution_stack#cloud_database" class="wikilink1" title="web_application_development:solution_stack">Cloud Database</a></span> section. You can run <abbr title="Hypertext Preprocessor">PHP</abbr> files in Cloud9 in the run tab. Cloud9 allows you to share your urls with your team mates so you can code together and see results immediately. Cloud9 also allows you to run multiple files, so you only need to run once on the root index.php to navigate to deeper files. If you end up writing polyglot applications, you can run multiple runtimes simultaneously.
+</p>
+
+</div>
+
+<h4 id="text_editor_workspace">Text Editor Workspace</h4>
+<div class="level4">
+
+<p>
+Cloud9&#039;s text editor has many features that allows us to code more pleasantly. You&#039;ll learn how to take advantage of features as we start coding, but it&#039;s important to get acquainted with the workspace so we can hit the ground running.
+</p>
+
+<p>
+You can use Cloud9 to run your <abbr title="Hypertext Preprocessor">PHP</abbr> files, and they are immediately available through a generated <abbr title="Uniform Resource Locator">URL</abbr>. The great thing about this <abbr title="Uniform Resource Locator">URL</abbr>, is that you can share it with your team mates or clients and they will see your changes as you code. This is perfect for front end designers! The right click context menu is designed to match what you would have if you are developing on the desktop computer, so you can expect the same kinds of options. One useful preference in Cloud9 is the Color Picker option, allowing you to pick colors immediately when marking up <abbr title="Cascading Style Sheets">CSS</abbr>.
+</p>
+
+<p>
+Ctrl-F also works on Cloud 9 and it reveals quite a powerful find and replace functionality. This is invaluable when you&#039;re trying to hunt down that small syntax character in your 1000 line code. When saving files you can either switch on auto-save in the preferences or you can just use Ctrl-S.
+</p>
+
+<p>
+Finally of course is the collaboration features of Cloud9. You can share your project <abbr title="Uniform Resource Locator">URL</abbr> with your team mates and they can see your coding in live. Cloud9 is still somewhat buggy and you need a fast internet connection or else you&#039;ll pull your hair out. So if it&#039;s taking some time to create files or load files. Just refresh the site and it will automatically save your session.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/liaXnk2X0Ow?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/liaXnk2X0Ow?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+
+<h4 id="command_line_usage">Command Line Usage</h4>
+<div class="level4">
+
+<p>
+As a developer you will begin using the command line more. Although it&#039;s not as pretty as the <abbr title="Graphical User Interface">GUI</abbr> (graphical user interface), and also requires more memory, it is far more powerful. Many developer tools are only available as command line applications.
+</p>
+
+<p>
+Different operating systems have different command line commands. Fortunately Cloud9 abstracts this all away as we&#039;re using their Linux based system. So the commands will be the same everywhere. Note that if you are using Powershell on Windows, many Linux commands can also be used.
+</p>
+
+<p>
+As we install and use more tools, we&#039;ll be utilising more command line tools and referencing specific documentation, but this section will show the most used commands.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/cd (command)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/cd (command)">Change Directory</a> - <code>cd</code> is used to move between folders and directories. When used on Windows without any arguments, it actually displays the current working directory.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/ls" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/ls">List Files</a> - <code>ls</code> is used to list the files and folders in the current directory. The Windows equivalent is <code>dir</code>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/Working directory" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Working directory">Present Working Directory</a> - <code>cwd</code> or <code>cd</code> is used to show the current working directory&#039;s absolute path.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/file (command)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/file (command)">File Type</a> - <code>file</code> is used to show the file or folder type.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/mv" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/mv">Move Files</a> - <code>mv</code> - is used to move files or folders from one path to another path. It is also possible to rename files using this command by moving the file to its current directory with a different name.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/cp (Unix)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/cp (Unix)">Copy Files</a> - <code>cp</code> is used to copy files and directories.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/rm (Unix)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/rm (Unix)">Remove files</a> - <code>rm</code> is used to remove files or directories.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://git-scm.com/docs" class="urlextern" title="http://git-scm.com/docs"  rel="nofollow">Git Usage</a> - <code>git</code> is used to run <a href="/doku.php?id=web_application_development:git" class="wikilink1" title="web_application_development:git">Git</a> commands.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://curl.haxx.se/docs/manual.html" class="urlextern" title="http://curl.haxx.se/docs/manual.html"  rel="nofollow">Curl Usage</a> - <code>curl</code> is used to download files or folders over the internet. Here&#039;s a good tutorial to CURL.<sup><a href="#fn__2" id="fnt__2" class="fn_top">2)</a></sup></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.gnu.org/software/wget/manual/wget.html" class="urlextern" title="http://www.gnu.org/software/wget/manual/wget.html"  rel="nofollow">Wget Usage</a> - <code>wget</code> is used to also download files and folders over the internet.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.thegeekstuff.com/2010/04/unix-tar-command-examples/" class="urlextern" title="http://www.thegeekstuff.com/2010/04/unix-tar-command-examples/"  rel="nofollow">Tar Usage</a> - <code>tar</code> is used to unzip and manipulate archives.</div>
+</li>
+</ul>
+
+<p>
+You can also create <a href="http://en.wikipedia.org/wiki/PATH (variable)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/PATH (variable)">PATH variables</a> in Cloud9. You can check out your currently set PATHs on Linux using <code>echo $PATH</code> on the terminal. For Windows, check out the <span class="curid"><a href="/doku.php?id=web_application_development:solution_stack#local_stack" class="wikilink1" title="web_application_development:solution_stack">Local Stack</a></span>. This allows you to create and download extra command line tools, and allow you to execute them in a global manner using an alias. This means you don&#039;t have to remember what directory they are in and just use them all over your computer. In Cloud9 because each workspace is temporary, it is not recommended to setup your own PATH variables. Instead Cloud9 has a binary folder that you can download any command line utilities into. Cloud9 has a PATH variable pointing to that binary folder by default, so you can run and binaries in that folder globally across your computer. This will be demonstrated when we install extra binaries and command line utilities.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/6eVeAa77D7U?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/6eVeAa77D7U?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+
+<h4 id="cloud_deployment">Cloud Deployment</h4>
+<div class="level4">
+
+<p>
+Cloud9 is integrated into Heroku which is a cloud hosting service. However it doesn&#039;t play well with <abbr title="Hypertext Preprocessor">PHP</abbr> based applications. So instead Polycademy recommends using <a href="https://www.appfog.com/" class="urlextern" title="https://www.appfog.com/"  rel="nofollow">Appfog</a>. The section on the <span class="curid"><a href="/doku.php?id=web_application_development:solution_stack#production_stack" class="wikilink1" title="web_application_development:solution_stack">Production Stack</a></span> will explain how to setup Appfog. For now we&#039;ll use the command line to install Appfog&#039;s command line utility. We will be using this to push our application to Appfog&#039;s server when we have it setup.
+</p>
+
+<p>
+<a href="https://docs.appfog.com/getting-started/af-cli" class="urlextern" title="https://docs.appfog.com/getting-started/af-cli"  rel="nofollow">Appfog&#039;s command line utility</a> is called <code>af</code>. It is a Ruby app, so we need to use the Ruby virtual machine to run it. Ruby has a package manager called <a href="http://rubygems.org/" class="urlextern" title="http://rubygems.org/"  rel="nofollow">Gem</a>. We can use Gem to install <code>af</code> and then run it globally without messing around with PATH variables.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/qqGwE5D5Y_s?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/qqGwE5D5Y_s?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+
+<h4 id="package_managers">Package Managers</h4>
+<div class="level4">
+
+<p>
+Developers use package managers to make the process of sharing code libraries and frameworks easier. It abstracts the process of searching on Google or Github for code libraries and downloading them manually. This process saves time and encourages code reuse among the developer community.
+</p>
+
+<p>
+<abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s primary package manager is called <a href="http://getcomposer.org/" class="urlextern" title="http://getcomposer.org/"  rel="nofollow">Composer</a>. For front end development, there are many package managers available, most of them are integrated into Node.js since most of them are Javascript libraries. For our purposes, we don&#039;t need to use these just yet, but you are free to explore them as we start coding. Check out <a href="http://yeoman.io/" class="urlextern" title="http://yeoman.io/"  rel="nofollow">Yeoman</a> (not usable on Cloud9, requires local stack but on Linux/Mac <abbr title="Operating System">OS</abbr>), <a href="http://twitter.github.com/bower/" class="urlextern" title="http://twitter.github.com/bower/"  rel="nofollow">Bower</a>, <a href="http://volojs.org/" class="urlextern" title="http://volojs.org/"  rel="nofollow">Volo</a>, <a href="http://ender.jit.su/" class="urlextern" title="http://ender.jit.su/"  rel="nofollow">Ender</a> and <a href="http://jamjs.org/" class="urlextern" title="http://jamjs.org/"  rel="nofollow">Jam</a>.
+</p>
+
+<p>
+To install Composer, we will use Curl to download the installer package and execute with <abbr title="Hypertext Preprocessor">PHP</abbr>. The installation instructions are on <a href="http://getcomposer.org/doc/00-intro.md#installation-nix" class="urlextern" title="http://getcomposer.org/doc/00-intro.md#installation-nix"  rel="nofollow">Composer&#039;s documentation</a>. Once installed, we have to move it to directory that is already set in the default PATHs. That way can we can globally execute Composer without needing to remember where it was placed. In the documentation it mentions we can move it to <code>/usr/local/bin/composer</code>. Remember when using the <code>mv</code> command, if the last section of the path is not directory that exists, it will rename the file/folder you moved. Thus the command renames the file to <code>composer</code>. However instead of installing Composer here, we should instead install in the <code>/app-root/data/bin/composer</code>. This is more appropriate for Cloud9 and easier for us to locate it if ever need to.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/QIPnGOb-pnQ?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/QIPnGOb-pnQ?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+<!-- EDIT4 SECTION "Playing with Cloud9's Tools" [2837-12350] -->
+<h3 class="sectionedit5" id="cloud_database">Cloud Database</h3>
+<div class="level3">
+
+<p>
+Cloud9 does not yet support database functionality. Fortunately there are free cloud based database services available. For the purposes of Polycademy, we&#039;ll be using <a href="http://xeround.com/" class="urlextern" title="http://xeround.com/"  rel="nofollow">Xeround</a> to provide free cloud hosted MySQL database service. If you&#039;re interested in using <a href="/doku.php?id=web_application_development:nosql" class="wikilink2" title="web_application_development:nosql" rel="nofollow">NoSQL</a> databases, <a href="https://www.mongohq.com/" class="urlextern" title="https://www.mongohq.com/"  rel="nofollow">MongoHQ</a> and <a href="https://mongolab.com/" class="urlextern" title="https://mongolab.com/"  rel="nofollow">MongoLab</a> are also possibilities.
+</p>
+
+<p>
+Xeround only provides 10mb of free data. However that is enough for developmental purposes. The hosts such as Appfog will provide us with a lot more space when we need it.
+</p>
+
+<p>
+The first step is to create an account on Xeround. Then create a new database instance. Then we&#039;re going to use Cloud9 and <abbr title="Hypertext Preprocessor">PHP</abbr> to connect to the Xeround database. We&#039;ll be using the <code>mysqli</code> extension in <abbr title="Hypertext Preprocessor">PHP</abbr> to test the connection, however when we get to coding, we&#039;ll be using Codeigniter&#039;s database library to abstract connection process instead. This <a href="http://xeround.com/developers/connecting-your-mysql-application-to-xeround-cloud-database/" class="urlextern" title="http://xeround.com/developers/connecting-your-mysql-application-to-xeround-cloud-database/"  rel="nofollow">Xeround page on connecting to MySQL</a> explains what is necessary.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/A2Z29Dhw0Pk?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/A2Z29Dhw0Pk?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+<!-- EDIT5 SECTION "Cloud Database" [12351-13502] -->
+<h2 class="sectionedit6" id="local_stack">Local Stack</h2>
+<div class="level2">
+
+<p>
+The local stack deployment process is somewhat more complicated than the cloud stack simply because we need to cater to multiple operating systems. However there are tools which can only be used on the local development environment and we will need these as well. Polycademy recommends you to start development with the Cloud Stack and install the local stack in your own time. At any case below are instructions pertaining to the installation of the same tools that Cloud9 provides on your own computer. It biased towards Windows computers, but the knowledge transferable to other operating systems, it will just require some extra googling.
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Local Stack" [13503-14171] -->
+<h3 class="sectionedit7" id="apache_mysql_php_amp1">Apache MySQL PHP (AMP)</h3>
+<div class="level3">
+
+<p>
+As explained before, the AMP stack is all we need to run a web application server. There are several prepackaged AMP stacks for Windows and Mac <abbr title="Operating System">OS</abbr>. For Linux, you have to install them separately but this is an easy process too.
+</p>
+
+</div>
+
+<h4 id="wamp">WAMP</h4>
+<div class="level4">
+
+<p>
+The Wampserver is the easiest way to install WAMP on your own computer. Download it from the <a href="http://www.wampserver.com/en/" class="urlextern" title="http://www.wampserver.com/en/"  rel="nofollow">official website</a>. The first choice you have to make is whether you are running a 32 bit computer or a 64 bit computer. If you don&#039;t know, just choose to run 32 bit. The second choice you have to make is to get the most recent version. For the 64 bit option, read the details and try to get a package that has Apache &gt; 2.4 and <abbr title="Hypertext Preprocessor">PHP</abbr> &gt; 5.4. For the 32 bit option, get a package that has <abbr title="Hypertext Preprocessor">PHP</abbr> &gt; 5.4. These version details are on the bottom.
+</p>
+
+<p>
+The installation is an executable, locate your wamp folder at the root of your drive. This is so that it easily accessible. This is not a program files kind of application.
+</p>
+
+</div>
+
+<h4 id="lamp">LAMP</h4>
+<div class="level4">
+
+<p>
+There are many different Linux distros, so here are links to official documentation regarding the installation of LAMP.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://help.ubuntu.com/community/ApacheMySQLPHP" class="urlextern" title="https://help.ubuntu.com/community/ApacheMySQLPHP"  rel="nofollow">Install a LAMP server on Ubuntu Linux</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://wiki.debian.org/LaMp" class="urlextern" title="http://wiki.debian.org/LaMp"  rel="nofollow">Install a LAMP server on Debian GNU/Linux</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.opensuse.org/SDB:Linux_Apache_MySQL_PHP" class="urlextern" title="http://en.opensuse.org/SDB:Linux_Apache_MySQL_PHP"  rel="nofollow">Install a LAMP server on SUSE Linux</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://fedorasolved.org/server-solutions/lamp-stack" class="urlextern" title="http://fedorasolved.org/server-solutions/lamp-stack"  rel="nofollow">Install a LAMP server on Fedora Linux</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://jesseforrest.name/setup-a-production-centos-lamp-web-server/212" class="urlextern" title="http://jesseforrest.name/setup-a-production-centos-lamp-web-server/212"  rel="nofollow">Install a LAMP server on CentOS Linux</a></div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="mamp">MAMP</h4>
+<div class="level4">
+
+<p>
+Mac <abbr title="Operating System">OS</abbr> has MAMP stack available. You can download it at the <a href="http://www.mamp.info/" class="urlextern" title="http://www.mamp.info/"  rel="nofollow">MAMP official site</a> and further documentation can be found <a href="http://documentation.mamp.info/en" class="urlextern" title="http://documentation.mamp.info/en"  rel="nofollow">here</a>
+</p>
+
+</div>
+
+<h4 id="running_the_amp">Running the AMP</h4>
+<div class="level4">
+
+<p>
+Once you have setup your flavour of AMP, all you need to do is start the server. Please refer to documentation of the package you installed on how to start the webserver. This is usually quite straightforward, although you may sometimes encounter some difficulty. If that is the case, it may be that a 3rd party software is conflicting with the ports that AMP uses. A common example is Skype which sometimes may use port 80 and conflict with Apache. In the Skype connection options, make sure to uncheck the using of port 80 or 443 so to avoid Apache conflict.
+</p>
+
+<p>
+This AMP stack is only one stack of out many. When you become a polyglot developer, you&#039;ll find yourself using all manners of stacks and different languages too.
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Apache MySQL PHP (AMP)" [14172-16755] -->
+<h3 class="sectionedit8" id="phpmyadmin">PHPMyAdmin</h3>
+<div class="level3">
+
+<p>
+PHPMyAdmin is web based graphical user interface for manipulating MySQL databases. It&#039;s an invaluable tool, the alternative of using GUIs would be managing the database using the command line and that isn&#039;t fun at all.
+</p>
+
+<p>
+PHPMyAdmin comes with the standard WAMP and MAMP stacks. PHPMyAdmin is essentially a web app, so installation is the same as running any web app on the AMP stack. Refer to <a href="http://wiki.phpmyadmin.net/pma/Quick_Install" class="urlextern" title="http://wiki.phpmyadmin.net/pma/Quick_Install"  rel="nofollow">PHPMyAdmin&#039;s wiki</a> for installation instructions.
+</p>
+
+</div>
+<!-- EDIT8 SECTION "PHPMyAdmin" [16756-17268] -->
+<h3 class="sectionedit9" id="text_editor">Text Editor</h3>
+<div class="level3">
+
+<p>
+The text editor is the workhorse of software development, choosing a text editor is paramount for developer happiness. Polycademy recommends three types of text editors corresponding to their particular operating systems. All three editors are free, however Sublime is trialware without any limits.
+</p>
+
+</div>
+
+<h4 id="notepad_for_windows">Notepad++ for Windows</h4>
+<div class="level4">
+
+<p>
+If you have had prior programming experience, you would have been acquainted with Notepad or Dreamweaver. These two software stand at the opposite extremes of code editors. Notepad is one of the most simplest no frills text editor in existence. On the other hand Dreamweaver is one of the most complex and full fledged IDE for web code editing. For Polycademy, we recommend using <a href="http://notepad-plus-plus.org/" class="urlextern" title="http://notepad-plus-plus.org/"  rel="nofollow">Notepad++</a>, this is a lightweight (super fast) code editor that has just enough features to be usable for complex applications. It has numerous plugins to make it even more flexible. It is free to download at their website: <a href="http://notepad-plus-plus.org/" class="urlextern" title="http://notepad-plus-plus.org/"  rel="nofollow">http://notepad-plus-plus.org/</a>
+</p>
+
+<p>
+Using the Notepad++ is simple. Just download the latest .exe installer and follow the prompts to finish the installation. Once installed, open it up. It should look similar to this:
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:notepad_-screenshot.jpg" class="media" title="web_application_development:notepad_-screenshot.jpg"><img src="/lib/exe/fetch.php?media=web_application_development:notepad_-screenshot.jpg" class="mediacenter" alt="" /></a>
+</p>
+
+<p>
+It has some important features to take care of:
+</p>
+<ol>
+<li class="level1"><div class="li"> The text encoding is currently set at ANSI (American National Standards Institute). Most files you encounter will be encoded at ANSI. Text encoding is essentially the way computers convert a human language character such as an English letter or Chinese character into set of numbers or bits so it can be transmitted electronically. ANSI is outdated due to the plethora of languages and symbols people use to express themselves on the internet, using it can result in all sorts of funny text errors. Therefore we need to change this into <a href="http://en.wikipedia.org/wiki/UTF-8" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/UTF-8">UTF-8</a> (Unicode Transformation Format), we can do this in the settings. Foreign languages will need to use other UTF formats. You can learn more about it here: <a href="http://code.alexreisner.com/articles/character-encoding.html" class="urlextern" title="http://code.alexreisner.com/articles/character-encoding.html"  rel="nofollow">http://code.alexreisner.com/articles/character-encoding.html</a></div>
+</li>
+<li class="level1"><div class="li"> This shows the document format, this is only relevant to line spacing. Keep it at Dos/Windows, as this can be interpreted on all platforms.</div>
+</li>
+<li class="level1"><div class="li"> To change the text encoding, we have to go into settings. Click on the “New Document/Default Directory” tab, then in the “Encoding” options select “UTF-8 without BOM” and tick “Apply to opened ANSI files”. The BOM as in Byte Order Mark designates the file as UTF-8, however we don&#039;t need this and some applications may choke on the designation. We want to apply to opened ANSI files because that brings no harm to ANSI files that you download from the internet and makes those files more flexible.</div>
+</li>
+<li class="level1"><div class="li"> Language settings allow you to set how you want Notepad++ to interpret/syntax highlight the code you are writing. It is not necessary to set it up manually as when you save the file extension such as php or html, it will automatically detect it.</div>
+</li>
+</ol>
+
+<p>
+Notepad++ has many features in which it would take an overly verbose manual to talk about it all, so just begin using it throughout the course and these features will eventually become evident.
+</p>
+
+</div>
+
+<h4 id="geany_for_linux">Geany for Linux</h4>
+<div class="level4">
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:geany_main.png" class="media" title="web_application_development:geany_main.png"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:geany_main.png" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:geany_main.png"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>Geany Main Screenshot</div></div></div>
+<p>
+Geany is the closest thing to Notepad++ on Linux. You can download it from their <a href="http://www.geany.org/" class="urlextern" title="http://www.geany.org/"  rel="nofollow">official site</a>. The same issues explained in the Notepad++ section regarding UTF-8 is present in Geany. Although because it is developed on Linux, utf-8 setting should be on by default. You can install it through the Linux package management system or manually.
+</p>
+
+</div>
+
+<h4 id="sublime_for_mac">Sublime for Mac</h4>
+<div class="level4">
+
+<p>
+Sublime is a superb editor for web development. It has many features beyond Notepad++, and it is well designed keeping in line with the Mac tradition. It has a paid version but its trial version has no limits. You can download it from their <a href="http://www.sublimetext.com/" class="urlextern" title="http://www.sublimetext.com/"  rel="nofollow">official site</a>.
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Text Editor" [17269-21229] -->
+<h3 class="sectionedit10" id="console_or_terminal">Console or Terminal</h3>
+<div class="level3">
+
+<p>
+The console or terminal is an important tool for web developers. Many tools are only available through the command line. For Windows we&#039;ll be using Console 2 with Powershell to overlay the generic CMD in Windows. Linux already has a superior terminal so you can just used the normal one. Mac has their own terminal bundled in.
+</p>
+
+</div>
+
+<h4 id="console_2_with_powershell_for_windows">Console 2 with Powershell for Windows</h4>
+<div class="level4">
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:81523.jpg" class="media" title="web_application_development:81523.jpg"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:81523.jpg" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:81523.jpg"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>Console2 Main Window</div></div></div>
+<p>
+Console 2 is a powerful wrapper for Window&#039;s command line. It allows multiple sessions to be running and also makes it easier to read. Powershell is an extension to the standard command line, we can actually use Unix commands there. If you&#039;re using Windows 7, it&#039;s already bundled. If not, download powershll from the <a href="http://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx" class="urlextern" title="http://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx"  rel="nofollow">Microsoft Script Center</a>.
+</p>
+
+<p>
+After installing Powershell, make sure to remember where it&#039;s installed. If you don&#039;t know where it is, you can search for “powershell” in your start menu or file search. It will usually be located on <code>C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe</code>
+</p>
+
+<p>
+Then download <a href="http://sourceforge.net/projects/console/" class="urlextern" title="http://sourceforge.net/projects/console/"  rel="nofollow">Console 2 from Sourceforge</a>. You can put the extracted folder anywhere that is accessible.
+</p>
+
+<p>
+Launch Console 2 and go into settings. The first thing to do is bind the path to powershell.exe to the Shell option. The Startup directory is where your command line will locate its current working directory when you first launch the shell. Think of Powershell like the bash terminal in Cloud9, you&#039;re using Powershell to navigate through your directories and manipulate your computer.
+</p>
+
+<p>
+Adjust the appearance options to suit yourself. Try enlarging the font and making the terminal semi-transparent. The most important feature is the Tabs settings. This is where you can create custom tabs to launch specific shells at specific directories. A common use would be to create one pointing to your WAMP&#039;s <code>www</code> directory. Note that you would leave the shell as the Powershell unless you were specifically launching an application that had terminal access. Another use would be launching into the MySQL terminal or MongoDB daemon plus terminal. For the purposes of <abbr title="Hypertext Preprocessor">PHP</abbr> development, our main terminal use would be for Composer, however app development in other languages/environments such as Node or Ruby would make use of the terminal a lot more. Try playing around with the settings and you&#039;ll get used to it.
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Console or Terminal" [21230-23740] -->
+<h3 class="sectionedit11" id="connection_tools">Connection Tools</h3>
+<div class="level3">
+
+<p>
+There are number of connection tools that developers use in order to connect to various services in order to upload, download or manipulate. These are the most common tools.
+</p>
+
+</div>
+
+<h4 id="ftp">FTP</h4>
+<div class="level4">
+
+<p>
+Developers generally do not use <abbr title="File Transfer Protocol">FTP</abbr> anymore since it&#039;s not very secure. However in order to connect to legacy systems, <abbr title="File Transfer Protocol">FTP</abbr> is still required. <abbr title="File Transfer Protocol">FTP</abbr> stands for File Transfer Protocol. It&#039;s very simple unsecured way of uploading and downloading files and directories. This used to be the go to tool for uploading websites and web applications.
+</p>
+
+<p>
+We recommend using <a href="http://filezilla-project.org/" class="urlextern" title="http://filezilla-project.org/"  rel="nofollow">Filezilla</a> as a cross platform and powerful <abbr title="File Transfer Protocol">FTP</abbr> tool.
+</p>
+
+</div>
+
+<h4 id="ssh_scp">SSH &amp; SCP</h4>
+<div class="level4">
+
+<p>
+<abbr title="Secure Shell">SSH</abbr> means secure shell access, it&#039;s a protocol for accessing the terminal shell of a remote computer. This is basically what you&#039;re doing with Cloud9&#039;s browser web based terminal. The implementation of <abbr title="Secure Shell">SSH</abbr> on your local computer depends on your <abbr title="Operating System">OS</abbr>. If you ever read about “Shell Access” or “<abbr title="Secure Shell">SSH</abbr> access” on web hosts, this is what they mean.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.chiark.greenend.org.uk/~sgtatham/putty/" class="urlextern" title="http://www.chiark.greenend.org.uk/~sgtatham/putty/"  rel="nofollow">Putty</a> for Windows.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://support.suso.com/supki/SSH_Tutorial_for_Linux" class="urlextern" title="http://support.suso.com/supki/SSH_Tutorial_for_Linux"  rel="nofollow">Open SSH</a> for Linux, chances are you already have this installed.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://apple.blogoverflow.com/2012/02/how-to-use-ssh-on-mac-os-x/" class="urlextern" title="http://apple.blogoverflow.com/2012/02/how-to-use-ssh-on-mac-os-x/"  rel="nofollow">Open SSH</a> for Mac, Mac bundles <abbr title="Secure Shell">SSH</abbr>.</div>
+</li>
+</ul>
+
+<p>
+There are more clients you can use, some of them are graphical and some of them are not, try googling for them when you need to use them. There are also other protocols, here&#039;s an <a href="http://geekswithblogs.net/bvamsi/archive/2006/03/23/73147.aspx" class="urlextern" title="http://geekswithblogs.net/bvamsi/archive/2006/03/23/73147.aspx"  rel="nofollow">article from GeekswithBlogs</a> explaining them.
+</p>
+
+<p>
+SCP means secure copy. This is basically similar to <abbr title="File Transfer Protocol">FTP</abbr> but it&#039;s more secure. While we use <abbr title="Secure Shell">SSH</abbr> to access the shell, we can use the same address to use SCP.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://winscp.net/eng/index.php" class="urlextern" title="http://winscp.net/eng/index.php"  rel="nofollow">WinSCP</a> for Windows, it kind of looks like an <abbr title="File Transfer Protocol">FTP</abbr> program. In fact it does the same thing.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://themediahost.de/secpanel/" class="urlextern" title="http://themediahost.de/secpanel/"  rel="nofollow">SecPanel</a> for Linux, its graphical for both <abbr title="Secure Shell">SSH</abbr> and SCP.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://cyberduck.ch/" class="urlextern" title="http://cyberduck.ch/"  rel="nofollow">CyberDuck</a> for Mac.</div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="curl">Curl</h4>
+<div class="level4">
+
+<p>
+Curl is a command line tool for transferring data with <abbr title="Uniform Resource Locator">URL</abbr> syntax with support for almost every protocol. Curl is multi-platform and chances are it&#039;s already installed if you&#039;re using Linux or Mac. For Windows, go to the <a href="http://curl.haxx.se/" class="urlextern" title="http://curl.haxx.se/"  rel="nofollow">Curl homepage</a> and head to the Download page. Use the <a href="http://curl.haxx.se/dlwiz/" class="urlextern" title="http://curl.haxx.se/dlwiz/"  rel="nofollow">Curl Download Wizard</a> to get the right edition for your operating system. Put the extracted folder in an easily accessible place such as the root of your drive. Check the <span class="curid"><a href="/doku.php?id=web_application_development:solution_stack#path_variable_editing" class="wikilink1" title="web_application_development:solution_stack">Path Variable Editing</a></span> section for details on how to register <code>curl</code> as a global command on your terminal.
+</p>
+
+</div>
+
+<h4 id="cloud_host_cli_tools">Cloud Host CLI Tools</h4>
+<div class="level4">
+
+<p>
+Most cloud hosts provide their own command line utility to connect and tunnel into their web host&#039;s service. This was already demonstrated with the <code>af</code> tool from Appfog.
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Connection Tools" [23741-26672] -->
+<h3 class="sectionedit12" id="git_source_code_version_control">Git Source Code Version Control</h3>
+<div class="level3">
+
+<p>
+As explained before Git is a version control system for your source code. It allows multiple developers to collaborate and commit to a single project while tracking all the changes. Go to the <a href="/doku.php?id=web_application_development:git" class="wikilink1" title="web_application_development:git">Git</a> page for explanation on the usage of Git and Github.
+</p>
+
+<p>
+The easiest way to use Git on a local stack is to download the Github&#039;s clients. Github has created easy to use <abbr title="Graphical User Interface">GUI</abbr> clients for Windows and Mac. They did not create one for Linux as Linux already has many.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://windows.github.com/" class="urlextern" title="http://windows.github.com/"  rel="nofollow">Github for Windows</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://mac.github.com/" class="urlextern" title="http://mac.github.com/"  rel="nofollow">Github for Mac</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://git.wiki.kernel.org/index.php/Interfaces,_frontends,_and_tools#Graphical_Interfaces" class="urlextern" title="https://git.wiki.kernel.org/index.php/Interfaces,_frontends,_and_tools#Graphical_Interfaces"  rel="nofollow">Git Clients for Linux</a> - take your pick.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://mobile.github.com/" class="urlextern" title="http://mobile.github.com/"  rel="nofollow">Github for Mobile</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT12 SECTION "Git Source Code Version Control" [26673-27496] -->
+<h3 class="sectionedit13" id="package_management">Package Management</h3>
+<div class="level3">
+
+<p>
+<a href="http://en.wikipedia.org/wiki/http://en.wikipedia.org/wiki/Package_management_system" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/http://en.wikipedia.org/wiki/Package_management_system">Package management</a> is important so we can reuse code written by ourselves and other people. It provides a standardised way of loading code libraries from third parties thus making this process easier and faster. Different language environments have different package managers.
+</p>
+<ul>
+<li class="level1"><div class="li"> <abbr title="Hypertext Preprocessor">PHP</abbr> - <a href="http://getcomposer.org/" class="urlextern" title="http://getcomposer.org/"  rel="nofollow">Composer</a></div>
+</li>
+<li class="level1"><div class="li"> Node - <a href="https://npmjs.org/" class="urlextern" title="https://npmjs.org/"  rel="nofollow">NPM</a></div>
+</li>
+<li class="level1"><div class="li"> Ruby - <a href="http://rubygems.org/" class="urlextern" title="http://rubygems.org/"  rel="nofollow">Gem</a></div>
+</li>
+<li class="level1"><div class="li"> Python - <a href="http://pypi.python.org/pypi/pip" class="urlextern" title="http://pypi.python.org/pypi/pip"  rel="nofollow">pip</a></div>
+</li>
+<li class="level1"><div class="li"> Front End Development - <a href="http://yeoman.io/" class="urlextern" title="http://yeoman.io/"  rel="nofollow">Yeoman</a>, <a href="http://volojs.org/" class="urlextern" title="http://volojs.org/"  rel="nofollow">Volo</a>, <a href="http://ender.jit.su/" class="urlextern" title="http://ender.jit.su/"  rel="nofollow">Ender</a>, <a href="http://jamjs.org/" class="urlextern" title="http://jamjs.org/"  rel="nofollow">Jam</a>, <a href="http://twitter.github.com/bower/" class="urlextern" title="http://twitter.github.com/bower/"  rel="nofollow">Bower</a></div>
+</li>
+<li class="level1"><div class="li"> Windows - <a href="http://chocolatey.org/" class="urlextern" title="http://chocolatey.org/"  rel="nofollow">Chocolatey</a></div>
+</li>
+<li class="level1"><div class="li"> Linux - <a href="http://wiki.debian.org/Aptitude" class="urlextern" title="http://wiki.debian.org/Aptitude"  rel="nofollow">Aptitude</a> or <a href="http://wiki.debian.org/Apt" class="urlextern" title="http://wiki.debian.org/Apt"  rel="nofollow">APT</a></div>
+</li>
+</ul>
+
+<p>
+Polycademy&#039;s current course focuses on <abbr title="Hypertext Preprocessor">PHP</abbr> development, so you&#039;ll have to install Composer. If you are using Linux or Mac, you can install Composer the way they demonstrate on their <a href="http://getcomposer.org/doc/00-intro.md#globally" class="urlextern" title="http://getcomposer.org/doc/00-intro.md#globally"  rel="nofollow">documentation</a>. Be sure to install it globally. If you are installing on Windows, you can instead use the <a href="http://getcomposer.org/doc/00-intro.md#installation-windows" class="urlextern" title="http://getcomposer.org/doc/00-intro.md#installation-windows"  rel="nofollow">Windows installer</a>. You could also install it using the Curl method and then edit the PATH variables to match.
+</p>
+
+<p>
+Once installed browse the <a href="https://packagist.org/" class="urlextern" title="https://packagist.org/"  rel="nofollow">Packagist</a> for <abbr title="Hypertext Preprocessor">PHP</abbr> packages. If you are browsing Github repositories and you see a <code>composer.json</code> file, that means it&#039;s either part of the Composer package index or it&#039;s using Composer libraries. Refer to the Nettut&#039;s guide on <a href="http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/"  rel="nofollow">Easy Package Management</a> on using Composer.
+</p>
+
+</div>
+<!-- EDIT13 SECTION "Package Management" [27497-29301] -->
+<h3 class="sectionedit14" id="path_variable_editing">PATH Variable Editing</h3>
+<div class="level3">
+
+<p>
+PATH editing allows us to run command line executables globally. Editing PATH variables is not very user friendly on Windows, so we use a <abbr title="Graphical User Interface">GUI</abbr> tool called Redmond Path. On Linux/Mac it&#039;s somewhat easier but require bash scripting in order to have the paths set permanently. The other option is checking what paths already exist using <code>echo $PATH</code>, and putting your executable in one of the appropriate paths.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://sites.google.com/site/redmondlab/path" class="urlextern" title="https://sites.google.com/site/redmondlab/path"  rel="nofollow">Redmond Path Editor</a> for Windows, use <a href="http://download.cnet.com/Redmond-Path/3000-2094_4-10811594.html" class="urlextern" title="http://download.cnet.com/Redmond-Path/3000-2094_4-10811594.html"  rel="nofollow">CNET</a> to download this tool.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.cyberciti.biz/faq/unix-linux-adding-path/" class="urlextern" title="http://www.cyberciti.biz/faq/unix-linux-adding-path/"  rel="nofollow">Guide to Path Editing</a> for Linux. To permanently add paths refer to this <a href="http://linuxconfig.org/permanently-add-a-directory-to-shell-path" class="urlextern" title="http://linuxconfig.org/permanently-add-a-directory-to-shell-path"  rel="nofollow">Linux Config for Path Editing</a>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://hathaway.cc/2008/06/how-to-edit-your-path-environment-variables-on-mac-os-x/" class="urlextern" title="http://hathaway.cc/2008/06/how-to-edit-your-path-environment-variables-on-mac-os-x/"  rel="nofollow">Path Editing</a> for Mac.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT14 SECTION "PATH Variable Editing" [29302-30279] -->
+<h3 class="sectionedit15" id="front_end_tools">Front End Tools</h3>
+<div class="level3">
+
+<p>
+Our full stack course involves both the front end and back end. In order to develop for the front end, we still need these tools even if you decide to take the Cloud9 path.
+</p>
+
+</div>
+
+<h4 id="browser">Browser</h4>
+<div class="level4">
+
+<p>
+First things first, I hope you have a browser! The two browsers that are suitable for development is <a href="https://www.google.com/intl/en/chrome/browser/" class="urlextern" title="https://www.google.com/intl/en/chrome/browser/"  rel="nofollow">Chrome</a> and <a href="http://http://www.mozilla.org/" class="urlextern" title="http://http://www.mozilla.org/"  rel="nofollow">Firefox</a>. Firefox has been around for longer but Chrome has some bleeding edge features. Polycademy will be using Firefox mainly as it has more extensions catering to development.
+</p>
+
+</div>
+
+<h4 id="front_end_debugging">Front End Debugging</h4>
+<div class="level4">
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:52717.png" class="media" title="web_application_development:52717.png"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:52717.png" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:52717.png"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>Firebug Screenshot</div></div></div>
+<p>
+For front end debugging, we need to use the <a href="https://getfirebug.com/" class="urlextern" title="https://getfirebug.com/"  rel="nofollow">Firebug extension to Firefox</a>. Chrome itself has an integrated <a href="https://developers.google.com/chrome-developer-tools/" class="urlextern" title="https://developers.google.com/chrome-developer-tools/"  rel="nofollow">Chrome Developer Tools</a>. 
+</p>
+
+<p>
+Firebug provides an inspection mode allowing you to inspect the <abbr title="HyperText Markup Language">HTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr> markup, Javascript &amp; <abbr title="Document Object Model">DOM</abbr>, and finally network logging data. This allows you to see how third party web sites are made on the front end.
+</p>
+
+</div>
+
+<h4 id="other_extensions">Other Extensions</h4>
+<div class="level4">
+
+<p>
+Here are some other Firefox extensions that are helpful when developing:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://addons.mozilla.org/en-US/firefox/addon/web-developer/" class="urlextern" title="https://addons.mozilla.org/en-US/firefox/addon/web-developer/"  rel="nofollow">Web Developer Extension</a> - useful for cookies and manipulating different header options for accessing websites.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://addons.mozilla.org/en-US/firefox/addon/fireshot/" class="urlextern" title="https://addons.mozilla.org/en-US/firefox/addon/fireshot/"  rel="nofollow">Fireshot</a> - useful for taking screenshots of web pages and creating pdfs.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.colorzilla.com/" class="urlextern" title="http://www.colorzilla.com/"  rel="nofollow">Colorzilla</a> - useful for taking colour samples from web pages.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://addons.mozilla.org/en-us/firefox/addon/firesizer/" class="urlextern" title="https://addons.mozilla.org/en-us/firefox/addon/firesizer/"  rel="nofollow">Firesizer</a> - useful for resizing your browser to specific widths and heights to test out different display resolutions.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.firephp.org/" class="urlextern" title="http://www.firephp.org/"  rel="nofollow">FirePHP</a> - this integrates into Firebug, it allows you to log messages from <abbr title="Hypertext Preprocessor">PHP</abbr> to the Firebug console, useful for <abbr title="Hypertext Preprocessor">PHP</abbr> debugging.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT15 SECTION "Front End Tools" [30280-32265] -->
+<h3 class="sectionedit16" id="productivity_tools">Productivity Tools</h3>
+<div class="level3">
+
+<p>
+Here are some productivity apps that Polycademy recommends. These are useful for collaboration and knowledge management.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.launchy.net/" class="urlextern" title="http://www.launchy.net/"  rel="nofollow">Launchy</a> - quick launch apps from desktop</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.xmind.net/" class="urlextern" title="http://www.xmind.net/"  rel="nofollow">Xmind</a> - best mind mapping software</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://www.dropbox.com/" class="urlextern" title="https://www.dropbox.com/"  rel="nofollow">Dropbox</a> - share files with your team mates</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://http://www.teamviewer.com/" class="urlextern" title="http://http://www.teamviewer.com/"  rel="nofollow">Teamviewer</a> - remote desktop and presentations</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://evernote.com/" class="urlextern" title="http://evernote.com/"  rel="nofollow">Evernote</a> - keep track of your ideas</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://s3browser.com/" class="urlextern" title="http://s3browser.com/"  rel="nofollow">S3 Browser</a> - graphically browse Amazon S3 storage</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT16 SECTION "Productivity Tools" [32266-32864] -->
+<h2 class="sectionedit17" id="media_stack">Media Stack</h2>
+<div class="level2">
+
+<p>
+As a web designer we need a couple multimedia tools to create graphics, video and audio. Web design isn&#039;t fine art, most of times we&#039;re creating simple gradients. It&#039;s the composition of different elements that is important. That being said, professional designers user professional software.
+</p>
+
+</div>
+
+<h4 id="adobe_photoshop">Adobe Photoshop</h4>
+<div class="level4">
+
+<p>
+The king of graphics editing. We will be learning how to use <a href="http://en.wikipedia.org/wiki/Photoshop" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Photoshop">Photoshop</a> to create website mockups. Photoshop is required to create the simplest of graphics to the most complicated digital art paintings. Although Photoshop is expensive to buy outright, Adobe currently offers <a href="https://creative.adobe.com/" class="urlextern" title="https://creative.adobe.com/"  rel="nofollow">Creative Cloud</a> service allowing you to use Adobe applications on a monthly fee.
+</p>
+
+</div>
+
+<h4 id="audio_editing">Audio Editing</h4>
+<div class="level4">
+
+<p>
+We won&#039;t be doing much audio editing, but if you need audio conversion, you won&#039;t go wrong with <a href="http://www.erightsoft.com/SUPER.html" class="urlextern" title="http://www.erightsoft.com/SUPER.html"  rel="nofollow">SUPER</a>.
+</p>
+
+</div>
+
+<h4 id="video_editing">Video Editing</h4>
+<div class="level4">
+
+<p>
+Video editing is best done with 4 tools. They are <a href="http://www.videolan.org/" class="urlextern" title="http://www.videolan.org/"  rel="nofollow">VLC player</a>, <a href="http://www.virtualdub.org/" class="urlextern" title="http://www.virtualdub.org/"  rel="nofollow">Virtual Dub</a>, <a href="http://camstudio.org/" class="urlextern" title="http://camstudio.org/"  rel="nofollow">Camstudio</a> and <a href="http://www.adobe.com/products/premiere.html" class="urlextern" title="http://www.adobe.com/products/premiere.html"  rel="nofollow">Adobe Premiere Pro</a>.
+</p>
+
+</div>
+<!-- EDIT17 SECTION "Media Stack" [32865-34046] -->
+<h2 class="sectionedit18" id="testing_stack">Testing Stack</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT18 SECTION "Testing Stack" [34047-34073] -->
+<h3 class="sectionedit19" id="browser_testing">Browser Testing</h3>
+<div class="level3">
+
+<p>
+In a perfect world, we could just develop our application for one modern browser, and it would work for all browsers. Unfortunately this isn&#039;t true. We need to manually test the layout and front end dynamic functionality through all available browsers.
+</p>
+
+<p>
+We have to make a balance between the effort required to make cross-platform and backwards compatibility and the rewards gained from doing so. Therefore Polycademy suggests you to test your web app for the latest versions of Chrome, Safari, Firefox, Opera and <abbr title="Internet Explorer">IE</abbr> &gt; 8. If your web app/site is catering to enterprise users, you&#039;ll need to cater to <abbr title="Internet Explorer">IE</abbr> &gt; 7. The broader you cater your web app, the less advanced technologies you&#039;ll need to use, and the greater the amount of hacks or <a href="http://alistapart.com/article/understandingprogressiveenhancement" class="urlextern" title="http://alistapart.com/article/understandingprogressiveenhancement"  rel="nofollow">progressive enhancement methods</a> are required.
+</p>
+
+<p>
+To test for all browsers you&#039;ll need to download all the latest browsers from their official page. However to run multiple generations of <abbr title="Internet Explorer">IE</abbr>, you&#039;ll need to use <a href="http://www.my-debugbar.com/wiki/IETester/HomePage" class="urlextern" title="http://www.my-debugbar.com/wiki/IETester/HomePage"  rel="nofollow">IETester on Windows</a>.
+</p>
+
+<p>
+If you are using Mac or Linux, try <a href="http://browsershots.org/" class="urlextern" title="http://browsershots.org/"  rel="nofollow">Browsershots</a> or <a href="https://browserlab.adobe.com/en-us/index.html" class="urlextern" title="https://browserlab.adobe.com/en-us/index.html"  rel="nofollow">Adobe Browser Lab</a> or <a href="https://browserling.com/" class="urlextern" title="https://browserling.com/"  rel="nofollow">Browserling</a>
+</p>
+
+</div>
+<!-- EDIT19 SECTION "Browser Testing" [34074-35382] -->
+<h3 class="sectionedit20" id="unit_testing">Unit Testing</h3>
+<div class="level3">
+
+</div>
+
+<h4 id="tdd_bdd">TDD &amp; BDD</h4>
+<div class="level4">
+
+<p>
+PHPUnit - Test Driven Development
+<a href="http://behat.org/" class="urlextern" title="http://behat.org/"  rel="nofollow">Behat</a> - Behaviour Driven Development
+USE BEHAT instead of PHPUnit - refer to
+</p>
+
+<p>
+<a href="http://techportal.inviqa.com/2011/07/27/behaviour-driven-development-in-php-with-behat/" class="urlextern" title="http://techportal.inviqa.com/2011/07/27/behaviour-driven-development-in-php-with-behat/"  rel="nofollow">http://techportal.inviqa.com/2011/07/27/behaviour-driven-development-in-php-with-behat/</a>
+</p>
+
+<p>
+<a href="http://www.littlehart.net/atthekeyboard/2012/02/26/simple-api-testing-with-behat/" class="urlextern" title="http://www.littlehart.net/atthekeyboard/2012/02/26/simple-api-testing-with-behat/"  rel="nofollow">http://www.littlehart.net/atthekeyboard/2012/02/26/simple-api-testing-with-behat/</a>
+</p>
+
+<p>
+<a href="http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/" class="urlextern" title="http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/"  rel="nofollow">http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/</a>
+</p>
+
+<p>
+BDD is TDD done right.
+</p>
+
+<p>
+Just show installation, no coding!
+</p>
+
+</div>
+
+<h4 id="js_unit_testing">JS Unit Testing</h4>
+<div class="level4">
+
+<p>
+Jasmine
+</p>
+
+</div>
+
+<h4 id="acceptance_testing">Acceptance Testing</h4>
+<div class="level4">
+
+<p>
+<a href="http://mink.behat.org/" class="urlextern" title="http://mink.behat.org/"  rel="nofollow">Mink</a> allows headless browser testing!
+</p>
+
+</div>
+<!-- EDIT20 SECTION "Unit Testing" [35383-35969] -->
+<h2 class="sectionedit21" id="build_stack">Build Stack</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT21 SECTION "Build Stack" [35970-35994] -->
+<h3 class="sectionedit22" id="code_quality">Code Quality</h3>
+<div class="level3">
+
+<p>
+Early on in development, we want to make sure we&#039;re using the correct syntax for our <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. We can make use of W3&#039;s <a href="http://validator.w3.org/" class="urlextern" title="http://validator.w3.org/"  rel="nofollow">HTML validator</a> and <a href="http://jigsaw.w3.org/css-validator/" class="urlextern" title="http://jigsaw.w3.org/css-validator/"  rel="nofollow">CSS validator</a>. As you continue developing you&#039;ll make less mistakes and may have to take advantage of advanced syntax which may not validate so you&#039;ll discontinue using it.
+</p>
+
+<p>
+For Javascript, we&#039;ll be using the <a href="http://www.jshint.com/" class="urlextern" title="http://www.jshint.com/"  rel="nofollow">JSHint utility</a> to keep us writing quality Javascript. JSHint can be integrated into Nodepad++ allowing you to automatically lint your Javascript code. Just look into the extensions plugin. JSHint is also automatically integrated into Cloud9&#039;s editor, so it&#039;ll tell you when you&#039;re writing bad code.
+</p>
+
+<p>
+Although <abbr title="Hypertext Preprocessor">PHP</abbr> has <a href="http://pear.php.net/package/PHP_CodeSniffer" class="urlextern" title="http://pear.php.net/package/PHP_CodeSniffer"  rel="nofollow">code sniffer quality tool</a> as well, it&#039;s a bit of an overkill, and is not required as long as you adhere to standards set in your team.
+</p>
+
+</div>
+<!-- EDIT22 SECTION "Code Quality" [35995-36965] -->
+<h3 class="sectionedit23" id="css_preprocessors">CSS Preprocessors</h3>
+<div class="level3">
+
+<p>
+<abbr title="Cascading Style Sheets">CSS</abbr> is the styling language for <abbr title="HyperText Markup Language">HTML</abbr> documents. However it isn&#039;t very powerful because it&#039;s not a programming language, it has no support for variables or functions.
+</p>
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:app-windows.png" class="media" title="web_application_development:app-windows.png"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:app-windows.png" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Asolution_stack&amp;media=web_application_development:app-windows.png"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>Simpless Main Window</div></div></div>
+<p>
+Enter the <abbr title="Cascading Style Sheets">CSS</abbr> preprocessors. There are three types currently and they all augment the power of <abbr title="Cascading Style Sheets">CSS</abbr> by using DSL (domain specific language). These DSLs are usually cut down versions of <abbr title="Cascading Style Sheets">CSS</abbr> in order to reduce the verbosity of standard <abbr title="Cascading Style Sheets">CSS</abbr>, but at the same time add in support for variables, scoping and functions. They are then compiled into standard <abbr title="Cascading Style Sheets">CSS</abbr> using their specific compiler.
+</p>
+
+<p>
+The three that are popularly used are <a href="http://lesscss.org/" class="urlextern" title="http://lesscss.org/"  rel="nofollow">LESS</a>, <a href="http://sass-lang.com/" class="urlextern" title="http://sass-lang.com/"  rel="nofollow">SASS</a> and <a href="http://learnboost.github.com/stylus/" class="urlextern" title="http://learnboost.github.com/stylus/"  rel="nofollow">Stylus</a>. SASS is popular among the Ruby crowd, and Stylus is popular among the Node crowd. LESS is the most simple to use, and this is the one Polycademy will be teaching.
+</p>
+
+<p>
+The best <abbr title="Graphical User Interface">GUI</abbr> tool to use on the local stack would be <a href="http://wearekiss.com/simpless" class="urlextern" title="http://wearekiss.com/simpless"  rel="nofollow">Simpless</a>. It is cross platform and watches your LESS styles for changes and automatically compiles them into <abbr title="Cascading Style Sheets">CSS</abbr> when you save.
+</p>
+
+<p>
+When we get to <a href="/doku.php?id=web_application_development:web_design" class="wikilink1" title="web_application_development:web_design">Web Design</a>, we&#039;ll start by writing some basic <abbr title="Cascading Style Sheets">CSS</abbr>, but quickly move on to using LESS, because it&#039;s far more powerful.
+</p>
+
+</div>
+<!-- EDIT23 SECTION "CSS Preprocessors" [36966-38294] -->
+<h3 class="sectionedit24" id="phing_php_build_system">Phing PHP Build System</h3>
+<div class="level3">
+
+<p>
+As you&#039;ve got to this point in the course, I&#039;m sure you noticed that a developer&#039;s workflow is indeed complex and sometimes tiring. There are so many commands and so many tools, that it&#039;s very easy to make a mistake forgetting a command or workflow step.
+</p>
+
+<p>
+Fortunately we have automated build systems to automate our workflow. These software stacks essentially do all the compiling, concatenating, minifying, preprocessing and testing all in one go.
+</p>
+
+<p>
+<a href="http://www.phing.info/" class="urlextern" title="http://www.phing.info/"  rel="nofollow">Phing is a PHP based build system</a>. There are others, but this is the one most suitable for <abbr title="Hypertext Preprocessor">PHP</abbr> development. Phing can be installed locally, but as it is a command line app, it can also be installed and used in Cloud9 through Composer.
+</p>
+
+<p>
+<strong>VIDEO DEMONSTRATE INSTALL</strong> OF PHING through composer. THIS VIDEO will demonstrate the USAGE OF COMPOSER TOO. Using composer dependencies. Oh and Composer can add binaries too. So you may need to add the bin folder to the PATH variables. But you need to see where this will be done… lol.
+</p>
+
+</div>
+
+<h4 id="phing_automation">Phing Automation</h4>
+<div class="level4">
+
+<p>
+Phing can automate:
+</p>
+<ul>
+<li class="level1"><div class="li"> LESS compiling, concatenating and minifying.</div>
+</li>
+<li class="level1"><div class="li"> Javascript compiling, concatenating and minifying (using UglifyJs)</div>
+</li>
+<li class="level1"><div class="li"> Database migrations - Databases often need to be migrated from one development environment to another. This can be done manually via exporting and importing <abbr title="Structured Query Language">SQL</abbr>, however we can automate this using Phing. This will be demonstrated later.</div>
+</li>
+<li class="level1"><div class="li"> Run unit tests - We can use Phing to run our TDD and BDD tests.</div>
+</li>
+</ul>
+
+<p>
+<strong>VIDEO SHOWING PHING AUTOMATION with LESS and Javascript.</strong>
+</p>
+
+</div>
+<!-- EDIT24 SECTION "Phing PHP Build System" [38295-39872] -->
+<h2 class="sectionedit25" id="production_stack">Production Stack</h2>
+<div class="level2">
+
+<p>
+Polycademy recommends using <a href="https://www.appfog.com/" class="urlextern" title="https://www.appfog.com/"  rel="nofollow">Appfog</a> for hosting your MVP. If you need self-hosted uploading/read/write capabilities then it is better to choose <a href="https://pagodabox.com/" class="urlextern" title="https://pagodabox.com/"  rel="nofollow">Pagodabox</a>. If you are running a polyglot app, it&#039;s better to use <a href="https://www.dotcloud.com/" class="urlextern" title="https://www.dotcloud.com/"  rel="nofollow">dotCloud</a>. All three cloud hosting services offer free cloud instances. They are suitable for development and production!
+</p>
+
+<p>
+To start using Appfog, create an account on Appfog, setup an app, and then install the command line utility. Use <a href="https://docs.appfog.com/getting-started/af-cli" class="urlextern" title="https://docs.appfog.com/getting-started/af-cli"  rel="nofollow">Appfog&#039;s CLI docs</a> and experiment pushing your current directory to Appfog&#039;s instance.
+</p>
+
+</div>
+<!-- EDIT25 SECTION "Production Stack" [39873-] --><div class="footnotes">
+<div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
+By Arturo muthuvel (Own Work) [CC-BY-SA-3.0 (<a href="http://creativecommons.org/licenses/by-sa/3.0" class="urlextern" title="http://creativecommons.org/licenses/by-sa/3.0"  rel="nofollow">http://creativecommons.org/licenses/by-sa/3.0</a>)], via Wikimedia Commons</div>
+<div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 
+<a href="http://quickleft.com/blog/command-line-tutorials-curl" class="urlextern" title="http://quickleft.com/blog/command-line-tutorials-curl"  rel="nofollow">http://quickleft.com/blog/command-line-tutorials-curl</a></div>
+</div>

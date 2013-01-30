@@ -1,0 +1,176 @@
+
+<h1 class="sectionedit1" id="git">Git</h1>
+<div class="level1">
+
+<p>
+Explanation of git!
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Git" [1-40] -->
+<h2 class="sectionedit2" id="github">GitHub</h2>
+<div class="level2">
+
+<p>
+<a href="http://en.wikipedia.org/wiki/Github" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Github">Github</a> is web service that allows developers to host their source code online using the Git <a href="http://en.wikipedia.org/wiki/revision control system" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/revision control system">revision control system</a>. This is essentially an ecosystem that allows us to collaboratively work on projects, while maintaining historical records of various changes in the code base. Revision control systems such as Git are industry practice, so learning how to use it will be very helpful. In order to utilise the Polycademy&#039;s account on Github, all our projects have to be open source while it is being developed as part of Polycademy&#039;s courses. We will be using Github and its associated software in class and out of class, there we have to learn how to install it on your local computer.
+</p>
+
+<p>
+<strong>Installation</strong>
+</p>
+
+<p>
+To start, go to Github&#039;s main website and signup to a free open source account. Once signed up, you&#039;ll receive a validate email message in your inbox, you can validate it later. Tell your teacher your username and we&#039;ll add you as a member of the Student Group at the Polycademy. We&#039;ll be creating repositories (code projects) for each team. By being part of the Polycademy organisation, this allows you to view and commit to your team&#039;s repository.
+</p>
+
+<p>
+When we are in class, students will be organised into teams of 4 - 5. Each team works on a particular project. The project&#039;s name will be the repository&#039;s name. Tell your teacher your team/project&#039;s name, and we&#039;ll create the repository as part of Polycademy. Then we&#039;ll assign the team members to the repository.
+</p>
+
+<p>
+To be able to use Github locally, we&#039;ll use Github&#039;s desktop <abbr title="Graphical User Interface">GUI</abbr>. There are currently two versions, one for <a href="http://mac.github.com/" class="urlextern" title="http://mac.github.com/"  rel="nofollow">Mac</a> and one for <a href="http://windows.github.com/" class="urlextern" title="http://windows.github.com/"  rel="nofollow">Windows</a>. These two software work roughly the same, the following instructions will apply to the Windows version.
+</p>
+
+<p>
+The Github installation installs a “Git Shell” and a “Github”. Git is usually commanded with the command line, however for the sake of simplicity we&#039;ll focus on the <abbr title="Graphical User Interface">GUI</abbr> version which is just Github. Follow the prompts until you reach the main screen.
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=web_application_development%3Agit&amp;media=web_application_development:github_for_windows-screenshot.jpg" class="media" title="web_application_development:github_for_windows-screenshot.jpg"><img src="/lib/exe/fetch.php?media=web_application_development:github_for_windows-screenshot.jpg" class="mediacenter" alt="" /></a>
+</p>
+
+<p>
+<strong>Setting up the Environment</strong>
+</p>
+
+<p>
+In web application development, code is hosted on servers. There will usually be two servers used for two different purposes. The first is your local development server, this is usually your own computer. The second is the production server, this will be the server that runs the application for your external users. For our case, Github will act as an intermediary development server between the your local development server and the production server. This is to allow a team of developers to work on a single project while still maintaining their own local file integrity. However we want to be able to synchronise the files between development server and Github so we don&#039;t have the manually upload files or code changes (which are known as “commits” in Git).
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=web_application_development%3Agit&amp;media=web_application_development:github_development_workflow.png" class="media" title="web_application_development:github_development_workflow.png"><img src="/lib/exe/fetch.php?media=web_application_development:github_development_workflow.png" class="mediacenter" alt="" /></a>
+</p>
+
+<p>
+In order to this we need to first install AMP. Refer to the top to see how this is done. After installing AMP, the directory in which you execute your code should be either called “www” or “public_html”. All the code that we write will be committed to this folder. In the main screen of Github&#039;s <abbr title="Graphical User Interface">GUI</abbr> select tools, then options. This will get you into the options menu. On the top right there should be a section titled “default storage directory”. Make the following file path to match the file path that gets you into your “www” or “public_html” directory. You can click on the ”…” button to navigate there. If you are on Windows, it should be “C:\wamp\www\”. Note that you can if you want create a subdirectory called “polycademy_projects” inside that folder so you can separate your local projects from your Polycademy projects. Once this is done, click “update” on the bottom.
+</p>
+
+<p>
+Once this is done, go back to the main screen of Github <abbr title="Graphical User Interface">GUI</abbr>. At this point you should not have any repositories in your local or personal Github account. However you should have been added to this Polycademy organisation, so you should see a few Polycademy repositories. The team that you are working with will all see the same repositories. Your team name will be entered as your project. To begin using your repository, you need to clone it to your own local development server. Hover your mouse over the repository&#039;s name and click “CLONE”. The program will download the repository to your computer.
+</p>
+
+<p>
+If you now open your “www” or “public_html” directory, you should see the project there. The code in that project folder is tracked by Github and you can see the status of any changes to it in your local repository section in the Github <abbr title="Graphical User Interface">GUI</abbr>.
+</p>
+
+<p>
+<strong>Using Branches</strong>
+</p>
+
+<p>
+Each repository will have multiple branches, branches are basically duplicates of the code base but with specific changes in them. This allows teams to separate what they consider production ready code to developing code to specific feature sets. Right now your repository only has one branch and this is the master branch. We need to create a develop branch and feature branches for your specific part of the project. To do this, go to the local repository list, open the repository in the <abbr title="Graphical User Interface">GUI</abbr>, then on the top middle there is a tab called “master”. Click on it and a drop down menu should appear. You can create or change branches in this menu or you can go into the advanced “manage” panel. By typing a new branch into the FILTER OR CREATE NEW input you can then create the “develop” branch.
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=web_application_development%3Agit&amp;media=web_application_development:create_branch_github.jpg" class="media" title="web_application_development:create_branch_github.jpg"><img src="/lib/exe/fetch.php?media=web_application_development:create_branch_github.jpg" class="mediacenter" alt="" /></a>
+</p>
+
+<p>
+The develop branch is where the most of the work will be merged between all the developers in the team. The master branch will be the production ready code. We will be creating new branches for whenever we need to create a feature set. Branches allow a project to be worked on in a distributed manner and we merge back the branches to develop then master when they are ready to run. Note that as you create branches in the Github <abbr title="Graphical User Interface">GUI</abbr>, they won&#039;t be published to the Github server. You need to click “publish” for that to happen. Branches are created on top of existing branches, so they can grow from a base branch. The develop branch should “branch off” the master branch, and the further feature set branches should “branch off” the develop branch. You will need to go into the “manage” panel in the branch menu to do that. (It&#039;s also used for merges) Now that you have multiple branches created, you can select your current branch your Github will track. This means that any changes to your code in your filesystem will only be recorded and committed into the currently selected branch. Make sure to keep track of this as you don&#039;t want to commit untested code to your master branch.
+</p>
+
+<p>
+<strong>Reverting Commits</strong>
+</p>
+
+<p>
+But if you do commit a bad change, we can revert code easily. This is one of the greatest advantages of using a revision control system. To use this we must first understand how code changes are tracked by the Git software. Let&#039;s use the current develop branch that we just created. Assuming it is currently unpublished, then none of the changes will be committed to the Github server. Go into your project on your file system and create a text file with any code. Save it and then check the Github <abbr title="Graphical User Interface">GUI</abbr>. It should show that there are some “uncommitted changes”. If you click on that it will show the list of uncommitted changes. It should show that there is a new text file and the contents of that text file. If you go back and change the file again, you will see the changes reflect in the uncommitted changes. Let&#039;s go ahead and commit those changes. Remember to check that your current branch is still on the develop branch that is unpublished. You should write a commit message describing what the point of the code change is for.
+</p>
+
+<p>
+<a href="/lib/exe/detail.php?id=web_application_development%3Agit&amp;media=web_application_development:uncommitted_changes.jpg" class="media" title="web_application_development:uncommitted_changes.jpg"><img src="/lib/exe/fetch.php?media=web_application_development:uncommitted_changes.jpg" class="mediacenter" alt="" /></a>
+</p>
+
+<p>
+You will now see that there are no more uncommitted changes, but there is new unsynced commit. Clicking on the right will show you the recent committed code change. Let&#039;s say you didn&#039;t like that commit. Then right now you can either revert commit via Github <abbr title="Graphical User Interface">GUI</abbr>, or you can go into the file/folder and remove offending code/file via your explorer. It is better to linearly progress through your code (to get an accurate history) so try to remove it via your explorer (and give a reason) rather than through Github. Specific commits throughout your history can get reverted as well, so it doesn&#039;t have to be in order, however this may result in merge conflicts with other files so it&#039;s best to avoid trying that function.
+</p>
+
+<p>
+It is possible to rollback your commit. This means to rollback your unsynced commit to an uncommitted commit. All of these features are powerful however it is very easy to get into merge conflicts with historical revisionism. It also confuses your team members if you mess with public history. So it&#039;s best to just linearly progress through your coding and use the history not as administrative tool but as a historical tracking tool. If you do get into a grandfather paradox where you deleted the file not in sequence and did some reversions then some other changes, then you can resolve this by rolling back to the committed commit that caused all the problems.
+</p>
+
+<p>
+It is also possible to commit multiple code changes in multiple files at the same time. For the purposes of early development it is better to commit once per code change per page. Although you may get a messy unsynced commit history, you get a more precise history.
+</p>
+
+<p>
+Now after you have committed all your code and you have created a working feature, it is time to sync it with Github server. Since our branch is currently unpublished, we cannot sync it. So first click publish and let Github <abbr title="Graphical User Interface">GUI</abbr> upload your develop branch to your project&#039;s repository. Once this is done, its status should show “in sync”. Congratulations on committing then syncing to your first code change on Github! After the branch is published when you have committed commits, then click sync to sync them to the remote branch.
+</p>
+
+<p>
+<strong>The Merge Workflow</strong>
+</p>
+
+<p>
+Now we have two branches, develop and master. Currently the develop branch is more up to date than the master branch because we made some changes to the develop branch which was branching off master. If you switch your branch to master, you will see that no changes have taken place. If we consider that the develop branch is ready to be hosted for all of the world to see, we can then merge the code base into master. But hold your horses there are checks to do before doing this since we want to solve any possible merge conflicts and there could be new commits made to the develop branch on Github by other members of your team.
+</p>
+
+<p>
+Firstly create a new branch off develop and call it your own name&#039;s branch. This branch can be published as it allows you to use it over the internet. This is the branch you will use for your own development before pushing to the remote develop branch. Also note that any changes made to your code on your local computer has to be committed then synced before it is represented in the remote develop branch.
+</p>
+
+<p>
+Now let&#039;s assume that another team member also creates their own branch and soon you both are working on the same file. You enter some code that conflicts with your team mate&#039;s code. Your team mate commits their code change, then merges and syncs the develop branch. Essentially your team mat has submitted code that conflicts with your code before you. Now clear communication at this point should prevent any problems from arising. But let&#039;s further assume that your team mate did not inform you that they have submitted new code to the same file you&#039;re editing. Now when you try to merge with the develop branch, you will meet a merge conflict. Remember to merge the remote branch into your local branch first as you should always be keeping your local branch copy as up to date as possible.
+</p>
+
+<p>
+No need to panic, it is a simple thing to sort out. Just click Abort Merge for now. Go to the offending file that is in conflict. There may be multiple files and a quick way to find out is to go to back to your Github screen for your current branch, it should show uncommited changes. Do not commit these changes, Github just put in markers in your files to indicate the conflicts. Go to these specific files in your filesystem and you should see:
+</p>
+<pre class="code">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Code that is in your current file
+=======
+Code that is in the conflicting file in the remote server
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; origin/develop</pre>
+
+<p>
+This allows you to choose which of these codes you want to keep. If you want to keep your team mates code, that is the code in the conflicting file in the remote server, then delete everything in the above except their code. Commit the change then try merging develop into your local branch. Remember to merge back into the develop branch to push your updates to the develop branch.
+</p>
+
+<p>
+If you want to keep your code, then delete everything in the above except your original code. If you go back to Github there should be no more uncommitted changes. You have not yet resolved your merge conflict, as far as Github is concerned, nothing has changed. Go back to the branch manage panel, and this time change the merge order. You can do this by clicking on the arrow symbol. This time you are merging local branch into develop branch. This time a merge conflict will appear again. Abort merge, then check the file. The file should show a similar code to the above but with the codes flipped over. Now just delete everything except your code (the code you keep should always be the one on the bottom), then commit and merge and merge back.
+</p>
+
+<p>
+If you want to change and merge with a new code, then first do one of the above, then update it in your local branch and push the update to the develop branch.
+</p>
+
+<p>
+Some tips to remember:
+</p>
+<ol>
+<li class="level1"><div class="li"> Remote → Local merge for keeping remote code</div>
+</li>
+<li class="level1"><div class="li"> Local → Remote merge for keeping local code.</div>
+</li>
+<li class="level1"><div class="li"> Merge forwards then merge backwards, only the receiving branch gets updated. Merges are not double way.</div>
+</li>
+<li class="level1"><div class="li"> Do not commit merge conflict edits done automatically by Github after a merge conflict.</div>
+</li>
+<li class="level1"><div class="li"> If you neither want local or remote, then keep one of them first before updating to a new one.</div>
+</li>
+<li class="level1"><div class="li"> Your commits should only contain one file, not multiple files. It makes it easier to deal with merge conflicts this way.</div>
+</li>
+<li class="level1"><div class="li"> Don&#039;t forget to sync the develop branch after you merged it. Nothing is represented on the remote Github until you do.</div>
+</li>
+<li class="level1"><div class="li"> If you screw up, just rollback on the offending commit.</div>
+</li>
+<li class="level1"><div class="li"> DO communicate with your team and have proper division of labour so you can avoid merge conflicts</div>
+</li>
+<li class="level1"><div class="li"> Always commit everything before you merge. Sync at the very end.</div>
+</li>
+<li class="level1"><div class="li"> Read this <a href="http://sethrobertson.github.com/GitBestPractices/" class="urlextern" title="http://sethrobertson.github.com/GitBestPractices/"  rel="nofollow">http://sethrobertson.github.com/GitBestPractices/</a> for more information on Git, it is really powerful tool!</div>
+</li>
+</ol>
+
+</div>
+<!-- EDIT2 SECTION "GitHub" [41-] -->

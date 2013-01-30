@@ -2,103 +2,149 @@
 
 Solution stack are a set of software solutions that are needed to deliver a fully functional solution. For a web application the stack requires an operating system, a web server, a database, and programming language. For the development of the web application, you require an integrated development environment (IDE). Understanding how these solution stacks are set up is important part of web application development. This section provides an introduction to the various stacks we will use, how to use them and how to install them on your computer.
 
-===== UPDATES =====
+Polycademy offers you two solution stacks. The Cloud stack is useful for portable deployment. You can access it anywhere you have an internet connection. This allows you to forgo installing your development environment every time you use a new computer. This comes at a cost of flexibility as you don't control the environment fully and a potential point of failure. What happens if Cloud9 goes offline one day? At any case that's why we also show you how to setup your own local development stack. This gets more complicated as we have to cater to different operating systems, but in the end it is more powerful. You can choose which one you prefer to use, but you need to read both options to get the best of both worlds. In fact the local stack has some tools you cannot use in Cloud 9 which you need.
 
-Github remote fetching from clones
-Github for MAC
-Geany...
+===== Cloud Stack =====
 
-Redmond Path Editing for path editing
-Composer
-Curl
-Ruby with Gems for Windows
-Mongo + Mongo Daemon
-MySQL + Daemon... etc
-Use windows installer for Composer as the generic way is harder
-Testing Stack => IETester + All the browsers
-S3 Browser for data (amazon s3 for data in general)
-ALSO
-Chocolatey apt-get for windows
-===== AMP =====
-=== What is AMP ===
+[[https://c9.io/|Cloud9 IDE]] is an online development environment for Javascript, Node.js, PHP, Java, Ruby and 23 other languages.
 
-AMP in fact provides bundled software, namely **A**pache, **M**ySQL, **P**HP (hence AMP), that are used to run dynamic Web sites or servers. Strictly speaking, this is all that is required to run and serve a website either locally or on the internet. For the purposes of this course, we have already setup WAMP on our server for each group of students to use for their web application development project.
+It is full featured environment with SSH and shell access allowing you to install your own command line utilities. It integrates with your Github projects and allows live editing and real time collaboration between team members. It is free for open source projects. For you as a student, we don't have to license our project open source, it is only openly accessible, but prying eyes would need to actively search for your shareable url or nobody will ever know. Cloud9 offers practically everything we will need to develop your application.
 
+Even with most of the work done, we still need to get acquainted with Cloud9's environment and do some extra installations for Cloud 9. The below instructions will be demonstrated via text/images and video.
 
-=== Why AMP ===
-As you would have read previously in [[Web Application Development:Vision and Plan]], we need certain Standards and technologies to get host a web server to deploy a web application. During the initial stages such as development, we do not want to worry about the server-side of things. Instead we want an available and easy to use test lab to prototype our running codes during developmental stages.
+==== Git Project ====
 
-AMP provides a one-stop shop for easily setting up a functional webserver. It's key feature is that it offers an easy to install, configure and use package of softwares without requiring expert knowledge in either of the individual components.
+Cloud 9 integrates with [[https://github.com/|Github]]. Github is a web service providing Git functionality. Think of Git as a time machine for your code. Please refer to the [[Web Application Development:Git]] article for a full explanation on using this amazing tool.
 
-=== How to install AMP ===
-**WAMP (Windows AMP)**
+First create a Github account and initialise your first project. We'll be registering on Cloud9 using our Github account. Name your project something memorable, we'll be using this as your repository to do work.
 
-WAMP can be downloaded from its official website [[http://www.wampserver.com/en/|here]]. Installation is quite straight forward.
+{{ youtube>vnXi0gGTVS8?large }}
 
+==== Playing with Cloud9's Tools ====
 
-**LAMP (Linux AMP)**
+Cloud9 may seem daunting at first, so let's go through some of the common tools you'll be using. This section will also demonstrate the installation of extra tools that Cloud9 doesn't provide natively.
 
-Some links to install LAMP on various Linux Distros are:
+=== Apache MySQL PHP (AMP) ===
 
-[[https://help.ubuntu.com/community/ApacheMySQLPHP|Install a LAMP server on Ubuntu Linux]]
+[{{ :web_application_development:640px-lampp_architecture.png?200|LAMP Architecture ((By Arturo muthuvel (Own Work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons))}}]
 
-[[http://wiki.debian.org/LaMp|Install a LAMP server on Debian GNU/Linux]]
+The AMP stack in fact provides bundled software, namely Apache, MySQL, PHP, that are used to run dynamic Web sites or servers. Strictly speaking, this is all that is required to run and serve a website either locally or on the internet. There are other kinds of stacks used to run other kinds of applications, but the AMP stack is the most commonly used, and is appropriate for Polycademy's PHP based web application development course. The AMP stack is commonly bundled with the Linux OS, which means this is usually called the [[wp>/LAMP_(software_bundle)|LAMP stack]].
 
-[[http://en.opensuse.org/SDB:Linux_Apache_MySQL_PHP|Install a LAMP server on SUSE Linux]]
+Apache is an HTTP web server. This is what responds to requests from client browsers over the internet. MySQL is an relational database management system. PHP refers to the programming language, however in the context of LAMP, it is actually an Apache module. Apache runs PHP in order to process requests and return dynamic content. Apache has many modules, but this is the one we use in order to learn and develop in the PHP language.
 
-[[http://fedorasolved.org/server-solutions/lamp-stack|Install a LAMP server on Fedora Linux]]
+For the purposes of using Cloud9, it provides us with preinstalled Linux, Apache and PHP. The MySQL will have to come from an external provider, and that is explained in the [[Solution Stack#cloud_database|Cloud Database]] section. You can run PHP files in Cloud9 in the run tab. Cloud9 allows you to share your urls with your team mates so you can code together and see results immediately. Cloud9 also allows you to run multiple files, so you only need to run once on the root index.php to navigate to deeper files. If you end up writing polyglot applications, you can run multiple runtimes simultaneously.
 
-[[http://jesseforrest.name/setup-a-production-centos-lamp-web-server/212|Install a LAMP server on CentOS Linux]]
+=== Text Editor Workspace ===
 
+Cloud9's text editor has many features that allows us to code more pleasantly. You'll learn how to take advantage of features as we start coding, but it's important to get acquainted with the workspace so we can hit the ground running.
 
-**MAMP (MAC AMP)**
+You can use Cloud9 to run your PHP files, and they are immediately available through a generated URL. The great thing about this URL, is that you can share it with your team mates or clients and they will see your changes as you code. This is perfect for front end designers! The right click context menu is designed to match what you would have if you are developing on the desktop computer, so you can expect the same kinds of options. One useful preference in Cloud9 is the Color Picker option, allowing you to pick colors immediately when marking up CSS.
 
-You can download a free version of MAMP [[http://www.mamp.info/en/index.html|here]] and further documentation can be found [[http://documentation.mamp.info/en|here]]
+Ctrl-F also works on Cloud 9 and it reveals quite a powerful find and replace functionality. This is invaluable when you're trying to hunt down that small syntax character in your 1000 line code. When saving files you can either switch on auto-save in the preferences or you can just use Ctrl-S.
 
+Finally of course is the collaboration features of Cloud9. You can share your project URL with your team mates and they can see your coding in live. Cloud9 is still somewhat buggy and you need a fast internet connection or else you'll pull your hair out. So if it's taking some time to create files or load files. Just refresh the site and it will automatically save your session.
 
-=== How to use AMP ===
-Once you have setup your flavour of AMP, all you need to do is start the server. Please refer to documentation of the package you installed on how to start the webserver. This is usually quite straightforward, although you may sometimes encounter some difficulty. If that is the case, it may be that a 3rd party software is conflicting with AMP ports. A common example is Skype which uses port 22 and conflicts with WAMP. We therefore recommend exiting skype prior to starting WAMP. Feel free to browse through the various AMP forums available online for more resources and troubleshooting.
+{{ youtube>liaXnk2X0Ow?large }}
 
-===== FTP =====
+=== Command Line Usage ===
 
-=== What is FTP ===
-File Transfer Protocol, basic definition, Link to wiki
+As a developer you will begin using the command line more. Although it's not as pretty as the GUI (graphical user interface), and also requires more memory, it is far more powerful. Many developer tools are only available as command line applications.
 
-=== Why FTP ===
-Current Standard for uploading files to web server (what else? research)
+Different operating systems have different command line commands. Fortunately Cloud9 abstracts this all away as we're using their Linux based system. So the commands will be the same everywhere. Note that if you are using Powershell on Windows, many Linux commands can also be used.
 
-=== How to use FTP ===
-Firefox plugin (fireftp)
-Other plugins (Chrome equivalent?)
-Standalone software?
-Accessible through windows (inbuilt protocol from win xx?)
-Other systems Mac/Linux
-===== Understanding Absolute and Relative Paths =====
+As we install and use more tools, we'll be utilising more command line tools and referencing specific documentation, but this section will show the most used commands.
 
-[Research what is] - definition
-[Research relevance] - why
+  * [[wp>cd (command)|Change Directory]] - ''cd'' is used to move between folders and directories. When used on Windows without any arguments, it actually displays the current working directory.
+  * [[wp>ls|List Files]] - ''ls'' is used to list the files and folders in the current directory. The Windows equivalent is ''dir''.
+  * [[wp>Working directory|Present Working Directory]] - ''cwd'' or ''cd'' is used to show the current working directory's absolute path.
+  * [[wp>file (command)|File Type]] - ''file'' is used to show the file or folder type.
+  * [[wp>mv|Move Files]] - ''mv'' - is used to move files or folders from one path to another path. It is also possible to rename files using this command by moving the file to its current directory with a different name.
+  * [[wp>cp (Unix)|Copy Files]] - ''cp'' is used to copy files and directories.
+  * [[wp>rm (Unix)|Remove files]] - ''rm'' is used to remove files or directories.
+  * [[http://git-scm.com/docs|Git Usage]] - ''git'' is used to run [[Web Application Development:Git]] commands.
+  * [[http://curl.haxx.se/docs/manual.html|Curl Usage]] - ''curl'' is used to download files or folders over the internet. Here's a good tutorial to CURL.((http://quickleft.com/blog/command-line-tutorials-curl))
+  * [[http://www.gnu.org/software/wget/manual/wget.html|Wget Usage]] - ''wget'' is used to also download files and folders over the internet.
+  * [[http://www.thegeekstuff.com/2010/04/unix-tar-command-examples/|Tar Usage]] - ''tar'' is used to unzip and manipulate archives.
 
-===== PHPMyAdmin =====
+You can also create [[wp>PATH (variable)|PATH variables]] in Cloud9. You can check out your currently set PATHs on Linux using ''echo $PATH'' on the terminal. For Windows, check out the [[Solution Stack#local stack|Local Stack]]. This allows you to create and download extra command line tools, and allow you to execute them in a global manner using an alias. This means you don't have to remember what directory they are in and just use them all over your computer. In Cloud9 because each workspace is temporary, it is not recommended to setup your own PATH variables. Instead Cloud9 has a binary folder that you can download any command line utilities into. Cloud9 has a PATH variable pointing to that binary folder by default, so you can run and binaries in that folder globally across your computer. This will be demonstrated when we install extra binaries and command line utilities.
 
-=== What is PHPMyAdmin ===
-Basic definition, link to wiki
+{{ youtube>6eVeAa77D7U?large }}
 
+=== Cloud Deployment ===
 
-=== Why PHPMyAdmin ===
-Ease of use/understanding/admin
-Comes with AMP packages
-What else (i.e. compare with alternatives?)
+Cloud9 is integrated into Heroku which is a cloud hosting service. However it doesn't play well with PHP based applications. So instead Polycademy recommends using [[https://www.appfog.com/|Appfog]]. The section on the [[Solution Stack#production_stack|Production Stack]] will explain how to setup Appfog. For now we'll use the command line to install Appfog's command line utility. We will be using this to push our application to Appfog's server when we have it setup.
 
-=== How to install and use PHPMyAdmin ===
-Comes with AMP Packages
-how to use
-===== Notepad++ =====
+[[https://docs.appfog.com/getting-started/af-cli|Appfog's command line utility]] is called ''af''. It is a Ruby app, so we need to use the Ruby virtual machine to run it. Ruby has a package manager called [[http://rubygems.org/|Gem]]. We can use Gem to install ''af'' and then run it globally without messing around with PATH variables.
+
+{{ youtube>qqGwE5D5Y_s?large }}
+
+=== Package Managers ===
+
+Developers use package managers to make the process of sharing code libraries and frameworks easier. It abstracts the process of searching on Google or Github for code libraries and downloading them manually. This process saves time and encourages code reuse among the developer community.
+
+PHP's primary package manager is called [[http://getcomposer.org/|Composer]]. For front end development, there are many package managers available, most of them are integrated into Node.js since most of them are Javascript libraries. For our purposes, we don't need to use these just yet, but you are free to explore them as we start coding. Check out [[http://yeoman.io/|Yeoman]] (not usable on Cloud9, requires local stack but on Linux/Mac OS), [[http://twitter.github.com/bower/|Bower]], [[http://volojs.org/|Volo]], [[http://ender.jit.su/|Ender]] and [[http://jamjs.org/|Jam]].
+
+To install Composer, we will use Curl to download the installer package and execute with PHP. The installation instructions are on [[http://getcomposer.org/doc/00-intro.md#installation-nix|Composer's documentation]]. Once installed, we have to move it to directory that is already set in the default PATHs. That way can we can globally execute Composer without needing to remember where it was placed. In the documentation it mentions we can move it to ''/usr/local/bin/composer''. Remember when using the ''mv'' command, if the last section of the path is not directory that exists, it will rename the file/folder you moved. Thus the command renames the file to ''composer''. However instead of installing Composer here, we should instead install in the ''/app-root/data/bin/composer''. This is more appropriate for Cloud9 and easier for us to locate it if ever need to.
+
+{{ youtube>QIPnGOb-pnQ?large }}
+
+==== Cloud Database ====
+
+Cloud9 does not yet support database functionality. Fortunately there are free cloud based database services available. For the purposes of Polycademy, we'll be using [[http://xeround.com/|Xeround]] to provide free cloud hosted MySQL database service. If you're interested in using [[NoSQL]] databases, [[https://www.mongohq.com/|MongoHQ]] and [[https://mongolab.com/|MongoLab]] are also possibilities.
+
+Xeround only provides 10mb of free data. However that is enough for developmental purposes. The hosts such as Appfog will provide us with a lot more space when we need it.
+
+The first step is to create an account on Xeround. Then create a new database instance. Then we're going to use Cloud9 and PHP to connect to the Xeround database. We'll be using the ''mysqli'' extension in PHP to test the connection, however when we get to coding, we'll be using Codeigniter's database library to abstract connection process instead. This [[http://xeround.com/developers/connecting-your-mysql-application-to-xeround-cloud-database/|Xeround page on connecting to MySQL]] explains what is necessary.
+
+{{ youtube>A2Z29Dhw0Pk?large }}
+
+===== Local Stack =====
+
+The local stack deployment process is somewhat more complicated than the cloud stack simply because we need to cater to multiple operating systems. However there are tools which can only be used on the local development environment and we will need these as well. Polycademy recommends you to start development with the Cloud Stack and install the local stack in your own time. At any case below are instructions pertaining to the installation of the same tools that Cloud9 provides on your own computer. It biased towards Windows computers, but the knowledge transferable to other operating systems, it will just require some extra googling.
+
+==== Apache MySQL PHP (AMP) ====
+
+As explained before, the AMP stack is all we need to run a web application server. There are several prepackaged AMP stacks for Windows and Mac OS. For Linux, you have to install them separately but this is an easy process too.
+
+=== WAMP ===
+
+The Wampserver is the easiest way to install WAMP on your own computer. Download it from the [[http://www.wampserver.com/en/|official website]]. The first choice you have to make is whether you are running a 32 bit computer or a 64 bit computer. If you don't know, just choose to run 32 bit. The second choice you have to make is to get the most recent version. For the 64 bit option, read the details and try to get a package that has Apache > 2.4 and PHP > 5.4. For the 32 bit option, get a package that has PHP > 5.4. These version details are on the bottom.
+
+The installation is an executable, locate your wamp folder at the root of your drive. This is so that it easily accessible. This is not a program files kind of application.
+
+=== LAMP ===
+
+There are many different Linux distros, so here are links to official documentation regarding the installation of LAMP.
+
+  * [[https://help.ubuntu.com/community/ApacheMySQLPHP|Install a LAMP server on Ubuntu Linux]]
+  * [[http://wiki.debian.org/LaMp|Install a LAMP server on Debian GNU/Linux]]
+  * [[http://en.opensuse.org/SDB:Linux_Apache_MySQL_PHP|Install a LAMP server on SUSE Linux]]
+  * [[http://fedorasolved.org/server-solutions/lamp-stack|Install a LAMP server on Fedora Linux]]
+  * [[http://jesseforrest.name/setup-a-production-centos-lamp-web-server/212|Install a LAMP server on CentOS Linux]]
+
+=== MAMP ===
+
+Mac OS has MAMP stack available. You can download it at the [[http://www.mamp.info/|MAMP official site]] and further documentation can be found [[http://documentation.mamp.info/en|here]]
+
+=== Running the AMP ===
+
+Once you have setup your flavour of AMP, all you need to do is start the server. Please refer to documentation of the package you installed on how to start the webserver. This is usually quite straightforward, although you may sometimes encounter some difficulty. If that is the case, it may be that a 3rd party software is conflicting with the ports that AMP uses. A common example is Skype which sometimes may use port 80 and conflict with Apache. In the Skype connection options, make sure to uncheck the using of port 80 or 443 so to avoid Apache conflict.
+
+This AMP stack is only one stack of out many. When you become a polyglot developer, you'll find yourself using all manners of stacks and different languages too.
+
+==== PHPMyAdmin ====
+
+PHPMyAdmin is web based graphical user interface for manipulating MySQL databases. It's an invaluable tool, the alternative of using GUIs would be managing the database using the command line and that isn't fun at all.
+
+PHPMyAdmin comes with the standard WAMP and MAMP stacks. PHPMyAdmin is essentially a web app, so installation is the same as running any web app on the AMP stack. Refer to [[http://wiki.phpmyadmin.net/pma/Quick_Install|PHPMyAdmin's wiki]] for installation instructions.
+
+==== Text Editor ====
+
+The text editor is the workhorse of software development, choosing a text editor is paramount for developer happiness. Polycademy recommends three types of text editors corresponding to their particular operating systems. All three editors are free, however Sublime is trialware without any limits.
+
+=== Notepad++ for Windows ===
 
 If you have had prior programming experience, you would have been acquainted with Notepad or Dreamweaver. These two software stand at the opposite extremes of code editors. Notepad is one of the most simplest no frills text editor in existence. On the other hand Dreamweaver is one of the most complex and full fledged IDE for web code editing. For Polycademy, we recommend using [[http://notepad-plus-plus.org/|Notepad++]], this is a lightweight (super fast) code editor that has just enough features to be usable for complex applications. It has numerous plugins to make it even more flexible. It is free to download at their website: http://notepad-plus-plus.org/
-
-It however has not been ported to Mac or Linux. There are free alternatives available such as [[http://www.geany.org/|Geany]] for Linux or [[http://www.barebones.com/products/textwrangler/|Text Wrangler]] for Mac.
-
-**Using Notepad++**
 
 Using the Notepad++ is simple. Just download the latest .exe installer and follow the prompts to finish the installation. Once installed, open it up. It should look similar to this:
 
@@ -113,95 +159,232 @@ It has some important features to take care of:
 
 Notepad++ has many features in which it would take an overly verbose manual to talk about it all, so just begin using it throughout the course and these features will eventually become evident.
 
-Note that the UTF-8 issue will come out later in the course with regards to text transmission.
+=== Geany for Linux ===
 
-===== Firebug =====
+[{{ :web_application_development:geany_main.png?200|Geany Main Screenshot}}]
 
-Usage of firebug is very important - EXPAND
-===== GitHub =====
+Geany is the closest thing to Notepad++ on Linux. You can download it from their [[http://www.geany.org/|official site]]. The same issues explained in the Notepad++ section regarding UTF-8 is present in Geany. Although because it is developed on Linux, utf-8 setting should be on by default. You can install it through the Linux package management system or manually.
 
-[[wp>Github]] is web service that allows developers to host their source code online using the Git [[wp>revision control system]]. This is essentially an ecosystem that allows us to collaboratively work on projects, while maintaining historical records of various changes in the code base. Revision control systems such as Git are industry practice, so learning how to use it will be very helpful. In order to utilise the Polycademy's account on Github, all our projects have to be open source while it is being developed as part of Polycademy's courses. We will be using Github and its associated software in class and out of class, there we have to learn how to install it on your local computer.
+=== Sublime for Mac ===
 
-**Installation**
+Sublime is a superb editor for web development. It has many features beyond Notepad++, and it is well designed keeping in line with the Mac tradition. It has a paid version but its trial version has no limits. You can download it from their [[http://www.sublimetext.com/|official site]].
 
-To start, go to Github's main website and signup to a free open source account. Once signed up, you'll receive a validate email message in your inbox, you can validate it later. Tell your teacher your username and we'll add you as a member of the Student Group at the Polycademy. We'll be creating repositories (code projects) for each team. By being part of the Polycademy organisation, this allows you to view and commit to your team's repository.
+==== Console or Terminal ====
 
-When we are in class, students will be organised into teams of 4 - 5. Each team works on a particular project. The project's name will be the repository's name. Tell your teacher your team/project's name, and we'll create the repository as part of Polycademy. Then we'll assign the team members to the repository.
+The console or terminal is an important tool for web developers. Many tools are only available through the command line. For Windows we'll be using Console 2 with Powershell to overlay the generic CMD in Windows. Linux already has a superior terminal so you can just used the normal one. Mac has their own terminal bundled in.
 
-To be able to use Github locally, we'll use Github's desktop GUI. There are currently two versions, one for [[http://mac.github.com/|Mac]] and one for [[http://windows.github.com/|Windows]]. These two software work roughly the same, the following instructions will apply to the Windows version.
+=== Console 2 with Powershell for Windows ===
 
-The Github installation installs a "Git Shell" and a "Github". Git is usually commanded with the command line, however for the sake of simplicity we'll focus on the GUI version which is just Github. Follow the prompts until you reach the main screen.
+[{{ :web_application_development:81523.jpg?200|Console2 Main Window}}]
 
-{{ :web_application_development:github_for_windows-screenshot.jpg |}}
+Console 2 is a powerful wrapper for Window's command line. It allows multiple sessions to be running and also makes it easier to read. Powershell is an extension to the standard command line, we can actually use Unix commands there. If you're using Windows 7, it's already bundled. If not, download powershll from the [[http://technet.microsoft.com/en-us/scriptcenter/dd742419.aspx|Microsoft Script Center]].
 
-**Setting up the Environment**
+After installing Powershell, make sure to remember where it's installed. If you don't know where it is, you can search for "powershell" in your start menu or file search. It will usually be located on ''C:\WINDOWS\system32\WindowsPowerShell\v1.0\powershell.exe''
 
-In web application development, code is hosted on servers. There will usually be two servers used for two different purposes. The first is your local development server, this is usually your own computer. The second is the production server, this will be the server that runs the application for your external users. For our case, Github will act as an intermediary development server between the your local development server and the production server. This is to allow a team of developers to work on a single project while still maintaining their own local file integrity. However we want to be able to synchronise the files between development server and Github so we don't have the manually upload files or code changes (which are known as "commits" in Git).
+Then download [[http://sourceforge.net/projects/console/|Console 2 from Sourceforge]]. You can put the extracted folder anywhere that is accessible.
 
-{{ :web_application_development:github_development_workflow.png |}}
+Launch Console 2 and go into settings. The first thing to do is bind the path to powershell.exe to the Shell option. The Startup directory is where your command line will locate its current working directory when you first launch the shell. Think of Powershell like the bash terminal in Cloud9, you're using Powershell to navigate through your directories and manipulate your computer.
 
-In order to this we need to first install AMP. Refer to the top to see how this is done. After installing AMP, the directory in which you execute your code should be either called "www" or "public_html". All the code that we write will be committed to this folder. In the main screen of Github's GUI select tools, then options. This will get you into the options menu. On the top right there should be a section titled "default storage directory". Make the following file path to match the file path that gets you into your "www" or "public_html" directory. You can click on the "..." button to navigate there. If you are on Windows, it should be "C:\wamp\www\". Note that you can if you want create a subdirectory called "polycademy_projects" inside that folder so you can separate your local projects from your Polycademy projects. Once this is done, click "update" on the bottom.
+Adjust the appearance options to suit yourself. Try enlarging the font and making the terminal semi-transparent. The most important feature is the Tabs settings. This is where you can create custom tabs to launch specific shells at specific directories. A common use would be to create one pointing to your WAMP's ''www'' directory. Note that you would leave the shell as the Powershell unless you were specifically launching an application that had terminal access. Another use would be launching into the MySQL terminal or MongoDB daemon plus terminal. For the purposes of PHP development, our main terminal use would be for Composer, however app development in other languages/environments such as Node or Ruby would make use of the terminal a lot more. Try playing around with the settings and you'll get used to it.
 
-Once this is done, go back to the main screen of Github GUI. At this point you should not have any repositories in your local or personal Github account. However you should have been added to this Polycademy organisation, so you should see a few Polycademy repositories. The team that you are working with will all see the same repositories. Your team name will be entered as your project. To begin using your repository, you need to clone it to your own local development server. Hover your mouse over the repository's name and click "CLONE". The program will download the repository to your computer.
+==== Connection Tools ====
 
-If you now open your "www" or "public_html" directory, you should see the project there. The code in that project folder is tracked by Github and you can see the status of any changes to it in your local repository section in the Github GUI.
+There are number of connection tools that developers use in order to connect to various services in order to upload, download or manipulate. These are the most common tools.
 
-**Using Branches**
+=== FTP ===
 
-Each repository will have multiple branches, branches are basically duplicates of the code base but with specific changes in them. This allows teams to separate what they consider production ready code to developing code to specific feature sets. Right now your repository only has one branch and this is the master branch. We need to create a develop branch and feature branches for your specific part of the project. To do this, go to the local repository list, open the repository in the GUI, then on the top middle there is a tab called "master". Click on it and a drop down menu should appear. You can create or change branches in this menu or you can go into the advanced "manage" panel. By typing a new branch into the FILTER OR CREATE NEW input you can then create the "develop" branch.
+Developers generally do not use FTP anymore since it's not very secure. However in order to connect to legacy systems, FTP is still required. FTP stands for File Transfer Protocol. It's very simple unsecured way of uploading and downloading files and directories. This used to be the go to tool for uploading websites and web applications.
 
-{{ :web_application_development:create_branch_github.jpg |}}
+We recommend using [[http://filezilla-project.org/|Filezilla]] as a cross platform and powerful FTP tool.
 
-The develop branch is where the most of the work will be merged between all the developers in the team. The master branch will be the production ready code. We will be creating new branches for whenever we need to create a feature set. Branches allow a project to be worked on in a distributed manner and we merge back the branches to develop then master when they are ready to run. Note that as you create branches in the Github GUI, they won't be published to the Github server. You need to click "publish" for that to happen. Branches are created on top of existing branches, so they can grow from a base branch. The develop branch should "branch off" the master branch, and the further feature set branches should "branch off" the develop branch. You will need to go into the "manage" panel in the branch menu to do that. (It's also used for merges) Now that you have multiple branches created, you can select your current branch your Github will track. This means that any changes to your code in your filesystem will only be recorded and committed into the currently selected branch. Make sure to keep track of this as you don't want to commit untested code to your master branch.
+=== SSH & SCP ===
 
-**Reverting Commits**
+SSH means secure shell access, it's a protocol for accessing the terminal shell of a remote computer. This is basically what you're doing with Cloud9's browser web based terminal. The implementation of SSH on your local computer depends on your OS. If you ever read about "Shell Access" or "SSH access" on web hosts, this is what they mean.
 
-But if you do commit a bad change, we can revert code easily. This is one of the greatest advantages of using a revision control system. To use this we must first understand how code changes are tracked by the Git software. Let's use the current develop branch that we just created. Assuming it is currently unpublished, then none of the changes will be committed to the Github server. Go into your project on your file system and create a text file with any code. Save it and then check the Github GUI. It should show that there are some "uncommitted changes". If you click on that it will show the list of uncommitted changes. It should show that there is a new text file and the contents of that text file. If you go back and change the file again, you will see the changes reflect in the uncommitted changes. Let's go ahead and commit those changes. Remember to check that your current branch is still on the develop branch that is unpublished. You should write a commit message describing what the point of the code change is for.
+  * [[http://www.chiark.greenend.org.uk/~sgtatham/putty/|Putty]] for Windows.
+  * [[http://support.suso.com/supki/SSH_Tutorial_for_Linux|Open SSH]] for Linux, chances are you already have this installed.
+  * [[http://apple.blogoverflow.com/2012/02/how-to-use-ssh-on-mac-os-x/|Open SSH]] for Mac, Mac bundles SSH.
 
-{{ :web_application_development:uncommitted_changes.jpg |}}
+There are more clients you can use, some of them are graphical and some of them are not, try googling for them when you need to use them. There are also other protocols, here's an [[http://geekswithblogs.net/bvamsi/archive/2006/03/23/73147.aspx|article from GeekswithBlogs]] explaining them.
 
-You will now see that there are no more uncommitted changes, but there is new unsynced commit. Clicking on the right will show you the recent committed code change. Let's say you didn't like that commit. Then right now you can either revert commit via Github GUI, or you can go into the file/folder and remove offending code/file via your explorer. It is better to linearly progress through your code (to get an accurate history) so try to remove it via your explorer (and give a reason) rather than through Github. Specific commits throughout your history can get reverted as well, so it doesn't have to be in order, however this may result in merge conflicts with other files so it's best to avoid trying that function.
+SCP means secure copy. This is basically similar to FTP but it's more secure. While we use SSH to access the shell, we can use the same address to use SCP.
 
-It is possible to rollback your commit. This means to rollback your unsynced commit to an uncommitted commit. All of these features are powerful however it is very easy to get into merge conflicts with historical revisionism. It also confuses your team members if you mess with public history. So it's best to just linearly progress through your coding and use the history not as administrative tool but as a historical tracking tool. If you do get into a grandfather paradox where you deleted the file not in sequence and did some reversions then some other changes, then you can resolve this by rolling back to the committed commit that caused all the problems.
+  * [[http://winscp.net/eng/index.php|WinSCP]] for Windows, it kind of looks like an FTP program. In fact it does the same thing.
+  * [[http://themediahost.de/secpanel/|SecPanel]] for Linux, its graphical for both SSH and SCP.
+  * [[http://cyberduck.ch/|CyberDuck]] for Mac.
 
-It is also possible to commit multiple code changes in multiple files at the same time. For the purposes of early development it is better to commit once per code change per page. Although you may get a messy unsynced commit history, you get a more precise history.
+=== Curl ===
 
-Now after you have committed all your code and you have created a working feature, it is time to sync it with Github server. Since our branch is currently unpublished, we cannot sync it. So first click publish and let Github GUI upload your develop branch to your project's repository. Once this is done, its status should show "in sync". Congratulations on committing then syncing to your first code change on Github! After the branch is published when you have committed commits, then click sync to sync them to the remote branch.
+Curl is a command line tool for transferring data with URL syntax with support for almost every protocol. Curl is multi-platform and chances are it's already installed if you're using Linux or Mac. For Windows, go to the [[http://curl.haxx.se/|Curl homepage]] and head to the Download page. Use the [[http://curl.haxx.se/dlwiz/|Curl Download Wizard]] to get the right edition for your operating system. Put the extracted folder in an easily accessible place such as the root of your drive. Check the [[Solution Stack#path_variable_editing|Path Variable Editing]] section for details on how to register ''curl'' as a global command on your terminal.
 
-**The Merge Workflow**
+=== Cloud Host CLI Tools ===
 
-Now we have two branches, develop and master. Currently the develop branch is more up to date than the master branch because we made some changes to the develop branch which was branching off master. If you switch your branch to master, you will see that no changes have taken place. If we consider that the develop branch is ready to be hosted for all of the world to see, we can then merge the code base into master. But hold your horses there are checks to do before doing this since we want to solve any possible merge conflicts and there could be new commits made to the develop branch on Github by other members of your team.
+Most cloud hosts provide their own command line utility to connect and tunnel into their web host's service. This was already demonstrated with the ''af'' tool from Appfog.
+==== Git Source Code Version Control ====
 
-Firstly create a new branch off develop and call it your own name's branch. This branch can be published as it allows you to use it over the internet. This is the branch you will use for your own development before pushing to the remote develop branch. Also note that any changes made to your code on your local computer has to be committed then synced before it is represented in the remote develop branch.
+As explained before Git is a version control system for your source code. It allows multiple developers to collaborate and commit to a single project while tracking all the changes. Go to the [[Web Application Development:Git]] page for explanation on the usage of Git and Github.
 
-Now let's assume that another team member also creates their own branch and soon you both are working on the same file. You enter some code that conflicts with your team mate's code. Your team mate commits their code change, then merges and syncs the develop branch. Essentially your team mat has submitted code that conflicts with your code before you. Now clear communication at this point should prevent any problems from arising. But let's further assume that your team mate did not inform you that they have submitted new code to the same file you're editing. Now when you try to merge with the develop branch, you will meet a merge conflict. Remember to merge the remote branch into your local branch first as you should always be keeping your local branch copy as up to date as possible.
+The easiest way to use Git on a local stack is to download the Github's clients. Github has created easy to use GUI clients for Windows and Mac. They did not create one for Linux as Linux already has many.
 
-No need to panic, it is a simple thing to sort out. Just click Abort Merge for now. Go to the offending file that is in conflict. There may be multiple files and a quick way to find out is to go to back to your Github screen for your current branch, it should show uncommited changes. Do not commit these changes, Github just put in markers in your files to indicate the conflicts. Go to these specific files in your filesystem and you should see:
+  * [[http://windows.github.com/|Github for Windows]]
+  * [[http://mac.github.com/|Github for Mac]]
+  * [[https://git.wiki.kernel.org/index.php/Interfaces,_frontends,_and_tools#Graphical_Interfaces|Git Clients for Linux]] - take your pick.
+  * [[http://mobile.github.com/|Github for Mobile]]
+==== Package Management ====
 
-<code>
-<<<<<<< HEAD
-Code that is in your current file
-=======
-Code that is in the conflicting file in the remote server
->>>>>>> origin/develop
-</code>
+[[wp>http://en.wikipedia.org/wiki/Package_management_system|Package management]] is important so we can reuse code written by ourselves and other people. It provides a standardised way of loading code libraries from third parties thus making this process easier and faster. Different language environments have different package managers.
 
-This allows you to choose which of these codes you want to keep. If you want to keep your team mates code, that is the code in the conflicting file in the remote server, then delete everything in the above except their code. Commit the change then try merging develop into your local branch. Remember to merge back into the develop branch to push your updates to the develop branch.
+  * PHP - [[http://getcomposer.org/|Composer]]
+  * Node - [[https://npmjs.org/|NPM]]
+  * Ruby - [[http://rubygems.org/|Gem]]
+  * Python - [[http://pypi.python.org/pypi/pip|pip]]
+  * Front End Development - [[http://yeoman.io/|Yeoman]], [[http://volojs.org/|Volo]], [[http://ender.jit.su/|Ender]], [[http://jamjs.org/|Jam]], [[http://twitter.github.com/bower/|Bower]]
+  * Windows - [[http://chocolatey.org/|Chocolatey]]
+  * Linux - [[http://wiki.debian.org/Aptitude|Aptitude]] or [[http://wiki.debian.org/Apt|APT]]
 
-If you want to keep your code, then delete everything in the above except your original code. If you go back to Github there should be no more uncommitted changes. You have not yet resolved your merge conflict, as far as Github is concerned, nothing has changed. Go back to the branch manage panel, and this time change the merge order. You can do this by clicking on the arrow symbol. This time you are merging local branch into develop branch. This time a merge conflict will appear again. Abort merge, then check the file. The file should show a similar code to the above but with the codes flipped over. Now just delete everything except your code (the code you keep should always be the one on the bottom), then commit and merge and merge back.
+Polycademy's current course focuses on PHP development, so you'll have to install Composer. If you are using Linux or Mac, you can install Composer the way they demonstrate on their [[http://getcomposer.org/doc/00-intro.md#globally|documentation]]. Be sure to install it globally. If you are installing on Windows, you can instead use the [[http://getcomposer.org/doc/00-intro.md#installation-windows|Windows installer]]. You could also install it using the Curl method and then edit the PATH variables to match.
 
-If you want to change and merge with a new code, then first do one of the above, then update it in your local branch and push the update to the develop branch.
+Once installed browse the [[https://packagist.org/|Packagist]] for PHP packages. If you are browsing Github repositories and you see a ''composer.json'' file, that means it's either part of the Composer package index or it's using Composer libraries. Refer to the Nettut's guide on [[http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/|Easy Package Management]] on using Composer.
+==== PATH Variable Editing ====
 
-Some tips to remember:
+PATH editing allows us to run command line executables globally. Editing PATH variables is not very user friendly on Windows, so we use a GUI tool called Redmond Path. On Linux/Mac it's somewhat easier but require bash scripting in order to have the paths set permanently. The other option is checking what paths already exist using ''echo $PATH'', and putting your executable in one of the appropriate paths.
 
-  - Remote -> Local merge for keeping remote code
-  - Local -> Remote merge for keeping local code.
-  - Merge forwards then merge backwards, only the receiving branch gets updated. Merges are not double way.
-  - Do not commit merge conflict edits done automatically by Github after a merge conflict.
-  - If you neither want local or remote, then keep one of them first before updating to a new one.
-  - Your commits should only contain one file, not multiple files. It makes it easier to deal with merge conflicts this way.
-  - Don't forget to sync the develop branch after you merged it. Nothing is represented on the remote Github until you do.
-  - If you screw up, just rollback on the offending commit.
-  - DO communicate with your team and have proper division of labour so you can avoid merge conflicts
-  - Always commit everything before you merge. Sync at the very end.
-  - Read this http://sethrobertson.github.com/GitBestPractices/ for more information on Git, it is really powerful tool!
+  * [[https://sites.google.com/site/redmondlab/path|Redmond Path Editor]] for Windows, use [[http://download.cnet.com/Redmond-Path/3000-2094_4-10811594.html|CNET]] to download this tool.
+  * [[http://www.cyberciti.biz/faq/unix-linux-adding-path/|Guide to Path Editing]] for Linux. To permanently add paths refer to this [[http://linuxconfig.org/permanently-add-a-directory-to-shell-path|Linux Config for Path Editing]].
+  * [[http://hathaway.cc/2008/06/how-to-edit-your-path-environment-variables-on-mac-os-x/|Path Editing]] for Mac.
+==== Front End Tools ====
+
+Our full stack course involves both the front end and back end. In order to develop for the front end, we still need these tools even if you decide to take the Cloud9 path.
+
+=== Browser ===
+
+First things first, I hope you have a browser! The two browsers that are suitable for development is [[https://www.google.com/intl/en/chrome/browser/|Chrome]] and [[http://http://www.mozilla.org/|Firefox]]. Firefox has been around for longer but Chrome has some bleeding edge features. Polycademy will be using Firefox mainly as it has more extensions catering to development.
+
+=== Front End Debugging ===
+
+[{{ :web_application_development:52717.png?200|Firebug Screenshot}}]
+
+For front end debugging, we need to use the [[https://getfirebug.com/|Firebug extension to Firefox]]. Chrome itself has an integrated [[https://developers.google.com/chrome-developer-tools/|Chrome Developer Tools]]. 
+
+Firebug provides an inspection mode allowing you to inspect the HTML, CSS markup, Javascript & DOM, and finally network logging data. This allows you to see how third party web sites are made on the front end.
+
+=== Other Extensions ===
+
+Here are some other Firefox extensions that are helpful when developing:
+
+  * [[https://addons.mozilla.org/en-US/firefox/addon/web-developer/|Web Developer Extension]] - useful for cookies and manipulating different header options for accessing websites.
+  * [[https://addons.mozilla.org/en-US/firefox/addon/fireshot/|Fireshot]] - useful for taking screenshots of web pages and creating pdfs.
+  * [[http://www.colorzilla.com/|Colorzilla]] - useful for taking colour samples from web pages.
+  * [[https://addons.mozilla.org/en-us/firefox/addon/firesizer/|Firesizer]] - useful for resizing your browser to specific widths and heights to test out different display resolutions.
+  * [[http://www.firephp.org/|FirePHP]] - this integrates into Firebug, it allows you to log messages from PHP to the Firebug console, useful for PHP debugging.
+==== Productivity Tools ====
+
+Here are some productivity apps that Polycademy recommends. These are useful for collaboration and knowledge management.
+
+  * [[http://www.launchy.net/|Launchy]] - quick launch apps from desktop
+  * [[http://www.xmind.net/|Xmind]] - best mind mapping software
+  * [[https://www.dropbox.com/|Dropbox]] - share files with your team mates
+  * [[http://http://www.teamviewer.com/|Teamviewer]] - remote desktop and presentations
+  * [[http://evernote.com/|Evernote]] - keep track of your ideas
+  * [[http://s3browser.com/|S3 Browser]] - graphically browse Amazon S3 storage
+===== Media Stack =====
+
+As a web designer we need a couple multimedia tools to create graphics, video and audio. Web design isn't fine art, most of times we're creating simple gradients. It's the composition of different elements that is important. That being said, professional designers user professional software.
+
+=== Adobe Photoshop ===
+
+The king of graphics editing. We will be learning how to use [[wp>Photoshop|Photoshop]] to create website mockups. Photoshop is required to create the simplest of graphics to the most complicated digital art paintings. Although Photoshop is expensive to buy outright, Adobe currently offers [[https://creative.adobe.com/|Creative Cloud]] service allowing you to use Adobe applications on a monthly fee.
+
+=== Audio Editing ===
+
+We won't be doing much audio editing, but if you need audio conversion, you won't go wrong with [[http://www.erightsoft.com/SUPER.html|SUPER]].
+
+=== Video Editing ===
+
+Video editing is best done with 4 tools. They are [[http://www.videolan.org/|VLC player]], [[http://www.virtualdub.org/|Virtual Dub]], [[http://camstudio.org/|Camstudio]] and [[http://www.adobe.com/products/premiere.html|Adobe Premiere Pro]].
+===== Testing Stack =====
+
+==== Browser Testing ====
+
+In a perfect world, we could just develop our application for one modern browser, and it would work for all browsers. Unfortunately this isn't true. We need to manually test the layout and front end dynamic functionality through all available browsers.
+
+We have to make a balance between the effort required to make cross-platform and backwards compatibility and the rewards gained from doing so. Therefore Polycademy suggests you to test your web app for the latest versions of Chrome, Safari, Firefox, Opera and IE > 8. If your web app/site is catering to enterprise users, you'll need to cater to IE > 7. The broader you cater your web app, the less advanced technologies you'll need to use, and the greater the amount of hacks or [[http://alistapart.com/article/understandingprogressiveenhancement|progressive enhancement methods]] are required.
+
+To test for all browsers you'll need to download all the latest browsers from their official page. However to run multiple generations of IE, you'll need to use [[http://www.my-debugbar.com/wiki/IETester/HomePage|IETester on Windows]].
+
+If you are using Mac or Linux, try [[http://browsershots.org/|Browsershots]] or [[https://browserlab.adobe.com/en-us/index.html|Adobe Browser Lab]] or [[https://browserling.com/|Browserling]] 
+
+==== Unit Testing ====
+
+=== TDD & BDD ===
+
+PHPUnit - Test Driven Development
+[[http://behat.org/|Behat]] - Behaviour Driven Development
+USE BEHAT instead of PHPUnit - refer to
+
+http://techportal.inviqa.com/2011/07/27/behaviour-driven-development-in-php-with-behat/
+
+http://www.littlehart.net/atthekeyboard/2012/02/26/simple-api-testing-with-behat/
+
+http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/
+
+BDD is TDD done right.
+
+Just show installation, no coding!
+
+=== JS Unit Testing ===
+
+Jasmine
+
+=== Acceptance Testing ===
+
+[[http://mink.behat.org/|Mink]] allows headless browser testing!
+
+===== Build Stack =====
+
+==== Code Quality ====
+
+Early on in development, we want to make sure we're using the correct syntax for our HTML and CSS. We can make use of W3's [[http://validator.w3.org/|HTML validator]] and [[http://jigsaw.w3.org/css-validator/|CSS validator]]. As you continue developing you'll make less mistakes and may have to take advantage of advanced syntax which may not validate so you'll discontinue using it.
+
+For Javascript, we'll be using the [[http://www.jshint.com/|JSHint utility]] to keep us writing quality Javascript. JSHint can be integrated into Nodepad++ allowing you to automatically lint your Javascript code. Just look into the extensions plugin. JSHint is also automatically integrated into Cloud9's editor, so it'll tell you when you're writing bad code.
+
+Although PHP has [[http://pear.php.net/package/PHP_CodeSniffer|code sniffer quality tool]] as well, it's a bit of an overkill, and is not required as long as you adhere to standards set in your team.
+==== CSS Preprocessors ====
+
+CSS is the styling language for HTML documents. However it isn't very powerful because it's not a programming language, it has no support for variables or functions.
+
+[{{ :web_application_development:app-windows.png?200|Simpless Main Window}}]
+
+Enter the CSS preprocessors. There are three types currently and they all augment the power of CSS by using DSL (domain specific language). These DSLs are usually cut down versions of CSS in order to reduce the verbosity of standard CSS, but at the same time add in support for variables, scoping and functions. They are then compiled into standard CSS using their specific compiler.
+
+The three that are popularly used are [[http://lesscss.org/|LESS]], [[http://sass-lang.com/|SASS]] and [[http://learnboost.github.com/stylus/|Stylus]]. SASS is popular among the Ruby crowd, and Stylus is popular among the Node crowd. LESS is the most simple to use, and this is the one Polycademy will be teaching.
+
+The best GUI tool to use on the local stack would be [[http://wearekiss.com/simpless|Simpless]]. It is cross platform and watches your LESS styles for changes and automatically compiles them into CSS when you save.
+
+When we get to [[Web Design]], we'll start by writing some basic CSS, but quickly move on to using LESS, because it's far more powerful.
+
+==== Phing PHP Build System ====
+
+As you've got to this point in the course, I'm sure you noticed that a developer's workflow is indeed complex and sometimes tiring. There are so many commands and so many tools, that it's very easy to make a mistake forgetting a command or workflow step.
+
+Fortunately we have automated build systems to automate our workflow. These software stacks essentially do all the compiling, concatenating, minifying, preprocessing and testing all in one go.
+
+[[http://www.phing.info/|Phing is a PHP based build system]]. There are others, but this is the one most suitable for PHP development. Phing can be installed locally, but as it is a command line app, it can also be installed and used in Cloud9 through Composer.
+
+**VIDEO DEMONSTRATE INSTALL** OF PHING through composer. THIS VIDEO will demonstrate the USAGE OF COMPOSER TOO. Using composer dependencies. Oh and Composer can add binaries too. So you may need to add the bin folder to the PATH variables. But you need to see where this will be done... lol.
+
+=== Phing Automation ===
+
+Phing can automate:
+
+  * LESS compiling, concatenating and minifying.
+  * Javascript compiling, concatenating and minifying (using UglifyJs)
+  * Database migrations - Databases often need to be migrated from one development environment to another. This can be done manually via exporting and importing SQL, however we can automate this using Phing. This will be demonstrated later.
+  * Run unit tests - We can use Phing to run our TDD and BDD tests.
+
+**VIDEO SHOWING PHING AUTOMATION with LESS and Javascript.**
+===== Production Stack =====
+
+Polycademy recommends using [[https://www.appfog.com/|Appfog]] for hosting your MVP. If you need self-hosted uploading/read/write capabilities then it is better to choose [[https://pagodabox.com/|Pagodabox]]. If you are running a polyglot app, it's better to use [[https://www.dotcloud.com/|dotCloud]]. All three cloud hosting services offer free cloud instances. They are suitable for development and production!
+
+To start using Appfog, create an account on Appfog, setup an app, and then install the command line utility. Use [[https://docs.appfog.com/getting-started/af-cli|Appfog's CLI docs]] and experiment pushing your current directory to Appfog's instance.
