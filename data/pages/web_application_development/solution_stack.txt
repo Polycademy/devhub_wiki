@@ -55,12 +55,13 @@ Different operating systems have different command line commands. Fortunately Cl
 As we install and use more tools, we'll be utilising more command line tools and referencing specific documentation, but this section will show the most used commands.
 
   * [[wp>cd (command)|Change Directory]] - ''cd'' is used to move between folders and directories. When used on Windows without any arguments, it actually displays the current working directory.
-  * [[wp>ls|List Files]] - ''ls'' is used to list the files and folders in the current directory. The Windows equivalent is ''dir''.
+  * [[wp>ls|List Files]] - ''ls'' is used to list the files and folders in the current directory. The Windows equivalent is ''dir''. To show hidden files ''.hidden'' in Linux use ''ls -a'', to show hidden files on Windows use ''dir /a''.
   * [[wp>Working directory|Present Working Directory]] - ''cwd'' or ''cd'' is used to show the current working directory's absolute path.
   * [[wp>file (command)|File Type]] - ''file'' is used to show the file or folder type.
   * [[wp>mv|Move Files]] - ''mv'' - is used to move files or folders from one path to another path. It is also possible to rename files using this command by moving the file to its current directory with a different name.
   * [[wp>cp (Unix)|Copy Files]] - ''cp'' is used to copy files and directories.
   * [[wp>rm (Unix)|Remove files]] - ''rm'' is used to remove files or directories.
+  * [[wp>Vim (text editor)|Vim]] - ''vim'' is used to edit text files from the command line. When first entering a file, it will enter "command" mode. Press ''i'' to enter "input" mode. You can then edit the text. Once finished, hit "esc" to go back to "command" mode. Then hit ":wq" to write and exit. Refer to [[http://www.tuxfiles.org/linuxhelp/vimcheat.html|Vim cheat sheet]] for more commands.
   * [[http://git-scm.com/docs|Git Usage]] - ''git'' is used to run [[Web Application Development:Git]] commands.
   * [[http://curl.haxx.se/docs/manual.html|Curl Usage]] - ''curl'' is used to download files or folders over the internet. Here's a good tutorial to CURL.((http://quickleft.com/blog/command-line-tutorials-curl))
   * [[http://www.gnu.org/software/wget/manual/wget.html|Wget Usage]] - ''wget'' is used to also download files and folders over the internet.
@@ -245,6 +246,10 @@ The easiest way to use Git on a local stack is to download the Github's clients.
 Polycademy's current course focuses on PHP development, so you'll have to install Composer. If you are using Linux or Mac, you can install Composer the way they demonstrate on their [[http://getcomposer.org/doc/00-intro.md#globally|documentation]]. Be sure to install it globally. If you are installing on Windows, you can instead use the [[http://getcomposer.org/doc/00-intro.md#installation-windows|Windows installer]]. You could also install it using the Curl method and then edit the PATH variables to match.
 
 Once installed browse the [[https://packagist.org/|Packagist]] for PHP packages. If you are browsing Github repositories and you see a ''composer.json'' file, that means it's either part of the Composer package index or it's using Composer libraries. Refer to the Nettut's guide on [[http://net.tutsplus.com/tutorials/php/easy-package-management-with-composer/|Easy Package Management]] on using Composer.
+
+One thing to note is that when using Composer with Github, [[http://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md|don't commit your third party packages to Github]]. The reasons are mainly three fold, first there'll be a lot of files to commit when you're using many depedencies, secondly the git version history of those packages will be added to your own (cluttering up all your history) and thirdly they'll be recognised as a git submodule. This is problematic as they are not real git submodules. So it's important to add your vendor directory to your ''.gitignore'' file so that git will ignore it when committing. This is demonstrated in the [[Git]] page.
+
+Composer itself can [[http://getcomposer.org/doc/articles/vendor-binaries.md|install vendor binaries]] that can be executed from the command line. In order for this to work, the binary file path needs to be added the PATH variables. This will allow packages that have command line utilities to be used easily. This will demonstrated below.
 ==== PATH Variable Editing ====
 
 PATH editing allows us to run command line executables globally. Editing PATH variables is not very user friendly on Windows, so we use a GUI tool called Redmond Path. On Linux/Mac it's somewhat easier but require bash scripting in order to have the paths set permanently. The other option is checking what paths already exist using ''echo $PATH'', and putting your executable in one of the appropriate paths.
@@ -252,6 +257,15 @@ PATH editing allows us to run command line executables globally. Editing PATH va
   * [[https://sites.google.com/site/redmondlab/path|Redmond Path Editor]] for Windows, use [[http://download.cnet.com/Redmond-Path/3000-2094_4-10811594.html|CNET]] to download this tool.
   * [[http://www.cyberciti.biz/faq/unix-linux-adding-path/|Guide to Path Editing]] for Linux. To permanently add paths refer to this [[http://linuxconfig.org/permanently-add-a-directory-to-shell-path|Linux Config for Path Editing]].
   * [[http://hathaway.cc/2008/06/how-to-edit-your-path-environment-variables-on-mac-os-x/|Path Editing]] for Mac.
+
+The Redmond Path utility adds PATHs permanently to your computer. If you decide to remove Composer or move it around, make sure to remove the designated PATH, this is because having too many PATHs will be difficult to manage where your executable is coming from.
+
+For Linux and Mac systems, to permanently add PATH variables you require to edit the ''.bashrc'' file in your home (~) directory. The ''.bashrc'' file is a text file of commands that are ran to setup environmental variables every time you launch your Bash terminal. Most terminals on Linux and Mac systems are Bash terminals. You need to navigate to your home folder, use ''ls -a'' to find ''.bashrc'' which is a hidden file. Open it up with ''vim'', and add a line like ''PATH=$PATH:path/to/binary/folder''.
+
+For example if your composer binaries were installed in ''~/www/bin/'', you would use ''PATH=$PATH:~/www/bin''. Close and reopen your terminal and use ''echo $PATH''. You should see the resolved path of ''~/www/bin'' at the end. Note that the above instructions work in Cloud9 too.
+
+When we start to use build tools installed by composer, you'll see this in action.
+
 ==== Front End Tools ====
 
 Our full stack course involves both the front end and back end. In order to develop for the front end, we still need these tools even if you decide to take the Cloud9 path.
@@ -318,28 +332,43 @@ If you are using Mac or Linux, try [[http://browsershots.org/|Browsershots]] or 
 
 === TDD & BDD ===
 
-PHPUnit - Test Driven Development
-[[http://behat.org/|Behat]] - Behaviour Driven Development
-USE BEHAT instead of PHPUnit - refer to
+[[wp>Test-driven development|Test-driven development]] (TDD) is a software development process that relies on the repetition of a very short development cycle: first the developer writes an (initially failing) automated test case that defines a desired improvement or new function, then produces the minimum amount of code to pass that test, and finally refactors the new code to acceptable standards. Creating tests like this improves code quality and forces us to think about the requirements of any new feature and also how one would break it. It also emphasises that the developer creates lowly coupled modularised code that can run as independent units. This matches well to our component map in the [[Vision and Plan]] and also enhances maintainability.
 
-http://techportal.inviqa.com/2011/07/27/behaviour-driven-development-in-php-with-behat/
+[[wp>Behavior-driven development|Behaviour-driven development]] (BDD) is essentially TDD done right. BDD was developed by Dan North because developers often asked these questions when told to implement TDD:
 
-http://www.littlehart.net/atthekeyboard/2012/02/26/simple-api-testing-with-behat/
+  * Where to start in the process?
+  * What to test and what not to test?
+  * How much to test in one go?
+  * What to call the tests?
+  * How to understand why a test fails?
 
-http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/
+BDD tests are written in natural language. It starts with a user story: "As a [role] I want [feature] so that [benefit]". This is turned into a scenario that satisfies the user story: "Given [initial context], when [event occurs], then [ensure some outcomes]". Behavior-driven development specifies that tests of any unit of software should be specified in terms of the desired behavior of the unit. Borrowing from agile software development the "desired behavior" in this case consists of the requirements set by the business - that is, the desired behavior that has business value for whatever entity commissioned the software unit under construction. Within BDD practice, this is referred to as BDD being an "outside-in" activity. [[http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/|Matt Wynne further elaborates on the difference between BDD and TDD]].
 
-BDD is TDD done right.
+One of the great things of TDD/BDD is the fact that you can create a suite of tests that are ran everytime you commit new code or update a dependency. When your project gets larger (and your team gets larger), testing everything manually gets tiring and there could backwads compatibility problems and tight coupling (path dependency) problems that won't notice. By running these tests, you'll get code coverage reports and instantly know if your project is working or not and what changes you have to make through which test(s) failed.
 
-Just show installation, no coding!
+The most commonly used TDD software for PHP is called [[https://github.com/sebastianbergmann/phpunit/|PHPUnit]]. Since we want to skip ahead to something better, Polycademy suggests using [[http://behat.org/|Behat]] as our primary BDD testing stack.
+
+Behat by itself can test multiple types of applications. However in order test web applications, it requires also the installation of the Mink extension to Behat. Mink itself simply abstracts headless browser drivers,  so it requires either Sahi, Goutte or PhantomJS. You read more about them in the [[Solution Stack#acceptance_testing|Acceptance Testing Section]].
+
+{{ youtube>kB_RsoW_4Fg?large }}
 
 === JS Unit Testing ===
 
-Jasmine
+There are many other testing frameworks available for different languages and environments. Front end development with javascript has a few well used frameworks for unit testing. [[http://pivotal.github.com/jasmine/|Jasmine]] is the main BDD framework for front end javascript. Jasmine is not tied to any particular environment, it can run anywhere there is a browser, so you run your tests via the browser.
+
+Depending on the complexity of your project, your application may be more back-end heavy, or client-side heavy, or both. This will dictate where we spend most of our time. If your app doesn't use too much javascript and just involves basic jQuery scripting, there's not much reward from using Jasmine. However it is worth learning as the web development world moves more into front end development, single page apps and javascript dominance. Refer to this [[http://net.tutsplus.com/tutorials/javascript-ajax/testing-your-javascript-with-jasmine/|Nettuts tutorial on using Jasmine]].
+
+Jasmine can be integrated into Phing but will require setup with a headless browser such as [[http://phantomjs.org/|PhantomJS]]. This would require integration into [[http://ryangrenz.com/2011/05/30/experiments-with-behat-part1-mink-sahi-phantomjs/|Mink and Sahi]] to trigger the tests. This will get overly complicated, so it's best to leave that to when you're more acquainted with web development.
+
+Back end javascript involving Node.js should instead use [[http://net.tutsplus.com/tutorials/javascript-ajax/better-coffeescript-testing-with-mocha/|Mocha and Chai]].
 
 === Acceptance Testing ===
 
-[[http://mink.behat.org/|Mink]] allows headless browser testing!
+The problem with unit tests, is that they test units, they can't test the integration between different software units unless you add an extra unit abstracting multiple child units. The ultimate abstraction is the web browser, the tool that your customers will be interfacing with. This is where unit tests fail, since you cannot compartmentalise browser interactions. However you can do acceptance testing with headless browsers.
 
+Behat also includes the [[http://mink.behat.org/|Mink driver]], which can use with Goutte, Sahi or PhantomJS. This [[http://mink.behat.org/#understanding-the-mink|Mink section]] explains the difference between all these tools.
+
+Follow the instructions on Behat's [[http://docs.behat.org/cookbook/behat_and_mink.html|Mink integration documentation]] to install and run Mink with Behat.
 ===== Build Stack =====
 
 ==== Code Quality ====
@@ -365,13 +394,13 @@ When we get to [[Web Design]], we'll start by writing some basic CSS, but quickl
 
 ==== Phing PHP Build System ====
 
-As you've got to this point in the course, I'm sure you noticed that a developer's workflow is indeed complex and sometimes tiring. There are so many commands and so many tools, that it's very easy to make a mistake forgetting a command or workflow step.
+As you've got to this point in the course, I'm sure you noticed that a [[http://www.slideshare.net/michieltcs/building-and-deploying-php-applications-with-phing|developer's workflow]] is indeed complex and sometimes tiring. There are so many commands and so many tools, that it's very easy to make a mistake forgetting a command or workflow step.
 
 Fortunately we have automated build systems to automate our workflow. These software stacks essentially do all the compiling, concatenating, minifying, preprocessing and testing all in one go.
 
 [[http://www.phing.info/|Phing is a PHP based build system]]. There are others, but this is the one most suitable for PHP development. Phing can be installed locally, but as it is a command line app, it can also be installed and used in Cloud9 through Composer.
 
-**VIDEO DEMONSTRATE INSTALL** OF PHING through composer. THIS VIDEO will demonstrate the USAGE OF COMPOSER TOO. Using composer dependencies. Oh and Composer can add binaries too. So you may need to add the bin folder to the PATH variables. But you need to see where this will be done... lol.
+{{ youtube>QlpzwcLY0sI?large }}
 
 === Phing Automation ===
 
@@ -381,8 +410,9 @@ Phing can automate:
   * Javascript compiling, concatenating and minifying (using UglifyJs)
   * Database migrations - Databases often need to be migrated from one development environment to another. This can be done manually via exporting and importing SQL, however we can automate this using Phing. This will be demonstrated later.
   * Run unit tests - We can use Phing to run our TDD and BDD tests.
+  * Run Composer to update dependencies.
 
-**VIDEO SHOWING PHING AUTOMATION with LESS and Javascript.**
+Phing has a [[http://www.phing.info/docs/guide/stable/|comprehensive user guide]] talking about how Phing should be setup. We'll look into the specifics of setting up our ''build.xml'' for Phing parsing later in the course. But it's important that you have it installed. If you want explore further check out this [[http://net.tutsplus.com/tutorials/tools-and-tips/how-to-use-the-nettuts-phing-build-script/|video on getting started with Phing]].
 ===== Production Stack =====
 
 Polycademy recommends using [[https://www.appfog.com/|Appfog]] for hosting your MVP. If you need self-hosted uploading/read/write capabilities then it is better to choose [[https://pagodabox.com/|Pagodabox]]. If you are running a polyglot app, it's better to use [[https://www.dotcloud.com/|dotCloud]]. All three cloud hosting services offer free cloud instances. They are suitable for development and production!

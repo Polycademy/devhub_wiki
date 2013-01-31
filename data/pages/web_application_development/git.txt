@@ -2,6 +2,13 @@
 
 Explanation of git!
 
+Add in [[https://help.github.com/articles/ignoring-files|.gitignore explanation]], and the adding of directories.
+
+To ignore specific files at current directory: ''/example.php''.
+To ignore wildcard of extensions: ''*.php''.
+To ignore directories: ''folder/to/my/directory/*''
+
+A good example of ''.gitignores''. Here https://github.com/github/gitignore
 ===== GitHub =====
 
 [[wp>Github]] is web service that allows developers to host their source code online using the Git [[wp>revision control system]]. This is essentially an ecosystem that allows us to collaboratively work on projects, while maintaining historical records of various changes in the code base. Revision control systems such as Git are industry practice, so learning how to use it will be very helpful. In order to utilise the Polycademy's account on Github, all our projects have to be open source while it is being developed as part of Polycademy's courses. We will be using Github and its associated software in class and out of class, there we have to learn how to install it on your local computer.
