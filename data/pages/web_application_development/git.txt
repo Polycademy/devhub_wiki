@@ -1,33 +1,28 @@
 ====== Git ======
 
-Explanation of git!
+Git is distributed version control system (VCS). It is used by developers to collaborate, share and keep track of code contributions. It's invaluable for software development teams. Other kinds of VCS exist as Subversion or Mercurial, but Git is the only one that is distributed. Git's not only useful for software development, it's also been used by the German government to keep track of political bills. At its core, it's simply a version history tracker of text files, this gives it a lot of flexibility and further applications include keeping track and collaborating on writing novels, keeping track and collaborating on scientific experiments. Git is also useful for designers to keep track of the evolution of their designs. In fact there's a couple startups focusing on bringing the concept and practice of VCS to non-software developers.
 
-Add in [[https://help.github.com/articles/ignoring-files|.gitignore explanation]], and the adding of directories.
-
-To ignore specific files at current directory: ''/example.php''.
-To ignore wildcard of extensions: ''*.php''.
-To ignore directories: ''folder/to/my/directory/*''
-
-A good example of ''.gitignores''. Here https://github.com/github/gitignore
 ===== GitHub =====
 
-[[wp>Github]] is web service that allows developers to host their source code online using the Git [[wp>revision control system]]. This is essentially an ecosystem that allows us to collaboratively work on projects, while maintaining historical records of various changes in the code base. Revision control systems such as Git are industry practice, so learning how to use it will be very helpful. In order to utilise the Polycademy's account on Github, all our projects have to be open source while it is being developed as part of Polycademy's courses. We will be using Github and its associated software in class and out of class, there we have to learn how to install it on your local computer.
+[[wp>Github]] is web service that allows developers to host their source code online using the Git [[wp>revision control system]]. Github provided very user friendly web based front-end to Git, which is normally a command line tool. We will be using Github and its associated software in class and out of class, there we have to learn how to install it on your local computer.
 
-**Installation**
+==== Installation ====
 
-To start, go to Github's main website and signup to a free open source account. Once signed up, you'll receive a validate email message in your inbox, you can validate it later. Tell your teacher your username and we'll add you as a member of the Student Group at the Polycademy. We'll be creating repositories (code projects) for each team. By being part of the Polycademy organisation, this allows you to view and commit to your team's repository.
+To begin, go to Github's main website and signup to a free open source account. Once signed up, you'll receive a validate email message in your inbox, you can validate it later.
 
-When we are in class, students will be organised into teams of 4 - 5. Each team works on a particular project. The project's name will be the repository's name. Tell your teacher your team/project's name, and we'll create the repository as part of Polycademy. Then we'll assign the team members to the repository.
+[{{ :web_application_development:github_for_windows-screenshot.jpg?200|Main Window of the Windows Github Client}}]
 
-To be able to use Github locally, we'll use Github's desktop GUI. There are currently two versions, one for [[http://mac.github.com/|Mac]] and one for [[http://windows.github.com/|Windows]]. These two software work roughly the same, the following instructions will apply to the Windows version.
+Now at this point we can create a new repository via Github's GUI. This should be done if you're intending to use Github with the [[Solution Stack#cloud_stack|Cloud Stack]]. You then need to connect your Github repository to the Cloud Stack's git client. Refer to the Cloud Stack documentation as to how you're meant to connect them both. Make sure to pick a good name for your repository. It should represent your project's name. If you instead are using the local stack, then don't create a repository just yet. It's easier to download a Github's GUI client and open up a repository and then synchronise to Github. If you're intending to use Github locally and on the Cloud, then this is the route you should take too.
 
-The Github installation installs a "Git Shell" and a "Github". Git is usually commanded with the command line, however for the sake of simplicity we'll focus on the GUI version which is just Github. Follow the prompts until you reach the main screen.
+Github provides 2 desktop GUIs. There is one for [[http://windows.github.com/|Windows]] and one for [[http://mac.github.com/|Mac]]. Linux already has many git clients, you can take your pick here **(URL)**. All git software works roughly the same, so the below instructions will be biased towards the Windows Github client, but play around with the other clients and it should work.
 
-{{ :web_application_development:github_for_windows-screenshot.jpg |}}
+The Github installation installs a "Git Shell" and a "Github". We'll be using both the GUI and the command line to work with Git. The GUI makes some things simpler, but the command line gives you more options and information as to what is happening.
 
-**Setting up the Environment**
+==== Setting up the Environment ====
 
 In web application development, code is hosted on servers. There will usually be two servers used for two different purposes. The first is your local development server, this is usually your own computer. The second is the production server, this will be the server that runs the application for your external users. For our case, Github will act as an intermediary development server between the your local development server and the production server. This is to allow a team of developers to work on a single project while still maintaining their own local file integrity. However we want to be able to synchronise the files between development server and Github so we don't have the manually upload files or code changes (which are known as "commits" in Git).
+
+If you're working on the Cloud Stack, then the cloud IDE would be our local development server. Or it could be your second development server. Using Git allows you to have multiple independent development servers which can have their own version of the project, all working independently and yet can come together to merge when its time to deploy. This is the meaning of git's //distributed// version control system.
 
 {{ :web_application_development:github_development_workflow.png |}}
 
@@ -37,7 +32,30 @@ Once this is done, go back to the main screen of Github GUI. At this point you s
 
 If you now open your "www" or "public_html" directory, you should see the project there. The code in that project folder is tracked by Github and you can see the status of any changes to it in your local repository section in the Github GUI.
 
-**Using Branches**
+===== Basic Usage =====
+
+TALK ABOUT STANDARD COMMANDS
+
+git add . (filename)
+
+git commit -m 'message'
+
+git push (remote branchname) (git push origin master)
+
+git status
+
+git pull
+
+git fetch
+
+git remote
+
+git add remote ssh-url
+
+git checkout (branches)
+
+Always pull before pushing (when the remote repo is more updated than your repo). Always communicate. When in teams, never work on the same file simultaneously. Constant communication between team members is paramount to avoid "merge conflicts". To resolve merge conflicts, see the Merge workflow.
+===== Using Branches ======
 
 Each repository will have multiple branches, branches are basically duplicates of the code base but with specific changes in them. This allows teams to separate what they consider production ready code to developing code to specific feature sets. Right now your repository only has one branch and this is the master branch. We need to create a develop branch and feature branches for your specific part of the project. To do this, go to the local repository list, open the repository in the GUI, then on the top middle there is a tab called "master". Click on it and a drop down menu should appear. You can create or change branches in this menu or you can go into the advanced "manage" panel. By typing a new branch into the FILTER OR CREATE NEW input you can then create the "develop" branch.
 
@@ -45,7 +63,7 @@ Each repository will have multiple branches, branches are basically duplicates o
 
 The develop branch is where the most of the work will be merged between all the developers in the team. The master branch will be the production ready code. We will be creating new branches for whenever we need to create a feature set. Branches allow a project to be worked on in a distributed manner and we merge back the branches to develop then master when they are ready to run. Note that as you create branches in the Github GUI, they won't be published to the Github server. You need to click "publish" for that to happen. Branches are created on top of existing branches, so they can grow from a base branch. The develop branch should "branch off" the master branch, and the further feature set branches should "branch off" the develop branch. You will need to go into the "manage" panel in the branch menu to do that. (It's also used for merges) Now that you have multiple branches created, you can select your current branch your Github will track. This means that any changes to your code in your filesystem will only be recorded and committed into the currently selected branch. Make sure to keep track of this as you don't want to commit untested code to your master branch.
 
-**Reverting Commits**
+===== Reverting Commits =====
 
 But if you do commit a bad change, we can revert code easily. This is one of the greatest advantages of using a revision control system. To use this we must first understand how code changes are tracked by the Git software. Let's use the current develop branch that we just created. Assuming it is currently unpublished, then none of the changes will be committed to the Github server. Go into your project on your file system and create a text file with any code. Save it and then check the Github GUI. It should show that there are some "uncommitted changes". If you click on that it will show the list of uncommitted changes. It should show that there is a new text file and the contents of that text file. If you go back and change the file again, you will see the changes reflect in the uncommitted changes. Let's go ahead and commit those changes. Remember to check that your current branch is still on the develop branch that is unpublished. You should write a commit message describing what the point of the code change is for.
 
@@ -59,7 +77,7 @@ It is also possible to commit multiple code changes in multiple files at the sam
 
 Now after you have committed all your code and you have created a working feature, it is time to sync it with Github server. Since our branch is currently unpublished, we cannot sync it. So first click publish and let Github GUI upload your develop branch to your project's repository. Once this is done, its status should show "in sync". Congratulations on committing then syncing to your first code change on Github! After the branch is published when you have committed commits, then click sync to sync them to the remote branch.
 
-**The Merge Workflow**
+===== The Merge Workflow =====
 
 Now we have two branches, develop and master. Currently the develop branch is more up to date than the master branch because we made some changes to the develop branch which was branching off master. If you switch your branch to master, you will see that no changes have taken place. If we consider that the develop branch is ready to be hosted for all of the world to see, we can then merge the code base into master. But hold your horses there are checks to do before doing this since we want to solve any possible merge conflicts and there could be new commits made to the develop branch on Github by other members of your team.
 
@@ -96,3 +114,17 @@ Some tips to remember:
   - DO communicate with your team and have proper division of labour so you can avoid merge conflicts
   - Always commit everything before you merge. Sync at the very end.
   - Read this http://sethrobertson.github.com/GitBestPractices/ for more information on Git, it is really powerful tool!
+
+===== Gitignore =====
+
+Add in [[https://help.github.com/articles/ignoring-files|.gitignore explanation]], and the adding of directories.
+
+To ignore specific files at current directory: ''/example.php''.
+To ignore wildcard of extensions: ''*.php''.
+To ignore directories: ''folder/to/my/directory/*''
+
+A good example of ''.gitignores''. Here https://github.com/github/gitignore
+
+===== Advanced Git =====
+
+Refer to git scm documentation for areas of exploration.
