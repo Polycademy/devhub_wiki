@@ -14,7 +14,7 @@ To begin, go to Github's main website and signup to a free open source account. 
 
 Now at this point we can create a new repository via Github's GUI. This should be done if you're intending to use Github with the [[Solution Stack#cloud_stack|Cloud Stack]]. You then need to connect your Github repository to the Cloud Stack's git client. Refer to the Cloud Stack documentation as to how you're meant to connect them both. Make sure to pick a good name for your repository. It should represent your project's name. If you instead are using the local stack, then don't create a repository just yet. It's easier to download a Github's GUI client and open up a repository and then synchronise to Github. If you're intending to use Github locally and on the Cloud, then this is the route you should take too.
 
-Github provides 2 desktop GUIs. There is one for [[http://windows.github.com/|Windows]] and one for [[http://mac.github.com/|Mac]]. Linux already has many git clients, you can take your pick here **(URL)**. All git software works roughly the same, so the below instructions will be biased towards the Windows Github client, but play around with the other clients and it should work.
+Github provides 2 desktop GUIs. There is one for [[http://windows.github.com/|Windows]] and one for [[http://mac.github.com/|Mac]]. Linux already has many git clients, you can take your pick at the [[https://git.wiki.kernel.org/index.php/InterfacesFrontendsAndTools#Graphical_Interfaces|Git User Interfaces Wiki]]. All git software works roughly the same, so the below instructions will be biased towards the Windows Github client, but play around with the other clients and it should work.
 
 The Github installation installs a "Git Shell" and a "Github". We'll be using both the GUI and the command line to work with Git. The GUI makes some things simpler, but the command line gives you more options and information as to what is happening.
 
@@ -22,39 +22,42 @@ The Github installation installs a "Git Shell" and a "Github". We'll be using bo
 
 In web application development, code is hosted on servers. There will usually be two servers used for two different purposes. The first is your local development server, this is usually your own computer. The second is the production server, this will be the server that runs the application for your external users. For our case, Github will act as an intermediary development server between the your local development server and the production server. This is to allow a team of developers to work on a single project while still maintaining their own local file integrity. However we want to be able to synchronise the files between development server and Github so we don't have the manually upload files or code changes (which are known as "commits" in Git).
 
+[{{ :web_application_development:github_development_workflow.png?200|Simple Git Deployment Workflow}}]
+
 If you're working on the Cloud Stack, then the cloud IDE would be our local development server. Or it could be your second development server. Using Git allows you to have multiple independent development servers which can have their own version of the project, all working independently and yet can come together to merge when its time to deploy. This is the meaning of git's //distributed// version control system.
 
-{{ :web_application_development:github_development_workflow.png |}}
+Let's setup our git client to work on our Local Stack. If you're using Wampserver, the ''wamp/www'' directory is where the code for your web applications will be executed. This is where we're going to set the default location for your git repositories.
 
-In order to this we need to first install AMP. Refer to the top to see how this is done. After installing AMP, the directory in which you execute your code should be either called "www" or "public_html". All the code that we write will be committed to this folder. In the main screen of Github's GUI select tools, then options. This will get you into the options menu. On the top right there should be a section titled "default storage directory". Make the following file path to match the file path that gets you into your "www" or "public_html" directory. You can click on the "..." button to navigate there. If you are on Windows, it should be "C:\wamp\www\". Note that you can if you want create a subdirectory called "polycademy_projects" inside that folder so you can separate your local projects from your Polycademy projects. Once this is done, click "update" on the bottom.
+Launch the git client, and go into tools then options. On the top right there should be a section titled "default storage directory". Make the following file path to match the file path that gets you into your "www" or "public_html" directory. You can click on the "..." button to navigate there. If you are on Windows, it should be "C:\wamp\www\". Note that you can if you want create a subdirectory called "polycademy_projects" inside that folder so you can separate your local projects from your Polycademy projects. At this point, you should also login via your Github account and setup your full name and email. Once this is done, click "update" on the bottom.
 
-Once this is done, go back to the main screen of Github GUI. At this point you should not have any repositories in your local or personal Github account. However you should have been added to this Polycademy organisation, so you should see a few Polycademy repositories. The team that you are working with will all see the same repositories. Your team name will be entered as your project. To begin using your repository, you need to clone it to your own local development server. Hover your mouse over the repository's name and click "CLONE". The program will download the repository to your computer.
+Now we're going to create our first repository. Git works as a distributed system. This means your local repositories are essentially folders on your computer. Your remote repositories are folders on Github's service. These repositories are separate. It's not like Dropbox where whatever you edit will automatically synchronise. You have to tell git to explicitly synchronise. The point is that you can have git manage your local repositories and you never have to interact with Github. But that's not really fun. By keeping a copy of your project on both your local repositories and Github's repository, this allows your teammates or yourself to clone your project remotely and keep working on it. No more carrying around documents and projects on USB sticks or downloading/uploading via ftp. Try using it for your non-related programming work! It's great for word docs too!
 
-If you now open your "www" or "public_html" directory, you should see the project there. The code in that project folder is tracked by Github and you can see the status of any changes to it in your local repository section in the Github GUI.
+If you used Cloud9 to setup your repository, then you should already have a remote repository on Github. You can check out your remote repositories by navigating to your Github account on the left panel of your git client. You can then click clone to download your remote repository to the location you set as your default storage location. This should go into your www directory.
+
+If you didn't start with Cloud9, it's very simple to create your first local repository. Just create a new folder in your www directory and drag it into the git client. This will automatically initialise a new local git repository. You can write a custom name for it, although it's best to leave it the same as your folder. Try using snake_case instead of normal spacing, this is a standard file naming practice across software development. You can give it a small description, and choose to whether push it to Github or keep it as a local repository.
+
+Once you have your local repository setup, you can click into it. Now anything that goes on in that folder will be tracked by Github. Any changes to any files or new files will automatically be tracked. Once you commit the files, you can hit the sync button which will push your local changes to the remote repository on Github.
 
 ===== Basic Usage =====
 
-TALK ABOUT STANDARD COMMANDS
+We're going to get acquainted with the git command line. If you're on Cloud9, just launch your terminal. The ''git'' command is globally installed. If you're using the git client, go into your new project and hit tools, open a shell here. This will open up the terminal at your project repository. Note that in the main git client options you can choose which kind of terminal shell you would like. It's probably on the standard cmd if you're using Windows. It's better to choose Powershell when you have that installed.
 
-git add . (filename)
+  * ''git add'' - is used to add files to the staging area. It creates a snapshot of all the files and this prepares them for committing into the git version history tracker. This is located in .git hidden folder. You can use ''git add .'' to add all files or ''git add //filename//''.
+  * ''git commit'' - is used to commit added files to the version history tracker. By default you need to add a descriptive message to each commit. It may seem cumbersome at the beginning, but it's very important that you add descriptive messages. This will help your teammates understand what changed and also yourself when you're trying to hunt down a previous version. Use ''git commit -m //message//'' to commit and add a message.
+  * ''git push'' - is used to push your current repository to a remote repository. You need to have initialised a repository on Github to do this. The Github client will do this automatically. Sometimes you have use ''git push origin master'', where origin is the upstream alias of your remote repository and master is the name of the remote branch (it will create it remotely if it doesn't yet exist). The push will merge your changes to the remote repository.
+  * ''git pull'' - is the opposite of ''git push''. This pulls in the remote repository and merges with your own. You may need to use ''git pull origin master'', where origin is the alias of your remote repository and master is the name of the remote branch.
+  * ''git status'' - use this to show if there are any file changes that have not been added or committed. Useful to know when you want to know if you want to complete a synchronisation.
+  * ''git remote'' - shows your remote aliases. Use this when you want to know how many remotes you have and what their aliases are. You can then use their names to push to or pull from. A git repository can have many remotes.
+  * ''git remote add'' - use this to add extra remotes to your current repository. You need to add to extra parameters like this ''git remote add //remotename// //ssh-url//''. The default remote alias should be origin, and the ssh-url can be acquired from any Github repository. Github's ssh-url looks like ''git@github:/Polycademy/polycademy.git''.
+  * ''git checkout'' - use this to switch branches. You need to add the name of the branch like ''git checkout //branchname//''.
+  * ''git branch'' - use this to show what branches you have on your current repository. You can add extra branches by specifying a branch name like ''git branch //branchname//''.
+  * ''git merge'' - use this to merge branches together. You should first ''git checkout branch_to_receive_merge'', then ''git merge branch_to_be_merged''.
+  * ''git rebase'' - use this to take the current branch's commits and apply them on top another branch. Like this ''git checkout branch_to_rebase'' then ''git rebase branch_to_rebase_into''.
 
-git commit -m 'message'
+You should always pull before pushing, if you know that your remote repository is more up to date than your local repository. This is true when working with teams. Doing this and communicating with your team on which files you're editing will avoid merge conflicts. So never work on the same file simultaneously.
 
-git push (remote branchname) (git push origin master)
+{{ youtube>DQUcmNO4diQ&list=PLwwh-11EOGvPkZPJi8pYsC9b0ysZW3_52?large }}
 
-git status
-
-git pull
-
-git fetch
-
-git remote
-
-git add remote ssh-url
-
-git checkout (branches)
-
-Always pull before pushing (when the remote repo is more updated than your repo). Always communicate. When in teams, never work on the same file simultaneously. Constant communication between team members is paramount to avoid "merge conflicts". To resolve merge conflicts, see the Merge workflow.
 ===== Using Branches ======
 
 Each repository will have multiple branches, branches are basically duplicates of the code base but with specific changes in them. This allows teams to separate what they consider production ready code to developing code to specific feature sets. Right now your repository only has one branch and this is the master branch. We need to create a develop branch and feature branches for your specific part of the project. To do this, go to the local repository list, open the repository in the GUI, then on the top middle there is a tab called "master". Click on it and a drop down menu should appear. You can create or change branches in this menu or you can go into the advanced "manage" panel. By typing a new branch into the FILTER OR CREATE NEW input you can then create the "develop" branch.
@@ -77,54 +80,59 @@ It is also possible to commit multiple code changes in multiple files at the sam
 
 Now after you have committed all your code and you have created a working feature, it is time to sync it with Github server. Since our branch is currently unpublished, we cannot sync it. So first click publish and let Github GUI upload your develop branch to your project's repository. Once this is done, its status should show "in sync". Congratulations on committing then syncing to your first code change on Github! After the branch is published when you have committed commits, then click sync to sync them to the remote branch.
 
+To do the same on the command line refer to the page on [[http://git-scm.com/book/en/Git-Basics-Undoing-Things|Git Scm Book]] on undoing things.
 ===== The Merge Workflow =====
 
-Now we have two branches, develop and master. Currently the develop branch is more up to date than the master branch because we made some changes to the develop branch which was branching off master. If you switch your branch to master, you will see that no changes have taken place. If we consider that the develop branch is ready to be hosted for all of the world to see, we can then merge the code base into master. But hold your horses there are checks to do before doing this since we want to solve any possible merge conflicts and there could be new commits made to the develop branch on Github by other members of your team.
+With the power of the distributed version control, comes the problems of merge conflicts. Imagine you're work in with another team member. You create a branch off the main branch to work on a special feature. He does this as well. He decides to edit ''config.php'' for his feature branch. You also edit ''config.php'' in your own branch. Then your team member merges his feature branch back into the main branch. You do a ''git pull'' in order to pull in his changes that are now on the main branch into your feature branch. Git throws an error, you have a merge conflict on ''config.php''. Note that the main branch could also be the remote repository main branch, and your feature branch could just be your local repository's main branch.
 
-Firstly create a new branch off develop and call it your own name's branch. This branch can be published as it allows you to use it over the internet. This is the branch you will use for your own development before pushing to the remote develop branch. Also note that any changes made to your code on your local computer has to be committed then synced before it is represented in the remote develop branch.
+The easiest way to avoid this, is to avoid working on the same files. This requires constant communication on what features everybody is working on. However sometimes this is unavoidable. You can resolve this merge conflict by going into the conflicted file, merge the file by hand then save it. You'll see the merge conflict demarcated with something with ''HEAD''. The head section is your team mate's change, and below is your own change.
 
-Now let's assume that another team member also creates their own branch and soon you both are working on the same file. You enter some code that conflicts with your team mate's code. Your team mate commits their code change, then merges and syncs the develop branch. Essentially your team mat has submitted code that conflicts with your code before you. Now clear communication at this point should prevent any problems from arising. But let's further assume that your team mate did not inform you that they have submitted new code to the same file you're editing. Now when you try to merge with the develop branch, you will meet a merge conflict. Remember to merge the remote branch into your local branch first as you should always be keeping your local branch copy as up to date as possible.
+Once you've removed those git marks and merged the file by hand, save the file and then re add the file to the staging area with ''git add .''. Then continue the merge with the command that the git terminal told you and you'll complete the merge. 
 
-No need to panic, it is a simple thing to sort out. Just click Abort Merge for now. Go to the offending file that is in conflict. There may be multiple files and a quick way to find out is to go to back to your Github screen for your current branch, it should show uncommited changes. Do not commit these changes, Github just put in markers in your files to indicate the conflicts. Go to these specific files in your filesystem and you should see:
+Now this merge workflow doesn't work well when there are multiple developers. [[http://randyfay.com/node/89|Your git history will look like a merge mess and it isn't pretty]]. There is an alternative, it's called the Rebase Workflow.
+==== Rebase Workflow ====
 
-<code>
-<<<<<<< HEAD
-Code that is in your current file
-=======
-Code that is in the conflicting file in the remote server
->>>>>>> origin/develop
-</code>
+The first thing is to make sure is to never work on the master branch unless you immediately push to the remote to keep it synchronised. Local masters and remote masters should never be different. The local master branch should always be kept up to date with the remote master branch by doing regular ''git pull''.
 
-This allows you to choose which of these codes you want to keep. If you want to keep your team mates code, that is the code in the conflicting file in the remote server, then delete everything in the above except their code. Commit the change then try merging develop into your local branch. Remember to merge back into the develop branch to push your updates to the develop branch.
+When you clone a project, branch off the master branch with a feature branch. Work on your feature branch and commit them to your feature branch. The feature branch can have a corresponding remote branch, but that's not necessary.
 
-If you want to keep your code, then delete everything in the above except your original code. If you go back to Github there should be no more uncommitted changes. You have not yet resolved your merge conflict, as far as Github is concerned, nothing has changed. Go back to the branch manage panel, and this time change the merge order. You can do this by clicking on the arrow symbol. This time you are merging local branch into develop branch. This time a merge conflict will appear again. Abort merge, then check the file. The file should show a similar code to the above but with the codes flipped over. Now just delete everything except your code (the code you keep should always be the one on the bottom), then commit and merge and merge back.
+Once you've tested your feature branch and is confident it's ready for the master branch, make sure you're on the feature branch and do a git rebase.
 
-If you want to change and merge with a new code, then first do one of the above, then update it in your local branch and push the update to the develop branch.
+  git checkout featurebranch
+  git rebase master
 
-Some tips to remember:
+This creates a temporary branch that contains all of the master commit history (including any commits your team mate made in parallel) and applies your commits from the featurebranch on top. You should make sure that your master branch is up to date before doing this. It as this point that git will notify you of any merge conflicts. Manually resolve your conflicted files, do a ''git add .'' then ''git rebase --continue''. Now if you look at your feature branch you'll see your version history include all the up to date master commits and with your changes on top. This creates a more linear version history that makes more sense and is easier to look through. The temporary branch will be deleted automatically. You can continue working on your feature branch if you haven't finished and you can do more rebases. Or you can decide its time to push to the master.
 
-  - Remote -> Local merge for keeping remote code
-  - Local -> Remote merge for keeping local code.
-  - Merge forwards then merge backwards, only the receiving branch gets updated. Merges are not double way.
-  - Do not commit merge conflict edits done automatically by Github after a merge conflict.
-  - If you neither want local or remote, then keep one of them first before updating to a new one.
-  - Your commits should only contain one file, not multiple files. It makes it easier to deal with merge conflicts this way.
-  - Don't forget to sync the develop branch after you merged it. Nothing is represented on the remote Github until you do.
-  - If you screw up, just rollback on the offending commit.
-  - DO communicate with your team and have proper division of labour so you can avoid merge conflicts
-  - Always commit everything before you merge. Sync at the very end.
-  - Read this http://sethrobertson.github.com/GitBestPractices/ for more information on Git, it is really powerful tool!
+Now it's time to merge the rebased feature branch into the master branch.
+
+  git checkout master
+  git merge featurebranch
+
+Because your feature branch was rebased to include all of master's history, it will be a fast forward merge. This doesn't create ugly merge commits in your history, and simply takes your feature branch history and synchronises it into the master branch. Your version history now looks linear even though work was done in parralel. Push it to remote main. Your team mate can then pull the master into his master, and this should work well, because he never does any work on the master directly without immediately pushing. He can then execute the rebase workflow to bring his feature branch up to date and merge into the master, before finally pushing again. You can now delete your feature branch as it's no longer useful. Rinse and repeat for any new features you want to work on.
+
+Your team now has a kind of seesaw approach, where everyone takes a turn pushing to the master. While this si happening, everyone synchronises with the remote, then everyone creates their own feature branch, rebases, resolves merge conflicts, merge into master then take their turn pushing. As soon as a team mate merges, everyone synchronises with a pull and a rebase.
+
+To learn more about the rebase workflow see:
+
+  - http://git-scm.com/book/en/Git-Branching-Rebasing
+  - http://stackoverflow.com/questions/457927/git-workflow-and-rebase-vs-merge-questions
+  - http://www.randyfay.com/node/91
 
 ===== Gitignore =====
 
-Add in [[https://help.github.com/articles/ignoring-files|.gitignore explanation]], and the adding of directories.
+You can use a file named ''.gitignore'' which is located at the root of your project repository to make [[https://help.github.com/articles/ignoring-files|git ignore files or directories]]. This is useful when have third party packages or tools or configuration files only relevant to your current workstation. 
 
-To ignore specific files at current directory: ''/example.php''.
-To ignore wildcard of extensions: ''*.php''.
-To ignore directories: ''folder/to/my/directory/*''
+Refer to these [[https://github.com/github/gitignore|example .gitignore files]] to construct your own. There's even an example there for Codeigniter.
 
-A good example of ''.gitignores''. Here https://github.com/github/gitignore
-
+  /foldername/*                     #to ignore a directory
+  foldername                        #also ignores a directory
+  .hidden_folder                    #also ignores a hidden directory
+  /*.php                            #ignores all files with php extension
+  !/lol.php                         #except don't ignore this php file!
+  folder/to/my/file/example.php     #ignores specifically example.php
+  /example.php                      #ignores example.php at root level
 ===== Advanced Git =====
 
-Refer to git scm documentation for areas of exploration.
+Git is a very powerful tool. It could constitute its own course. To learn about the power of git and its applicability, see the online [[http://git-scm.com/doc|Git Scm Book]].
+
+Seth Robertson has also compiled a [[http://sethrobertson.github.com/GitBestPractices/|list of git best practices]].

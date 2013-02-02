@@ -14,7 +14,7 @@ Even with most of the work done, we still need to get acquainted with Cloud9's e
 
 ==== Git Project ====
 
-Cloud 9 integrates with [[https://github.com/|Github]]. Github is a web service providing Git functionality. Think of Git as a time machine for your code. Please refer to the [[Web Application Development:Git]] article for a full explanation on using this amazing tool.
+Cloud 9 integrates with [[https://github.com/|Github]]. Github is a web service providing Git functionality. Think of Git as a time machine for your code. Please refer to the [[Web Application Development:Git|Git article]] for a full explanation on using this amazing tool.
 
 First create a Github account and initialise your first project. We'll be registering on Cloud9 using our Github account. Name your project something memorable, we'll be using this as your repository to do work.
 
@@ -266,6 +266,8 @@ For example if your composer binaries were installed in ''~/www/bin/'', you woul
 
 When we start to use build tools installed by composer, you'll see this in action.
 
+Please note that editing the ''.bashrc'' is semi-permanent in Cloud9. The file gets refreshed after a day. So it's only permanent for your session. Your session will last indefinitely as long as you are logged in. Cloud9 will save your session even if you close your browser.
+
 ==== Front End Tools ====
 
 Our full stack course involves both the front end and back end. In order to develop for the front end, we still need these tools even if you decide to take the Cloud9 path.
@@ -342,25 +344,21 @@ If you are using Mac or Linux, try [[http://browsershots.org/|Browsershots]] or 
   * What to call the tests?
   * How to understand why a test fails?
 
-BDD tests are written in natural language. It starts with a user story: "As a [role] I want [feature] so that [benefit]". This is turned into a scenario that satisfies the user story: "Given [initial context], when [event occurs], then [ensure some outcomes]". Behavior-driven development specifies that tests of any unit of software should be specified in terms of the desired behavior of the unit. Borrowing from agile software development the "desired behavior" in this case consists of the requirements set by the business - that is, the desired behavior that has business value for whatever entity commissioned the software unit under construction. Within BDD practice, this is referred to as BDD being an "outside-in" activity. [[http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/|Matt Wynne further elaborates on the difference between BDD and TDD]].
+BDD tests are written in natural language. It allows non-technical stakeholders to join in the testing & design process of software. It starts with a user story: "As a [role] I want [feature] so that [benefit]". This is turned into a scenario that satisfies the user story: "Given [initial context], when [event occurs], then [ensure some outcomes]". Behavior-driven development specifies that tests of any unit of software should be specified in terms of the desired behavior of the unit. Borrowing from agile software development the "desired behavior" in this case consists of the requirements set by the business - that is, the desired behavior that has business value for whatever entity commissioned the software unit under construction. Within BDD practice, this is referred to as BDD being an "outside-in" activity. [[http://blog.mattwynne.net/2012/11/20/tdd-vs-bdd/|Matt Wynne further elaborates on the difference between BDD and TDD]].
 
 One of the great things of TDD/BDD is the fact that you can create a suite of tests that are ran everytime you commit new code or update a dependency. When your project gets larger (and your team gets larger), testing everything manually gets tiring and there could backwads compatibility problems and tight coupling (path dependency) problems that won't notice. By running these tests, you'll get code coverage reports and instantly know if your project is working or not and what changes you have to make through which test(s) failed.
 
 The most commonly used TDD software for PHP is called [[https://github.com/sebastianbergmann/phpunit/|PHPUnit]]. Since we want to skip ahead to something better, Polycademy suggests using [[http://behat.org/|Behat]] as our primary BDD testing stack.
 
-Behat by itself can test multiple types of applications. However in order test web applications, it requires also the installation of the Mink extension to Behat. Mink itself simply abstracts headless browser drivers,  so it requires either Sahi, Goutte or PhantomJS. You read more about them in the [[Solution Stack#acceptance_testing|Acceptance Testing Section]].
+Behat by itself can test multiple types of applications. However in order test web applications, it requires also the installation of the Mink extension to Behat. Mink itself simply abstracts headless browser drivers,  so it requires either Sahi, Goutte or PhantomJS. You read more about them in the [[Solution Stack#acceptance_testing|Acceptance Testing Section]]. You can think of Behat plus Mink as "Application Level Testing".
 
 {{ youtube>kB_RsoW_4Fg?large }}
 
-=== JS Unit Testing ===
+[{{ :web_application_development:comparison.jpg?200|Comparison between PHPUnit, PHPSpec and Behat.((http://css.dzone.com/articles/phpspec-bdd-your-classes))}}]
 
-There are many other testing frameworks available for different languages and environments. Front end development with javascript has a few well used frameworks for unit testing. [[http://pivotal.github.com/jasmine/|Jasmine]] is the main BDD framework for front end javascript. Jasmine is not tied to any particular environment, it can run anywhere there is a browser, so you run your tests via the browser.
+However Behat plus Mink cannot test source code units. To do this, one could use [[http://www.phpunit.de/manual/current/en/|PHPUnit]]. Note that currently Codeigniter has poor support for TDD mechanics. We can still use Behat as it works on the application level though. There is a possibility of using PHP Slim framework instead.
 
-Depending on the complexity of your project, your application may be more back-end heavy, or client-side heavy, or both. This will dictate where we spend most of our time. If your app doesn't use too much javascript and just involves basic jQuery scripting, there's not much reward from using Jasmine. However it is worth learning as the web development world moves more into front end development, single page apps and javascript dominance. Refer to this [[http://net.tutsplus.com/tutorials/javascript-ajax/testing-your-javascript-with-jasmine/|Nettuts tutorial on using Jasmine]].
-
-Jasmine can be integrated into Phing but will require setup with a headless browser such as [[http://phantomjs.org/|PhantomJS]]. This would require integration into [[http://ryangrenz.com/2011/05/30/experiments-with-behat-part1-mink-sahi-phantomjs/|Mink and Sahi]] to trigger the tests. This will get overly complicated, so it's best to leave that to when you're more acquainted with web development.
-
-Back end javascript involving Node.js should instead use [[http://net.tutsplus.com/tutorials/javascript-ajax/better-coffeescript-testing-with-mocha/|Mocha and Chai]].
+The desired workflow then should then be to start from user stories and implement them with BDD outside-in, first by specifying the application behavior with Behat (business readable tests) and then descending into the details of classes with PHPSpec. We'll begin doing testing after we learn basic [[Web Programming]], until then don't get too overwhelmed with testing theory.
 
 === Acceptance Testing ===
 
@@ -369,6 +367,17 @@ The problem with unit tests, is that they test units, they can't test the integr
 Behat also includes the [[http://mink.behat.org/|Mink driver]], which can use with Goutte, Sahi or PhantomJS. This [[http://mink.behat.org/#understanding-the-mink|Mink section]] explains the difference between all these tools.
 
 Follow the instructions on Behat's [[http://docs.behat.org/cookbook/behat_and_mink.html|Mink integration documentation]] to install and run Mink with Behat.
+
+=== JS Unit Testing ===
+
+There are many other testing frameworks available for different languages and environments. Front end development with javascript has a few well used frameworks for unit testing. [[http://pivotal.github.com/jasmine/|Jasmine]] is the main BDD framework for front end javascript. Jasmine is not tied to any particular environment, it can run anywhere there is a browser, so you run your tests via the browser.
+
+Jasmine can be used as BDD or TDD for front end javascript. There are three extra libraries that makes Jasmine capable of testing DOM and Ajax level interactions. These are [[https://github.com/velesin/jasmine-jquery|jasmine-jquery]], [[https://github.com/pivotal/jasmine-ajax|jasmine-ajax]] and [[https://github.com/searls/jasmine-fixture|jasmine-fixture]].
+
+Depending on the complexity of your project, your application may be more back-end heavy, or client-side heavy, or both. This will dictate where we spend most of our time. If your app doesn't use too much javascript and just involves basic jQuery scripting, there's not much reward from using Jasmine. However it is worth learning as the web development world moves more into front end development, single page apps and javascript dominance. Refer to this [[http://net.tutsplus.com/tutorials/javascript-ajax/testing-your-javascript-with-jasmine/|Nettuts tutorial on using Jasmine]].
+
+Back end javascript involving Node.js should instead use [[http://net.tutsplus.com/tutorials/javascript-ajax/better-coffeescript-testing-with-mocha/|Mocha and Chai]].
+
 ===== Build Stack =====
 
 ==== Code Quality ====

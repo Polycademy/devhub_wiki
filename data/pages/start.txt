@@ -14,7 +14,7 @@ Here is our current course offering:
 
 ==== 1. Web Application Development ====
 
-[[Web application development:start | Web Application Development]] is simply the development of software applications that are deployed over the internet. Why web application development and not the standard desktop application development? Because the web deployment offers several (advantageous) features:
+[[Web application development:start | Web Application Development]] is simply the development of software applications that are deployed over the internet. Why web application development and not the standard desktop application development? Because web deployment offers several (advantageous) features:
 
   * Faster distribution and deployment - No need of installation, no need of restart, no need of changing files on the client computer results in higher [[wp>Conversion Rate|conversion rates]].
   * Lower risk of piracy - Software becomes delivered as a [[wp>Software as a service|service]] instead of as an end product.
