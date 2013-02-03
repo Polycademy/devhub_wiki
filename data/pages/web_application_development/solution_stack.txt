@@ -422,6 +422,10 @@ Phing can automate:
   * Run Composer to update dependencies.
 
 Phing has a [[http://www.phing.info/docs/guide/stable/|comprehensive user guide]] talking about how Phing should be setup. We'll look into the specifics of setting up our ''build.xml'' for Phing parsing later in the course. But it's important that you have it installed. If you want explore further check out this [[http://net.tutsplus.com/tutorials/tools-and-tips/how-to-use-the-nettuts-phing-build-script/|video on getting started with Phing]].
+
+==== JS Build System ====
+
+There are three build systems for Javascript. [[http://gruntjs.com/|Grunt]] is most similar to Phing as a true build system. Others include [[http://yeoman.io/|Yeoman]] or [[http://brunch.io/|Brunch]]. Yeoman is more opinionated, whereas Brunch is more flexible to allow you to do what you want. All three build systems rely on Node.js. Wait till you know Javascript and explored Node.js before trying these out.
 ===== Production Stack =====
 
 Polycademy recommends using [[https://www.appfog.com/|Appfog]] for hosting your MVP. If you need self-hosted uploading/read/write capabilities then it is better to choose [[https://pagodabox.com/|Pagodabox]]. If you are running a polyglot app, it's better to use [[https://www.dotcloud.com/|dotCloud]]. All three cloud hosting services offer free cloud instances. They are suitable for development and production!
