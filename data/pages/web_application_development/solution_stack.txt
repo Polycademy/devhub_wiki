@@ -397,7 +397,7 @@ Enter the CSS preprocessors. There are three types currently and they all augmen
 
 The three that are popularly used are [[http://lesscss.org/|LESS]], [[http://sass-lang.com/|SASS]] and [[http://learnboost.github.com/stylus/|Stylus]]. SASS is popular among the Ruby crowd, and Stylus is popular among the Node crowd. LESS is the most simple to use, and this is the one Polycademy will be teaching.
 
-The best GUI tool to use on the local stack would be [[http://wearekiss.com/simpless|Simpless]]. It is cross platform and watches your LESS styles for changes and automatically compiles them into CSS when you save.
+The best GUI tool to use on the local stack would be [[http://wearekiss.com/simpless|Simpless]]. It is cross platform and watches your LESS styles for changes and automatically compiles them into CSS when you save. If you're working on Cloud9, use composer to download [[https://github.com/leafo/lessphp|lessphp]]. It contains a command line tool allowing you to watch your ''.less'' files. This requires some setup which will be explained later. Check out lessphp's [[http://leafo.net/lessphp/docs/|docs]].
 
 When we get to [[Web Design]], we'll start by writing some basic CSS, but quickly move on to using LESS, because it's far more powerful.
 

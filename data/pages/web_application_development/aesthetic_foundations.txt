@@ -1,29 +1,113 @@
 ====== Aesthetic Foundations ======
 
-[{{ :web_application_development:icon_design_process.png?200|Icon Design Process Infographic ((By Andaja (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons))}}]
+Aesthetics is defined as the branch of philosophy dealing with beauty and taste. It's not a hard science, most human appreciation of aesthetics comes from intuition. Intuition is created from repeated shared experience. The more experience you have, the more intuitive you are. The conclusion from this isn't that aesthetics cannot be taught, principles of aesthetics can be taught as there are shared aesthetic related knowledge passed down from generations of artists. However creativity relies on the individual, because learning the principles helps you create something awesome, but the spark of creation itself still requires your own imagination.
 
-Intro to aesthetic foundations, what is aesthetics use this: http://webdesign.tutsplus.com/sessions/web-design-theory/
 ===== Inspiration =====
 
-First go look at these websites: Inspiration from other websites: Dribble (http://dribbble.com/), http://unmatchedstyle.com/ http://www.webcreme.com/
-Try to think why these websites are considered good designs.
+[{{ :web_application_development:icon_design_process.png?200|Icon Design Process Infographic ((By Andaja (Own work) [CC-BY-SA-3.0 (http://creativecommons.org/licenses/by-sa/3.0)], via Wikimedia Commons))}}]
+
+Beginning to design your web application with no prior experience may seem frightening. You may get "designer's block". This is why looking at inspirations is a good idea. Some great places to look at include:
+
+  * [[http://dribbble.com/|Dribble]]
+  * [[https://developer.mozilla.org/en-US/demos/|MDN Demos]]
+  * [[http://forrst.com/discover|Forrst]]
+  * [[http://www.smashingmagazine.com/|Smashing Magazine]]
+  * [[http://alistapart.com/|A List Apart]]
+  * [[http://webdesign.tutsplus.com/|Web Design Nettuts]]
+  * [[http://psd.tutsplus.com/|Photoshop Nettuts]]
+  * [[http://unmatchedstyle.com/|Unmatched Style]]
+  * [[http://www.webcreme.com/|Webcreme]]
+
+No one ever creates or postulates or designs in isolation. Human knowledge is built on top of previous efforts. Isaac Newton once said the only reason he could see far was because he stood on the shoulders of giants. After all great artists steal where mediocre artists copy. It's all about taking the best ideas from elsewhere and bringing them into what you're doing. Refer to this Nettut's article on [[http://webdesign.tutsplus.com/articles/design-theory/concept-and-inspiration-design-theory-for-web-designers/|Concept and Inspiration]].
 
 ===== Brand & Theme =====
 
-Then ask what is the website's brand or theme? What is the context of the application? Who are the target audience? What do people expect of similar websites or similar contexts? What is the message you are trying to communicate? Who do you represent? What is the point of the application and does that have a theme?
+Before hitting pen to paper, ask yourself these questions:
 
-Consider MailChimp (emailing with a chimp?), Basecamp..
+  - Who is your target audience?
+  - What do people expect of similar web applications or similar contexts?
+  - What are the use contexts for your application? How would one of your target audience use it?
+  - What message are you trying to communicate?
+  - What is your philosophy? What is your purpose? [[http://www.youtube.com/watch?v=u4ZoJKF_VuA|Why do you do what you do?]]
 
-http://en.wikipedia.org/wiki/Brand
+Then construct your theme with those answers in mind. Your design can then flow from that. I specifically like designing the logo first and basing the colour scheme from the colours on the logo. But your mileage may vary.
 
+You can learn more about startup branding from Eric Ries's [[http://theleanstartup.com/|lean startup book]]. Startups don't usually have money and marketing team to build up a pervasive brand, but it is still possible by identifying your product market fit and learning as quickly as possible whether something is working or not.
 ===== Colour Theory =====
 
-Emotions and colour wheels
-Remember that context is important. Different cultures result in different conceptions of colour.
-http://webdesign.tutsplus.com/articles/design-theory/the-web-designers-theory-of-relativity/
-http://blog.hostdime.com/2012/03/color-theory-in-website-design/
-http://sixrevisions.com/web_design/a-look-into-color-theory-in-web-design/
+Colour Theory actually covers a number of things, but at the most basic level it is the interaction of different colours in a design through meaning, complementation, contrast, vibrancy and schemes. It's also quite subjective in that different cultures see colours differently, the below advice applies mostly to a Western audience, ask your target market for their perspective if you're looking to do international expansion.
 
+[{{ :web_application_development:kuler_demo.png?200|Kuler Demo}}]
+
+The best way to get started working with colours is to use [[https://kuler.adobe.com/|Adobe's Kuler tool]]. Hit the create button and start playing around. Make sure to use the [[Solution Stack#front_end_debugging|ColorZilla extension]] to grab the colour code of colours you see on the web.
+
+Colours on computers are represented in mainly RGB or Hex values. RGB means red, green, blue. Basically these three colours can be mixed together to represent any colour. Hex values are the standard method of designating colours on CSS stylesheets for websites. So we'll need to convert any colours we like to these values if we want to use them. Kuler automatically does this for you.
+
+==== Colour Meaning ====
+
+Colours have been used to represent abstract feelings, emotions or ideas. Different cultures experience this differently. This section will gloss over various different colours and their respective meanings in the context of web design. Refer to Smashing Magazine article on [[http://www.smashingmagazine.com/2010/01/28/color-theory-for-designers-part-1-the-meaning-of-color/|colour meaning]] for more information.
+
+Note that although singular colours may have their own meanings, the real fun begins when you combine meanings of different colours together. For example, the Polycademy logo of red and blue is to elicit emotions of fun and creativity playing with play dough or toys.
+
+=== Warm Colours ===
+
+Warm colours include red, orange, and yellow, and variations of those three colours. Use warm colours in your designs to reflect passion, happiness, enthusiasm, and energy.
+
+  * Red - is associated with violence, importance, danger and passion. In web design, red can be used as a powerful accent to give distinctiveness to important elements. Brighter versions of red can be energetic, while darker shades elicit power and elegance. Use red to make people focus!
+
+  * Orange - is associated with vibrancy and energy. It can be used to denote change, movement, health, vitality and fun. It is considered friendly and inviting.'
+
+  * Yellow - is the brightest of colours. It's associated with happiness and sunshine. You can use yellow to highlight important actions or messages. Yellows are commonly used for gender-neutral sites for children. Dark yellow can denote antiques or olden times.
+
+=== Cool Colours ===
+
+Cool colors include green, blue, and purple, are often more subdued than warm colors. They are the colors of night, of water, of nature, and are usually calming, relaxing, and somewhat reserved.
+
+  * Green - is a very earthy colour. It can represent environment related themes, new beginnings, growth, renewal and abundance. Green is often used with blue to calm people down, and it's also the colours of Earth! Green can have a stable meaning and appropriate for business, wealth and nature.
+
+  * Blue - is associated with calmness and responsibility. Light blues can be refreshing and watery like. Dark blue can be mysterious or stable. Blue can be used for peace and co-operation. Blues are often used with boring corporate sites.
+
+  * Purple - is associated with royalty, wealth and being romantic. Use dark purple to give a sense of luxury.
+
+=== Neutral Colours ===
+
+Neutral colors often serve as the backdrop in design. They’re commonly combined with brighter accent colors. But they can also be used on their own in designs, and can create very sophisticated layouts. 
+
+  * Black - is associated with formality, seriousness, rebellion, mystery, death and evil. A strong black theme is usually used in edgier designs, but it can also be used in conservative sites. Black is most commonly used for typography because of its neutrality.
+
+  * White - is associated with purity, cleanliness, virtue, and the health industry. White is used as a background for websites, and lets other colours demand more attention. It is popular in minimalist designs where it provides "whitespace".
+
+  * Gray - is associated with conservatism, formality, professionalism, and being distinguished. It's commonly used in formal corporate sites. But also for embroidery and minimalist embellishment. Gray is used in typography when you want to show secondary information that contrasts against the primary focus.
+
+  * Brown - is associated with earth, wood, and stone. In design, brown is commonly used as a background color. It’s also seen in wood textures and sometimes in stone textures. It helps bring a feeling of warmth and wholesomeness to designs.
+
+  * Beige & Tan - has little meaning. It has the warmth of brown and the coolness of white, and, like brown, is sometimes seen as dull. It’s a conservative color in most instances, and is usually reserved for backgrounds.
+
+  * Cream and Ivory - is similar to white but has the features of brown giving it a feeling of elegance, coffee and sweetness. Can be used for food sites.
+==== Colour Concepts ====
+
+There are number of concepts in colours that web designers use. You can start using these in your vocabulary when talking to other designers.
+
+  * Contrast
+
+  * Hue
+
+  * Chroma
+
+  * Saturation
+
+  * Value
+
+  * Tones
+
+  * Shades
+
+  * Tints
+==== Colour Schemes ====
+
+Colour schemes are arrangements of a set colours to accentuate complementation or contrast. Web designers use colour schemes to provide a consistent palette for their websites. There are various ways to construct a colour schemes, but they are all based on the [[http://en.wikipedia.org/wiki/Color_wheel|colour wheel]].
+
+{{ :web_application_development:color_star-en.svg.png |}}
 ===== Composition =====
 
 Visual Hierarchy

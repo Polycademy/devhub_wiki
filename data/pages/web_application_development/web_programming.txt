@@ -1,16 +1,276 @@
 ====== Web Programming ======
 
-Intro to web programming
+Intro to web programming, separate into PHP and JS.
 
-===== Software Development Process =====
-===== Frameworks & Content Management =====
-===== Understanding the Application Stack =====
-===== Bug Testing =====
-===== Coding =====
-===== Security =====
+===== Syntax =====
+
+Refer to documentation for syntax
+
+PHP.net, PHPBounce, PHPMaster, Net tuts
+
+MDN, Books on JS... Codecademy
+
+===== Frameworks =====
+
+Refer to these
+
+Codeigniter User Guide
+
+
+[{{ :web_application_development:jquery_application_architecture.jpg?200|jQuery Application Architecture Guide}}]
+
+Javascript MVC docs
+
+JQuery Docs
+
+===== Architecture =====
+
+==== Understanding the Application Stack ====
+
+==== Consuming Web Services API ====
+
+REST style
+
+Client Heavy
+
+Composer (third party)
+
+MVC, JS based MVC...
+
+Templating
+
+Namespaces... etc
+
+==== Autoloading ====
+
+Autoloading works with Codeigniter aswell.
+
+You need to enable hooks on the config.php.
+
+Then in hooks.php define
+
+<code php hooks.php>
+//pre_system autoloader
+$hook['pre_system'] = array(
+    'class' => 'Autoloader',
+    'function'  => '__construct',
+    'filename'  => 'Autoloader.php',
+    'filepath'  => 'hooks',
+);
+</code>
+
+Place this into the hooks directory. It is a PSR-0 compliant autoloader.
+Do not use underscores in your library names, (_). They will be translated into directories.
+All folders and files should be Capitalised and Camelcased.
+Interfaces and Abstracts can be placed as iInterface or aAbstract and polaced in Interface and Abstract folder.
+Use namespaces and use "use" to import aliases. Import straight to the file. Then initialise classes automagically. Use fully qualified names to access static classes or library classes.
+Place static classes in the library folder.
+Capable of using third_party too.
+Folder names can have underscores.
+
+If the "use" keyword only points to a directory and not to a specific file, that all of those files become fair game. However you need to use the last namespace directory and prefix to all class initialisations. Like use Phpbounce\Mission_checker;
+Then your initialisations would be new Mission_checker\Lint(); There's no need to specify the filenames. The filenames should always be the same as the class names. One class per file.
+
+<code php Autoloader.php>
+<?php
+
+class Autoloader{
+    
+    public function __construct(){
+        
+        //LOADING COMPOSER
+        if(file_exists(FCPATH . '/vendor/autoload.php')){
+            include_once FCPATH . '/vendor/autoload.php';
+        }
+        
+        //STANDARD AUTOLOADER
+        spl_autoload_register(array($this, 'autoload'));
+        
+        //use vendor/package/Library.php for package related stuff (psr-0 kind of thing) (each package can have its own autoloader and get its own interfaces and abstracts)
+        //use Library.php for non-packaged libraries framework specific
+        //use abstracts/aLibrary.php for non-packaged abstracts framework specific
+        //use interfaces/iLibrary.php for non-packaged interfaces framework specific
+        //MY_Library.php will be loaded using $this->load as a CI specific library
+        
+    }
+    
+    public function autoload($class){
+        
+        //PSR-0 autoloader
+        
+        $library_path = APPPATH . 'libraries/';
+        $third_party_path = APPPATH . 'third_party/';
+        
+        //remote the first ns (\) since libraries already have it
+        
+        $class = ltrim($class, '\\');
+        $file  = '';
+        $namespace = '';
+        
+        if ($last_namespace_pos = strrpos($class, '\\')) {
+            
+            $namespace = substr($class, 0, $last_namespace_pos);
+            $class = substr($class, $last_namespace_pos + 1);
+            //replace all backslashes with DIRECTORY_SEPARATOR, it adds one more to the end
+            $file = strtr($namespace, '\\', DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+            
+        }
+        
+        //replace all class names with (_) with DIRECTORY_SEPARATOR
+        $file .= strtr($class, '_', DIRECTORY_SEPARATOR);
+        
+        if(file_exists($library_path . $file . '.php')){
+            
+            require_once($library_path . $file . '.php');
+            return;
+            
+        }elseif(file_exists($third_party_path . $file . '.php')){
+            
+            require_once($third_party_path . $file . '.php');
+            return;
+            
+        }
+        
+    }
+    
+}
+</code>
+
+Caching
+
+Using workers
+
+A note about coffeescript
+
+HTML5 stack (browser level, dom level)
+
+Sockets, AJAX, all the communication level stacks...
+
+Multithreading
+
+Async vs sync
+
+Single Page Applications
+
+Polyglot apps with ZMQ
+
+TCP, UDP
+
+For CI: Use the helper folder for static classes. Use an autoloader for interfaces/abstracts. Actually extend the loader method to allow load without instantiation.
+
+INTERFACES why? -> For teams and for dependency injection.
+Basically you type hint in the constructor for an object to be injected but also to implement a interface contract.
+The interface is like the blueprint for your classes.
+You can be assured that all classes implementing this interface will have a fixed API.
+Then if you are swapping out your classes to something else, you can pass in a new object that still implements that interface, and you don't have to worry about whether the API methods change. They still work the same.
+Interfaces can be combined too, to provide some sort of super class implementation. So this class can be used anywhere or either-or. Regardless of whether the type hint is for the first interface or for the second interface. It'll still work!
+
+Use abstracts to provide a boilerplate class. Like a parent class which has some common methods, and yet has methods that has to be implemented. Abstract methods have to be either protected or public which then has to be represented. You can only inherit from one abstract.
+
+Use interfaces to group related classes that are meant to have the same API.
+
+Use abstracts as a **parent class that needs to have children**. Not just any standard parent class.
+
+Like abstract armor -> chinese armor, european armor. Abstract armor and abstract sword can implement physical_object interface. The interface can specify that all physical_objects need weight method. The abstract armor leaves the weight undefined, but requires an abstract of blacksmith and defines a common function of armor rating calculation. Then Chinese_Armor extends abstract Armor. This creates the weight function as defined by interface and blacksmith function as defined by the abstract. It creates a protection function unique to Chinese_Armor. Then we create a Fight function that type hints for either Physical Object, or Ab_Armor. We create the Chinese_Armor and pass the dependency into the constructor dependency injection. Then in the fight we use the protection function. Note that the abstract can reference $this->weight even though it hasn't been defined, this is because the interface says it will be implemented, so the abstract can rely on this. Abstracts are never used by themselves.
+==== Security ====
 
 Should make a security "checklist" before deployment.
-===== Database =====
-===== Dynamic Client Side =====
-===== RESTful Web Services =====
-===== Code Libraries (DRY) =====
+
+===== Patterns =====
+
+==== Standards ====
+
+Check the PHP Fig (Framework Interop Group): http://www.php-fig.org/
+
+Then checkout their PSR standards. (PHP Standard Recommendation).
+
+
+Regular expressions
+
+Intro to patterns
+
+Pub/sub
+
+Event driven
+
+Artificial Intelligence, machine learning...
+
+Closures, anonymous functions, function currying
+
+Design patterns from both sides
+
+JS use patterns such as canvas and webGL.
+
+Teach binary
+
+Using bitwise operators for settings
+
+Using interfaces + http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/
+
+Dependency Injection (typehinting with default being null)
+==== Dynamic Client Side ====
+
+OOP
+
+Functional Programming
+
+Type Hinting
+
+Programming Tactics, Module Augmentation Pattern, Facade Pattern
+
+DOM manipulation
+
+Input Validation
+
+==== Database ====
+
+Database access
+
+Database normalisation
+
+Foreign keys
+
+Indexing and searching
+
+NoSQL what is it?
+===== Workflow =====
+
+==== Software Development Process ====
+
+DRY
+
+KISS
+
+Googling (using stack overflow, online etiquette, using github issues, contributing to open source)
+
+People to follow or blogs to read!
+
+==== Bug Testing ====
+
+Using firebug
+
+Using Xdebug
+
+TDD
+
+BDD
+
+Database Migrations
+
+==== Build Tools ====
+
+Build Tools (minification, concatenation)
+
+Phing
+
+===== Notable Code Libraries and Web Services =====
+
+List them down
+
+Use packagist
+
+Use github
+
+Use bower... etc
+
+Google Maps, Twitter, Facebook, Open Layers, D3.. etc
