@@ -1,13 +1,19 @@
 ====== Wireframes, Mockups and Prototyping ======
 
-Use this: http://pencil.evolus.vn/
+Intro to this theory. Why bother
 
-{{youtube>xruQjGyD4fo?medium}}
+===== Wireframing =====
 
-Pen and paper for wireframing (or you can use the above software like Pencil)
+Pen and paper
 
-Photoshop for Mockups
+Use http://pencil.evolus.vn/
 
-HTML and CSS for prototyping
+{{ youtube>xruQjGyD4fo?large }}
 
-This is some practice for the students + theory on why do this in the first place? For web apps or content based sites, and as freelancers working for clients.
+===== Mocking Up =====
+
+Photoshop for Mockups, why theory on mocking up
+
+===== Prototyping =====
+
+HTML and CSS for prototyping. Point to HTML/CSS section.

@@ -1,3 +1,17 @@
 ====== User Interface ======
 
-Blah!
+===== Understanding the Box Model =====
+
+{{ :web_application_development:boxdim.png |}}
+
+===== Common UI Patterns =====
+
+Just basic UI patterns, don't conflict with Bootstrap's UI patterns.
+===== Fluid Design =====
+
+===== AJAX Intro =====
+
+Rise of single page apps.
+Realtimeness.
+Design so your site can receive updates in realtime or via ajax.
+Such as dynamic loading, pushing.
