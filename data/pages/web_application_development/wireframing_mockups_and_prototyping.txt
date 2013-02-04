@@ -1,19 +1,17 @@
 ====== Wireframes, Mockups and Prototyping ======
 
-Intro to this theory. Why bother
+Once we've settled on an idea of what we want to build, we begin the process of wireframing, mockingup and prototyping. The reason why we do several iterations of these steps is so that our client can be happy with the final result. In case of Polycademy, you have more control over the final result as you are the primary client.
 
 ===== Wireframing =====
 
-Pen and paper
-
-Use http://pencil.evolus.vn/
+Wireframing is best done on pen and paper. You can begin at low fidelity wireframing, this means low details. The less details you use, the faster you iterate since you focus on the big picture. 37 Signals recommends using a big pencil. If you prefer you can also high fidelity computer assisted design tools such as [[http://pencil.evolus.vn/|Pencil]]. Below is a video demonstration of Pencil. Try to complete 5 - 10 iterations of wireframing. Focus on the big picture stuff, but think back to user experience and the user interface guidelines.
 
 {{ youtube>xruQjGyD4fo?large }}
 
 ===== Mocking Up =====
 
-Photoshop for Mockups, why theory on mocking up
+The next stage is mocking up. Most professional web designers use Photoshop for this task. The process of mocking up is taking the wireframing and turning it into an image on Photoshop. The image doesn't need to be exact, but it should be to scale of your final design output on the browser. This is where you apply your colour choices. This stage is important as you create the necessary layout graphics in Photoshop. You then cut these out for prototyping.
 
 ===== Prototyping =====
 
-HTML and CSS for prototyping. Point to HTML/CSS section.
+The term prototyping here will refer to turning the Photoshop mockup into an HTML/CSS template. We'll examine these in detail in the HTML/CSS section.

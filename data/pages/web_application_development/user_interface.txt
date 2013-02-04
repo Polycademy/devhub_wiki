@@ -1,17 +1,60 @@
 ====== User Interface ======
 
+Web user interfaces are unique in that they require an understanding of the document object model. There are also common UI patterns among web applications, and due to variability in screen sizes, web designers have to design interfaces that are viewable in any size. Furthermore web interfaces are not static graphics, they are interactive. AJAX makes the process even more unique as interactions are performed in real time and new information can overlay or replace elements already on the page.
+
 ===== Understanding the Box Model =====
+
+Web layouts consists of HTML as the markup language that describes the structure of information. Then CSS rules are applied in order to style the document. Javascript is the scripting language of browsers, and this is used to make layouts dynamic and eventful.
+
+The key concept to grasp when designing layouts is the box model.
 
 {{ :web_application_development:boxdim.png |}}
 
+All elements on the web are structured in boxes. Elements inside containers are usually boxes inside boxes. Simply you put your content inside the content box. Padding is used to pad out the containing edges, usually with a background colour. This is so that your content doesn't stick to the edge. Borders are used to setup borders. Margins are used for layout, in that you use it to push other boxes away.
+
+All elements begin relative to the root, which in positioning terms is the top left corner of the browser. Many browsers already have default CSS rules, but as a designer we'll be overriding them.
+
+The box model concept is also coupled to the CSS display rules. We'll examine this in more detail in the HTML & CSS section.
+
 ===== Common UI Patterns =====
 
-Just basic UI patterns, don't conflict with Bootstrap's UI patterns.
+There are many common user interface patterns across web applications. Consistency with these UI patterns allows your users to instantly recognise how to use your web application. However these are just guidelines. Let your creativity flow!
+
+  * Headers - [[http://blog.usabilla.com/how-to-design-a-more-effective-website-header/|Effect Website Headers]]
+  * Footers - [[http://www.smashingmagazine.com/2008/04/08/footers-in-modern-web-design-creative-examples-and-ideas/|Footers in Modern Web Design]], 
+  * Tables - [[http://coding.smashingmagazine.com/2008/08/13/top-10-css-table-designs/|Top 10 CSS Tables]], [[http://www.datatables.net/|Datatables]], [[http://designshack.net/articles/css/15-tips-for-designing-terrific-tables/|Tips on designing tables]]
+  * Forms - [[http://www.smashingmagazine.com/web-form-design-showcases-and-solutions/|Web Forms Design Showcase]]
+  * Upvote/Downvote - [[http://www.quora.com/|Quora]], [[http://news.ycombinator.com/|Hacker News]], [[http://stackoverflow.com/|Stack Overflow]], [[http://slashdot.org/|Slashdot]]
+  * Marketplace - [[http://www.designcrowd.com.au/|Designcrowd]]
+  * Slider - [[http://3.7designs.co/blog/2008/04/12-websites-that-slide-and-scroll-with-javascript/|12 Websites using Slide]], [[http://liquidslider.kevinbatdorf.com/|Liquidslider]]
+  * Horizontal Scroll - [[http://webdesignledger.com/inspiration/40-of-the-best-horizontal-scrolling-websites|40 Horizontal Scroll Sites]]
+  * Parallax effect - [[http://blog.usabilla.com/15-reasons-why-parallax-scrolling-in-web-design-is-awesome/|Why use Parallax effect?]]
+  * Grids - [[http://fluidsquares.com/|Fluid Squares]]
+  * Usability Tools - [[http://uxdesign.smashingmagazine.com/2009/06/23/10-ui-design-patterns-you-should-be-paying-attention-to/|UI Patterns Overview]]
 ===== Fluid Design =====
 
+Fluid design is the art and mathematics of making your design work on small screens and large screens. There are a number of tricks making design fluid, and it can get quite complicated resizing everything in proportion. However we'll be using Twitter Bootstrap and HTML5BP as our HTML/CSS framework which will abstract most of those difficulties.
+
+==== Text width ====
+
+[[http://www.maxdesign.com.au/articles/em/|Typographic research]] has shown that people don't like reading long lines of text. The recommended size is 52–78 characters (including spaces) per line. Of course this is a generalisation, as it depends on text size and line-height. Mark Boulton expands on this with an in depth article about [[http://www.markboulton.co.uk/journal/five-simple-steps-to-better-typography|typography and readability]].
+
+Typography with CSS doesn't fluidly scale currently, so there is a tool for that called [[http://fittextjs.com/|FitText]]. This [[http://trentwalton.com/2012/06/19/fluid-type/|Fluid Type]] article explains the reasons for using it.
+==== Progressive Enhancement or Graceful Degradation ====
+
+Fluid design isn't about sizing everything down in perfect proportion. You can't size down a desktop website to a mobile website without it being impossible to read. It's about knowing what's important to keep and that is less is more.
+
+Figure out the context of your mobile users, and you'll find out what mobile users really want. They don't have much time, since they're usually on the move, they also have slow internet. So it's important to cut out what's not important and only leave the essential.
+
+To do this you can use CSS Media Queries or have a separate mobile website or app. You may notice on the Polycademy website, when you size down, the navigation collapses into a small menu button. You don't want that blocking the content! Mobile browsers are often less powerful and less featureful than their desktop counterparts so you'll need to follow [[http://coding.smashingmagazine.com/2009/04/22/progressive-enhancement-what-it-is-and-how-to-use-it/|Progressive Enhancement]]. This basically means adding extra functionality if the browser supports it, if they don't gracefully degrade, so that older or less powerful browsers can still use the information.
+
+Refer to the Smashing Magazine list on [[http://www.smashingmagazine.com/responsive-web-design-guidelines-tutorials/|responsive design guidelines]] for more information.
 ===== AJAX Intro =====
 
-Rise of single page apps.
-Realtimeness.
-Design so your site can receive updates in realtime or via ajax.
-Such as dynamic loading, pushing.
+AJAX means Asynchronous Javascript and XML. It was a technology originally created by Internet Explorer, and it was an alternative way to load content into the page without refreshing the page. This creates a closer experience to desktop applications. AJAX brings power and complications to the web designer and front end developer.
+
+  * AJAX Usability Concerns - http://coding.smashingmagazine.com/2010/02/10/some-things-you-should-know-about-ajax/
+  * Common Ajax Problems - http://www.webdesignerdepot.com/2009/12/solutions-to-5-common-ajax-problems/
+  * Rise of Single Page Apps - http://happyworm.com/blog/2010/08/23/the-future-of-web-apps-single-page-applications/ & http://pandodaily.com/2012/12/06/html-javascript-and-the-app-ification-of-the-web/
+
+At the design stage it's important to understand the limitations and quirks of AJAX. With the speed of javascript rising in web browsers, a single page app powered by complex javascript becomes possible. However we still have many older browsers in use and mobile browsers cannot run complex javascript. As a front end developer you'll need to figure out how you can decouple your layout from user input, so that your layout can flexibly adapt to back end data. This will be examined in detail when we study javascript.

@@ -309,7 +309,7 @@ As a web designer we need a couple multimedia tools to create graphics, video an
 
 === Adobe Photoshop ===
 
-The king of graphics editing. We will be learning how to use [[wp>Photoshop|Photoshop]] to create website mockups. Photoshop is required to create the simplest of graphics to the most complicated digital art paintings. Although Photoshop is expensive to buy outright, Adobe currently offers [[https://creative.adobe.com/|Creative Cloud]] service allowing you to use Adobe applications on a monthly fee.
+The king of graphics editing. We will be learning how to use [[wp>Photoshop|Photoshop]] to create website mockups. Photoshop is required to create the simplest of graphics to the most complicated digital art paintings. Although Photoshop is expensive to buy outright, Adobe currently offers [[https://creative.adobe.com/|Creative Cloud]] service allowing you to use Adobe applications on a monthly fee. Download the trial to begin the first 30 days.
 
 === Audio Editing ===
 

@@ -18,19 +18,16 @@ In this section, we'll examine theories and concepts in design that is relevant 
 
 At this point students should have already completed a wireframe of their product, understood their brand and theme, designed their user interface and user experience, and are ready to apply their design theory to an actual mockup.
 
-Introduction the why and what is photoshop.
+To begin using Photoshop, we'll go through some of the common tools and options. Photoshop is a complex application but by starting with a few video tutorials you can start to see how a designer methodically and iteratively applies colours, lines and shapes to the canvas.
 
-Then how to use certain relevant tools along with examples or case studies. Go through all the needed tools in Photoshop!! (Layers and crap!)
-Also understanding the grid structure
+VIDEO ON COMMON TOOLS (relevant tools, such as rulers, layers, list of resources (gradients), 960 grid, kuler, scanlines, custom brushes, save on web process)
 
-Also possibly string along an actual website mockup method, and then teach the slicing method such as psd2html...
-Video demonstration of the photoshop mockup with stateofwar and aiesecanus one. You'll need to go back and recreate alot of some of your custom graphics? Or you can just give a list of resources to follow (that might be faster!)
+3 VIDEOS SHOWING PHOTOSHOP MOCKING UP
 
-GRID is here: http://psd.tutsplus.com/articles/web/50-totally-free-lessons-in-graphic-design-theory/
+In class, I'll do some live demonstration of the Photoshop process. It is best to use a grid overlay to help with your proportioning so you don't need to calculate pixels just to align something. Once the design is finished, we can either manually slice the design into parts or apply the [[http://designshack.net/articles/graphics/how-to-make-slicing-suck-less-tips-and-tricks-for-slicing-a-psd/
+|slicing tool]]. I prefer to do manual slicing, since my workflow creates independent layers anyway.
 
-Web slicing: http://designshack.net/articles/graphics/how-to-make-slicing-suck-less-tips-and-tricks-for-slicing-a-psd/
-
-List of websites created in photoshop: http://vandelaydesign.com/blog/design/photoshop-layout-tutorials/ (are you going to go through your own creation?? Maybe you could use stateofwar?? and aiesecanu!!)
+http://vandelaydesign.com/blog/design/photoshop-layout-tutorials/
 
 ===== HTML & CSS =====
 

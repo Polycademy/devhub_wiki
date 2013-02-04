@@ -25,7 +25,13 @@ JQuery Docs
 
 ===== Architecture =====
 
+Architecture
+
 ==== Understanding the Application Stack ====
+
+[{{ :web_application_development:full_http_stack_diagram.png?200|HTTP Stack & Request Cycle}}]
+
+Explain HTTP request cycle
 
 ==== Consuming Web Services API ====
 

@@ -92,7 +92,9 @@ Now here's an example scenario.
   When he returns the sweater for a refund
   Then I should have four black sweaters in stock
 
-One limitation of scenarios is a potential bias towards exceptional and rare events, or towards the viewpoint of an unrepresentative stakeholder. These biases are an acknowledged weakness of scenarios; however, some propose scenarios with ‘extreme characters’ that are deliberately exceptional to provoke constructive thought
+One limitation of scenarios is a potential bias towards exceptional and rare events, or towards the viewpoint of an unrepresentative stakeholder. These biases are an acknowledged weakness of scenarios; however, some propose scenarios with ‘extreme characters’ that are deliberately exceptional to provoke constructive thought.
+
+Refer to this Smashing Article about [[http://blog.usabilla.com/15-reasons-why-parallax-scrolling-in-web-design-is-awesome/|how business web applications may require a different design thinking]].
 
 Watch these videos on user experience scenarios for more information.
 
