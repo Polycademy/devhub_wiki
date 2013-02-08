@@ -20,70 +20,312 @@ At this point students should have already completed a wireframe of their produc
 
 To begin using Photoshop, we'll go through some of the common tools and options. Photoshop is a complex application but by starting with a few video tutorials you can start to see how a designer methodically and iteratively applies colours, lines and shapes to the canvas.
 
-VIDEO ON COMMON TOOLS (relevant tools, such as rulers, layers, list of resources (gradients), 960 grid, kuler, scanlines, custom brushes, save on web process)
+  * [[https://kuler.adobe.com/|Kuler]] - Colour Selection
+  * [[http://thenounproject.com/|The Noun Project]] - Icons and Generic Images
+  * [[http://www.sxc.hu/|Stock.xchng]] - Free stock image gallery, try to minimise the use of stock images, they often look fake and tacky. Instead take an image and modify it so it looks more generic or artsy. If you need real images, go take a real photo!
+  * [[http://960.gs/|960 Grid]] - For standard website grid system
+  * [[http://www.ravelrumba.com/photoshop-grids/|Ravel Rumba Grids]] - For mobile and ipad grids
+  * [[http://subtlepatterns.com/|Subtle Patterns]] - For repeating patterns
+  * [[http://www.fontsquirrel.com/|Font Squirrel]] - For custom fonts
+  * [[https://www.filepicker.io/api/file/Lwd2zzhQMiDsqAB2WaC1|Polycademy Design PSD Template]] - For an example of how a Photoshop mockup will look when its finished.
+  * [[http://graphicssoft.about.com/od/aboutgraphics/a/bitmapvector.htm|Bitmap vs Vector]] - The difference between bitmap and vector.
+  * [[wp>Rasterisation|Rasterisation Process]]
+  * [[http://www.telegraphics.com.au/sw/product/ICOFormat|ICO Format]] - This is so that your Photoshop can sav ''.ico'' files for Favicons. It's those small images at the top right of your browser tabs.
 
-3 VIDEOS SHOWING PHOTOSHOP MOCKING UP
+{{ youtube>I-RkAqxcP4o?large }}
+
+{{ youtube>XBSr21-vOLs?large }}
+
+**Video Based Tutorials**
+
+The first four videos in the playlist are the most relevant to Photoshop design. Follow his instructions and try to replicate what he did.
+
+{{ youtube>xUjHtm3vcw8&list=PLB405F6C3018255C0?large }}
+
+Andrew takes you through web design using Photoshop. He makes good use of grids.
+
+{{ vimeo>6520450?large }}
+
+{{ vimeo>6520505?large }}
+
+**Non-video tutorial**
+
+  - [[http://psd.tutsplus.com/tutorials/interface-tutorials/photoshop-web-design-sleek/|Basic tutorial, very easy to get started]]
+  - [[http://photoshoptutorials.ws/photoshop-tutorials/layouts/how-to-create-a-professional-web-layout-in-photoshop/?singlepage=1|Web App Style Layout]]
+  - [[http://webdesignfan.com/design-a-clean-mobile-app-website-in-photoshop/|Single Focus Layout]]
+  - [[http://psd.tutsplus.com/tutorials/interface-tutorials/how-a-simple-layout-can-be-mixed-n-matched-with-patterns-photos-and-backgrounds/|Shows the usage of Patterns, Photos and Grids]] - Do this once you have you finished at least one of the other tutorials.
+  - [[http://vandelaydesign.com/blog/design/photoshop-layout-tutorials/|More for further exploration]]
+  - [[http://www.smashingmagazine.com/2008/03/28/adobe-photoshop-video-tutorials-best-of/|Video based Photoshop tips]] - non web related
 
 In class, I'll do some live demonstration of the Photoshop process. It is best to use a grid overlay to help with your proportioning so you don't need to calculate pixels just to align something. Once the design is finished, we can either manually slice the design into parts or apply the [[http://designshack.net/articles/graphics/how-to-make-slicing-suck-less-tips-and-tricks-for-slicing-a-psd/
 |slicing tool]]. I prefer to do manual slicing, since my workflow creates independent layers anyway.
 
-http://vandelaydesign.com/blog/design/photoshop-layout-tutorials/
-
 ===== HTML & CSS =====
+
+Once you have your Photoshop mockup finished, it's time to get started [[http://designshack.net/articles/css/do-we-still-slice-psds/|slicing up the PSD file]] into separate images so we can use them for our HTML and CSS. There are two ways of doing slicing. You can either follow the old way of slicing as demonstrated on this [[http://net.tutsplus.com/articles/news/converting-a-design-from-psd-to-html/|Nettuts article]] or if you structured your mockup correctly with multiple layers, then you can simply export your layers one by one. The reasons this is better is because then you don't have unnecessary images. Slicing can create a lot of useless images. You should minimise the use of images, since many graphical elements can be simply be created using CSS. If you can do this, your user loads your website quicker and faster. This will be demonstrated in class. But you can try it yourself by simply duplicating your layer into a new window, trimming and cropping, then save to web.  
 
 ==== Syntax ====
 
-Reference to HTML syntax => http://reference.sitepoint.com/html AND https://developer.mozilla.org/en/docs/HTML AND https://developer.mozilla.org/en-US/docs/HTML/HTML5
+The syntax of HTML and CSS is your own responsibility. You're expected to read through the documentation and have it open to reference when coding. Don't try to remember it all, instead learn to practice immediately what you read.
 
-Reference to CSS syntax => http://reference.sitepoint.com/css AND https://developer.mozilla.org/en-US/docs/CSS/Getting_Started AND https://developer.mozilla.org/en-US/docs/CSS/CSS_Reference
+  * HTML Syntax - [[http://reference.sitepoint.com/html|Sitepoint Documentation]] and [[https://developer.mozilla.org/en/docs/HTML|MDN Documentation]]
+  * HTML5 API - [[https://developer.mozilla.org/en-US/docs/HTML/HTML5|MDN Documentation]]
+  * CSS - [[http://reference.sitepoint.com/css|Sitepoint Documentation]] and [[https://developer.mozilla.org/en-US/docs/CSS/CSS_Reference|MDN Documentation]]
+  * CSS Starters - [[https://developer.mozilla.org/en-US/docs/CSS/Getting_Started|MDN Documentation]]
 
 === CSS Preprocessor ===
 
-Less reference => http://lesscss.org/
+CSS also has its share of preprocessors. CSS itself is a very basic markup language. It's not a programming language which means it is very simple. But its simplicity means that it's not very powerful and when you need to write up CSS for hundreds of pages, it can get messy very quickly. That's why we use CSS preprocessors. These provide extra syntax to the CSS language and then compiles the language when we're done. It allows us to modularise our CSS code and import them when compiling. It will also concatenate and minify our CSS files so that the HTTP response is smaller thus speeding up your web application. There are several CSS preprocessors. The most popular in use is [[http://webdesign.tutsplus.com/tutorials/htmlcss-tutorials/get-into-less-the-programmable-stylesheet-language/|LESS]].
+
+The LESS reference page is at the official [[http://lesscss.org/|LESS documentation]]. In order to compile LESS into CSS, you can use Simpless if you're on the local stack. Or if you're using the Cloud Stack, you'll need to use lessphp as a command line tool to watch out CSS files and compile them whenever there are any changes. Refer to the [[Solution Stack]] to acquire these tools.
+
+We're going to go straight to learning LESS since it incorporates CSS. However the LESS documentation obviously does not contain basic CSS. So you'll need to refer back to the CSS documentation before you can understand how to use LESS.
+
+{{ youtube>1l3JgDGl_Z8&list=PLwwh-11EOGvMYzAz6MxIK_2R15KRvlrXa?large }}
+
+Furthermore, since many CSS3 properties are still at developmental stage, browser vendors actually prefix CSS3 rules with their particular browser engine name. We could write each CSS3 rule and add their browser vendor prefix, or we can use a package called [[http://clearleft.github.com/clearless/|Clearless]]. It provides a comprehensive mixin library to make CSS a breeze.
+
 ==== HTML/CSS Framework ====
 
-H5BP + Twitter Bootstrap => Initializr
+We're going to be using [[http://twitter.github.com/bootstrap/|Twitter Bootstrap]] combined with [[http://html5boilerplate.com/|HTML 5 Boilerplate]]. HTML 5 Boilerplate is simply a single HTML file with an assortment of addons which demonstrate the best practices when it comes to creating modern HTML and CSS. Twitter Bootstrap is a design framework offering its own brand of CSS functionality that you can immediately plug in play. Basically the granular CSS work to create grids, nice looking forms, tables, responsive design and other UI elements already exist. This doesn't mean you can't customise it, everything can be overwritten, however it will really speed up your development time.
 
-Reference for Bootstrap => http://twitter.github.com/bootstrap/
+Refer to the official documentation of Twitter Bootstrap and HTML 5 Boilerplate to get a feel of what they offer. Note that these two frameworks can also be used on HTML5 Mobile apps, however it's probably better to not use Bootstrap because many of their functionality will be overkill and you won't really use it. So that means using this framework does not mean you don't have to learn basic HTML and CSS, especially when you want to do something out of the ordinary.
 
-=== Common UI Elements ===
+H5BP and Twitter Bootstrap can be combined manually, but instead we can simply use a service called [[http://www.initializr.com/|Initializr]] that automatically packages these together. So head to Initialzr and click on the Bootstrap option. Leave the top grid of options as their defaults, for the H5BP optionals, click to download all of them.
 
-Intro to HTML 5 (students should learn this with the CSS section. So every class will focus on a few tags and tools, but allow the students to mix and match what's needed to actually create a prototype for their photoshop mockup. The slicing will be important here)
+It's up to you to study the syntax of HTML and CSS, and then studying the API of Bootstrap plus the [[https://github.com/h5bp/html5-boilerplate/blob/v4.1.0/doc/TOC.md|features in H5BP]]. We'll go through common UI elements using these two frameworks later, and but you'll be applying those concepts to your UI when we're in class.
 
-Using HTML 5 boilerplate
+There is a [[http://html5boilerplate.com/mobile/|mobile variant of H5BP]] as well. Use this as a reference when starting a mobile design.
 
-Understanding all the elements in HTML 5 with case studies and examples. Code examples will be used here along with html demonstrations with no styling of CSS!
+==== Generic Skeleton ====
 
-Validation
+This generic skeleton uses Initializr's packaged Bootstrap and H5BP, but slightly modifies it so you can see multiple elements in action. It is commented, so go through each one and test them out in your development environment. It also uses LESS.css and the lessphp compiler. Note that LESS will not be highlighted properly if the IDE does not have a LESS parser. You will simply use CSS based highlighting. You can find the final project at the [[https://github.com/Polycademy/commonui|commonui Github repository]]. Navigate to the ''app'' directory.
 
-Favicon
+<code html index.html>
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        
+        <link rel="shortcut icon" href="favicon.ico">
+    	<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
-==== Tools ====
+        <link rel="stylesheet" href="css/main.css">
 
-960css
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        
+        <header class="navbar navbar-static-top">
+            <div class="container">
+				<div class="navbar-inner">
+					<a class="logo" href="#"><img src="path/to/logo.png" /></a>
+					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</a>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+                            <li><a href="#">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+						</ul>
+					</div>
+				</div>
+            </div>
+        </header>
+        
+        <div class="main">
+            <div class="container">
+                <article>
+                    <h1>This is my article</h1>
+                    <p>Hello World!</p>
+                    <section>
+                        <h2>This is my section!</h2>
+                        <p>Hello this is my content!</p>
+                    </section>
+                </article>
+            </div>
+        </div>
+        
+        <footer>
+            <div class="container">
+                <div class="row">
+                    <section class="span4">
+                        <h3>First section</h3>
+                    </section>
+                    <section class="span4">
+                        <h3>Second section</h3>
+                    </section>
+                    <section class="span4">
+                        <h3>Third section</h3>
+                    </section>
+                </div>
+            </div>
+        </footer>
+        
+        
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.0.min.js"><\/script>')</script>
 
-Kuler for colours
+        <script src="js/vendor/bootstrap.min.js"></script>
 
+        <script src="js/plugins.js"></script>
+        <script src="js/main.js"></script>
+
+        <script>
+            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
+            s.parentNode.insertBefore(g,s)}(document,'script'));
+        </script>
+    </body>
+</html>
+</code>
+
+<code css main.less>
+/* ==========================================================================
+   IMPORT MIXINS ELEMENTS PRESETS
+   ========================================================================== */
+@import url("bootstrap.less");
+
+
+/* ==========================================================================
+   MAIN
+   ========================================================================== */
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@import url("bootstrap-responsive.less");
+@import url("responsive.less");
+</code>
+
+This video demonstrates the installation of the initializr package on Cloud9 and integrates LESS and lessphp into the project. It basically shows how to setup the basic skeleton as shown above. Note that your CSS files are not minified via this method, but requires an extra minifier to do this. We can do this using the Phing build system later. Remember to refer to the [[https://github.com/leafo/lessphp#how-to-use-from-the-command-line|LESS documentation on the command line usage of plessc]]. Note that lessphp currently does not support lesshat. Use clearless instead.
+
+{{ youtube>i9l1JQxG5og?large }}
+
+==== Common UI Elements ====
+
+This section will demonstrate some common elements that are used in HTML and CSS. It will also have a standard skeleton of a generic website. You will need to learn these concepts and syntax structure and apply to your own layout.
+
+  * Header with Navigation, Collapse, Search
+  * Footer
+  * Tables
+  * Blog Articles
+  * Columns
+  * Floats
+  * Display Positioning
+  * Forms
+  * Multimedia
+  * Custom Fonts
+  * Microformats/Microdata/RDFa
+  * Data URIs
+  * Hover & Active Selectors
+  * Advanced Selectors
+  * Favicon Usage
+  * Slider
+  * Multiple Backgrounds
+  * Z-index
+  * Image Grid
+  * Modal Boxes and Lightboxes
+  * Fluid Stretch
+  * Round Borders and Padding and Image Borders
+  * Transparency
+  * Text Effects
+  * Transitions & Animations using CSS
+
+==== UI Video Tutorials ====
+
+Watch these 3 video tutorials when beginning your Photoshop slicing and HTML/CSS markup.
+
+  * [[http://net.tutsplus.com/sessions/photoshop-to-html/|From Photoshop to HTML & CSS]] - this has 9 screencasts taking you from the Photoshop slicing to the final HTML and CSS output. Your final output is this: {{ :web_application_development:final_small.jpg?400 |}}
+  * [[http://net.tutsplus.com/articles/news/slice-and-dice-that-psd/|Slice and Dice that PSD]] - this starts from an already made PSD file and has a video turning that into HTML and CSS. Your final output is this: {{ :web_application_development:thehtml.png?400 |}}
+  * [[http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/|Twitter Bootstrap Video Tutorials]]
 ==== Debugging ====
 
-Using firebug for html/css
+When doing web design or front end development, the browser shows the final output, but doesn't really tell you what's going on inside the browser. You need a front end debugger to show how the browser interprets your HTML/CSS and javascript. The two main browsers that come with good front end debuggers is Firefox and Chrome. Chrome has its own web developer tools which you can access by right clicking and going into inspect element. However Firefox requires an installation of the Firebug extension. This section will focus on the firebug extension.
+
+{{ youtube>tdIk2PztcL0&list=PLwwh-11EOGvODmCKnjDwv7XWXj46mGDlx?large }}
+
+Firebug is accessed via the right click context menu. It opens up an embedded console with 7 tabs: Console, HTML, CSS, Script, DOM, Net, and Cookies. For the purposes of design you'll mostly use HTML, CSS and Net. When you start to get more deep into front end development with javascript, you'll start to look into using the Console, Script, DOM and Cookies.
+
+The HTML tab shows a structured and collapsed version of your HTML markup. You can explode the elements with the plus button to get a deeper look at the nodes. The panel is also interactive, you can edit the HTML and it will be immediately represented on the page in realtime. Try changing the attributes inside each tag or the textual content in ''<p>'' tags.
+
+On the right of the HTML panel, is a secondary panel with Style, Computed, Layout and DOM. Style contains the combined CSS rules that apply to the HTML element you are currently focused on. It tells you the selector, the rule and which file the rule came from. You can also edit this in real time, this allows quick iteration of different colours or positioning straight from your browser.
+
+The Computed tab shows the final output from those rules that the browser has calculated. This is useful when you have CSS rules that overwrite each other, you may want to know what the final value is, instead of following the order of overwriting. The Layout tab shows the dimensions and coordinates of each element. This is useful when you want to know which part of the element is margins, padding, border or internal width/height. The DOM tab shows the DOM functions and properties accessible from that HTML node.
+
+The CSS tab focuses on just the CSS. The main panel shows all the CSS rules according to the file it came from. The secondary panel asks you first to type in a CSS selector, and it will show all the HTML nodes that have that CSS rule applied to it.
+
+When you have written some HTML and CSS, and then tested in the browser, you may find that the behaviour was not what you intended. That's when you use Firebug to find out the CSS style or offending HTML node that is causing that behaviour. Sometimes it is a matter of trial and error, you have to disable or change rules and see the behaviour change in real time. As you observe the results, you'll be able to make the necessary adjustments.
+
+The Net tab will show you the performance of your page. It will show you all the HTTP requests are being made while accessing your page. This can show you bottlenecks and which files are taking longer to load than others. It is also useful for AJAX as you can see what data is being piped and received.
+
+You should also use Firebug to inspect other websites so you can learn from them, especially any design sites showing a demo of HTML and CSS markup.
+
+When you start working with javascript and AJAX, it is important to use Firebug to inspect your DOM properties and adjust them on the fly. You can also check the Cookies tab so you can see if the cookies you set were set properly. Finally you can use the Console to interactively execute javascript on the page. The Console is a useful learning tool, but any commands will affect what's on the page.
+
+Please note, anything you change on Firebug is only temporary for your browser session. It does not permanently change anything in your files.
 
 ===== Browser Testing =====
 
-Using browsers... to test and see for differences. Then use firebug to manipulate changes. This relies more on experience, there's no real good place to find out browser quirks. Eventually you'll realise how to design pages that are roughly the same.
+The aim of cross-browser testing is to ensure that your design looks the same and works across all browsers. There are not only different browser models, but different browser versions. Older browsers don't support the latest technology that we are using in both javascript, HTML and CSS. This is why we need to use [[http://remysharp.com/2010/10/08/what-is-a-polyfill/|Polyfills]]. Luckily for us, experienced developers have done the hardwork in creating cross-browser Polyfills for us to use. Polyfills are basically fallback techniques that implement the features in non-compliant or older browsers. There are several techniques involving Modernizr, HTML5shims, jQuery, user-agent detection and standard if this then that javascript. 
 
+If we have advanced javascript we want to implement, then most major libraries automatically abstract away the fallback strategies, they'll automatically use the polyfill. However if you're doing something unconventional, then you'll need to research on browser quirks to find the correct functionality. This can be as simple as googling the functionality for that browser, or as difficult as digging into the browser developer documentation.
+
+If you have newer html5 elements such as ''<section>'', then the HTML5shim takes care of that, by converting it into a normal ''<div>'' element. Since we are using HTML5BP and Bootstrap, this is already done for us.
+
+If you're using advanced CSS3, then you have three options. You can either use javascript to reimplement the same functionality. This is more costly, because javascript is slower than parsing CSS, but javascript is more flexible than CSS. The second option is implement it via proprietary CSS rules that are not part the international standard. You can most likely find it across various web development blogs. The third option is implement a concept called graceful degradation or progressive enhancement.
+
+==== Graceful Degradation & Progressive Enhancement ====
+
+These two concepts are just two ways of saying the same thing. If we were to implement some of the newer technologies without any fallbacks or degradation strategies, then when older browsers visited, it would just break with the page being unusable or even freeze the browser itself. This is not very good for user experience. This concept simply states, that instead of trying to replicate the same functionality, just gracefully degrade the experience for them. Think like this, instead of 3D, do 2D. Instead of transparency, just use a flat colour. Instead of several javascript transitions, have them instantly popup.
+
+You have to balance the effort to cost though. Is the reward of creating a degraded experience for older browsers worth your time. Sometimes it may be better to simply tell them that they have an old browser, and they need to upgrade before using your web application.
 ===== Mobile Design =====
 
-Mobile first
+There are two ways of designing for mobile phones. It is fluid design based on either graceful degradation for mobile browsers, or via the mobile first strategy. The second is creating a full fledged mobile app. You have to decide for your requirements, whether your mobile app is a full featured app using either Phonegap or native development toolkit, or whether your mobile app is actually a mobile website.
 
-Fluid design
+For Polycademy, we're going to focus more on fluid design with graceful degradation. This is where we start with a full desktop based web page, and fluidly stretch down to mobile appropriate design and gracefully degrade some unnecessary elements. If you are want a separate mobile app, then you can simply start straight from a mobile appropriate design. But you should do that in your own time. As for [[http://designshack.net/articles/css/mobilefirst/|mobile first strategy, you can read this article]] to find out more about it. The skills to do both aren't different, you're still using the same old HTML and CSS.
 
-Mobile UX
+In order to demonstrate fluid design with graceful degradation. You should take your desktop designed site from HTML5BP and Bootstrap, and simply resize your browser down to see how it will look on a mobile phone. Bootstrap will automatically stack your columns vertically. You'll probably see a few things out of place and will want to apply extra CSS rules to make them fit correctly.
 
+The next step is to gracefully degrade the experience. Mobile phones don't need as many options and controls to be useful. In fact adding that many elements will clutter up the screen. One common thing that gets degraded is the amount of adverts on content sites. Often when the screen gets smaller, there'll only be one header advert, and the rest may be sprinkled between the content. But there won't be sidebar based adverts. Another is the menu. The menu would be shrinked and collapsed into a menu button, this can automatically be done in bootstrap. When designing for mobile, less is more. So think about what you want to remove or be able to resize.
+==== Mobile UX ====
+
+Mobile user experience has its own peculiarities. Mainly with the fact that the screen is smaller, so we either need to stretch/crop our elements to be viewable on a smaller screen, and of course the philosophy of "less is more". Take a look at the below sites for each topic.
+
+  * [[http://24ways.org/2012/responsive-images-what-we-thought-we-needed/|Responsive Images]] and [[http://adaptive-images.com/|Adaptive Images]] - our images not only need to be resized, but also their sizes should also be smaller.
+  * [[http://uxdesign.smashingmagazine.com/2012/10/30/motion-animation-new-mobile-ux-design-material/|Principles of Animation for Mobile Apps]] and the same for [[http://coding.smashingmagazine.com/2011/09/14/the-guide-to-css-animation-principles-and-examples/|CSS]] - good for standard desktop design too!
+  * [[http://webdesignerwall.com/tutorials/css-elastic-videos|CSS Elastic Videos]] and [[http://fitvidsjs.com/|jQuery Elastic Videos]] - to fit videos on a mobile screen.
+  * [[http://www.nngroup.com/articles/condense-mobile-content/|Mobile Copywriting]]
+  * [[http://blog.cloudfour.com/on-mobile-context/|The context of how people use Mobile Apps]]
+  * [[http://uxdesign.smashingmagazine.com/2011/07/18/seven-guidelines-for-designing-high-performance-mobile-user-experiences/|Designing for Performance]]
+  * [[http://mobiledesignpatterngallery.com/mobile-patterns.php|Mobile Design Pattern Gallery]]
 ===== Copywriting =====
 
-About copywriting...
+Copywriting is the act of writing copy. Copy is text that is used with finished design products such as websites, web applications or posters. You are doing copywriting everytime you're writing to make your user do something or commit to some action. You're also doing copywriting when writing menus, context actions and button texts for the controls of your web application. You're also doing copywriting when you're blogging, but blogging involves more than writing to sell, but writing to educate, persuade and inform.
 
-==== A/B testing ====
+I wouldn't get too deep in learning about copywriting, it's more a black art, and 90% of anything is crud. But take a look at this [[http://heronacademy.com/lab/copywriting/copywriting-for-beginners-part-1|copywriting tutorial]].
 
-About A/B testing.
+===== SEO =====
+
+SEO is a black art in the web world too. So don't get too focused on it. However this [[http://www.slideshare.net/randfish/the-death-rebirth-of-seo|slideshare demonstrates the world of SEO]] quite well.
+
+{{url>http://www.slideshare.net/slideshow/embed_code/9492949?rel=0 427px,356px noscroll noborder}}

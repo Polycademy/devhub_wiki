@@ -1,0 +1,18 @@
+====== Lesson Plans ======
+
+Here is the list of lesson plans:
+
+===== Web Application Development =====
+
+**Week 1**
+  * [[Lesson 1 - WAP|Lesson 1]]
+  * [[Lesson 2 - WAP|Lesson 2]]
+  * [[Lesson 3 - WAP|Lesson 3]]
+  * [[Lesson 4 - WAP|Lesson 4]]
+  * [[Lesson 5 - WAP|Lesson 5]]
+**Week 2**
+  * [[Lesson 6 - WAP|Lesson 6]]
+  * [[Lesson 7 - WAP|Lesson 7]]
+  * [[Lesson 8 - WAP|Lesson 8]]
+  * [[Lesson 9 - WAP|Lesson 9]]
+  * [[Lesson 10 - WAP|Lesson 10]]

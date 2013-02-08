@@ -1,0 +1,37 @@
+====== Lesson 3 - WAP ======
+
+**Expected Work**
+
+  - Finish Vision & Plan
+  - Started Reading Solution Stack
+  - Have a concrete idea for your application
+  - Started reading design theory in web design
+  - Started on UI iterations
+  - Started installing tools in local stack and played around in Cloud9
+  - Started researching on technology stack relating to your domain problems
+
+**Agile**
+
+  - What have you done since yesterday?
+  - What are you planning to do today?
+  - Any impediments/stumbling blocks?
+
+**Lecture**
+
+  - Demonstrate some practice with the solution stack if needed
+  - Design Theory Aesthetics
+  - Design Theory User Experience
+  - 53 days left!
+
+**Practice**
+
+  - Research on the technology stack
+  - Have your components and workflows and technology stack turned into UI iterations
+  - Work through the solution stack installing everything
+  - Revising the feature list according to core and value adding
+  - Setting up the blog - monetary incentive
+  - Working on at least 10 wireframes for the frontpage of your site (bring your own to demonstrate)
+
+**End Lecture**
+
+  - Blog creation

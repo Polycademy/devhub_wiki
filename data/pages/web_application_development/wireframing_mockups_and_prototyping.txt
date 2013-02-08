@@ -8,6 +8,8 @@ Wireframing is best done on pen and paper. You can begin at low fidelity wirefra
 
 {{ youtube>xruQjGyD4fo?large }}
 
+Refer to this [[http://webdesign.tutsplus.com/tutorials/workflow-tutorials/a-beginners-guide-to-wireframing/|article on wireframing]] to get started.
+
 ===== Mocking Up =====
 
 The next stage is mocking up. Most professional web designers use Photoshop for this task. The process of mocking up is taking the wireframing and turning it into an image on Photoshop. The image doesn't need to be exact, but it should be to scale of your final design output on the browser. This is where you apply your colour choices. This stage is important as you create the necessary layout graphics in Photoshop. You then cut these out for prototyping.

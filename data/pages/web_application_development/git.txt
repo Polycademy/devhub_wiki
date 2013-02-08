@@ -124,13 +124,28 @@ You can use a file named ''.gitignore'' which is located at the root of your pro
 
 Refer to these [[https://github.com/github/gitignore|example .gitignore files]] to construct your own. There's even an example there for Codeigniter.
 
-  /foldername/*                     #to ignore a directory
-  foldername                        #also ignores a directory
-  .hidden_folder                    #also ignores a hidden directory
-  /*.php                            #ignores all files with php extension
-  !/lol.php                         #except don't ignore this php file!
-  folder/to/my/file/example.php     #ignores specifically example.php
-  /example.php                      #ignores example.php at root level
+  #to ignore a directory
+  /foldername/*
+  #also ignores a directory
+  foldername
+  #also ignores a hidden directory
+  .hidden_folder
+  #ignores all files with php extension
+  /*.php
+  #except don't ignore this php file!
+  !/lol.php
+  #ignores specifically example.php
+  folder/to/my/file/example.php
+  #ignores example.php at root level
+  /example.php
+
+If you're working on the Cloud Stack or Local stack you should ignore:
+
+  vendor/*
+  bin/*
+  .c9revisions/*
+
+Don't ignore the ''.git'' folder. Click on the little gear symbol on the workspace to see hidden files or folders on your Cloud9.
 ===== Advanced Git =====
 
 Git is a very powerful tool. It could constitute its own course. To learn about the power of git and its applicability, see the online [[http://git-scm.com/doc|Git Scm Book]].

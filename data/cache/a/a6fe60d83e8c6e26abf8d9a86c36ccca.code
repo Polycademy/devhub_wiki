@@ -1,0 +1,19 @@
+<span class="coMULTI">/* ==========================================================================
+   IMPORT MIXINS ELEMENTS PRESETS
+   ========================================================================== */</span>
+<span class="co1">@import url(&quot;bootstrap.less&quot;);</span>
+&nbsp;
+&nbsp;
+<span class="coMULTI">/* ==========================================================================
+   MAIN
+   ========================================================================== */</span>
+body <span class="br0">&#123;</span>
+    <span class="kw1">padding-top</span><span class="sy0">:</span> <span class="re3">60px</span><span class="sy0">;</span>
+    <span class="kw1">padding-bottom</span><span class="sy0">:</span> <span class="re3">40px</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="coMULTI">/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */</span>
+<span class="co1">@import url(&quot;bootstrap-responsive.less&quot;);</span>
+<span class="co1">@import url(&quot;responsive.less&quot;);</span>

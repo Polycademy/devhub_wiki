@@ -27,6 +27,7 @@ JQuery Docs
 
 Architecture
 
+HTACCESS
 ==== Understanding the Application Stack ====
 
 [{{ :web_application_development:full_http_stack_diagram.png?200|HTTP Stack & Request Cycle}}]

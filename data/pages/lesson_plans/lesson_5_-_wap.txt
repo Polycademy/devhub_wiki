@@ -1,0 +1,26 @@
+====== Lesson 5 - WAP ======
+
+**Expected Work**
+
+  - Finish Solution Stack
+  - Finishing Web Design Theory
+  - Finish off UI iterations
+  - Continue research on your technology stack
+
+**Lecture**
+
+  - User Interfaces & Wireframing/Mockups/Prototyping
+  - Git (in case anybody didn't read it)
+  - Photoshop beginning
+  - 51 days left!
+
+**Practice**
+
+  - Research on the technology stack
+  - Finishing UI iteration for the front page, incorporate elements of AJAX and graceful degradation
+  - Have photoshop installed and get some of the tools downloaded
+  - Demonstrate via the Polycademy photoshop PSD
+
+**End Lecture**
+
+  - Blog creation due date for everybody!

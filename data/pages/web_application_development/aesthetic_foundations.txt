@@ -213,13 +213,15 @@ Typography is probably the most common and important element of web design. It i
 
 For web designers, the main things we have to consider when designing typography are:
 
-  * Font Choices - It's best to choose 3 - 4 fonts and use them consistently. I prefer using sans-serif fonts for titles and short copy text, and serif fonts for long text. Serif fonts we're originally created to make it easier to distinguish each character, so I believe it's the best for long paragraphs. Sans-serif looks more modern and the famous display font Helvetica is based off it. Try using [[http://www.fontsquirrel.com/|Font Squirrel]] for web usable fonts. Your fonts should somewhat be related to their context. If you use serif fonts for headings, then your site is more geared towards elegance or olden times or specific cultures.
+  * Font Choices - It's best to choose 3 - 4 fonts and use them consistently. I prefer using sans-serif fonts for titles and short copy text, and serif fonts for long text. Serif fonts we're originally created to make it easier to distinguish each character, so I believe it's the best for long paragraphs. Sans-serif looks more modern and the famous display font Helvetica is based off it. Try using [[http://www.fontsquirrel.com/|Font Squirrel]] for web usable fonts. Your fonts should somewhat be related to their context. If you use serif fonts for headings, then your site is more geared towards elegance or olden times or specific cultures. Refer to this [[http://ilovetypography.com/2008/04/04/on-choosing-type/|article for more information on choosing fonts]].
 
   * Font Size - This is the same as sizing issue. Headers and markers/indicators should have a different larger font size then normal text. Fluid design also dictates we should use fluid font sizes, that is font sizes that adjust to the screen and user configuration. Use similar sizing to dictate similar groups of content. You have to consider different use cases, your user may be looking at it on a mobile screen, big screen TV or computer monitor.
 
   * Line Height - Squeezed in text is hard to read. Increase your line height so that it matches your font size. Sometimes it's good to be even bigger. Many websites have far too small font size and line height for their text heavy content. If someone is meant to be reading that, make it easy to read, so easy that you don't have to focus or put on glasses. Make it big. Refer to [[http://37signals.com/svn/posts/3285-the-typography-and-layout-behind-the-new-signal-vs-noise-redesign|37 Signals]] and check out how their blog makes everything easy to read.
 
   * Letter Width - This is of course similar to line height. Increase your letter width so that the characters are appropriately spaced out. But if they are too far away from each other, it will become harder to read.
+
+Refer to this [[http://typophile.com/node/12038?|definition list of typographical terms]] if you want to learn more about typography.
 ===== Trends =====
 
 There are a number of trends in web design that you can follow or tweak. Nothing's stopping you from breaking out of the mold.

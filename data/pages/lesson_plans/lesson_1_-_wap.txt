@@ -1,0 +1,25 @@
+====== Lesson 1 - WAP ======
+
+  - Greet Participants
+  - Introduce yourself and go around the room
+  - Housekeeping – internet and restrooms and ability to enter the place (contact details)
+  - Icebreaker (begin)
+  - Examine Expectations
+    - Ask them what they are expecting?
+      - What are your objectives and what are their objectives?
+    - Talk about the course structure
+      - Wiki (flipped classroom) expectations, still under development, encourage participation
+      - Timing (2 – 3 weeks for design), rest for programming, but parallel, and revisit design.
+      - Agile workflow (weekly review) Daily scrum.
+      - Syntax and Frameworks is your responsibility, I will begin each day with core concepts, but then you have work on it, and I’ll go around to each person addressing the problems highlighted during the daily scrum.
+      - Hours, to complete your application. Self study is a must.
+      - Read the prescribed readings/videos and explore further. Especially syntax and framework code.
+      - Always have the documentation opened up, don’t try to remember, just practice.
+      - Teamwork, you can work together but even if you’re doing things differently, make sure to share your ideas and problems. Some may know things you don’t know. Let’s operate as if we’re  a single company, not separate companies.
+    - Expectation of writing a blog (tumblr or wordpress) – reflection is important. Also allows me to see their feedback on how it can be improved.
+    - Mentor assignment (setup invitation)
+    - Individual Meetings (later)
+    - Come in any time to the office, and work here. I’ll be here.
+  - Break the ice breaker
+  - Begin vision & plan. Start at beginning. Begin the solution stack. Give 2 extra days for this. And demonstrate.
+  - End review – assign reading and wiki permissions.

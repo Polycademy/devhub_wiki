@@ -1,0 +1,64 @@
+====== Lesson 2 - WAP ======
+
+**Expected Work**
+
+  - Read Vision & Plan
+  - Done brainstorming the application
+  - Done feature set of the application
+
+**Agile**
+
+  - What have you done since yesterday?
+  - What are you planning to do today?
+  - Any impediments/stumbling blocks?
+  - On the weekly, talk about the pace, then set future milestones from there
+
+**Lecture**
+
+  - Agile Workflow in Detail
+  - Agile Philosophy
+  - 54 days left!
+
+**Practice**
+
+  - Turning feature set into components
+  - Textual iterations (non drawing)
+  - Choosing the technology
+  - Setting out the weekly milestones
+  - Working on the Solution Stack
+  - Setting up the blog
+
+**End Lecture**
+
+  - Introduce Solution Stack
+    - AMP
+    - Cloud9
+    - Git
+  - Blog creation
+
+
+**App Requirements**
+
+  - Ash
+    - HTML Parsing (not Regex), use PHP
+    - Modularised WCAG toolset, convert documentation to grouped rulesets
+    - Web Acceptance Tester using a headless Browser, use Behat with Mink with PhantomJS, it needs to run a browser to execute Javascript
+    - Scraping using CURL
+  - Matthew
+    - Location to GPS coordinates using Google Maps API
+    - User Account System
+    - Find and Match Location within Range using Binary Search
+    - Transactional Emails (mailchimp)
+    - Messaging System (pm system)
+    - Rating system (star algorithm)
+  - Phuong
+    - Same as Matthew
+  - Tim
+    - Chess Game Engine written in Javascript
+      - Positioning Data
+      - Ruleset Calculation Data
+    - Canvas Animation Engine
+    - Backend logging of instructions
+      - Ranking and Player Performance playback
+    - AJAX or Server Push or Pusher to push events to both players (with chat as well)
+    - WebRTC or using Tokbox API

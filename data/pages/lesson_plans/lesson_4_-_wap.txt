@@ -1,0 +1,33 @@
+====== Lesson 4 - WAP ======
+
+**Expected Work**
+
+  - Get most of Solution Stack installed
+  - Continue reading Web Design Theory, get to Photoshop
+  - Get your UI iterations as concrete as possible including widths, heights, colours, images, positioning, offsets, font choices.
+  - Do more UI iterations for secondary and tertiary pages. Think about user workflow.
+  - Continue research on your technology stack
+
+**Agile**
+
+  - What have you done since yesterday?
+  - What are you planning to do today?
+  - Any impediments/stumbling blocks?
+
+**Lecture**
+
+  - Talk about Solution Stack if necessary
+  - Design Theory User Experience (include custom fonts with fontsquirrel)
+  - Photoshop beginning
+  - 52 days left!
+
+**Practice**
+
+  - Research on the technology stack
+  - Complete your UI iterations while incorporating user experience, user interface understanding and wireframing practices
+  - Work through the solution stack installing everything
+  - Install photoshop trial version
+
+**End Lecture**
+
+  - Blog creation

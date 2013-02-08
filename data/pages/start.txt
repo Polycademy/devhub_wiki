@@ -25,6 +25,10 @@ Here is our current course offering:
 At the same time it has some disadvantages. For example, the application's performance will always be limited by internet speed and availability. However innovations in internet speed and internet availability has driven the adoption of web applications over desktop applications. These are reducing our dependency on local client CPU or GPU processing for delivery of high performance or high availability of applications. Jeff Atwood agrees.(([[http://www.codinghorror.com/blog/2009/08/all-programming-is-web-programming.html|All Programming is Web Programming]]))
 
 Visit the [[Web application development:start | start page]] to begin the course.
+
+===== Lesson Plans =====
+
+[[Lesson Plans:start|Lesson plans]] are guidelines on each day's structure.
 ===== Project Licensing =====
 
 It is important to note that since we are freely using Github to host the code for the project, the project will be accessible to anyone. However you do not need to worry about this. Firstly your code does not need to be licensed as open source. It is simply accessible. But it requires people to actively search for your code and seek it out, which is unlikely due to your newly minted status as a developer. However if you'd like, you can purchase a private account at your own expense.
