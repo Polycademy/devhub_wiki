@@ -1,0 +1,41 @@
+====== Software Development Workflow ======
+
+==== Software Development Process ====
+
+DRY
+
+KISS
+
+Googling (using stack overflow, online etiquette, using github issues, contributing to open source)
+
+People to follow or blogs to read!
+
+==== Collaboration & Synchronising ===
+
+Using git for code
+
+Using package managers for libraries
+
+Database Migrations
+
+==== Bug Testing ====
+
+Using firephp
+
+Using Xdebug
+
+TDD
+
+BDD
+
+==== Build Tools ====
+
+Build Tools (minification, concatenation)
+
+Phing
+
+Grunt
+
+Uglifyjs
+
+Require.js optimiser.

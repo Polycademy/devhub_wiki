@@ -14,7 +14,6 @@ The list below is our main categories of interest. Each category has further sub
   - [[Web Application Development:Web Programming]]
   - [[Web Application Development:Multimedia]]
   - [[Web Application Development:Payments]]
-  - [[Web Application Development:Performance]]
   - [[Web Application Development:Deployment]]
 
 Class schedule will be modified depending on project complexity. The more complex your project is, the more knowledge that will be involved. This will be discussed during our first class. There will be a limit on how advanced and complex your project can be. If it is too complex, we may first construct a prototype which can then be further developed.

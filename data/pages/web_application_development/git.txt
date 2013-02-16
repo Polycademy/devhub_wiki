@@ -42,15 +42,17 @@ Once you have your local repository setup, you can click into it. Now anything t
 
 We're going to get acquainted with the git command line. If you're on Cloud9, just launch your terminal. The ''git'' command is globally installed. If you're using the git client, go into your new project and hit tools, open a shell here. This will open up the terminal at your project repository. Note that in the main git client options you can choose which kind of terminal shell you would like. It's probably on the standard cmd if you're using Windows. It's better to choose Powershell when you have that installed.
 
-  * ''git add'' - is used to add files to the staging area. It creates a snapshot of all the files and this prepares them for committing into the git version history tracker. This is located in .git hidden folder. You can use ''git add .'' to add all files or ''git add //filename//''.
+  * ''git add'' - is used to add files to the staging area. It creates a snapshot of all the files and this prepares them for committing into the git version history tracker. This is located in .git hidden folder. You can use ''git add .'' to add all files or ''git add //filename//''. To add in deleted files, that is if you deleted any files, you would have to use ''git add -u'' to stage those commits. A shortcut to do both ''git add .'' and ''git add -u'' is ''git add -A''.
   * ''git commit'' - is used to commit added files to the version history tracker. By default you need to add a descriptive message to each commit. It may seem cumbersome at the beginning, but it's very important that you add descriptive messages. This will help your teammates understand what changed and also yourself when you're trying to hunt down a previous version. Use ''git commit -m //message//'' to commit and add a message.
   * ''git push'' - is used to push your current repository to a remote repository. You need to have initialised a repository on Github to do this. The Github client will do this automatically. Sometimes you have use ''git push origin master'', where origin is the upstream alias of your remote repository and master is the name of the remote branch (it will create it remotely if it doesn't yet exist). The push will merge your changes to the remote repository.
   * ''git pull'' - is the opposite of ''git push''. This pulls in the remote repository and merges with your own. You may need to use ''git pull origin master'', where origin is the alias of your remote repository and master is the name of the remote branch.
   * ''git status'' - use this to show if there are any file changes that have not been added or committed. Useful to know when you want to know if you want to complete a synchronisation.
   * ''git remote'' - shows your remote aliases. Use this when you want to know how many remotes you have and what their aliases are. You can then use their names to push to or pull from. A git repository can have many remotes.
   * ''git remote add'' - use this to add extra remotes to your current repository. You need to add to extra parameters like this ''git remote add //remotename// //ssh-url//''. The default remote alias should be origin, and the ssh-url can be acquired from any Github repository. Github's ssh-url looks like ''git@github:/Polycademy/polycademy.git''.
-  * ''git checkout'' - use this to switch branches. You need to add the name of the branch like ''git checkout //branchname//''.
   * ''git branch'' - use this to show what branches you have on your current repository. You can add extra branches by specifying a branch name like ''git branch //branchname//''.
+  * ''git checkout'' - use this to switch branches. You need to add the name of the branch like ''git checkout //branchname//''.
+  * ''git checkout -b'' - use this to create and checkout the branch at the same time like ''git checkout -b //branchname//''. It will normally be used to pull in a remote branch like ''git checkout -b //new_branch// //origin/new_branch//''.
+  * ''git clone'' - use this to download a repository that you don't control. Normally it will also download their git history, to avoid that use ''git clone --depth 1 //url_to_git_repo//''.
   * ''git merge'' - use this to merge branches together. You should first ''git checkout branch_to_receive_merge'', then ''git merge branch_to_be_merged''.
   * ''git rebase'' - use this to take the current branch's commits and apply them on top another branch. Like this ''git checkout branch_to_rebase'' then ''git rebase branch_to_rebase_into''.
 
@@ -139,11 +141,19 @@ Refer to these [[https://github.com/github/gitignore|example .gitignore files]] 
   #ignores example.php at root level
   /example.php
 
-If you're working on the Cloud Stack or Local stack you should ignore:
+If you're working on the Cloud Stack or Local stack using Codeigniter you should ignore:
 
-  vendor/*
-  bin/*
-  .c9revisions/*
+<file>
+*/config/development
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
+vendor/*
+bin/*
+.c9revisions/*
+tools/*
+</file>
 
 Don't ignore the ''.git'' folder. Click on the little gear symbol on the workspace to see hidden files or folders on your Cloud9.
 ===== Advanced Git =====

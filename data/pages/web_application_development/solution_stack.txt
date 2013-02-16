@@ -61,6 +61,8 @@ As we install and use more tools, we'll be utilising more command line tools and
   * [[wp>mv|Move Files]] - ''mv'' - is used to move files or folders from one path to another path. It is also possible to rename files using this command by moving the file to its current directory with a different name.
   * [[wp>cp (Unix)|Copy Files]] - ''cp'' is used to copy files and directories.
   * [[wp>rm (Unix)|Remove files]] - ''rm'' is used to remove files or directories.
+  * [[wp>ln (Unix)|Link Files]] - ''ln'' is used to create links between files. You will usually use this in the format of ''ln -s //path/to/file// //path/to/link//'' in order to create soft links between binary files, so you can access the binary in another directory.
+  * [[wp>chmod|Adjust Permissions]] - ''chmod'' is used to change the permissions of files. Sometimes you don't have the permissions to execute the file. You will usually use this in the format of ''chmod 777 //path/to/file//''. When you install third party packages, sometimes the binaries that come with it won't have the right permissions.
   * [[wp>Vim (text editor)|Vim]] - ''vim'' is used to edit text files from the command line. When first entering a file, it will enter "command" mode. Press ''i'' to enter "input" mode. You can then edit the text. Once finished, hit "esc" to go back to "command" mode. Then hit ":wq" to write and exit. Refer to [[http://www.tuxfiles.org/linuxhelp/vimcheat.html|Vim cheat sheet]] for more commands.
   * [[http://git-scm.com/docs|Git Usage]] - ''git'' is used to run [[Web Application Development:Git]] commands.
   * [[http://curl.haxx.se/docs/manual.html|Curl Usage]] - ''curl'' is used to download files or folders over the internet. Here's a good tutorial to CURL.((http://quickleft.com/blog/command-line-tutorials-curl))
@@ -88,6 +90,22 @@ PHP's primary package manager is called [[http://getcomposer.org/|Composer]]. Fo
 To install Composer, we will use Curl to download the installer package and execute with PHP. The installation instructions are on [[http://getcomposer.org/doc/00-intro.md#installation-nix|Composer's documentation]]. Once installed, we have to move it to directory that is already set in the default PATHs. That way can we can globally execute Composer without needing to remember where it was placed. In the documentation it mentions we can move it to ''/usr/local/bin/composer''. Remember when using the ''mv'' command, if the last section of the path is not directory that exists, it will rename the file/folder you moved. Thus the command renames the file to ''composer''. However instead of installing Composer here, we should instead install in the ''/app-root/data/bin/composer''. This is more appropriate for Cloud9 and easier for us to locate it if ever need to.
 
 {{ youtube>QIPnGOb-pnQ?large }}
+
+== Sparks ==
+
+Codeigniter has its own specific package manager called [[http://getsparks.org/|Sparks]]. You may find third party Codeigniter packages that specify the installation via Sparks. Installation of Sparks is a bit more difficult than Composer. This is because the Sparks package manager is somewhat outdated compared to the Codeigniter 3.0 develop branch. Please refer to the [[https://github.com/Polycademy/commonprogramming|commonprogramming Github repository]] to see the correct way of installing Sparks.
+
+To install Sparks onto the latest Codeigniter develop branch you need to change three things:
+
+  * Add ''tools/*'' to your .gitignore
+  * Add ''define('EXT', '.php');'' to your constants.php or convert MY_Loader.php that comes with Sparks and find and replace all instances of ''.EXT'' with ''.'.php'''.
+  * The example-spark that is installed via the Spark installation guide is incorrect. You need to change its filename to ''Example_spark.php'' not ''example_spark.php''.
+
+All sparks are installed in your project root. They can be loaded via the standard Codeigniter loader class. Refer the the [[http://getsparks.org/get-sparks|Sparks documentation]] to see how. We're ignoring the ''tools/*'' directory because the Sparks itself can be installed differently on different computers. However the third party libraries we're keeping. This is different from Composer, because Sparks does not remember what packages you have installed.
+
+To run the Sparks executable, you have to ''chmod 777'' the binary. In order to keep it consistent with the ''bin'' directory of Composer, you should add a symbolic link via ''ln -s ../tools/spark bin/spark''. You can also add the symbolic link from ''~'' home directory. However this will have to be updated after some time when using Cloud9.
+
+Don't worry if this doesn't quite make sense right now. You'll only need to do this once we get deeper into web programming.
 
 ==== Cloud Database ====
 
@@ -242,6 +260,7 @@ The easiest way to use Git on a local stack is to download the Github's clients.
   * Front End Development - [[http://yeoman.io/|Yeoman]], [[http://volojs.org/|Volo]], [[http://ender.jit.su/|Ender]], [[http://jamjs.org/|Jam]], [[http://twitter.github.com/bower/|Bower]]
   * Windows - [[http://chocolatey.org/|Chocolatey]]
   * Linux - [[http://wiki.debian.org/Aptitude|Aptitude]] or [[http://wiki.debian.org/Apt|APT]]
+  * Codeigniter - [[http://getsparks.org/install]]
 
 Polycademy's current course focuses on PHP development, so you'll have to install Composer. If you are using Linux or Mac, you can install Composer the way they demonstrate on their [[http://getcomposer.org/doc/00-intro.md#globally|documentation]]. Be sure to install it globally. If you are installing on Windows, you can instead use the [[http://getcomposer.org/doc/00-intro.md#installation-windows|Windows installer]]. You could also install it using the Curl method and then edit the PATH variables to match.
 
@@ -250,6 +269,8 @@ Once installed browse the [[https://packagist.org/|Packagist]] for PHP packages.
 One thing to note is that when using Composer with Github, [[http://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md|don't commit your third party packages to Github]]. The reasons are mainly three fold, first there'll be a lot of files to commit when you're using many depedencies, secondly the git version history of those packages will be added to your own (cluttering up all your history) and thirdly they'll be recognised as a git submodule. This is problematic as they are not real git submodules. So it's important to add your vendor directory to your ''.gitignore'' file so that git will ignore it when committing. This is demonstrated in the [[Git]] page.
 
 Composer itself can [[http://getcomposer.org/doc/articles/vendor-binaries.md|install vendor binaries]] that can be executed from the command line. In order for this to work, the binary file path needs to be added the PATH variables. This will allow packages that have command line utilities to be used easily. This will demonstrated below.
+
+Sparks is a Codeigniter specific package manager, when installing Sparks locally, make sure to check if your OS is Windows or otherwise. If it is Windows, you will need to install it manually rather than using the command line option.
 ==== PATH Variable Editing ====
 
 PATH editing allows us to run command line executables globally. Editing PATH variables is not very user friendly on Windows, so we use a GUI tool called Redmond Path. On Linux/Mac it's somewhat easier but require bash scripting in order to have the paths set permanently. The other option is checking what paths already exist using ''echo $PATH'', and putting your executable in one of the appropriate paths.

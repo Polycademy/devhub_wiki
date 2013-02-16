@@ -228,6 +228,7 @@ There are a number of trends in web design that you can follow or tweak. Nothing
 
   * [[http://gettingreal.37signals.com/ch09_Epicenter_Design.php|Epicenter Design]]
   * [[http://www.smashingmagazine.com/2010/05/13/principles-of-minimalist-web-design-with-examples/|Minimalist Design]]
+  * [[http://medialoot.com/blog/skeuomorphic-design/|Skeuomorphic Design (Apple Style)]]
   * [[http://webdesignledger.com/tips/creative-techniques-for-single-page-websites|One Page Designs]], [[http://onepagelove.com/|One Page Love Gallery]]
   * [[http://www.smashingmagazine.com/2009/02/26/10-steps-to-the-perfect-portfolio-website/|Portfolio Web Designs]]
   * [[http://www.onextrapixel.com/2011/02/23/planning-for-a-content-heavy-web-design/|Content Heavy Designs]] like for news & portals.

@@ -1,0 +1,27 @@
+====== Lesson 8 - WAP ======
+
+**Expected Work**
+
+  - Completed Header
+  - Finished Logo
+  - Got started on main article
+  - Got idea of colour scheme and icons and fonts
+  - Structure your file directory so that it's easier to understand and find and share! Back up your files on dropbox.
+  - Contact mentors
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - 48 days left!
+
+**Practice**
+
+  - Finish up the main article
+  - Get started on footer
+  - Using icons
+  - Keep watching video tutorials + UI slicing tutorial

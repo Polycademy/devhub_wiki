@@ -1,0 +1,19 @@
+====== Javascript - Design Patterns ======
+
+JS Hint and Linting
+
+OOP for Javascript
+
+==== Dynamic Client Side ====
+
+OOP
+
+Functional Programming
+
+Type Hinting
+
+Programming Tactics, Module Augmentation Pattern, Facade Pattern
+
+DOM manipulation
+
+Input Validation

@@ -1,283 +1,101 @@
 ====== Web Programming ======
 
-Intro to web programming, separate into PHP and JS.
+Web programming is a complex field involving computer science and software engineering. It is often claimed that you need a strong mathematical background to do software engineering. This is claim is not well understood. Computer science is much more closely related to mathematics than software engineering, computer science is the theory of computation involving mathematics. While programming came out of computer science and is used in computer science, most high level web applications and hence software engineering don't involve heavy mathematical processing. Basically you don't need to be a mathematician to do programming, but you do if you want the computer to do heavy calculations for you.
 
+You can learn the syntax of programming languages at home, knowing syntax is not difficult, it's far more difficult to understand architecture, patterns and workflow. These knowledge areas come from either a deep understanding of theory, and/or experience in shipping software. This article goes through each of those areas and further separates them into server side and client side programming.
+
+Architecture is about understanding the structure of web applications. Firstly this means understanding how different layers of software in your solution stack communicate to each other. Secondly this means understanding how a single piece of software and its dependencies is modularised and brought together. Thirdly it means understanding the philosophies of programming either in functional style or object oriented style, these pertains to how a person mentally visualises software and connects the dots. Finally its about understanding the specialisations of different tools and software stacks, so you choose the right tool for the job. Along the way you'll understand how a computer functions in a holistic and granular way. 
+
+Patterns is about understanding programming language tactics that have been battle tested and used by professionals to solve particular problems. These are called design patterns. They arose out of the fact that many developers met similar problems when developing their applications, and came together a set of best practices. Understanding this is important for rapidly development and maintainable development.
+
+Workflow is about understanding where to start and where to finish. You'll learn how to begin with a feature set, before turning it into a working prototype, and then applying quality assurance via testing and deployment.
+
+To speed up the learning process, we're going to use pre-made frameworks, libraries and APIs instead of starting from scratch. You're here to build your web application of course, and nobody reinvents the wheel to drive a car! This course will be using the PHP server scripting language with the Codeigniter development framework and Javascript client side scripting language with either the DOM manipulation library jQuery or an MVC framework such as AngularJS or JavascriptMVC.
+
+Because each web application has its own custom domain problem to solve, this course will not teach how to use any particular API. Once you understand architecture and how to use one API, then just by following the vendor's instructions, you can use all APIs.
 ===== Syntax =====
 
-Refer to documentation for syntax
+These are the best reference resources for syntax.
 
-PHP.net, PHPBounce, PHPMaster, Net tuts
+PHP:
 
-MDN, Books on JS... Codecademy
+  * [[http://www.php.net/manual/en/index.php|PHP.net]] - You do not need to read the whole manual. Instead use it as a reference for a particular function or object. The best way to search PHP.net is to use google.
+  * [[http://prototype.php.net/manual/en/|Protoype PHP.net]] - This is a better starting point to get acquainted with the operators and functions of PHP.
+  * [[http://phpbounce.aws.af.cm|PHP Bounce]] - You should also try this application built in Polycademy. It is also a good tool to test out syntax, without loading up a web server.
+  * [[http://www.phptherightway.com/|PHP The Right Way]]
 
+Javascript:
+
+  * [[https://developer.mozilla.org/en/docs/JavaScript|MDN Javascript]] - The best reference and guide to Javascript, try to read as much of as possible and run them in your browser using the console.
+  * [[http://www.codecademy.com/tracks/javascript|Codecademy Javacript Track]] - Start playing in Codecademy, it will be an easy entry point into the syntax of javascript.
 ===== Frameworks =====
-
-Refer to these
-
-Codeigniter User Guide
-
 
 [{{ :web_application_development:jquery_application_architecture.jpg?200|jQuery Application Architecture Guide}}]
 
-Javascript MVC docs
+Frameworks abstract away the granular details of programming. This means they often provide pre-built functions and architecture that you can use right away. This has an empowering effect on rapid development, but it also has a limiting effect by limiting what you can do with it. The frameworks that we're using are going to be quite flexible and powerful. Learning how to use frameworks is similar to learning syntax. They often have a bunch of functions you can call, which you can find out what they do by looking at their documentation, but more importantly they have a set architecture which you have to follow. Following their architecture is more difficult since each framework has their quirks and limitations. Use these reference documentations when you start development. Sometimes you will have to search on both the programming language documentation and the framework documentation to get the function need to solve the problem.
 
-JQuery Docs
+Codeigniter
 
-===== Architecture =====
+  * [[http://ellislab.com/codeigniter/user-guide/|Codeigniter User Guide]]
+  * [[https://github.com/EllisLab/CodeIgniter/|Github Repository]] - You should get Codeigniter by cloning straight from the Github develop branch instead of the normal download. This contains the latest features.
 
-Architecture
+jQuery (for DOM and AJAX) & Require.js (for dependencies) & Duster or doT (for view templating)
 
-HTACCESS
-==== Understanding the Application Stack ====
+  * [[http://api.jquery.com/|jQuery API Documentation]]
+  * [[http://jqfundamentals.com/|jQuery Fundamentals]]
+  * [[http://requirejs.org/|Require JS]]
+  * [[http://linkedin.github.com/dustjs/|Dust JS from LinkedIn]] and [[https://github.com/dmix/dusterjs|DusterJS for Compiling Dust Templates]]
+  * [[http://olado.github.com/doT/|doT.js]]
+
+Require JS can create a modularised dependency architecture separating your javascript code into jQuery Models, templates using Duster/doT/Underscore for Views and a separate folder for libraries. There won't be Controllers in this setup, instead one single main script will control the binding of data between the models and view.
+
+Javascript MVC Frameworks for Single Page Applications (SPAs)
+
+  * [[http://javascriptmvc.com/docs.html|Javascript MVC]]
+  * [[http://docs.angularjs.org/guide/|Angular JS]]
+
+A note regarding javascript. Depending on the complexity of your web application, you may either choose to use standalone jQuery with Require.js as the script/plugin loader, or if you're going for the Single Page Application style, you'll need to use javascript MVC frameworks like Javascript MVC or Angular JS. Doing SPAs are quite a bit more complex, they require you structure your application server as an API end point, and you need to apply authentication strategies fit for SPA use such as Oauth server plus client. For the purposes of simplicity we'll focus on standalone jQuery with Require.js, you can investigate Single Page Applications in your own time, and the future there may be a javascript heavy course focusing on SPAs.
+
+There are other frameworks that have deep specialisations, these are more libraries than frameworks. They are not for general development, but can be used if your web app demands them. For example three.js for WebGL, HTML5 Canvas Game Engines/Frameworks for javascript canvas games, and D3.js/Raphael.js for data visualisation.
+===== Understanding the Application Stack =====
 
 [{{ :web_application_development:full_http_stack_diagram.png?200|HTTP Stack & Request Cycle}}]
 
-Explain HTTP request cycle
+When the client (browser) visits an URL, it points to a particular server address provided by a host. The browsers send an HTTP request. This request is a text message structured in a particular HTTP protocol. This text message has a bunch of values specifying who you are, where the request came from and other information. Think of it as a letter to someone you didn't know, so you also specify the return address. The server is usually composed of three elements. The HTTP web server, the application server then the database or web service. The HTTP server in our case is Apache. This handles and routs requests to the correct program to process. A single HTTP server may have multiple application servers. The application server is the meat of your web application. Handling the Apache is done by the DevOps professionals. You're a developer, so your primary work will be on the application server. The PHP application server is request based, that is Apache spins up an instance of PHP, the PHP processes and returns a response, then the instance dies. Because of this short lived nature, in order to persist data across multiple requests, the application server stores data into a database or third party webservice. The database is usually long-running, so that instances of doesn't need to be spun up for the application to contact.
 
-==== Consuming Web Services API ====
+Any libraries, frameworks and templating pertaining to PHP live on the application server. Database software is independent from the application server, because any one single application server could have multiple databases. As you can see these stages are all modularised and independently scalable. When scaling the stack, the challenge is usually in replicating data and processing. Or else you will have conflicts between different databases and application processing states.
 
-REST style
+When the response is returned from the web server, it is usually text or binary data if it is streaming video/audio. This data is interpreted by the browser to represent an user interface state. What is returned to the browser in the case of web applications is usually HTML, CSS and Javascript. So these languages are actually executed in the browser. Think of the server as returning a payload, that doesn't do anything until it's ran by the browser. That's why we have programming on the server side, and programming on the client side. The dynamics of each are unique and they require their own special attention. Any libraries, frameworks pertaining to HTML/CSS and javascript are stored on the application server but are ran on the client side.
 
-Client Heavy
+When the AJAX technique is performed, the same operation is conducted, but it's conducted in the background by javascript so the browser doesn't refresh in order to load more payloads from the server. The javascript on client side can be simple scripts or it could be a heavy client side application involving its own MVC framework. The model consists of AJAX commands, the controls consist of routing and view binding, and the view consists of client side templating either through precompiled templates or AJAX lazy loaded templates. These templates are just HTML markup that are loaded but hidden from view until javascript binds them with model data and appends them to the DOM. This will further expanded in the Architecture section.
+===== Architecture =====
 
-Composer (third party)
+[[wp>Software architecture|Software architecture]] about understanding how to best architect your application so that is agile to develop, but flexible and maintainable when you scale up. This section is separated into server side architecture and client side architecture. These two feed into each other, depending on how to structure your client side, you may need to change your server side and vice-versa.
 
-MVC, JS based MVC...
+  * [[PHP - Server Side Architecture|Server Side Architecture using PHP]]
+  * [[Javascript - Client Side Architecture|Client Side Architecture using Javascript]]
 
-Templating
-
-Namespaces... etc
-
-==== Autoloading ====
-
-Autoloading works with Codeigniter aswell.
-
-You need to enable hooks on the config.php.
-
-Then in hooks.php define
-
-<code php hooks.php>
-//pre_system autoloader
-$hook['pre_system'] = array(
-    'class' => 'Autoloader',
-    'function'  => '__construct',
-    'filename'  => 'Autoloader.php',
-    'filepath'  => 'hooks',
-);
-</code>
-
-Place this into the hooks directory. It is a PSR-0 compliant autoloader.
-Do not use underscores in your library names, (_). They will be translated into directories.
-All folders and files should be Capitalised and Camelcased.
-Interfaces and Abstracts can be placed as iInterface or aAbstract and polaced in Interface and Abstract folder.
-Use namespaces and use "use" to import aliases. Import straight to the file. Then initialise classes automagically. Use fully qualified names to access static classes or library classes.
-Place static classes in the library folder.
-Capable of using third_party too.
-Folder names can have underscores.
-
-If the "use" keyword only points to a directory and not to a specific file, that all of those files become fair game. However you need to use the last namespace directory and prefix to all class initialisations. Like use Phpbounce\Mission_checker;
-Then your initialisations would be new Mission_checker\Lint(); There's no need to specify the filenames. The filenames should always be the same as the class names. One class per file.
-
-<code php Autoloader.php>
-<?php
-
-class Autoloader{
-    
-    public function __construct(){
-        
-        //LOADING COMPOSER
-        if(file_exists(FCPATH . '/vendor/autoload.php')){
-            include_once FCPATH . '/vendor/autoload.php';
-        }
-        
-        //STANDARD AUTOLOADER
-        spl_autoload_register(array($this, 'autoload'));
-        
-        //use vendor/package/Library.php for package related stuff (psr-0 kind of thing) (each package can have its own autoloader and get its own interfaces and abstracts)
-        //use Library.php for non-packaged libraries framework specific
-        //use abstracts/aLibrary.php for non-packaged abstracts framework specific
-        //use interfaces/iLibrary.php for non-packaged interfaces framework specific
-        //MY_Library.php will be loaded using $this->load as a CI specific library
-        
-    }
-    
-    public function autoload($class){
-        
-        //PSR-0 autoloader
-        
-        $library_path = APPPATH . 'libraries/';
-        $third_party_path = APPPATH . 'third_party/';
-        
-        //remote the first ns (\) since libraries already have it
-        
-        $class = ltrim($class, '\\');
-        $file  = '';
-        $namespace = '';
-        
-        if ($last_namespace_pos = strrpos($class, '\\')) {
-            
-            $namespace = substr($class, 0, $last_namespace_pos);
-            $class = substr($class, $last_namespace_pos + 1);
-            //replace all backslashes with DIRECTORY_SEPARATOR, it adds one more to the end
-            $file = strtr($namespace, '\\', DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
-            
-        }
-        
-        //replace all class names with (_) with DIRECTORY_SEPARATOR
-        $file .= strtr($class, '_', DIRECTORY_SEPARATOR);
-        
-        if(file_exists($library_path . $file . '.php')){
-            
-            require_once($library_path . $file . '.php');
-            return;
-            
-        }elseif(file_exists($third_party_path . $file . '.php')){
-            
-            require_once($third_party_path . $file . '.php');
-            return;
-            
-        }
-        
-    }
-    
-}
-</code>
-
-Caching
-
-Using workers
-
-A note about coffeescript
-
-HTML5 stack (browser level, dom level)
-
-Sockets, AJAX, all the communication level stacks...
-
-Multithreading
-
-Async vs sync
-
-Single Page Applications
-
-Polyglot apps with ZMQ
-
-TCP, UDP
-
-For CI: Use the helper folder for static classes. Use an autoloader for interfaces/abstracts. Actually extend the loader method to allow load without instantiation.
-
-INTERFACES why? -> For teams and for dependency injection.
-Basically you type hint in the constructor for an object to be injected but also to implement a interface contract.
-The interface is like the blueprint for your classes.
-You can be assured that all classes implementing this interface will have a fixed API.
-Then if you are swapping out your classes to something else, you can pass in a new object that still implements that interface, and you don't have to worry about whether the API methods change. They still work the same.
-Interfaces can be combined too, to provide some sort of super class implementation. So this class can be used anywhere or either-or. Regardless of whether the type hint is for the first interface or for the second interface. It'll still work!
-
-Use abstracts to provide a boilerplate class. Like a parent class which has some common methods, and yet has methods that has to be implemented. Abstract methods have to be either protected or public which then has to be represented. You can only inherit from one abstract.
-
-Use interfaces to group related classes that are meant to have the same API.
-
-Use abstracts as a **parent class that needs to have children**. Not just any standard parent class.
-
-Like abstract armor -> chinese armor, european armor. Abstract armor and abstract sword can implement physical_object interface. The interface can specify that all physical_objects need weight method. The abstract armor leaves the weight undefined, but requires an abstract of blacksmith and defines a common function of armor rating calculation. Then Chinese_Armor extends abstract Armor. This creates the weight function as defined by interface and blacksmith function as defined by the abstract. It creates a protection function unique to Chinese_Armor. Then we create a Fight function that type hints for either Physical Object, or Ab_Armor. We create the Chinese_Armor and pass the dependency into the constructor dependency injection. Then in the fight we use the protection function. Note that the abstract can reference $this->weight even though it hasn't been defined, this is because the interface says it will be implemented, so the abstract can rely on this. Abstracts are never used by themselves.
-==== Security ====
-
-Should make a security "checklist" before deployment.
+Refer to the [[http://97things.oreilly.com/wiki/index.php/97_Things_Every_Software_Architect_Should_Know_-_The_Book|97 Things Every Software Architect Should Know]].
 
 ===== Patterns =====
 
-==== Standards ====
+In software development, developers often come together to create and establish [[wp>Software design pattern|software design patterns]]. These are reusable solutions to common problems faced by software developers. You can think of them as best practices to software development. This section however expands beyond the standard design patterns but includes general concepts and practices that developers abide by. However remember that patterns are guidelines, there's no hard and fast rules about design patterns. Sometimes if its easier and simpler to accomplish a task without a design pattern, then there's no point in implementing the pattern.
 
-Check the PHP Fig (Framework Interop Group): http://www.php-fig.org/
+Many design patterns appear simultaneously in different languages. So there may be some duplication in their implementations. However these sections will try to elucidate the most pertinent design patterns to each language. Furthermore, these sections not only incorporate patterns in software code, but also standards and practices.
 
-Then checkout their PSR standards. (PHP Standard Recommendation).
+  * [[PHP - Design Patterns|Design Patterns using PHP]]
+  * [[Javascript - Design Patterns|Design Patterns using Javascript]]
 
+You can learn more about design patterns in [[http://addyosmani.com/resources/essentialjsdesignpatterns/book/|Addy Osmani's Essential JS Design Patterns Book]] and [[http://www.fluffycat.com/PHP-Design-Patterns/|List of PHP Design Patterns]]
 
-Regular expressions
-
-Intro to patterns
-
-Pub/sub
-
-Event driven
-
-Artificial Intelligence, machine learning...
-
-Closures, anonymous functions, function currying
-
-Design patterns from both sides
-
-JS use patterns such as canvas and webGL.
-
-Teach binary
-
-Using bitwise operators for settings
-
-Using interfaces + http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/
-
-Dependency Injection (typehinting with default being null)
-==== Dynamic Client Side ====
-
-OOP
-
-Functional Programming
-
-Type Hinting
-
-Programming Tactics, Module Augmentation Pattern, Facade Pattern
-
-DOM manipulation
-
-Input Validation
-
-==== Database ====
-
-Database access
-
-Database normalisation
-
-Foreign keys
-
-Indexing and searching
-
-NoSQL what is it?
 ===== Workflow =====
 
-==== Software Development Process ====
+As you get deeper into software development, your workflow becomes important. An efficient workflow can shave off weeks of time when developing software.  Your workflow also determines your software development philosophy. This section will talk about the development process, test driven development, behaviour driven development, bug testing and build tools.
 
-DRY
+  * [[Software Development Workflow]]
 
-KISS
+===== External Code Libraries and Web Services =====
 
-Googling (using stack overflow, online etiquette, using github issues, contributing to open source)
+A common philosophy among developers is to not reinvent the wheel. If someone else has created a library or framework that makes some task easier or more battle tested, then use their solution. This section contains a list of notable code libraries and web services that you can take advantage so you can develop faster.
 
-People to follow or blogs to read!
-
-==== Bug Testing ====
-
-Using firebug
-
-Using Xdebug
-
-TDD
-
-BDD
-
-Database Migrations
-
-==== Build Tools ====
-
-Build Tools (minification, concatenation)
-
-Phing
-
-===== Notable Code Libraries and Web Services =====
-
-List them down
-
-Use packagist
-
-Use github
-
-Use bower... etc
-
-Google Maps, Twitter, Facebook, Open Layers, D3.. etc
+  * [[External Code Libraries and Web Services]]

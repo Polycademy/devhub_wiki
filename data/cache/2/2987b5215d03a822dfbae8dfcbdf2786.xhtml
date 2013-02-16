@@ -82,7 +82,7 @@ Once you have your local repository setup, you can click into it. Now anything t
 We&#039;re going to get acquainted with the git command line. If you&#039;re on Cloud9, just launch your terminal. The <code>git</code> command is globally installed. If you&#039;re using the git client, go into your new project and hit tools, open a shell here. This will open up the terminal at your project repository. Note that in the main git client options you can choose which kind of terminal shell you would like. It&#039;s probably on the standard cmd if you&#039;re using Windows. It&#039;s better to choose Powershell when you have that installed.
 </p>
 <ul>
-<li class="level1"><div class="li"> <code>git add</code> - is used to add files to the staging area. It creates a snapshot of all the files and this prepares them for committing into the git version history tracker. This is located in .git hidden folder. You can use <code>git add .</code> to add all files or <code>git add <em>filename</em></code>.</div>
+<li class="level1"><div class="li"> <code>git add</code> - is used to add files to the staging area. It creates a snapshot of all the files and this prepares them for committing into the git version history tracker. This is located in .git hidden folder. You can use <code>git add .</code> to add all files or <code>git add <em>filename</em></code>. To add in deleted files, that is if you deleted any files, you would have to use <code>git add -u</code> to stage those commits. A shortcut to do both <code>git add .</code> and <code>git add -u</code> is <code>git add -A</code>.</div>
 </li>
 <li class="level1"><div class="li"> <code>git commit</code> - is used to commit added files to the version history tracker. By default you need to add a descriptive message to each commit. It may seem cumbersome at the beginning, but it&#039;s very important that you add descriptive messages. This will help your teammates understand what changed and also yourself when you&#039;re trying to hunt down a previous version. Use <code>git commit -m <em>message</em></code> to commit and add a message.</div>
 </li>
@@ -96,9 +96,13 @@ We&#039;re going to get acquainted with the git command line. If you&#039;re on 
 </li>
 <li class="level1"><div class="li"> <code>git remote add</code> - use this to add extra remotes to your current repository. You need to add to extra parameters like this <code>git remote add <em>remotename</em> <em>ssh-url</em></code>. The default remote alias should be origin, and the ssh-url can be acquired from any Github repository. Github&#039;s ssh-url looks like <code>git@github:/Polycademy/polycademy.git</code>.</div>
 </li>
+<li class="level1"><div class="li"> <code>git branch</code> - use this to show what branches you have on your current repository. You can add extra branches by specifying a branch name like <code>git branch <em>branchname</em></code>.</div>
+</li>
 <li class="level1"><div class="li"> <code>git checkout</code> - use this to switch branches. You need to add the name of the branch like <code>git checkout <em>branchname</em></code>.</div>
 </li>
-<li class="level1"><div class="li"> <code>git branch</code> - use this to show what branches you have on your current repository. You can add extra branches by specifying a branch name like <code>git branch <em>branchname</em></code>.</div>
+<li class="level1"><div class="li"> <code>git checkout -b</code> - use this to create and checkout the branch at the same time like <code>git checkout -b <em>branchname</em></code>. It will normally be used to pull in a remote branch like <code>git checkout -b <em>new_branch</em> <em>origin/new_branch</em></code>.</div>
+</li>
+<li class="level1"><div class="li"> <code>git clone</code> - use this to download a repository that you don&#039;t control. Normally it will also download their git history, to avoid that use <code>git clone –depth 1 <em>url_to_git_repo</em></code>.</div>
 </li>
 <li class="level1"><div class="li"> <code>git merge</code> - use this to merge branches together. You should first <code>git checkout branch_to_receive_merge</code>, then <code>git merge branch_to_be_merged</code>.</div>
 </li>
@@ -125,7 +129,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT5 SECTION "Basic Usage" [7439-11236] -->
+<!-- EDIT5 SECTION "Basic Usage" [7439-11863] -->
 <h2 class="sectionedit6" id="using_branches">Using Branches</h2>
 <div class="level2">
 
@@ -142,7 +146,7 @@ The develop branch is where the most of the work will be merged between all the 
 </p>
 
 </div>
-<!-- EDIT6 SECTION "Using Branches" [11237-13311] -->
+<!-- EDIT6 SECTION "Using Branches" [11864-13938] -->
 <h2 class="sectionedit7" id="reverting_commits">Reverting Commits</h2>
 <div class="level2">
 
@@ -175,7 +179,7 @@ To do the same on the command line refer to the page on <a href="http://git-scm.
 </p>
 
 </div>
-<!-- EDIT7 SECTION "Reverting Commits" [13312-16774] -->
+<!-- EDIT7 SECTION "Reverting Commits" [13939-17401] -->
 <h2 class="sectionedit8" id="the_merge_workflow">The Merge Workflow</h2>
 <div class="level2">
 
@@ -196,7 +200,7 @@ Now this merge workflow doesn&#039;t work well when there are multiple developer
 </p>
 
 </div>
-<!-- EDIT8 SECTION "The Merge Workflow" [16775-18474] -->
+<!-- EDIT8 SECTION "The Merge Workflow" [17402-19101] -->
 <h3 class="sectionedit9" id="rebase_workflow">Rebase Workflow</h3>
 <div class="level3">
 
@@ -245,7 +249,7 @@ To learn more about the rebase workflow see:
 </ol>
 
 </div>
-<!-- EDIT9 SECTION "Rebase Workflow" [18475-21623] -->
+<!-- EDIT9 SECTION "Rebase Workflow" [19102-22250] -->
 <h2 class="sectionedit10" id="gitignore">Gitignore</h2>
 <div class="level2">
 
@@ -272,18 +276,24 @@ folder/to/my/file/example.php
 /example.php</pre>
 
 <p>
-If you&#039;re working on the Cloud Stack or Local stack you should ignore:
+If you&#039;re working on the Cloud Stack or Local stack using Codeigniter you should ignore:
 </p>
-<pre class="code">vendor/*
+<pre class="file">*/config/development
+*/logs/log-*.php
+*/logs/!index.html
+*/cache/*
+*/cache/!index.html
+vendor/*
 bin/*
-.c9revisions/*</pre>
+.c9revisions/*
+tools/*</pre>
 
 <p>
 Don&#039;t ignore the <code>.git</code> folder. Click on the little gear symbol on the workspace to see hidden files or folders on your Cloud9.
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Gitignore" [21624-22702] -->
+<!-- EDIT10 SECTION "Gitignore" [22251-23451] -->
 <h2 class="sectionedit11" id="advanced_git">Advanced Git</h2>
 <div class="level2">
 
@@ -296,4 +306,4 @@ Seth Robertson has also compiled a <a href="http://sethrobertson.github.com/GitB
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Advanced Git" [22703-] -->
+<!-- EDIT11 SECTION "Advanced Git" [23452-] -->

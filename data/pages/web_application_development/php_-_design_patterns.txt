@@ -1,0 +1,44 @@
+====== PHP - Design Patterns ======
+
+
+==== Standards ====
+
+Check the PHP Fig (Framework Interop Group): http://www.php-fig.org/
+
+Then checkout their PSR standards. (PHP Standard Recommendation).
+
+Regular expressions
+
+Intro to patterns
+
+Pub/sub
+
+Event driven
+
+Artificial Intelligence, machine learning...
+
+Closures, anonymous functions, function currying
+
+Design patterns from both sides
+
+JS use patterns such as canvas and webGL.
+
+Teach binary
+
+Using bitwise operators for settings
+
+Using interfaces + http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/
+
+Dependency Injection (typehinting with default being null)
+
+==== Database ====
+
+Database access
+
+Database normalisation
+
+Foreign keys
+
+Indexing and searching
+
+NoSQL what is it?

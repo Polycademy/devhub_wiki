@@ -1,0 +1,41 @@
+====== Javascript - Client Side Architecture ======
+
+==== Client Side ====
+
+=== OOP and Functional ===
+
+=== HTML5 APIs ===
+
+Browser level (for other stuff)
+
+DOM level (for jQuery)
+
+=== Observer Pattern ===
+
+Event Driven Programming
+
+=== AJAX ===
+
+AJAX, Server Push, Long Poll, Sockets, RTC, Pusher API
+
+=== Templating ===
+
+Dust.js or doT.js or otherwise
+
+Precompilation or lazy loading
+
+=== Dependency Management ===
+
+AMD vs CommonJS
+
+Require.js
+
+=== Web Workers ===
+
+=== MVC Single Page Applications ===
+
+Model being AJAX
+
+View Model Bindings
+
+Controller and Routing

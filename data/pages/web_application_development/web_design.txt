@@ -57,12 +57,26 @@ Andrew takes you through web design using Photoshop. He makes good use of grids.
   - [[http://vandelaydesign.com/blog/design/photoshop-layout-tutorials/|More for further exploration]]
   - [[http://www.smashingmagazine.com/2008/03/28/adobe-photoshop-video-tutorials-best-of/|Video based Photoshop tips]] - non web related
 
-In class, I'll do some live demonstration of the Photoshop process. It is best to use a grid overlay to help with your proportioning so you don't need to calculate pixels just to align something. Once the design is finished, we can either manually slice the design into parts or apply the [[http://designshack.net/articles/graphics/how-to-make-slicing-suck-less-tips-and-tricks-for-slicing-a-psd/
-|slicing tool]]. I prefer to do manual slicing, since my workflow creates independent layers anyway.
+In class, I'll do some live demonstration of the Photoshop process. It is best to use a grid overlay to help with your proportioning so you don't need to calculate pixels just to align something.
+
+==== Photoshop Slicing ====
+
+Once you have your Photoshop mockup finished, it's time to get started [[http://designshack.net/articles/css/do-we-still-slice-psds/|slicing up the PSD file]] into separate images so we can use them for our HTML and CSS. There are two ways of doing slicing. You can either follow the old way of slicing as demonstrated on this [[http://net.tutsplus.com/articles/news/converting-a-design-from-psd-to-html/|Nettuts article]] or if you structured your mockup correctly with multiple layers, then you can simply export your layers one by one. The reasons this is better is because then you don't have unnecessary images. Slicing can create a lot of useless images. You should minimise the use of images, since many graphical elements can be simply be created using CSS. If you can do this, your user loads your website quicker and faster. This will be demonstrated in class. But you can try it yourself by simply duplicating your layer into a new window, trimming and cropping, then save to web.  
+
+There's a couple guidelines for this process:
+
+  * Use JPEGs for photographic images and images that many different colours and elements.
+  * Use PNGs when you need transparency or for background graphics and icons.
+  * Use GIFs for very simple images, images that have only a couple colours and are pixel sized.
+  * When exporting balance between the size of the image and the quality of the image.
+  * Make use of interlace for PNG and optimise/progressive for JPEG. Interlaced and progressive images will load to the browser little by little, so the browser doesn't wait for the whole image to load before viewing it.
+  * Flatten your transparency to a solid colour by merging layers when that image doesn't need to move or be used in multiple places. This will give an illusion of transparency to the viewer, but you'll have a smaller file size.
+  * Try using sprites for background images and icons. Sprites are a single image that has multiple images composed together. This reduces the number of HTTP requests which are one of the primary bottlenecks in loading web pages. This reduces your flexibility, so only use this for images that won't change a lot. Do not use sprites for images that are part of an article. People may want to download those images independently.
+  * You can also use data URIs to further reduce the number of HTTP requests. These images become text by running through a base 64 filter. However the support and flexibility for this is worse than sprites. IE7 and lower cannot view data URIs.
 
 ===== HTML & CSS =====
 
-Once you have your Photoshop mockup finished, it's time to get started [[http://designshack.net/articles/css/do-we-still-slice-psds/|slicing up the PSD file]] into separate images so we can use them for our HTML and CSS. There are two ways of doing slicing. You can either follow the old way of slicing as demonstrated on this [[http://net.tutsplus.com/articles/news/converting-a-design-from-psd-to-html/|Nettuts article]] or if you structured your mockup correctly with multiple layers, then you can simply export your layers one by one. The reasons this is better is because then you don't have unnecessary images. Slicing can create a lot of useless images. You should minimise the use of images, since many graphical elements can be simply be created using CSS. If you can do this, your user loads your website quicker and faster. This will be demonstrated in class. But you can try it yourself by simply duplicating your layer into a new window, trimming and cropping, then save to web.  
+At this point, it's time to turn that Photoshop layout into HTML and CSS markup. By the end of this section, you'll officially become a web designer. Before we go straight writing markup, we need to take some time to understand the syntax, structure and tools that web designers use to write HTML and CSS.
 
 ==== Syntax ====
 
@@ -87,7 +101,7 @@ Furthermore, since many CSS3 properties are still at developmental stage, browse
 
 ==== HTML/CSS Framework ====
 
-We're going to be using [[http://twitter.github.com/bootstrap/|Twitter Bootstrap]] combined with [[http://html5boilerplate.com/|HTML 5 Boilerplate]]. HTML 5 Boilerplate is simply a single HTML file with an assortment of addons which demonstrate the best practices when it comes to creating modern HTML and CSS. Twitter Bootstrap is a design framework offering its own brand of CSS functionality that you can immediately plug in play. Basically the granular CSS work to create grids, nice looking forms, tables, responsive design and other UI elements already exist. This doesn't mean you can't customise it, everything can be overwritten, however it will really speed up your development time.
+We're going to be using [[http://twitter.github.com/bootstrap/|Twitter Bootstrap]] combined with [[http://html5boilerplate.com/|HTML 5 Boilerplate]]. HTML 5 Boilerplate is simply a single HTML file with an assortment of addons which demonstrate the best practices when it comes to creating modern HTML and CSS. Twitter Bootstrap is a design framework offering its own brand of CSS functionality that you can immediately plug and play. Basically the granular CSS work to create grids, nice looking forms, tables, responsive design and other UI elements already exist. This doesn't mean you can't customise it, everything can be overwritten, however it will really speed up your development time.
 
 Refer to the official documentation of Twitter Bootstrap and HTML 5 Boilerplate to get a feel of what they offer. Note that these two frameworks can also be used on HTML5 Mobile apps, however it's probably better to not use Bootstrap because many of their functionality will be overkill and you won't really use it. So that means using this framework does not mean you don't have to learn basic HTML and CSS, especially when you want to do something out of the ordinary.
 
@@ -99,164 +113,57 @@ There is a [[http://html5boilerplate.com/mobile/|mobile variant of H5BP]] as wel
 
 ==== Generic Skeleton ====
 
-This generic skeleton uses Initializr's packaged Bootstrap and H5BP, but slightly modifies it so you can see multiple elements in action. It is commented, so go through each one and test them out in your development environment. It also uses LESS.css and the lessphp compiler. Note that LESS will not be highlighted properly if the IDE does not have a LESS parser. You will simply use CSS based highlighting. You can find the final project at the [[https://github.com/Polycademy/commonui|commonui Github repository]]. Navigate to the ''app'' directory.
+This generic skeleton uses Initializr's packaged Bootstrap and H5BP, but slightly modifies it so you can see multiple elements in action. It is commented, so go through each one and test them out in your development environment. It also uses LESS.css and the lessphp compiler. If you're cloning this on your own local stack, you should use Simpless instead. Note that LESS will not be highlighted properly if the IDE does not have a LESS parser. You will simply use CSS based highlighting.
 
-<code html index.html>
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
-        
-        <link rel="shortcut icon" href="favicon.ico">
-    	<link rel="apple-touch-icon" href="apple-touch-icon.png">
-
-        <link rel="stylesheet" href="css/main.css">
-
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <header class="navbar navbar-static-top">
-            <div class="container">
-				<div class="navbar-inner">
-					<a class="logo" href="#"><img src="path/to/logo.png" /></a>
-					<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-						<span class="icon-bar"></span>
-					</a>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-                            <li><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
-						</ul>
-					</div>
-				</div>
-            </div>
-        </header>
-        
-        <div class="main">
-            <div class="container">
-                <article>
-                    <h1>This is my article</h1>
-                    <p>Hello World!</p>
-                    <section>
-                        <h2>This is my section!</h2>
-                        <p>Hello this is my content!</p>
-                    </section>
-                </article>
-            </div>
-        </div>
-        
-        <footer>
-            <div class="container">
-                <div class="row">
-                    <section class="span4">
-                        <h3>First section</h3>
-                    </section>
-                    <section class="span4">
-                        <h3>Second section</h3>
-                    </section>
-                    <section class="span4">
-                        <h3>Third section</h3>
-                    </section>
-                </div>
-            </div>
-        </footer>
-        
-        
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.0.min.js"><\/script>')</script>
-
-        <script src="js/vendor/bootstrap.min.js"></script>
-
-        <script src="js/plugins.js"></script>
-        <script src="js/main.js"></script>
-
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
-    </body>
-</html>
-</code>
-
-<code css main.less>
-/* ==========================================================================
-   IMPORT MIXINS ELEMENTS PRESETS
-   ========================================================================== */
-@import url("bootstrap.less");
-
-
-/* ==========================================================================
-   MAIN
-   ========================================================================== */
-body {
-    padding-top: 60px;
-    padding-bottom: 40px;
-}
-
-/* ==========================================================================
-   RESPONSIVE
-   ========================================================================== */
-@import url("bootstrap-responsive.less");
-@import url("responsive.less");
-</code>
+You can find the project respository on [[https://github.com/Polycademy/commonui|commonui Github repository]]. Navigate to the ''app'' directory on the ''master'' branch. Look for the ''index.html'' and ''css/main.less''.
 
 This video demonstrates the installation of the initializr package on Cloud9 and integrates LESS and lessphp into the project. It basically shows how to setup the basic skeleton as shown above. Note that your CSS files are not minified via this method, but requires an extra minifier to do this. We can do this using the Phing build system later. Remember to refer to the [[https://github.com/leafo/lessphp#how-to-use-from-the-command-line|LESS documentation on the command line usage of plessc]]. Note that lessphp currently does not support lesshat. Use clearless instead.
+
+The video below shows how to create a symbolic link in the bin directory to the plessc in the vendor directory. The link is prefixed with the ''~'' operator to indicate home. A better way to do it is actually to simply use relative links such as ''../vendor/leafo/lessphp/plessc'' instead of the ''~/NUMBER'' link. This is because your ''NUMBER'' may change over time due to cloud virtualisation.
 
 {{ youtube>i9l1JQxG5og?large }}
 
 ==== Common UI Elements ====
 
-This section will demonstrate some common elements that are used in HTML and CSS. It will also have a standard skeleton of a generic website. You will need to learn these concepts and syntax structure and apply to your own layout.
+This section will demonstrate some common elements that are used in HTML and CSS. It will also have a standard skeleton of a generic website. You will need to learn these concepts and syntax structure and apply to your own layout. Make sure to have Firebug ready so you can inspect the code and make changes to them to see the effects. You can even clone the repo your local/cloud stack. The code has embedded comments are isolated from other page components.
 
-  * Header with Navigation, Collapse, Search
-  * Footer
-  * Tables
-  * Blog Articles
-  * Columns
-  * Floats
-  * Display Positioning
-  * Forms
-  * Multimedia
-  * Custom Fonts
-  * Microformats/Microdata/RDFa
-  * Data URIs
-  * Hover & Active Selectors
-  * Advanced Selectors
-  * Favicon Usage
-  * Slider
-  * Multiple Backgrounds
-  * Z-index
-  * Image Grid
-  * Modal Boxes and Lightboxes
-  * Fluid Stretch
-  * Round Borders and Padding and Image Borders
-  * Transparency
-  * Text Effects
-  * Transitions & Animations using CSS
+  * [[http://polycademy.github.com/commonui/|Common User Interfaces Demo Site]] - to see the HTML/CSS executing live and their corresponding code examples.
+  * [[https://github.com/Polycademy/commonui|Common User Interface Github Repository]] - clone this into your Cloud9 project and play around with it.
+
+You should also read these articles which talk about specific theories or quirks of certain HTML and CSS constructs.
+
+  * [[http://coding.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/|CSS Hierarchy/Specificity]] and [[http://css-tricks.com/specifics-on-css-specificity/|Demos of CSS Specificity]]
+  * [[http://www.impressivewebs.com/difference-block-inline-css/|Inline vs Block Elements]] & [[http://www.impressivewebs.com/default-css-display-values-html-elements/|Default Display Values for HTML Elements]] & [[http://designshack.net/articles/css/whats-the-deal-with-display-inline-block/|Display Inline Block]]
+  * [[http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/|CSS Selectors Reference]]
+  * [[http://coding.smashingmagazine.com/2011/07/13/learning-to-use-the-before-and-after-pseudo-elements-in-css/|Before and After Pseudo Element Selectors]]
+  * [[http://www.smashingmagazine.com/2009/03/03/how-to-use-icons-to-support-content-in-web-design/|Using icons to support content]]
+  * [[http://www.smashingmagazine.com/2008/06/12/block-quotes-and-pull-quotes-examples-and-good-practices/|Block quotes and pull quotes for typography]]
+  * [[http://twitter.github.com/bootstrap/scaffolding.html#responsive|Responsive utility classes from Twitter Bootstrap]]
+  * [[http://coding.smashingmagazine.com/2009/07/27/the-definitive-guide-to-using-negative-margins/|Guide to using Negative Margins]]
+  * [[http://coding.smashingmagazine.com/2009/09/15/the-z-index-css-property-a-comprehensive-look/|Z-index Guide]]
+  * [[http://html5doctor.com/i-b-em-strong-element/|Guide to using i, b, em and strong elements in typography]]
+  * [[http://www.html5rocks.com/en/tutorials/forms/html5forms/|HTML5 Forms and New Elements]]
+
+You may see some unconventional grid or animated layouts that aren't supported by Bootstrap alone. These often require javascript to get the right effect. Try these:
+
+  * [[http://suprb.com/apps/gridalicious/|Gridalicious]] - Column style grids, good for image galleries with differing sizes.
+  * [[http://fluidsquares.com/|Fluid Squares]] - Rather than columns of varying heights, it has exact squares that are fluidly adjusted.
+  * [[http://www.turnjs.com/|Turn JS]] - Flip the pages instead of reloading them.
+
+CSS3 provides animations, transitions, transformations, filters and more. These are quite specialised topics involving some understanding of math. You will not need this for designing most web sites and web applications. However if you do, these two resources should suffice:
+
+  * [[http://css3.bradshawenterprises.com/|CSS3 Transitions, Transforms, Animation and Filters Tutorials]]
+  * [[http://coding.smashingmagazine.com/2011/09/14/the-guide-to-css-animation-principles-and-examples/|Guide to Animations and Animation Theory]]
+
+These effects can be replicated in javascript, however the advantage is that these are usually rendered faster by the browsers that support it. On the other hand, only the latest browsers support this functionality. Using these effects would be useful for HTML5 mobile applications.
 
 ==== UI Video Tutorials ====
 
 Watch these 3 video tutorials when beginning your Photoshop slicing and HTML/CSS markup.
 
+  * [[http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/|Twitter Bootstrap Video Tutorials]]
   * [[http://net.tutsplus.com/sessions/photoshop-to-html/|From Photoshop to HTML & CSS]] - this has 9 screencasts taking you from the Photoshop slicing to the final HTML and CSS output. Your final output is this: {{ :web_application_development:final_small.jpg?400 |}}
   * [[http://net.tutsplus.com/articles/news/slice-and-dice-that-psd/|Slice and Dice that PSD]] - this starts from an already made PSD file and has a video turning that into HTML and CSS. Your final output is this: {{ :web_application_development:thehtml.png?400 |}}
-  * [[http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/|Twitter Bootstrap Video Tutorials]]
 ==== Debugging ====
 
 When doing web design or front end development, the browser shows the final output, but doesn't really tell you what's going on inside the browser. You need a front end debugger to show how the browser interprets your HTML/CSS and javascript. The two main browsers that come with good front end debuggers is Firefox and Chrome. Chrome has its own web developer tools which you can access by right clicking and going into inspect element. However Firefox requires an installation of the Firebug extension. This section will focus on the firebug extension.
@@ -318,6 +225,15 @@ Mobile user experience has its own peculiarities. Mainly with the fact that the 
   * [[http://blog.cloudfour.com/on-mobile-context/|The context of how people use Mobile Apps]]
   * [[http://uxdesign.smashingmagazine.com/2011/07/18/seven-guidelines-for-designing-high-performance-mobile-user-experiences/|Designing for Performance]]
   * [[http://mobiledesignpatterngallery.com/mobile-patterns.php|Mobile Design Pattern Gallery]]
+
+===== Single Page Applications =====
+
+Single Page Applications (SPAs) are web apps that are loaded completely by javascript. Basically when you first access the website, it'll return a full feature client side javascript MVC based business logic. Each action or navigation will actually be carried out by the javascript and the page should remain persistent, that is there would be less page refreshes or loads. You can see this in Facebook and Github. You can learn more about designing for Single Page Applications via the below references:
+
+  * [[http://christianheilmann.com/2011/12/28/on-single-page-apps/|On Single Page Apps]] - in terms of usability concerns.
+  * [[http://backbonetutorials.com/seo-for-single-page-apps/|SEO for SPAs]]
+  * [[http://singlepageappbook.com/|Single Page App Online Book]]
+
 ===== Copywriting =====
 
 Copywriting is the act of writing copy. Copy is text that is used with finished design products such as websites, web applications or posters. You are doing copywriting everytime you're writing to make your user do something or commit to some action. You're also doing copywriting when writing menus, context actions and button texts for the controls of your web application. You're also doing copywriting when you're blogging, but blogging involves more than writing to sell, but writing to educate, persuade and inform.

@@ -1,0 +1,28 @@
+====== Lesson 9 - WAP ======
+
+**Expected Work**
+
+  - Arranged weekly meetings with mentors
+  - Finished main article
+  - Get started on finishing and polishing
+  - Read browser based debugging, html/css, less in web design
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Using firebug/web developer tools and the network panel to show the performance of websites and the loading of different elements
+  - Performance of websites and image optimisations during the export process - sprites, transparency... etc
+  - Introduction to Bootstrap, H5BP, LESS and Initializr
+  - 47 days left!
+
+**Practice**
+
+  - Finish off the photoshop layout and begin polishing
+  - Export the layout to individual images, understand which goes into jpeg and which goes into png
+  - Start on HTML/CSS and LESS syntax
+  - Install initializr onto Cloud9 or local stack

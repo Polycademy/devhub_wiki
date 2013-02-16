@@ -167,21 +167,52 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 </ol>
 
 <p>
-In class, I&#039;ll do some live demonstration of the Photoshop process. It is best to use a grid overlay to help with your proportioning so you don&#039;t need to calculate pixels just to align something. Once the design is finished, we can either manually slice the design into parts or apply the <a href="http://designshack.net/articles/graphics/how-to-make-slicing-suck-less-tips-and-tricks-for-slicing-a-psd/" class="urlextern" title="http://designshack.net/articles/graphics/how-to-make-slicing-suck-less-tips-and-tricks-for-slicing-a-psd/"  rel="nofollow">slicing tool</a>. I prefer to do manual slicing, since my workflow creates independent layers anyway.
+In class, I&#039;ll do some live demonstration of the Photoshop process. It is best to use a grid overlay to help with your proportioning so you don&#039;t need to calculate pixels just to align something.
 </p>
 
 </div>
-<!-- EDIT3 SECTION "Photoshop" [3255-6880] -->
-<h2 class="sectionedit4" id="html_css">HTML &amp; CSS</h2>
-<div class="level2">
+<!-- EDIT3 SECTION "Photoshop" [3255-6578] -->
+<h3 class="sectionedit4" id="photoshop_slicing">Photoshop Slicing</h3>
+<div class="level3">
 
 <p>
 Once you have your Photoshop mockup finished, it&#039;s time to get started <a href="http://designshack.net/articles/css/do-we-still-slice-psds/" class="urlextern" title="http://designshack.net/articles/css/do-we-still-slice-psds/"  rel="nofollow">slicing up the PSD file</a> into separate images so we can use them for our <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. There are two ways of doing slicing. You can either follow the old way of slicing as demonstrated on this <a href="http://net.tutsplus.com/articles/news/converting-a-design-from-psd-to-html/" class="urlextern" title="http://net.tutsplus.com/articles/news/converting-a-design-from-psd-to-html/"  rel="nofollow">Nettuts article</a> or if you structured your mockup correctly with multiple layers, then you can simply export your layers one by one. The reasons this is better is because then you don&#039;t have unnecessary images. Slicing can create a lot of useless images. You should minimise the use of images, since many graphical elements can be simply be created using <abbr title="Cascading Style Sheets">CSS</abbr>. If you can do this, your user loads your website quicker and faster. This will be demonstrated in class. But you can try it yourself by simply duplicating your layer into a new window, trimming and cropping, then save to web.  
 </p>
 
+<p>
+There&#039;s a couple guidelines for this process:
+</p>
+<ul>
+<li class="level1"><div class="li"> Use JPEGs for photographic images and images that many different colours and elements.</div>
+</li>
+<li class="level1"><div class="li"> Use PNGs when you need transparency or for background graphics and icons.</div>
+</li>
+<li class="level1"><div class="li"> Use GIFs for very simple images, images that have only a couple colours and are pixel sized.</div>
+</li>
+<li class="level1"><div class="li"> When exporting balance between the size of the image and the quality of the image.</div>
+</li>
+<li class="level1"><div class="li"> Make use of interlace for <abbr title="Portable Network Graphics">PNG</abbr> and optimise/progressive for <abbr title="Joint Photographics Experts Group">JPEG</abbr>. Interlaced and progressive images will load to the browser little by little, so the browser doesn&#039;t wait for the whole image to load before viewing it.</div>
+</li>
+<li class="level1"><div class="li"> Flatten your transparency to a solid colour by merging layers when that image doesn&#039;t need to move or be used in multiple places. This will give an illusion of transparency to the viewer, but you&#039;ll have a smaller file size.</div>
+</li>
+<li class="level1"><div class="li"> Try using sprites for background images and icons. Sprites are a single image that has multiple images composed together. This reduces the number of <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> requests which are one of the primary bottlenecks in loading web pages. This reduces your flexibility, so only use this for images that won&#039;t change a lot. Do not use sprites for images that are part of an article. People may want to download those images independently.</div>
+</li>
+<li class="level1"><div class="li"> You can also use data URIs to further reduce the number of <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> requests. These images become text by running through a base 64 filter. However the support and flexibility for this is worse than sprites. IE7 and lower cannot view data URIs.</div>
+</li>
+</ul>
+
 </div>
-<!-- EDIT4 SECTION "HTML & CSS" [6881-7899] -->
-<h3 class="sectionedit5" id="syntax">Syntax</h3>
+<!-- EDIT4 SECTION "Photoshop Slicing" [6579-9127] -->
+<h2 class="sectionedit5" id="html_css">HTML &amp; CSS</h2>
+<div class="level2">
+
+<p>
+At this point, it&#039;s time to turn that Photoshop layout into <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr> markup. By the end of this section, you&#039;ll officially become a web designer. Before we go straight writing markup, we need to take some time to understand the syntax, structure and tools that web designers use to write <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>.
+</p>
+
+</div>
+<!-- EDIT5 SECTION "HTML & CSS" [9128-9458] -->
+<h3 class="sectionedit6" id="syntax">Syntax</h3>
 <div class="level3">
 
 <p>
@@ -234,12 +265,12 @@ Furthermore, since many CSS3 properties are still at developmental stage, browse
 </p>
 
 </div>
-<!-- EDIT5 SECTION "Syntax" [7900-10557] -->
-<h3 class="sectionedit6" id="html_css_framework">HTML/CSS Framework</h3>
+<!-- EDIT6 SECTION "Syntax" [9459-12116] -->
+<h3 class="sectionedit7" id="html_css_framework">HTML/CSS Framework</h3>
 <div class="level3">
 
 <p>
-We&#039;re going to be using <a href="http://twitter.github.com/bootstrap/" class="urlextern" title="http://twitter.github.com/bootstrap/"  rel="nofollow">Twitter Bootstrap</a> combined with <a href="http://html5boilerplate.com/" class="urlextern" title="http://html5boilerplate.com/"  rel="nofollow">HTML 5 Boilerplate</a>. <abbr title="HyperText Markup Language">HTML</abbr> 5 Boilerplate is simply a single <abbr title="HyperText Markup Language">HTML</abbr> file with an assortment of addons which demonstrate the best practices when it comes to creating modern <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. Twitter Bootstrap is a design framework offering its own brand of <abbr title="Cascading Style Sheets">CSS</abbr> functionality that you can immediately plug in play. Basically the granular <abbr title="Cascading Style Sheets">CSS</abbr> work to create grids, nice looking forms, tables, responsive design and other UI elements already exist. This doesn&#039;t mean you can&#039;t customise it, everything can be overwritten, however it will really speed up your development time.
+We&#039;re going to be using <a href="http://twitter.github.com/bootstrap/" class="urlextern" title="http://twitter.github.com/bootstrap/"  rel="nofollow">Twitter Bootstrap</a> combined with <a href="http://html5boilerplate.com/" class="urlextern" title="http://html5boilerplate.com/"  rel="nofollow">HTML 5 Boilerplate</a>. <abbr title="HyperText Markup Language">HTML</abbr> 5 Boilerplate is simply a single <abbr title="HyperText Markup Language">HTML</abbr> file with an assortment of addons which demonstrate the best practices when it comes to creating modern <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. Twitter Bootstrap is a design framework offering its own brand of <abbr title="Cascading Style Sheets">CSS</abbr> functionality that you can immediately plug and play. Basically the granular <abbr title="Cascading Style Sheets">CSS</abbr> work to create grids, nice looking forms, tables, responsive design and other UI elements already exist. This doesn&#039;t mean you can&#039;t customise it, everything can be overwritten, however it will really speed up your development time.
 </p>
 
 <p>
@@ -259,131 +290,24 @@ There is a <a href="http://html5boilerplate.com/mobile/" class="urlextern" title
 </p>
 
 </div>
-<!-- EDIT6 SECTION "HTML/CSS Framework" [10558-12572] -->
-<h3 class="sectionedit7" id="generic_skeleton">Generic Skeleton</h3>
+<!-- EDIT7 SECTION "HTML/CSS Framework" [12117-14132] -->
+<h3 class="sectionedit8" id="generic_skeleton">Generic Skeleton</h3>
 <div class="level3">
 
 <p>
-This generic skeleton uses Initializr&#039;s packaged Bootstrap and H5BP, but slightly modifies it so you can see multiple elements in action. It is commented, so go through each one and test them out in your development environment. It also uses LESS.css and the lessphp compiler. Note that LESS will not be highlighted properly if the IDE does not have a LESS parser. You will simply use <abbr title="Cascading Style Sheets">CSS</abbr> based highlighting. You can find the final project at the <a href="https://github.com/Polycademy/commonui" class="urlextern" title="https://github.com/Polycademy/commonui"  rel="nofollow">commonui Github repository</a>. Navigate to the <code>app</code> directory.
+This generic skeleton uses Initializr&#039;s packaged Bootstrap and H5BP, but slightly modifies it so you can see multiple elements in action. It is commented, so go through each one and test them out in your development environment. It also uses LESS.css and the lessphp compiler. If you&#039;re cloning this on your own local stack, you should use Simpless instead. Note that LESS will not be highlighted properly if the IDE does not have a LESS parser. You will simply use <abbr title="Cascading Style Sheets">CSS</abbr> based highlighting.
 </p>
-<dl class="code">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:web_design&amp;codeblock=0" title="Download Snippet" class="mediafile mf_html">index.html</a></dt>
-<dd><pre class="code html4strict"><span class="sc0">&lt;!DOCTYPE html&gt;</span>
-<span class="sc-1">&lt;!--[if lt IE 7]&gt;      &lt;html class=&quot;no-js lt-ie9 lt-ie8 lt-ie7&quot;&gt; &lt;![endif]--&gt;</span>
-<span class="sc-1">&lt;!--[if IE 7]&gt;         &lt;html class=&quot;no-js lt-ie9 lt-ie8&quot;&gt; &lt;![endif]--&gt;</span>
-<span class="sc-1">&lt;!--[if IE 8]&gt;         &lt;html class=&quot;no-js lt-ie9&quot;&gt; &lt;![endif]--&gt;</span>
-<span class="sc-1">&lt;!--[if gt IE 8]&gt;&lt;!--&gt;</span> <span class="sc2">&lt;<a href="http://december.com/html/4/element/html.html"><span class="kw2">html</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;no-js&quot;</span>&gt;</span> <span class="sc-1">&lt;!--&lt;![endif]--&gt;</span>
-    <span class="sc2">&lt;<a href="http://december.com/html/4/element/head.html"><span class="kw2">head</span></a>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/meta.html"><span class="kw2">meta</span></a> <span class="kw3">charset</span><span class="sy0">=</span><span class="st0">&quot;utf-8&quot;</span>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/meta.html"><span class="kw2">meta</span></a> <span class="kw3">http-equiv</span><span class="sy0">=</span><span class="st0">&quot;X-UA-Compatible&quot;</span> <span class="kw3">content</span><span class="sy0">=</span><span class="st0">&quot;IE=edge,chrome=1&quot;</span>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/title.html"><span class="kw2">title</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/title.html"><span class="kw2">title</span></a>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/meta.html"><span class="kw2">meta</span></a> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;description&quot;</span> <span class="kw3">content</span><span class="sy0">=</span><span class="st0">&quot;&quot;</span>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/meta.html"><span class="kw2">meta</span></a> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;viewport&quot;</span> <span class="kw3">content</span><span class="sy0">=</span><span class="st0">&quot;width=device-width&quot;</span>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/link.html"><span class="kw2">link</span></a> <span class="kw3">rel</span><span class="sy0">=</span><span class="st0">&quot;shortcut icon&quot;</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;favicon.ico&quot;</span>&gt;</span>
-    	<span class="sc2">&lt;<a href="http://december.com/html/4/element/link.html"><span class="kw2">link</span></a> <span class="kw3">rel</span><span class="sy0">=</span><span class="st0">&quot;apple-touch-icon&quot;</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;apple-touch-icon.png&quot;</span>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/link.html"><span class="kw2">link</span></a> <span class="kw3">rel</span><span class="sy0">=</span><span class="st0">&quot;stylesheet&quot;</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;css/main.css&quot;</span>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;js/vendor/modernizr-2.6.2-respond-1.1.0.min.js&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/head.html"><span class="kw2">head</span></a>&gt;</span>
-    <span class="sc2">&lt;<a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>
-        <span class="sc-1">&lt;!--[if lt IE 7]&gt;</span>
-<span class="sc-1">            &lt;p class=&quot;chromeframe&quot;&gt;You are using an &lt;strong&gt;outdated&lt;/strong&gt; browser. Please &lt;a href=&quot;http://browsehappy.com/&quot;&gt;upgrade your browser&lt;/a&gt; or &lt;a href=&quot;http://www.google.com/chromeframe/?redirect=true&quot;&gt;activate Google Chrome Frame&lt;/a&gt; to improve your experience.&lt;/p&gt;</span>
-<span class="sc-1">        &lt;![endif]--&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;header <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;navbar navbar-static-top&quot;</span>&gt;</span>
-            <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;container&quot;</span>&gt;</span>
-				<span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;navbar-inner&quot;</span>&gt;</span>
-					<span class="sc2">&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;logo&quot;</span> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;#&quot;</span>&gt;&lt;<a href="http://december.com/html/4/element/img.html"><span class="kw2">img</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;path/to/logo.png&quot;</span> <span class="sy0">/</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;</span>
-					<span class="sc2">&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;btn btn-navbar&quot;</span> data-toggle<span class="sy0">=</span><span class="st0">&quot;collapse&quot;</span> data-<span class="kw3">target</span><span class="sy0">=</span><span class="st0">&quot;.nav-collapse&quot;</span>&gt;</span>
-						<span class="sc2">&lt;<a href="http://december.com/html/4/element/span.html"><span class="kw2">span</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;icon-bar&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/span.html"><span class="kw2">span</span></a>&gt;</span>
-						<span class="sc2">&lt;<a href="http://december.com/html/4/element/span.html"><span class="kw2">span</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;icon-bar&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/span.html"><span class="kw2">span</span></a>&gt;</span>
-						<span class="sc2">&lt;<a href="http://december.com/html/4/element/span.html"><span class="kw2">span</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;icon-bar&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/span.html"><span class="kw2">span</span></a>&gt;</span>
-					<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;</span>
-					<span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;nav-collapse collapse&quot;</span>&gt;</span>
-						<span class="sc2">&lt;<a href="http://december.com/html/4/element/ul.html"><span class="kw2">ul</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;nav&quot;</span>&gt;</span>
-                            <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;#&quot;</span>&gt;</span>Home<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
-                            <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;#&quot;</span>&gt;</span>About<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
-                            <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;#&quot;</span>&gt;</span>Contact<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
-						<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/ul.html"><span class="kw2">ul</span></a>&gt;</span>
-					<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-				<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-            <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-        <span class="sc2">&lt;<span class="sy0">/</span>header&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;main&quot;</span>&gt;</span>
-            <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;container&quot;</span>&gt;</span>
-                <span class="sc2">&lt;article&gt;</span>
-                    <span class="sc2">&lt;<a href="http://december.com/html/4/element/h1.html"><span class="kw2">h1</span></a>&gt;</span>This is my article<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/h1.html"><span class="kw2">h1</span></a>&gt;</span>
-                    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>Hello World!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
-                    <span class="sc2">&lt;section&gt;</span>
-                        <span class="sc2">&lt;<a href="http://december.com/html/4/element/h2.html"><span class="kw2">h2</span></a>&gt;</span>This is my section!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/h2.html"><span class="kw2">h2</span></a>&gt;</span>
-                        <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>Hello this is my content!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
-                    <span class="sc2">&lt;<span class="sy0">/</span>section&gt;</span>
-                <span class="sc2">&lt;<span class="sy0">/</span>article&gt;</span>
-            <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-        <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;footer&gt;</span>
-            <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;container&quot;</span>&gt;</span>
-                <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;row&quot;</span>&gt;</span>
-                    <span class="sc2">&lt;section <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;span4&quot;</span>&gt;</span>
-                        <span class="sc2">&lt;<a href="http://december.com/html/4/element/h3.html"><span class="kw2">h3</span></a>&gt;</span>First section<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/h3.html"><span class="kw2">h3</span></a>&gt;</span>
-                    <span class="sc2">&lt;<span class="sy0">/</span>section&gt;</span>
-                    <span class="sc2">&lt;section <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;span4&quot;</span>&gt;</span>
-                        <span class="sc2">&lt;<a href="http://december.com/html/4/element/h3.html"><span class="kw2">h3</span></a>&gt;</span>Second section<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/h3.html"><span class="kw2">h3</span></a>&gt;</span>
-                    <span class="sc2">&lt;<span class="sy0">/</span>section&gt;</span>
-                    <span class="sc2">&lt;section <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;span4&quot;</span>&gt;</span>
-                        <span class="sc2">&lt;<a href="http://december.com/html/4/element/h3.html"><span class="kw2">h3</span></a>&gt;</span>Third section<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/h3.html"><span class="kw2">h3</span></a>&gt;</span>
-                    <span class="sc2">&lt;<span class="sy0">/</span>section&gt;</span>
-                <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-            <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-        <span class="sc2">&lt;<span class="sy0">/</span>footer&gt;</span>
-&nbsp;
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>window.jQuery || document.write('<span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;js/vendor/jquery-1.9.0.min.js&quot;</span>&gt;&lt;\<span class="sy0">/</span>script&gt;</span>')<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;js/vendor/bootstrap.min.js&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;js/plugins.js&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">src</span><span class="sy0">=</span><span class="st0">&quot;js/main.js&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-&nbsp;
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>
-<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/html.html"><span class="kw2">html</span></a>&gt;</span></pre>
-</dd></dl>
-<dl class="code">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:web_design&amp;codeblock=1" title="Download Snippet" class="mediafile mf_less">main.less</a></dt>
-<dd><pre class="code css"><span class="coMULTI">/* ==========================================================================
-   IMPORT MIXINS ELEMENTS PRESETS
-   ========================================================================== */</span>
-<span class="co1">@import url(&quot;bootstrap.less&quot;);</span>
-&nbsp;
-&nbsp;
-<span class="coMULTI">/* ==========================================================================
-   MAIN
-   ========================================================================== */</span>
-body <span class="br0">&#123;</span>
-    <span class="kw1">padding-top</span><span class="sy0">:</span> <span class="re3">60px</span><span class="sy0">;</span>
-    <span class="kw1">padding-bottom</span><span class="sy0">:</span> <span class="re3">40px</span><span class="sy0">;</span>
-<span class="br0">&#125;</span>
-&nbsp;
-<span class="coMULTI">/* ==========================================================================
-   RESPONSIVE
-   ========================================================================== */</span>
-<span class="co1">@import url(&quot;bootstrap-responsive.less&quot;);</span>
-<span class="co1">@import url(&quot;responsive.less&quot;);</span></pre>
-</dd></dl>
+
+<p>
+You can find the project respository on <a href="https://github.com/Polycademy/commonui" class="urlextern" title="https://github.com/Polycademy/commonui"  rel="nofollow">commonui Github repository</a>. Navigate to the <code>app</code> directory on the <code>master</code> branch. Look for the <code>index.html</code> and <code>css/main.less</code>.
+</p>
 
 <p>
 This video demonstrates the installation of the initializr package on Cloud9 and integrates LESS and lessphp into the project. It basically shows how to setup the basic skeleton as shown above. Note that your <abbr title="Cascading Style Sheets">CSS</abbr> files are not minified via this method, but requires an extra minifier to do this. We can do this using the Phing build system later. Remember to refer to the <a href="https://github.com/leafo/lessphp#how-to-use-from-the-command-line" class="urlextern" title="https://github.com/leafo/lessphp#how-to-use-from-the-command-line"  rel="nofollow">LESS documentation on the command line usage of plessc</a>. Note that lessphp currently does not support lesshat. Use clearless instead.
+</p>
+
+<p>
+The video below shows how to create a symbolic link in the bin directory to the plessc in the vendor directory. The link is prefixed with the <code>~</code> operator to indicate home. A better way to do it is actually to simply use relative links such as <code>../vendor/leafo/lessphp/plessc</code> instead of the <code>~/NUMBER</code> link. This is because your <code>NUMBER</code> may change over time due to cloud virtualisation.
 </p>
 <div class="vshare__center"><!--[if !IE]> -->
 <object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/i9l1JQxG5og?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
@@ -401,86 +325,94 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT7 SECTION "Generic Skeleton" [12573-18061] -->
-<h3 class="sectionedit8" id="common_ui_elements">Common UI Elements</h3>
+<!-- EDIT8 SECTION "Generic Skeleton" [14133-15881] -->
+<h3 class="sectionedit9" id="common_ui_elements">Common UI Elements</h3>
 <div class="level3">
 
 <p>
-This section will demonstrate some common elements that are used in <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. It will also have a standard skeleton of a generic website. You will need to learn these concepts and syntax structure and apply to your own layout.
+This section will demonstrate some common elements that are used in <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. It will also have a standard skeleton of a generic website. You will need to learn these concepts and syntax structure and apply to your own layout. Make sure to have Firebug ready so you can inspect the code and make changes to them to see the effects. You can even clone the repo your local/cloud stack. The code has embedded comments are isolated from other page components.
 </p>
 <ul>
-<li class="level1"><div class="li"> Header with Navigation, Collapse, Search</div>
+<li class="level1"><div class="li"> <a href="http://polycademy.github.com/commonui/" class="urlextern" title="http://polycademy.github.com/commonui/"  rel="nofollow">Common User Interfaces Demo Site</a> - to see the <abbr title="HyperText Markup Language">HTML</abbr>/<abbr title="Cascading Style Sheets">CSS</abbr> executing live and their corresponding code examples.</div>
 </li>
-<li class="level1"><div class="li"> Footer</div>
-</li>
-<li class="level1"><div class="li"> Tables</div>
-</li>
-<li class="level1"><div class="li"> Blog Articles</div>
-</li>
-<li class="level1"><div class="li"> Columns</div>
-</li>
-<li class="level1"><div class="li"> Floats</div>
-</li>
-<li class="level1"><div class="li"> Display Positioning</div>
-</li>
-<li class="level1"><div class="li"> Forms</div>
-</li>
-<li class="level1"><div class="li"> Multimedia</div>
-</li>
-<li class="level1"><div class="li"> Custom Fonts</div>
-</li>
-<li class="level1"><div class="li"> Microformats/Microdata/RDFa</div>
-</li>
-<li class="level1"><div class="li"> Data URIs</div>
-</li>
-<li class="level1"><div class="li"> Hover &amp; Active Selectors</div>
-</li>
-<li class="level1"><div class="li"> Advanced Selectors</div>
-</li>
-<li class="level1"><div class="li"> Favicon Usage</div>
-</li>
-<li class="level1"><div class="li"> Slider</div>
-</li>
-<li class="level1"><div class="li"> Multiple Backgrounds</div>
-</li>
-<li class="level1"><div class="li"> Z-index</div>
-</li>
-<li class="level1"><div class="li"> Image Grid</div>
-</li>
-<li class="level1"><div class="li"> Modal Boxes and Lightboxes</div>
-</li>
-<li class="level1"><div class="li"> Fluid Stretch</div>
-</li>
-<li class="level1"><div class="li"> Round Borders and Padding and Image Borders</div>
-</li>
-<li class="level1"><div class="li"> Transparency</div>
-</li>
-<li class="level1"><div class="li"> Text Effects</div>
-</li>
-<li class="level1"><div class="li"> Transitions &amp; Animations using <abbr title="Cascading Style Sheets">CSS</abbr></div>
+<li class="level1"><div class="li"> <a href="https://github.com/Polycademy/commonui" class="urlextern" title="https://github.com/Polycademy/commonui"  rel="nofollow">Common User Interface Github Repository</a> - clone this into your Cloud9 project and play around with it.</div>
 </li>
 </ul>
 
+<p>
+You should also read these articles which talk about specific theories or quirks of certain <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr> constructs.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://coding.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/" class="urlextern" title="http://coding.smashingmagazine.com/2007/07/27/css-specificity-things-you-should-know/"  rel="nofollow">CSS Hierarchy/Specificity</a> and <a href="http://css-tricks.com/specifics-on-css-specificity/" class="urlextern" title="http://css-tricks.com/specifics-on-css-specificity/"  rel="nofollow">Demos of CSS Specificity</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.impressivewebs.com/difference-block-inline-css/" class="urlextern" title="http://www.impressivewebs.com/difference-block-inline-css/"  rel="nofollow">Inline vs Block Elements</a> &amp; <a href="http://www.impressivewebs.com/default-css-display-values-html-elements/" class="urlextern" title="http://www.impressivewebs.com/default-css-display-values-html-elements/"  rel="nofollow">Default Display Values for HTML Elements</a> &amp; <a href="http://designshack.net/articles/css/whats-the-deal-with-display-inline-block/" class="urlextern" title="http://designshack.net/articles/css/whats-the-deal-with-display-inline-block/"  rel="nofollow">Display Inline Block</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/" class="urlextern" title="http://net.tutsplus.com/tutorials/html-css-techniques/the-30-css-selectors-you-must-memorize/"  rel="nofollow">CSS Selectors Reference</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://coding.smashingmagazine.com/2011/07/13/learning-to-use-the-before-and-after-pseudo-elements-in-css/" class="urlextern" title="http://coding.smashingmagazine.com/2011/07/13/learning-to-use-the-before-and-after-pseudo-elements-in-css/"  rel="nofollow">Before and After Pseudo Element Selectors</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.smashingmagazine.com/2009/03/03/how-to-use-icons-to-support-content-in-web-design/" class="urlextern" title="http://www.smashingmagazine.com/2009/03/03/how-to-use-icons-to-support-content-in-web-design/"  rel="nofollow">Using icons to support content</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.smashingmagazine.com/2008/06/12/block-quotes-and-pull-quotes-examples-and-good-practices/" class="urlextern" title="http://www.smashingmagazine.com/2008/06/12/block-quotes-and-pull-quotes-examples-and-good-practices/"  rel="nofollow">Block quotes and pull quotes for typography</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://twitter.github.com/bootstrap/scaffolding.html#responsive" class="urlextern" title="http://twitter.github.com/bootstrap/scaffolding.html#responsive"  rel="nofollow">Responsive utility classes from Twitter Bootstrap</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://coding.smashingmagazine.com/2009/07/27/the-definitive-guide-to-using-negative-margins/" class="urlextern" title="http://coding.smashingmagazine.com/2009/07/27/the-definitive-guide-to-using-negative-margins/"  rel="nofollow">Guide to using Negative Margins</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://coding.smashingmagazine.com/2009/09/15/the-z-index-css-property-a-comprehensive-look/" class="urlextern" title="http://coding.smashingmagazine.com/2009/09/15/the-z-index-css-property-a-comprehensive-look/"  rel="nofollow">Z-index Guide</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://html5doctor.com/i-b-em-strong-element/" class="urlextern" title="http://html5doctor.com/i-b-em-strong-element/"  rel="nofollow">Guide to using i, b, em and strong elements in typography</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.html5rocks.com/en/tutorials/forms/html5forms/" class="urlextern" title="http://www.html5rocks.com/en/tutorials/forms/html5forms/"  rel="nofollow">HTML5 Forms and New Elements</a></div>
+</li>
+</ul>
+
+<p>
+You may see some unconventional grid or animated layouts that aren&#039;t supported by Bootstrap alone. These often require javascript to get the right effect. Try these:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://suprb.com/apps/gridalicious/" class="urlextern" title="http://suprb.com/apps/gridalicious/"  rel="nofollow">Gridalicious</a> - Column style grids, good for image galleries with differing sizes.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://fluidsquares.com/" class="urlextern" title="http://fluidsquares.com/"  rel="nofollow">Fluid Squares</a> - Rather than columns of varying heights, it has exact squares that are fluidly adjusted.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.turnjs.com/" class="urlextern" title="http://www.turnjs.com/"  rel="nofollow">Turn JS</a> - Flip the pages instead of reloading them.</div>
+</li>
+</ul>
+
+<p>
+CSS3 provides animations, transitions, transformations, filters and more. These are quite specialised topics involving some understanding of math. You will not need this for designing most web sites and web applications. However if you do, these two resources should suffice:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://css3.bradshawenterprises.com/" class="urlextern" title="http://css3.bradshawenterprises.com/"  rel="nofollow">CSS3 Transitions, Transforms, Animation and Filters Tutorials</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://coding.smashingmagazine.com/2011/09/14/the-guide-to-css-animation-principles-and-examples/" class="urlextern" title="http://coding.smashingmagazine.com/2011/09/14/the-guide-to-css-animation-principles-and-examples/"  rel="nofollow">Guide to Animations and Animation Theory</a></div>
+</li>
+</ul>
+
+<p>
+These effects can be replicated in javascript, however the advantage is that these are usually rendered faster by the browsers that support it. On the other hand, only the latest browsers support this functionality. Using these effects would be useful for HTML5 mobile applications.
+</p>
+
 </div>
-<!-- EDIT8 SECTION "Common UI Elements" [18062-18847] -->
-<h3 class="sectionedit9" id="ui_video_tutorials">UI Video Tutorials</h3>
+<!-- EDIT9 SECTION "Common UI Elements" [15882-19795] -->
+<h3 class="sectionedit10" id="ui_video_tutorials">UI Video Tutorials</h3>
 <div class="level3">
 
 <p>
 Watch these 3 video tutorials when beginning your Photoshop slicing and <abbr title="HyperText Markup Language">HTML</abbr>/<abbr title="Cascading Style Sheets">CSS</abbr> markup.
 </p>
 <ul>
+<li class="level1"><div class="li"> <a href="http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/" class="urlextern" title="http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/"  rel="nofollow">Twitter Bootstrap Video Tutorials</a></div>
+</li>
 <li class="level1"><div class="li"> <a href="http://net.tutsplus.com/sessions/photoshop-to-html/" class="urlextern" title="http://net.tutsplus.com/sessions/photoshop-to-html/"  rel="nofollow">From Photoshop to HTML &amp; CSS</a> - this has 9 screencasts taking you from the Photoshop slicing to the final <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr> output. Your final output is this: <a href="/lib/exe/detail.php?id=web_application_development%3Aweb_design&amp;media=web_application_development:final_small.jpg" class="media" title="web_application_development:final_small.jpg"><img src="/lib/exe/fetch.php?w=400&amp;media=web_application_development:final_small.jpg" class="mediacenter" alt="" width="400" /></a></div>
 </li>
 <li class="level1"><div class="li"> <a href="http://net.tutsplus.com/articles/news/slice-and-dice-that-psd/" class="urlextern" title="http://net.tutsplus.com/articles/news/slice-and-dice-that-psd/"  rel="nofollow">Slice and Dice that PSD</a> - this starts from an already made PSD file and has a video turning that into <abbr title="HyperText Markup Language">HTML</abbr> and <abbr title="Cascading Style Sheets">CSS</abbr>. Your final output is this: <a href="/lib/exe/detail.php?id=web_application_development%3Aweb_design&amp;media=web_application_development:thehtml.png" class="media" title="web_application_development:thehtml.png"><img src="/lib/exe/fetch.php?w=400&amp;media=web_application_development:thehtml.png" class="mediacenter" alt="" width="400" /></a></div>
 </li>
-<li class="level1"><div class="li"> <a href="http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/" class="urlextern" title="http://webdesign.tutsplus.com/tutorials/complete-websites/twitter-bootstrap-101-introduction/"  rel="nofollow">Twitter Bootstrap Video Tutorials</a></div>
-</li>
 </ul>
 
 </div>
-<!-- EDIT9 SECTION "UI Video Tutorials" [18848-19638] -->
-<h3 class="sectionedit10" id="debugging">Debugging</h3>
+<!-- EDIT10 SECTION "UI Video Tutorials" [19796-20586] -->
+<h3 class="sectionedit11" id="debugging">Debugging</h3>
 <div class="level3">
 
 <p>
@@ -542,8 +474,8 @@ Please note, anything you change on Firebug is only temporary for your browser s
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Debugging" [19639-23614] -->
-<h2 class="sectionedit11" id="browser_testing">Browser Testing</h2>
+<!-- EDIT11 SECTION "Debugging" [20587-24562] -->
+<h2 class="sectionedit12" id="browser_testing">Browser Testing</h2>
 <div class="level2">
 
 <p>
@@ -563,8 +495,8 @@ If you&#039;re using advanced CSS3, then you have three options. You can either 
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Browser Testing" [23615-25552] -->
-<h3 class="sectionedit12" id="graceful_degradation_progressive_enhancement">Graceful Degradation &amp; Progressive Enhancement</h3>
+<!-- EDIT12 SECTION "Browser Testing" [24563-26500] -->
+<h3 class="sectionedit13" id="graceful_degradation_progressive_enhancement">Graceful Degradation &amp; Progressive Enhancement</h3>
 <div class="level3">
 
 <p>
@@ -576,8 +508,8 @@ You have to balance the effort to cost though. Is the reward of creating a degra
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Graceful Degradation & Progressive Enhancement" [25553-26503] -->
-<h2 class="sectionedit13" id="mobile_design">Mobile Design</h2>
+<!-- EDIT13 SECTION "Graceful Degradation & Progressive Enhancement" [26501-27451] -->
+<h2 class="sectionedit14" id="mobile_design">Mobile Design</h2>
 <div class="level2">
 
 <p>
@@ -597,8 +529,8 @@ The next step is to gracefully degrade the experience. Mobile phones don&#039;t 
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Mobile Design" [26504-28608] -->
-<h3 class="sectionedit14" id="mobile_ux">Mobile UX</h3>
+<!-- EDIT14 SECTION "Mobile Design" [27452-29556] -->
+<h3 class="sectionedit15" id="mobile_ux">Mobile UX</h3>
 <div class="level3">
 
 <p>
@@ -622,8 +554,25 @@ Mobile user experience has its own peculiarities. Mainly with the fact that the 
 </ul>
 
 </div>
-<!-- EDIT14 SECTION "Mobile UX" [28609-30048] -->
-<h2 class="sectionedit15" id="copywriting">Copywriting</h2>
+<!-- EDIT15 SECTION "Mobile UX" [29557-30997] -->
+<h2 class="sectionedit16" id="single_page_applications">Single Page Applications</h2>
+<div class="level2">
+
+<p>
+Single Page Applications (SPAs) are web apps that are loaded completely by javascript. Basically when you first access the website, it&#039;ll return a full feature client side javascript MVC based business logic. Each action or navigation will actually be carried out by the javascript and the page should remain persistent, that is there would be less page refreshes or loads. You can see this in Facebook and Github. You can learn more about designing for Single Page Applications via the below references:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://christianheilmann.com/2011/12/28/on-single-page-apps/" class="urlextern" title="http://christianheilmann.com/2011/12/28/on-single-page-apps/"  rel="nofollow">On Single Page Apps</a> - in terms of usability concerns.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://backbonetutorials.com/seo-for-single-page-apps/" class="urlextern" title="http://backbonetutorials.com/seo-for-single-page-apps/"  rel="nofollow">SEO for SPAs</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://singlepageappbook.com/" class="urlextern" title="http://singlepageappbook.com/"  rel="nofollow">Single Page App Online Book</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT16 SECTION "Single Page Applications" [30998-31807] -->
+<h2 class="sectionedit17" id="copywriting">Copywriting</h2>
 <div class="level2">
 
 <p>
@@ -635,8 +584,8 @@ I wouldn&#039;t get too deep in learning about copywriting, it&#039;s more a bla
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Copywriting" [30049-30827] -->
-<h2 class="sectionedit16" id="seo">SEO</h2>
+<!-- EDIT17 SECTION "Copywriting" [31808-32586] -->
+<h2 class="sectionedit18" id="seo">SEO</h2>
 <div class="level2">
 
 <p>
@@ -648,7 +597,7 @@ SEO is a black art in the web world too. So don&#039;t get too focused on it. Ho
 </p>
 
 </div>
-<!-- EDIT16 SECTION "SEO" [30828-] --><div class="footnotes">
+<!-- EDIT18 SECTION "SEO" [32587-] --><div class="footnotes">
 <div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
 <a href="http://gettingreal.37signals.com/ch09_Interface_First.php" class="urlextern" title="http://gettingreal.37signals.com/ch09_Interface_First.php"  rel="nofollow">Interface First</a></div>
 <div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 

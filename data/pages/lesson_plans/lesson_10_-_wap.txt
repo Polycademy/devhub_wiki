@@ -1,0 +1,28 @@
+====== Lesson 10 - WAP ======
+
+**Expected Work**
+
+  - Finished exporting your Photoshop layers into images
+  - Started on HTML and CSS syntax
+  - Started on LESS
+  - Installed Initializr
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Refresher on the HTML DOM, CSS Box Model
+  - Lecture on HTML classes, ids and CSS specificity
+  - Going through the generic skeleton in the common UI
+  - 46 days left!
+
+**Practice**
+
+  - Read through the reference on HTML, CSS, LESS
+  - Read through the reference on bootstrap, h5bp
+  - Play with the common UI
+  - Start writing the HTML/CSS for the header

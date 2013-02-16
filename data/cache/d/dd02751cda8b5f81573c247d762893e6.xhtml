@@ -1,0 +1,473 @@
+
+<h1 class="sectionedit1" id="php_-_server_side_architecture">PHP - Server Side Architecture</h1>
+<div class="level1">
+
+<p>
+<abbr title="Hypertext Preprocessor">PHP</abbr> is a server side scripting language. It is a dynamic and interpreted language. <abbr title="Hypertext Preprocessor">PHP</abbr> is not compiled. It runs through an interpreter, which is usually a <abbr title="Hypertext Preprocessor">PHP</abbr> processor module that is integrated into a web server. For our purposes, that would be the Apache <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server which includes <code>mod_php</code> as the processor module. <abbr title="Hypertext Preprocessor">PHP</abbr> can also be ran as <abbr title="Common Gateway Interface">CGI</abbr>, but that is not as common as the <code>mod_php</code> method. It started out being an embedded scripting language to <abbr title="HyperText Markup Language">HTML</abbr>, but grew into a full fledged programming language. It includes its own command line interface and can run as a stand alone server (but only used for development). It is single threaded and share nothing, meaning that it doesn&#039;t natively support concurrent processing and it doesn&#039;t share data between processes. <abbr title="Hypertext Preprocessor">PHP</abbr> is currently the most widely used web programming language powering Wikipedia, Facebook, Digg and more. 
+</p>
+
+<p>
+While going through this article, try using <a href="http://phpbounce.aws.af.cm" class="urlextern" title="http://phpbounce.aws.af.cm"  rel="nofollow">PHPBounce</a> to quickly test out your code if you don&#039;t have a chance to run a web server.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "PHP - Server Side Architecture" [1-1095] -->
+<h2 class="sectionedit2" id="object_oriented_programming_oop">Object Oriented Programming (OOP)</h2>
+<div class="level2">
+
+<p>
+There four fundamental <a href="http://en.wikipedia.org/wiki/Programming paradigm" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Programming paradigm">programming paradigms</a>. They are object-oriented, imperative, functional and logic programming. <abbr title="Hypertext Preprocessor">PHP</abbr> can support multiple paradigms, namely procedural (imperative) and object oriented. It incorporates aspects of functional, but developers don&#039;t architect their <abbr title="Hypertext Preprocessor">PHP</abbr> applications in a functional way. The most common programming paradigm for <abbr title="Hypertext Preprocessor">PHP</abbr> is object oriented.
+</p>
+
+<p>
+Object oriented simply means that we try to separate our programming into logical units of code. Each unit of code is an object. Each object can have multiple data properties that describe the object and multiple functions called methods. When we normally start programming, we naturally start in a procedural manner, specifying a list of tasks and subroutines before getting an end result. However in OOP, each object is an independent unit of code capable of receiving input, processing data and returning output. Each object can call on other objects, be dependent on external objects, or extended from parent objects. Each object has a distinct role. The decision of how granular we want when separating code into objects depends on the complexity of the unit of code. If you can find yourself doing multiple different <em>types</em> of tasks in one subroutine, then it&#039;s probably time to separate each <em>type</em> of functionality into different objects or different object methods.
+</p>
+
+<p>
+In order to create objects, we actually first specify a class. Classes are blueprints for objects. Objects are actually <em>instances</em> of classes. So a single class can be used to create multiple objects.
+</p>
+<pre class="code php"><span class="co1">//a class of Elephant, classes are usually capitalised</span>
+<span class="kw2">class</span> Elephant<span class="br0">&#123;</span><span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//$elephant is an object instance of the Elephant class</span>
+<span class="re0">$elephant</span> <span class="sy0">=</span> <span class="kw2">new</span> Elephant<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+OOP has four main concepts: encapsulation, abstraction, inheritance and polymorphism. 
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Object Oriented Programming (OOP)" [1096-3007] -->
+<h3 class="sectionedit3" id="encapsulation">Encapsulation</h3>
+<div class="level3">
+
+<p>
+OOP arose from the need to modularise and separate the functionality of software as software grew in complexity. The OOP approach encourages encapsulation which means we should place units of data inside objects which can only be accessed and manipulated through the object&#039;s methods. The methods act as intermediaries between different objects. You should never access data properties from the object directly.
+</p>
+
+<p>
+The motivation for encapsulation is discipline and abstraction. By encapsulating the data properties and thus the state of the object, we&#039;re hiding the implementation details of the object, but instead providing an method <abbr title="Application Programming Interface">API</abbr> that external objects can access. This helps with the abstraction process by providing a consistent way of accessing objects. This discipline is also useful when software development takes place in teams.
+</p>
+
+<p>
+Furthermore since the data properties are hidden, and only the names of methods are accessible, we can change the implementation details of the object without worrying of breaking the <abbr title="Application Programming Interface">API</abbr> for other objects.
+</p>
+<pre class="code php"><span class="kw2">class</span> Elephant<span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//encapsulated private data property of $_colour. The private makes it only accessible within the object's instance using $this. This underscore is only a convention of prefixing private or protected variables.</span>
+    <span class="kw2">private</span> <span class="re0">$_colour</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//public accessor method that sets the $_colour and echos it</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> set_colour<span class="br0">&#40;</span><span class="re0">$colour</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span>_colour <span class="sy0">=</span> <span class="re0">$colour</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="re0">$colour</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$red_elephant</span> <span class="sy0">=</span> <span class="kw2">new</span> Elephant<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//we can access the public method that acts as the intermediary to the private data property</span>
+<span class="re0">$red_elephant</span><span class="sy0">-&gt;</span><span class="me1">set_colour</span><span class="br0">&#40;</span><span class="st_h">'red'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$green_elephant</span> <span class="sy0">=</span> <span class="kw2">new</span> Elephant<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$green_elephant</span><span class="sy0">-&gt;</span><span class="me1">set_colour</span><span class="br0">&#40;</span><span class="st_h">'green'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT3 SECTION "Encapsulation" [3008-4769] -->
+<h3 class="sectionedit4" id="abstraction">Abstraction</h3>
+<div class="level3">
+
+<p>
+Encapsulation is actually technique of a more generic concept called abstraction. Objects should be abstracted. This means that the concrete implementation details should be hidden and abstracted away, so that only contextually important methods are available at a particular perspective. Here&#039;s a couple examples: the concept of a “List” is an abstraction of “Fruit List” or “Car List”. The concept of a “Living Thing” is an abstraction of “Animals” which is an abstraction of “Dog”. The concept of “People” is an abstraction of the person “Roger” and “Matthew”. When constructing an object, the available object properties should be relevant to the context of which it is used. All “People” may have heights and weights, but only “Roger” has a preference for “Action Movies” and only “Matthew” has a tattoo saying “I&#039;m Awesome”. So when I&#039;m defining the “People” object, it should not have properties of movie preferences or tattoos, those are not contextually relevant to how I would perceive or represent “People” as an abstract concept.
+</p>
+
+<p>
+Abstraction is achieved by encapsulating concrete implementation details, but it can also be achieved by leaving concrete implementation details later to extend the abstract class as the parent class.
+</p>
+
+</div>
+<!-- EDIT4 SECTION "Abstraction" [4770-6036] -->
+<h3 class="sectionedit5" id="inheritance">Inheritance</h3>
+<div class="level3">
+
+<p>
+Inheritance can be used to establish an abstract hierarchy of concepts and objects. At the same time because we&#039;re not rewriting the parent class&#039;s code, we enhance code reuse. Essentially child classes can inherit from parent classes, so that it inherits its parent&#039;s properties and methods.
+</p>
+
+<p>
+Methods specified in the parent classes can be overwritten by child classes unless finalised with <code>final <em>scope</em> function <em>name</em>{}</code>. <abbr title="Hypertext Preprocessor">PHP</abbr> also does not support multiple inheritance, so a child can only inherit from one parent. However there are different strategies to overcome this. Classes can also chain inheritance.
+</p>
+<pre class="code php"><span class="kw2">class</span> Animal<span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//private scoped variables will not be accessible in the child classes</span>
+    <span class="kw2">private</span> <span class="re0">$_exists</span> <span class="sy0">=</span> <span class="kw4">true</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//protected scoped variables are accessible in the child class but not outside of the class</span>
+    <span class="kw2">protected</span> <span class="re0">$_breathing_noise</span> <span class="sy0">=</span> <span class="st_h">'breathing'</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> breathe<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="re0">$this</span><span class="sy0">-&gt;</span>_breathing_noise<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//Elephant is a child of the abstract parent Animal class</span>
+<span class="kw2">class</span> Elephant <span class="kw2">extends</span> Animal<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">private</span> <span class="re0">$_colour</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> set_colour<span class="br0">&#40;</span><span class="re0">$colour</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span>_colour <span class="sy0">=</span> <span class="re0">$colour</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="re0">$colour</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> set_breathing<span class="br0">&#40;</span><span class="re0">$noise</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span>_breathing_noise <span class="sy0">=</span> <span class="re0">$noise</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$elephant</span> <span class="sy0">=</span> <span class="kw2">new</span> Elephant<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$elephant</span><span class="sy0">-&gt;</span><span class="me1">set_colour</span><span class="br0">&#40;</span><span class="st_h">'red'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$elephant</span><span class="sy0">-&gt;</span><span class="me1">set_breathing</span><span class="br0">&#40;</span><span class="st_h">'HRRUMPH!'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$elephant</span><span class="sy0">-&gt;</span><span class="me1">breathe</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT5 SECTION "Inheritance" [6037-7505] -->
+<h3 class="sectionedit6" id="polymorphism">Polymorphism</h3>
+<div class="level3">
+
+<p>
+Simply put polymorphism is simply that classes can have different functionality and yet share the same interface. Essentially you would be able to call a method that has a name that is shared by classes which occupy the same abstraction but have different functionality. The point is so that you can write less code by having to specify <code>if</code> statements to switch functionality based on some context. This also means when you&#039;re working in teams you can know that the classes with have the same kinds of APIs even though they do different things, especially when they are all used in the same ways.
+</p>
+
+<p>
+An example would be a button. Everybody knows how to interact with a button. You either press it or you don&#039;t. But what the button does, who knows? So all buttons should have the same interface, such as a method called <code>press</code>.
+</p>
+
+<p>
+Polymorphism is supported by two extra constructs: Interfaces and Abstracts.
+</p>
+
+</div>
+
+<h4 id="interfaces">Interfaces</h4>
+<div class="level4">
+
+<p>
+INTERFACES why? → For teams and for dependency injection.
+Basically you type hint in the constructor for an object to be injected but also to implement a interface contract.
+The interface is like the blueprint for your classes.
+You can be assured that all classes implementing this interface will have a fixed <abbr title="Application Programming Interface">API</abbr>.
+Then if you are swapping out your classes to something else, you can pass in a new object that still implements that interface, and you don&#039;t have to worry about whether the <abbr title="Application Programming Interface">API</abbr> methods change. They still work the same.
+Interfaces can be combined too, to provide some sort of super class implementation. So this class can be used anywhere or either-or. Regardless of whether the type hint is for the first interface or for the second interface. It&#039;ll still work!
+</p>
+
+<p>
+Use interfaces to group related classes that are meant to have the same <abbr title="Application Programming Interface">API</abbr>.
+</p>
+
+</div>
+
+<h4 id="abstracts">Abstracts</h4>
+<div class="level4">
+
+<p>
+Use abstracts to provide a boilerplate class. Like a parent class which has some common methods, and yet has methods that has to be implemented. Abstract methods have to be either protected or public which then has to be represented. You can only inherit from one abstract.
+</p>
+
+<p>
+Use abstracts as a <strong>parent class that needs to have children</strong>. Not just any standard parent class.
+</p>
+
+<p>
+Like abstract armor → chinese armor, european armor. Abstract armor and abstract sword can implement physical_object interface. The interface can specify that all physical_objects need weight method. The abstract armor leaves the weight undefined, but requires an abstract of blacksmith and defines a common function of armor rating calculation. Then Chinese_Armor extends abstract Armor. This creates the weight function as defined by interface and blacksmith function as defined by the abstract. It creates a protection function unique to Chinese_Armor. Then we create a Fight function that type hints for either Physical Object, or Ab_Armor. We create the Chinese_Armor and pass the dependency into the constructor dependency injection. Then in the fight we use the protection function. Note that the abstract can reference $this→weight even though it hasn&#039;t been defined, this is because the interface says it will be implemented, so the abstract can rely on this. Abstracts are never used by themselves.
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Polymorphism" [7506-10725] -->
+<h2 class="sectionedit7" id="model_view_controller">Model View Controller</h2>
+<div class="level2">
+
+<p>
+Diagram of MVC including a router
+</p>
+
+<p>
+Separation of concerns
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Model View Controller" [10726-10819] -->
+<h3 class="sectionedit8" id="model">Model</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT8 SECTION "Model" [10820-10836] -->
+<h3 class="sectionedit9" id="view">View</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT9 SECTION "View" [10837-10852] -->
+<h3 class="sectionedit10" id="controller">Controller</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT10 SECTION "Controller" [10853-10874] -->
+<h2 class="sectionedit11" id="templating">Templating</h2>
+<div class="level2">
+
+<p>
+What is templating
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Templating" [10875-10918] -->
+<h2 class="sectionedit12" id="using_libraries">Using Libraries</h2>
+<div class="level2">
+
+<p>
+CI style
+</p>
+
+<p>
+Composer
+</p>
+
+<p>
+Sparks
+</p>
+
+<p>
+Namespaces
+</p>
+
+<p>
+Autoloading
+</p>
+
+<p>
+Autoloading works with Codeigniter aswell.
+</p>
+
+<p>
+You need to enable hooks on the config.php.
+</p>
+
+<p>
+Then in hooks.php define
+</p>
+<dl class="code">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=3" title="Download Snippet" class="mediafile mf_php">hooks.php</a></dt>
+<dd><pre class="code php"><span class="co1">//pre_system autoloader</span>
+<span class="re0">$hook</span><span class="br0">&#91;</span><span class="st_h">'pre_system'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+    <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader'</span><span class="sy0">,</span>
+    <span class="st_h">'function'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'__construct'</span><span class="sy0">,</span>
+    <span class="st_h">'filename'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader.php'</span><span class="sy0">,</span>
+    <span class="st_h">'filepath'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'hooks'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+<p>
+Place this into the hooks directory. It is a PSR-0 compliant autoloader.
+Do not use underscores in your library names, (_). They will be translated into directories.
+All folders and files should be Capitalised and Camelcased.
+Interfaces and Abstracts can be placed as iInterface or aAbstract and polaced in Interface and Abstract folder.
+Use namespaces and use “use” to import aliases. Import straight to the file. Then initialise classes automagically. Use fully qualified names to access static classes or library classes.
+Place static classes in the library folder.
+Capable of using third_party too.
+Folder names can have underscores.
+</p>
+
+<p>
+If the “use” keyword only points to a directory and not to a specific file, that all of those files become fair game. However you need to use the last namespace directory and prefix to all class initialisations. Like use Phpbounce\Mission_checker;
+Then your initialisations would be new Mission_checker\Lint(); There&#039;s no need to specify the filenames. The filenames should always be the same as the class names. One class per file.
+</p>
+
+</div>
+<!-- EDIT12 SECTION "Using Libraries" [10919-12402] -->
+<h2 class="sectionedit13" id="database">Database</h2>
+<div class="level2">
+
+<p>
+<abbr title="Structured Query Language">SQL</abbr>
+</p>
+
+<p>
+NoSQL
+</p>
+
+<p>
+Persistent vs Non-Persistent (volatile data)
+</p>
+
+<p>
+Caching with Redis or session data
+</p>
+
+<p>
+Transactions and ATOMIC
+</p>
+
+<p>
+Searching with full text
+</p>
+
+</div>
+<!-- EDIT13 SECTION "Database" [12403-12569] -->
+<h2 class="sectionedit14" id="security">Security</h2>
+<div class="level2">
+
+<p>
+Should make a security “checklist” before deployment.
+</p>
+
+<p>
+Input validation + CSRF
+</p>
+
+<p>
+Handling Passwords
+</p>
+
+<p>
+Handling payments and credit cards
+</p>
+
+</div>
+<!-- EDIT14 SECTION "Security" [12570-12727] -->
+<h2 class="sectionedit15" id="sessions_authentication">Sessions &amp; Authentication</h2>
+<div class="level2">
+
+<p>
+Cursory note about <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>.
+</p>
+
+</div>
+<!-- EDIT15 SECTION "Sessions & Authentication" [12728-12792] -->
+<h2 class="sectionedit16" id="htaccess">.htaccess</h2>
+<div class="level2">
+
+<p>
+For apache
+</p>
+
+<p>
+<abbr title="Uniform Resource Locator">URL</abbr> rewriting
+</p>
+
+<p>
+GZIP Compression
+</p>
+
+</div>
+<!-- EDIT16 SECTION ".htaccess" [12793-12860] -->
+<h2 class="sectionedit17" id="caching">Caching</h2>
+<div class="level2">
+
+<p>
+Database Caching
+</p>
+
+<p>
+View Caching
+</p>
+
+<p>
+APC Opcode Caching
+</p>
+
+<p>
+File caching
+</p>
+
+<p>
+Memcache
+</p>
+
+</div>
+<!-- EDIT17 SECTION "Caching" [12861-12957] -->
+<h2 class="sectionedit18" id="concurrent_processing">Concurrent Processing</h2>
+<div class="level2">
+
+<p>
+Multithreading <abbr title="Hypertext Preprocessor">PHP</abbr> is not multithreaded
+</p>
+
+<p>
+For offloading work (image thumbnailing), distributing work (getting data from multiple places).
+</p>
+
+<p>
+Using daemons
+</p>
+
+<p>
+Using ZMQ
+</p>
+
+<p>
+Using Gearman workers
+</p>
+
+<p>
+A note due to host environments, you may not able to use daemons, zmq or gearman. You may then have to use hacks, or use dotCloud&#039;s workers. Or thirdparty the workers.
+</p>
+
+<p>
+Use Supervisor to keep track of tasks
+</p>
+
+</div>
+<!-- EDIT18 SECTION "Concurrent Processing" [12958-13388] -->
+<h2 class="sectionedit19" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
+<div class="level2">
+
+<p>
+Using REST
+</p>
+
+<p>
+Oauth
+</p>
+
+<p>
+Oauth2
+</p>
+
+</div>
+<!-- EDIT19 SECTION "Consuming Web Services APIs" [13389-13456] -->
+<h2 class="sectionedit20" id="providing_web_services_apis">Providing Web Services APIs</h2>
+<div class="level2">
+
+<p>
+REST provision
+</p>
+
+<p>
+Oauth Provision
+</p>
+
+<p>
+JSON
+</p>
+
+<p>
+Pusher <abbr title="Application Programming Interface">API</abbr>
+</p>
+
+</div>
+<!-- EDIT20 SECTION "Providing Web Services APIs" [13457-13548] -->
+<h2 class="sectionedit21" id="sockets_rtc">Sockets &amp; RTC</h2>
+<div class="level2">
+
+<p>
+Sockets using Ratchet (daemons) (Pub/Sub) and HAProxy
+</p>
+
+<p>
+RTC (tokbox) and UDP and TCP
+</p>
+
+</div>
+<!-- EDIT21 SECTION "Sockets & RTC" [13549-] -->
