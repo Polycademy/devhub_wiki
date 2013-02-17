@@ -17,3 +17,5 @@ Programming Tactics, Module Augmentation Pattern, Facade Pattern
 DOM manipulation
 
 Input Validation
+
+http://net.tutsplus.com/tutorials/javascript-ajax/event-based-programming-what-async-has-over-sync/

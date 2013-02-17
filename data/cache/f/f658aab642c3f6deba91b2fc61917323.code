@@ -1,0 +1,2 @@
+<span class="co1">//we pass false into the view, because don't need one to pass in straight json_data, json_data has to be an array too!</span>
+Template<span class="sy0">::</span><span class="me2">compose</span><span class="br0">&#40;</span><span class="kw4">false</span><span class="sy0">,</span> <span class="re0">$json_data</span><span class="sy0">,</span> <span class="st_h">'json'</span><span class="br0">&#41;</span><span class="sy0">;</span>

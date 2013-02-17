@@ -1,0 +1,38 @@
+<span class="co1">//We usually prefix our interfaces with i, and class names are usually camelcased</span>
+<span class="kw2">interface</span> iButton<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> press<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> change_colour<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> RedButton implements iButton<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> press<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'Alert! RED BUTTON PRESSED!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> change_colour<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'Flash RED and ORANGE!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw2">class</span> GreenButton implements iButton<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> press<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'Warning! GREEN BUTTON PRESSED!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> change_colour<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'Flash GREEN and BROWN!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//now we can expect the same API methods, and hence polymorphic method! Same name, different functionality.</span>
+<span class="re0">$red</span> <span class="sy0">=</span> <span class="kw2">new</span> RedButton<span class="sy0">;</span>
+<span class="re0">$red</span><span class="sy0">-&gt;</span><span class="me1">press</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$green</span> <span class="sy0">=</span> <span class="kw2">new</span> GreenButton<span class="sy0">;</span>
+<span class="re0">$green</span><span class="sy0">-&gt;</span><span class="me1">press</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>

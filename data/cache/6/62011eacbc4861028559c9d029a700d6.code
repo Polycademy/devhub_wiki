@@ -1,0 +1,2 @@
+<span class="co1">//first parameter is the name of the partial with or without '_partial' appended to it, second parameter is the variable to pass in</span>
+Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'header'</span><span class="sy0">,</span> <span class="re0">$header</span><span class="br0">&#41;</span><span class="sy0">;</span>

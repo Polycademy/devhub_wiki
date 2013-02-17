@@ -146,6 +146,10 @@ As we install and use more tools, we&#039;ll be utilising more command line tool
 </li>
 <li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/rm (Unix)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/rm (Unix)">Remove files</a> - <code>rm</code> is used to remove files or directories.</div>
 </li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/ln (Unix)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/ln (Unix)">Link Files</a> - <code>ln</code> is used to create links between files. You will usually use this in the format of <code>ln -s <em>path/to/file</em> <em>path/to/link</em></code> in order to create soft links between binary files, so you can access the binary in another directory.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/chmod" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/chmod">Adjust Permissions</a> - <code>chmod</code> is used to change the permissions of files. Sometimes you don&#039;t have the permissions to execute the file. You will usually use this in the format of <code>chmod 777 <em>path/to/file</em></code>. When you install third party packages, sometimes the binaries that come with it won&#039;t have the right permissions.</div>
+</li>
 <li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/Vim (text editor)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Vim (text editor)">Vim</a> - <code>vim</code> is used to edit text files from the command line. When first entering a file, it will enter “command” mode. Press <code>i</code> to enter “input” mode. You can then edit the text. Once finished, hit “esc” to go back to “command” mode. Then hit ”:wq” to write and exit. Refer to <a href="http://www.tuxfiles.org/linuxhelp/vimcheat.html" class="urlextern" title="http://www.tuxfiles.org/linuxhelp/vimcheat.html"  rel="nofollow">Vim cheat sheet</a> for more commands.</div>
 </li>
 <li class="level1"><div class="li"> <a href="http://git-scm.com/docs" class="urlextern" title="http://git-scm.com/docs"  rel="nofollow">Git Usage</a> - <code>git</code> is used to run <a href="/doku.php?id=web_application_development:git" class="wikilink1" title="web_application_development:git">Git</a> commands.</div>
@@ -235,7 +239,40 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT4 SECTION "Playing with Cloud9's Tools" [2841-12858] -->
+
+<h5 id="sparks">Sparks</h5>
+<div class="level5">
+
+<p>
+Codeigniter has its own specific package manager called <a href="http://getsparks.org/" class="urlextern" title="http://getsparks.org/"  rel="nofollow">Sparks</a>. You may find third party Codeigniter packages that specify the installation via Sparks. Installation of Sparks is a bit more difficult than Composer. This is because the Sparks package manager is somewhat outdated compared to the Codeigniter 3.0 develop branch. Please refer to the <a href="https://github.com/Polycademy/commonprogramming" class="urlextern" title="https://github.com/Polycademy/commonprogramming"  rel="nofollow">commonprogramming Github repository</a> to see the correct way of installing Sparks.
+</p>
+
+<p>
+To install Sparks onto the latest Codeigniter develop branch you need to change three things:
+</p>
+<ul>
+<li class="level1"><div class="li"> Add <code>tools/*</code> to your .gitignore</div>
+</li>
+<li class="level1"><div class="li"> Add <code>define(&#039;EXT&#039;, &#039;.php&#039;);</code> to your constants.php or convert MY_Loader.php that comes with Sparks and find and replace all instances of <code>.EXT</code> with <code>.&#039;.php</code>&#039;.</div>
+</li>
+<li class="level1"><div class="li"> The example-spark that is installed via the Spark installation guide is incorrect. You need to change its filename to <code>Example_spark.php</code> not <code>example_spark.php</code>.</div>
+</li>
+</ul>
+
+<p>
+All sparks are installed in your project root. They can be loaded via the standard Codeigniter loader class. Refer the the <a href="http://getsparks.org/get-sparks" class="urlextern" title="http://getsparks.org/get-sparks"  rel="nofollow">Sparks documentation</a> to see how. We&#039;re ignoring the <code>tools/*</code> directory because the Sparks itself can be installed differently on different computers. However the third party libraries we&#039;re keeping. This is different from Composer, because Sparks does not remember what packages you have installed.
+</p>
+
+<p>
+To run the Sparks executable, you have to <code>chmod 777</code> the binary. In order to keep it consistent with the <code>bin</code> directory of Composer, you should add a symbolic link via <code>ln -s ../tools/spark bin/spark</code>. You can also add the symbolic link from <code>~</code> home directory. However this will have to be updated after some time when using Cloud9.
+</p>
+
+<p>
+Don&#039;t worry if this doesn&#039;t quite make sense right now. You&#039;ll only need to do this once we get deeper into web programming.
+</p>
+
+</div>
+<!-- EDIT4 SECTION "Playing with Cloud9's Tools" [2841-15400] -->
 <h3 class="sectionedit5" id="cloud_database">Cloud Database</h3>
 <div class="level3">
 
@@ -266,7 +303,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT5 SECTION "Cloud Database" [12859-14010] -->
+<!-- EDIT5 SECTION "Cloud Database" [15401-16552] -->
 <h2 class="sectionedit6" id="local_stack">Local Stack</h2>
 <div class="level2">
 
@@ -275,7 +312,7 @@ The local stack deployment process is somewhat more complicated than the cloud s
 </p>
 
 </div>
-<!-- EDIT6 SECTION "Local Stack" [14011-14679] -->
+<!-- EDIT6 SECTION "Local Stack" [16553-17221] -->
 <h3 class="sectionedit7" id="apache_mysql_php_amp1">Apache MySQL PHP (AMP)</h3>
 <div class="level3">
 
@@ -294,6 +331,10 @@ The Wampserver is the easiest way to install WAMP on your own computer. Download
 
 <p>
 The installation is an executable, locate your wamp folder at the root of your drive. This is so that it easily accessible. This is not a program files kind of application.
+</p>
+
+<p>
+Note that if you find yourself unable to use Composer on the local stack with Wampserver, that&#039;s because the Curl extension hasn&#039;t been activated in the php.ini. Use <code>php -m</code> to see all the extensions. If curl isn&#039;t there, you need to use <code>php -r “echo php_ini_loaded_file();”</code> and navigate to that file. Find the the line which mentions “curl”, and uncomment the line by removing the semicolon. Try <code>php -m</code> again. If it doesn&#039;t work and comes up with an error about side by side. Then you the curl extension is corrupt. You need to follow the instructions posted here on <a href="http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit" class="urlextern" title="http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit"  rel="nofollow">Stackoverflow regarding PHP Curl and WAMP</a>. It&#039;s a simple matter of downloading the correct curl extension and replacing the default one in the <code>ext</code> folder.
 </p>
 
 </div>
@@ -340,7 +381,7 @@ This AMP stack is only one stack of out many. When you become a polyglot develop
 </p>
 
 </div>
-<!-- EDIT7 SECTION "Apache MySQL PHP (AMP)" [14680-17263] -->
+<!-- EDIT7 SECTION "Apache MySQL PHP (AMP)" [17222-20638] -->
 <h3 class="sectionedit8" id="phpmyadmin">PHPMyAdmin</h3>
 <div class="level3">
 
@@ -353,7 +394,7 @@ PHPMyAdmin comes with the standard WAMP and MAMP stacks. PHPMyAdmin is essential
 </p>
 
 </div>
-<!-- EDIT8 SECTION "PHPMyAdmin" [17264-17776] -->
+<!-- EDIT8 SECTION "PHPMyAdmin" [20639-21151] -->
 <h3 class="sectionedit9" id="text_editor">Text Editor</h3>
 <div class="level3">
 
@@ -415,7 +456,7 @@ Sublime is a superb editor for web development. It has many features beyond Note
 </p>
 
 </div>
-<!-- EDIT9 SECTION "Text Editor" [17777-21737] -->
+<!-- EDIT9 SECTION "Text Editor" [21152-25112] -->
 <h3 class="sectionedit10" id="console_or_terminal">Console or Terminal</h3>
 <div class="level3">
 
@@ -449,7 +490,7 @@ Adjust the appearance options to suit yourself. Try enlarging the font and makin
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Console or Terminal" [21738-24248] -->
+<!-- EDIT10 SECTION "Console or Terminal" [25113-27623] -->
 <h3 class="sectionedit11" id="connection_tools">Connection Tools</h3>
 <div class="level3">
 
@@ -522,7 +563,7 @@ Most cloud hosts provide their own command line utility to connect and tunnel in
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Connection Tools" [24249-27180] -->
+<!-- EDIT11 SECTION "Connection Tools" [27624-30555] -->
 <h3 class="sectionedit12" id="git_source_code_version_control">Git Source Code Version Control</h3>
 <div class="level3">
 
@@ -545,7 +586,7 @@ The easiest way to use Git on a local stack is to download the Github&#039;s cli
 </ul>
 
 </div>
-<!-- EDIT12 SECTION "Git Source Code Version Control" [27181-28004] -->
+<!-- EDIT12 SECTION "Git Source Code Version Control" [30556-31379] -->
 <h3 class="sectionedit13" id="package_management">Package Management</h3>
 <div class="level3">
 
@@ -567,6 +608,8 @@ The easiest way to use Git on a local stack is to download the Github&#039;s cli
 </li>
 <li class="level1"><div class="li"> Linux - <a href="http://wiki.debian.org/Aptitude" class="urlextern" title="http://wiki.debian.org/Aptitude"  rel="nofollow">Aptitude</a> or <a href="http://wiki.debian.org/Apt" class="urlextern" title="http://wiki.debian.org/Apt"  rel="nofollow">APT</a></div>
 </li>
+<li class="level1"><div class="li"> Codeigniter - <a href="http://getsparks.org/install" class="urlextern" title="http://getsparks.org/install"  rel="nofollow">http://getsparks.org/install</a></div>
+</li>
 </ul>
 
 <p>
@@ -585,8 +628,12 @@ One thing to note is that when using Composer with Github, <a href="http://getco
 Composer itself can <a href="http://getcomposer.org/doc/articles/vendor-binaries.md" class="urlextern" title="http://getcomposer.org/doc/articles/vendor-binaries.md"  rel="nofollow">install vendor binaries</a> that can be executed from the command line. In order for this to work, the binary file path needs to be added the PATH variables. This will allow packages that have command line utilities to be used easily. This will demonstrated below.
 </p>
 
+<p>
+Sparks is a Codeigniter specific package manager, when installing Sparks locally, make sure to check if your <abbr title="Operating System">OS</abbr> is Windows or otherwise. If it is Windows, you will need to install it manually rather than using the command line option.
+</p>
+
 </div>
-<!-- EDIT13 SECTION "Package Management" [28005-30851] -->
+<!-- EDIT13 SECTION "Package Management" [31380-34513] -->
 <h3 class="sectionedit14" id="path_variable_editing">PATH Variable Editing</h3>
 <div class="level3">
 
@@ -623,7 +670,7 @@ Please note that editing the <code>.bashrc</code> is semi-permanent in Cloud9. T
 </p>
 
 </div>
-<!-- EDIT14 SECTION "PATH Variable Editing" [30852-33248] -->
+<!-- EDIT14 SECTION "PATH Variable Editing" [34514-36910] -->
 <h3 class="sectionedit15" id="front_end_tools">Front End Tools</h3>
 <div class="level3">
 
@@ -675,7 +722,7 @@ Here are some other Firefox extensions that are helpful when developing:
 </ul>
 
 </div>
-<!-- EDIT15 SECTION "Front End Tools" [33249-35234] -->
+<!-- EDIT15 SECTION "Front End Tools" [36911-38896] -->
 <h3 class="sectionedit16" id="productivity_tools">Productivity Tools</h3>
 <div class="level3">
 
@@ -698,7 +745,7 @@ Here are some productivity apps that Polycademy recommends. These are useful for
 </ul>
 
 </div>
-<!-- EDIT16 SECTION "Productivity Tools" [35235-35833] -->
+<!-- EDIT16 SECTION "Productivity Tools" [38897-39495] -->
 <h2 class="sectionedit17" id="media_stack">Media Stack</h2>
 <div class="level2">
 
@@ -734,12 +781,12 @@ Video editing is best done with 4 tools. They are <a href="http://www.videolan.o
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Media Stack" [35834-37062] -->
+<!-- EDIT17 SECTION "Media Stack" [39496-40724] -->
 <h2 class="sectionedit18" id="testing_stack">Testing Stack</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT18 SECTION "Testing Stack" [37063-37089] -->
+<!-- EDIT18 SECTION "Testing Stack" [40725-40751] -->
 <h3 class="sectionedit19" id="browser_testing">Browser Testing</h3>
 <div class="level3">
 
@@ -760,7 +807,7 @@ If you are using Mac or Linux, try <a href="http://browsershots.org/" class="url
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Browser Testing" [37090-38398] -->
+<!-- EDIT19 SECTION "Browser Testing" [40752-42060] -->
 <h3 class="sectionedit20" id="unit_testing">Unit Testing</h3>
 <div class="level3">
 
@@ -866,12 +913,12 @@ Back end javascript involving Node.js should instead use <a href="http://net.tut
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Unit Testing" [38399-45050] -->
+<!-- EDIT20 SECTION "Unit Testing" [42061-48712] -->
 <h2 class="sectionedit21" id="build_stack">Build Stack</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT21 SECTION "Build Stack" [45051-45075] -->
+<!-- EDIT21 SECTION "Build Stack" [48713-48737] -->
 <h3 class="sectionedit22" id="code_quality">Code Quality</h3>
 <div class="level3">
 
@@ -888,7 +935,7 @@ Although <abbr title="Hypertext Preprocessor">PHP</abbr> has <a href="http://pea
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Code Quality" [45076-46046] -->
+<!-- EDIT22 SECTION "Code Quality" [48738-49708] -->
 <h3 class="sectionedit23" id="css_preprocessors">CSS Preprocessors</h3>
 <div class="level3">
 
@@ -913,7 +960,7 @@ When we get to <a href="/doku.php?id=web_application_development:web_design" cla
 </p>
 
 </div>
-<!-- EDIT23 SECTION "CSS Preprocessors" [46047-47668] -->
+<!-- EDIT23 SECTION "CSS Preprocessors" [49709-51330] -->
 <h3 class="sectionedit24" id="phing_php_build_system">Phing PHP Build System</h3>
 <div class="level3">
 
@@ -969,7 +1016,7 @@ Phing has a <a href="http://www.phing.info/docs/guide/stable/" class="urlextern"
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Phing PHP Build System" [47669-49506] -->
+<!-- EDIT24 SECTION "Phing PHP Build System" [51331-53168] -->
 <h3 class="sectionedit25" id="js_build_system">JS Build System</h3>
 <div class="level3">
 
@@ -978,7 +1025,7 @@ There are three build systems for Javascript. <a href="http://gruntjs.com/" clas
 </p>
 
 </div>
-<!-- EDIT25 SECTION "JS Build System" [49507-49946] -->
+<!-- EDIT25 SECTION "JS Build System" [53169-53608] -->
 <h2 class="sectionedit26" id="production_stack">Production Stack</h2>
 <div class="level2">
 
@@ -991,7 +1038,7 @@ To start using Appfog, create an account on Appfog, setup an app, and then insta
 </p>
 
 </div>
-<!-- EDIT26 SECTION "Production Stack" [49947-] --><div class="footnotes">
+<!-- EDIT26 SECTION "Production Stack" [53609-] --><div class="footnotes">
 <div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
 By Arturo muthuvel (Own Work) [CC-BY-SA-3.0 (<a href="http://creativecommons.org/licenses/by-sa/3.0" class="urlextern" title="http://creativecommons.org/licenses/by-sa/3.0"  rel="nofollow">http://creativecommons.org/licenses/by-sa/3.0</a>)], via Wikimedia Commons</div>
 <div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 

@@ -1,5 +1,15 @@
 ====== PHP - Design Patterns ======
 
+Method Overloading (with default parameters)
+
+Method Overriding
+
+Default parameters
+
+Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/
+And Type hinting
+
+and http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/ SOLID principles
 
 ==== Standards ====
 

@@ -16,3 +16,9 @@ Here is the list of lesson plans:
   * [[Lesson 8 - WAP|Lesson 8]]
   * [[Lesson 9 - WAP|Lesson 9]]
   * [[Lesson 10 - WAP|Lesson 10]]
+**Week 3**
+  * [[Lesson 11 - WAP|Lesson 11]]
+  * [[Lesson 12 - WAP|Lesson 12]]
+  * [[Lesson 13 - WAP|Lesson 13]]
+  * [[Lesson 14 - WAP|Lesson 14]]
+  * [[Lesson 15 - WAP|Lesson 15]]
