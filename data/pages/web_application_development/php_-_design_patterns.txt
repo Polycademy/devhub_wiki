@@ -11,6 +11,8 @@ And Type hinting
 
 and http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/ SOLID principles
 
+Exception handling
+
 ==== Standards ====
 
 Check the PHP Fig (Framework Interop Group): http://www.php-fig.org/

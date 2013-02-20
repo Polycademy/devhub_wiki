@@ -371,6 +371,81 @@ class Blog_model extends CI_Model {
 
 }
 </code>
+
+=== CRUD ===
+
+CRUD refers to [[wp>Create, read, update and delete|Create Read Update and Delete]]. These are the four basic functions of any model when interacting with a database. You should read the [[#database|Database Section]] before proceeding. If you're using models to interface with a database, the convention is to name your model after the table name you're using. In each model class, there will be four public methods corresponding to CRUD.
+
+<file php user_model.php>
+
+class User_model extends CI_Model{
+
+    public function __construct(){
+    
+        //this will become available as $this->db..etc
+        $this->load->database();
+    
+    }
+    
+    //you can name these functions using other terms or even terms closer to HTTP if you prefer
+    
+    //the parameters here would be passed in from the controller, they would be acquired from the input library
+    //we could have as separate parameters, or a single array object
+    public function create($username, $password, $email){
+        
+        $data = array(
+            'username' => $username, //perhaps make it lowercase?
+            'password' => password_hash($password), //password_hash is not a defined function anywhere yet, I'm setting here so you remember that passwords need to be hashed and salted before inputting it into the database. See the security section on passwords. THIS IS IMPORTANT!
+            'email'    => $email,
+        );
+        
+        $query = $this->db->insert('user', $data); 
+        
+        if(!$query){
+        
+            //some error occurred? We should log the database error
+            //the below only works if $db['default']['db_debug'] = FALSE in the database configuration (so that it doesn't display straight to the user
+            
+            $msg = $this->db->_error_message();
+            $num = $this->db->_error_number();
+            $last_query = $this->db->last_query();
+            
+            log_message('error', 'Problem Inserting to user table: ' . $msg . ' (' . $num . '), using this query: "' . $last_query . '"'); 
+            
+            return false;
+            
+        }
+        
+        //it worked! return the last insert_id!
+        return $this->db->insert_id();
+    
+    }
+    
+    public function read($id){
+    
+    }
+    
+    public function update($id, $data){
+    
+    }
+    
+    public function delete($id){
+    
+    }
+    
+    //the above are not the only methods you would have, but are just the bare minimum, perhaps you need a method that gets all the listings, not just one entry...
+
+}
+
+</file>
+
+You may notice eventually that CRUD is simply one of the many configurations of these four operations at different abstraction levels
+
+|         ^ SQL             ^ HTTP (RESTful)     ^
+^ Create  | INSERT          | POST               |
+^ Read    | SELECT          | GET                |
+^ Update  | UPDATE          | PUT                |
+^ Delete  | DELETE          | DELETE             |
 ==== View ====
 
 Your view is where your user interface code lies. Remember that HTML and CSS markup you did while in the Web Design section? Well that HTML markup is going to be cutup into independent layouts in the view. The CSS, Javascript and other assets actually remain where they are. The view is also where we implement [[#templating|templating]], which is the practice of modularising user interfaces into reusable components so they can be swapped in and out with other user interface elements. In order to pull in dynamic data, we actually place variables inside the views which will be injected from the controller after the controller has the data from the model.
@@ -429,6 +504,10 @@ class Home extends CI_Controller {
 	
 }
 </code>
+
+When processing form inputs, instead of [[http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html|placing all the validation rules in your controller's methods]], keep them in a separate configuration file. Refer to this tutorial on [[http://chris-schmitz.com/cleaning-up-your-codeigniter-controllers/|Cleaning up your Codeigniter Controllers]] to see how to do this:
+
+There'll be many developers who argue that your form inputs should be validated in your model. However Codeigniter's form validation library doesn't work from the model, so we have to place in our controller. But by following the technique of placing form rules in an external config file, this makes form validation much easier and thinner in our controllers.
 ===== Templating =====
 
 Templating is the process of using layouts and partials to form complete view user interfaces. In following the separation of concerns, templates should contain as little business logic as possible. It's only there to bring together user interface elements and have dynamic data inserted into them. The problem comes when we want to have reusable partial templates and shared layout templates.
@@ -621,6 +700,15 @@ If you're replacing a native library. You would use the same name of the class y
 
 If you're extending a native library just declare your class as MY_CLASSNAME extending CI_CLASSNAME. Furthermore if you're using a constructor, make sure to call the parent constructor with ''parent::constructor();''.
 
+Note that if you're trying use Codeigniter's native libraries or database class inside your own custom library, you need to call the function ''get_instance()''. This is a global function defined by Codeigniter. When you load in your library, that function points to creating an instance to Codeigniter's super object. It's actually a good demonstration of the [[http://en.wikipedia.org/wiki/Singleton_pattern|singleton pattern]]. Every time you call ''get_instance'' you don't actually initialise a whole new superobject. The function checks if the object has already been initialised, and if it has been, it will simply return that object. In the [[http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html|documentation]], it recommends that you assign it to a object member property in your constructor, and then use the variable as if you were calling ''$this'' in your controllers and models.
+
+<code php>
+$CI = get_instance();
+$CI->do_something_native(); //like $CI->load->other_libary
+</code>
+
+However this actually isn't necessary. [[http://stackoverflow.com/questions/7195544/get-instance-in-codeigniter-why-assign-it-to-a-variable|There are reasons for this]].
+
 === Sparks ===
 
 Before the days of Composer and PSR-0, Codeigniter had its own package and repository manager called Sparks. It is still in use today by legacy Codeigniter libraries and Codeigniter specific packages. So this will still be useful. However it hasn't been kept up to date with the latest develop branch version of Codeigniter, so in order to install we have to make a couple changes. See the [[Solution Stack#sparks|solution stack on sparks]] for more information.
@@ -660,80 +748,352 @@ At this point you have a flexible system utilising Composer, Sparks, Native CI a
 In order to autoload classes in directories, you'll have to use namespaces.
 ==== Namespaces ====
 
-Vendor/Package/Library style naming.
+Namespaces are a way to encapsulate objects in order to avoid naming conflicts and shorten long path names to aliases. In your operating system you may have two files with the same name and extension. However they can never live in the same directory, because that would cause a naming conflict, and if you're trying to call that file, the operating system wouldn't know which one you're trying call.
 
-If the "use" keyword only points to a directory and not to a specific file, that all of those files become fair game. However you need to use the last namespace directory and prefix to all class initialisations. Like use Phpbounce\Mission_checker;
-Then your initialisations would be new Mission_checker\Lint(); There's no need to specify the filenames. The filenames should always be the same as the class names. One class per file.
+Namespaces in programming operate similarly. Imagine you're working in a team, and one of you defines an object called ''class MyDB'', and your teammate who didn't know better also defined an object called ''class MyDB''. Then if you include the files together into one script, this would cause a naming conflict. Previously we would just name one of the classes with a prefix such as ''class SteveMyDB''. However this is ugly and inefficient. Instead we use namespaces to avoid changing our class names. In PHP only classes, interfaces, functions and constants are affected by namespaces. It is recommended best practice to only have one namespace per file.
 
-Talk about usage of Abstracts and Interfaces in non-package specific
+There are two syntax commands in creating and importing namespaces. They should always be used at the top of the code in the file. You cannot use them in blocks or conditionals.
+
+<file php SomeClass.php>
+//use 'namespace' to define the namespace for the current code
+namespace Polycademy\MissonChecker;
+
+//use 'use' to import other namespaces into the code or as an alias
+//the use command cannot import functions or constants, which is why we follow OOP
+use Polycademy\Abstracts\aArmor;
+
+//via the autoloading mechanism, the aArmor will point to Polycademy/Abstracts/aArmor.php then initialise the aArmor abstract, this will be done automatically
+class SomeClass extends aArmor{}
+</file>
+
+<file php aArmor.php>
+namespace Polycademy\Abstracts;
+
+abstract aArmor{}
+</file>
+
+When using namespaces, you need to abide by a similar directory structure. The above code defines the namespace as in Polycademy\MissionChecker. This means ''SomeClass.php'' exists in ''base/path/Polycademy/MissionChecker/SomeClass.php''. As you can see the namespace is always defined at where the file is, but does not include the filename itself. The ''base/path'' is defined in your autoloader. If you choose to use CiAutoloading, then the base path is at Codeigniter's ''application/libraries'' and ''application/third_party'' folder. CiAutoloading also includes the Composer's own autoloader which has extra features. The ''use Polycademy\Abstracts\aArmor'' actually imports the file itself, it's not just pointing a directory. You can make ''use'' import a directory, however then when you call objects this will require you to append the directory name, so it's easier to import a file. Here's an example of the directory structure using Codeigniter and CiAutoloading.
+
+    application/libraries
+      |
+      |----Polycademy
+              |
+              |----MissionChecker
+              |       |
+              |       |----SomeClass.php
+              |       
+              |----Abstracts
+                      |
+                      |----aArmor.php
+
+The namespaces are always referred to from the root of the base path. There can be further directories or less directories if you wish.
+
+Do note it is possible have [[http://www.php.net/manual/en/language.namespaces.definitionmultiple.php|multiple namespaces in one file]], however this is a bad practice as it will confuse you and other developers who expect namespaces as directories.
+
+Namespaces come to life when using autoloaders, especially PSR-0 compliant autoloaders. According to the PSR-0 rules, you have to namespace and structure your packages in this way:
+
+  - A fully-qualified namespace and class must have the following structure \<Vendor Name>\(<Namespace>)*\<Class Name>.
+  - Each namespace must have a top-level namespace ("Vendor Name").
+  - Each namespace can have as many sub-namespaces as it wishes.
+  - Each namespace separator is converted to a DIRECTORY_SEPARATOR when loading from the file system.
+  - Each underscore in the class name is converted to a DIRECTORY_SEPARATOR. The underscore has no special meaning in the namespace.
+  - The fully-qualified namespace and class is suffixed with .php when loading from the file system.
+  - Alphabetic characters in vendor names, namespaces, and class names may be of any combination of lower case and upper case.
+
+So in our example the vendor name would be "Polycademy", the next namespace should be the package name. In our example that's either MissionChecker or Abstracts. The 5th rule is why we camelcase our filenames and class names. Most packages that are on Composer follow this structure, but not all of them follow it strictly. It is possible to skip having a vendor name, and just have the package name, and it's also possible just to autoload classes without namespaces by defining them as a classmap. Refer to [[http://getcomposer.org/doc/04-schema.md#autoload|autoloading on Composer]] for more information on that.
+
+As a recommendation when constructing your own libraries, try conforming to "Package/Library" style naming. If you are intending to share it, be PSR-0 compliant with "Vendor/Package/Library" style. However if you're importing third party libraries that are neither Composer or Sparks, then you should try to convert them into "Vendor/Package/Library" style. These would then be put in the third party folder.
+
+There are couple other important facets of namespacing that may be a bit confusing to a beginner. It's easier to explain this via code. Also note the [[http://www.php.net/manual/en/language.namespaces.nsconstants.php|namespace constants]], which you can use to explicitly refer to the current namespace if importing imports classes of the same name.
+
+<file php Mapper.php>
+//assume autoloading is setup
+
+//ok so this file is in Guzzle/Url directory
+namespace Guzzle\Url;
+
+//we're importing something we want to use
+use Guzzle\Cookie\CookieParser;
+
+//here we're importing, but we're aliasing it too!
+use Guzzle\Message as Awesome;
+
+//here we're importing a directory, just imagine that it is a directory and not a file
+use Guzzle\Directory;
+
+class Mapper{
+
+    public function __construct(){
+    
+        //there's never any need to specify filename extensions, the classes and files are the same name.
+    
+        //this works, because we imported the file (remember that class names should match file names)
+        //it first looks at the current namespace, then the imported namespace
+        //this is called an unqualified name
+        $cookie_parser = new CookieParser; 
+        
+        //this may work, it's not imported, so the current namespace gets appended
+        //it will only work if there was a Guzzle/Url/UrlParser.php
+        //this is also called an unqualified name
+        $url_parser = new UrlParser;
+        
+        //this is called a qualified name, the current namespace gets appended to it
+        //it becomes Guzzle\Url\Another\Parser.php
+        $another_parser = new Another\Parser;
+        
+        //this is called a FULLY qualified name, it does not append any of the current namespaces, and it does not recognise imported namespaces. It's like an absolute path.
+        $absolute_parser = new \Other\Cool\Parser;
+        
+        //this uses an alias, and resolves to Guzzle\Message\Parsing.php
+        $aliased_parser = new Awesome\Parsing;
+        
+        //this is not an alias, instead it points to the Directory import. So it resolves as Guzzle\Directory\SuperParser;
+        $directory_parser = new Directory\SuperParser;
+        //therefore if the use keyword points to a directory and not to a specific file, all of those files become fair game. However you need to use the last namespace directory and prefix all class initialisations
+    
+    }
+
+}
+</file>
+
+The above code would correspond to this kind of directory structure:
+
+    application/libraries
+      |
+      |----Guzzle
+      |       |
+      |       |----Url
+      |       |       |
+      |       |       |----Mapper.php
+      |       |       |
+      |       |       |----UrlParser.php
+      |       |       |
+      |       |       |----Another
+      |       |               |
+      |       |               |----Parser.php
+      |       |       
+      |       |----Cookie
+      |       |       |
+      |       |       |----CookeParser.php
+      |       |
+      |       |----Message
+      |       |       |
+      |       |       |----Parsing.php
+      |       |
+      |       |
+      |       |
+      |       |----Directory
+      |               |
+      |               |----SuperParser.php
+      |
+      |----Other
+             |
+             |----Cool
+                     |
+                     |----Parser.php
+
 
 ==== Static Classes =====
 
-Static classes are actually classes that have static member properties or methods. These properties and methods can be called without instantiating the class. They pretty much do the same thing a procedural function list, however they are more flexible to use and more consistent with OOP usage.
+Static classes are actually classes that have static member properties or methods. These properties and methods can be called without instantiating the class. They almost do the same thing as a procedural function list, however they are more flexible to use and more consistent with OOP usage.
 
-Static classes are alternatives to procedurally defining a large amount of helper functions that simply operate on data without storing any state itself. It's better to use static classes in OOP simply for two reasons. Consistency in software architecture and the fact that static classes can be autoloaded whereas function lists cannot. There will never be multiple instances of a static class because it doesn't store any state, you can use the same function for everything because it just operates of other things. Using the self:: way of calling static methods/variables also enforces a class scope and disciplines you towards single responsibility principle.
+Static classes are alternatives to procedurally defining a large amount of helper functions that simply operate on data without storing any state itself. It's better to use static classes in OOP for two reasons. Firstly it's the consistency with the rest of your OOP architecture, and secondly static classes can be autoloaded, whereas function lists cannot.
 
-Why static classes? So static classes would usually be put in the helpers because they are not instantiated and CI's loader auto instantiates what it loads. However with the addition of an autoloader, we would instead put our static classes in the libraries folder.
+Static classes are not instantiated. So you don't call ''new StaticClass;''. You can call the class functions directly.
 
-<code>
-class lol{
+<code php>
+class StaticClass{
 
-	public static $auto = 'WHDFD';
-
-	public function what(){
-		$this->auto = 'auto';
-	}
-
-	public function no(){
-		echo self::$auto;
-		echo $this->auto;
-	}
+    public static function say_something(){
+        
+        echo 'What!';
+        
+    }
 
 }
 
-$lol = new lol;
-$lol->what();
-$lol->no();
-
+//call them directly like this
+StaticClass::say_something();
 </code>
 
-Static methods and variables or static classes:
-1. Access static classes via self::$auto when inside the class. The self refers to the class, not the object. If you're calling static, you have use the fullname of the variable hence the $ at the start. When calling it as an object, you can just use the member name without the $. Such as $this->auto;
-2. If the method is static, you can still instantiate the object and use it. But the $this will not be available inside the static class.
-3. self:: will always refer to the variable when it was declared in the class.
-4. self:: will not work when dynamically instantiating object instance properties or variables. Because they were not statically defined in the class.
+The reason you cannot instantiate static classes, is because they don't store any state, they simply operate on other object's data. Therefore it doesn't make any sense to instantiate them. As instantiation is for the purposes of having same class (blueprint) be used for different object representations.
+
+Inside a static function, the normally available ''$this'' keyword is no longer available. The ''$this'' only exists when the object is instantiated. Since static classes are not instantiated, in order call it's own class methods you have to use the keyword ''self''.
+
+<code php>
+class StaticClass{
+
+    public static $static_variable = ' Dude!';
+
+    public static function say_something(){
+        
+        echo 'What ';
+        self::other_func();
+        
+    }
+    
+    public static function other_func(){
+    
+        echo ' Ever';
+        //notice how in instantiated objects we use $this->static_variable; Here we're using self::$static_variable
+        echo self::$static_variable;
+    
+    }
+
+}
+
+StaticClass::say_something();
+</code>
+
+We would put any static classes into our libraries folder. You won't need many static classes, as most things should be instantiated objects. But if you have a bunch of functions related to each other that don't store any state in variables, then you can use static classes.
 
 ===== Database =====
 
+Databases are where we store overall application state in the long term. Programming code that stores state, only store the state during the running of the session. In the case of PHP, unless you're running a daemon, this only during the request and response cycle. Which means everything gets reset to their default status and the variables won't hold anything until you startup the program again. Therefore we need databases.
+
+There are many databases catered to many different situations. The one that we're going to be using is MySQL, which is the most popular relational database management system, and one more the flexible ones.
+
+Think of databases like Microsoft Excel. The excel program you're running can be thought of as an database instance. The excel document you opened can be thought of as the database. Each sheet in excel can be thought of as a table. Each table or sheet can have a large amount of columns and rows. We store data in a tabulated form, with each row denoting a section of related data, and each column being the type of the data. All of this is stored in multiple tables, and each table represents a plurality of related data.
+
+If you think about a blog. There would be a blog table. The table can have 5 columns being id, author, title, content and date. Each blog post occupies a row taking up those 5 columns. So the first blog post may be '1', 'Roger', 'The Beginning of the End', 'Today we went on a fishing trip, I saw lots of fishes. Then we went home.', '2013/01/01'. Each blog post after the first would do the same thing.
+
+Database software usually don't have a GUI that comes with it. You would normally have to interface it using the command line. However the PHPMyAdmin adds a web based GUI to any MySQL databases, so you'll do most of your database work there. For other databases, you have to find other GUIs. When interfacing with the database in programming, you would use an abstraction layer such as Codeigniter's Active Records or PHP's PDO extension.
+
+{{ youtube>4XX7X7upEIU&list=PLwwh-11EOGvMTTrLIdKsmEpn0C0nk9CRQ?large }}
+
+Before we start using the database, we should get acquainted with some of the architectural concepts in using databases. It's important to understand that databases are not part of your application server. They are a totally different long running process (it is persistent and not part of the request and response cycle) that is running and your programming in the application server connects to it and interacts with its API.
+
 ==== SQL and NoSQL ====
 
-Explain difference between SQL and NoSQL
+You may have heard the terms SQL and NoSQL. SQL stands for "structured query language", and NoSQL means "not only structured query language". Since the 1970s it has become a standardised and popular language that interfaces with relational (tabular) based databases. Now when people talk about SQL databases, they mean not only that the database's API require you to use SQL, but that the database is relational.
 
-Intro to mysql, and why we should use active records or PDO
+{{ vimeo>46886385?small}}
 
-Transactions and ATOMICITY
+NoSQL arrived on the scene recently in 1998, and has become more popular in recent years. Essentially NoSQL databases don't conform to the relational model, so they don't store data in a tabular format. They also don't use the SQL language as an API. NoSQL databases are useful for data that don't conform or are easily represented in tabular format. Some NoSQL databases are faster than SQL databases, simply because SQL databases usually have more checks and balances to keep the data reliable.
 
+[[http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis|NoSQL is not one type of database]], there are many different ways of storing data outside of relational databases, however the topic is beyond the scope of this course. You can find out more in the [[wp>NoSQL|wikipedia article on NoSQL databases]].
+
+There are two NoSQL databases that have become popular and can be used for general applications. They are [[http://www.mongodb.org/|MongoDB]] and [[http://redis.io/|Redis]]. The blog example can be easily replicated in MongoDB. The key difference between MongoDB and MySQL that is quite important for you as a startup to realise is this: One of the reasons MongoDB is faster than MySQL because it has poorer ACID transactional support.
+
+What are ACID transactions? Well first transactions are a unit of work performed within a database management system, and treated in a coherent and reliable way independent of other transactions. Transactions are used when you need that unit of work to be reliable even if the system crashes or bugs out and the unit of work stops either completely or partially. This unit of work needs to be isolated from the rest of the system, so there is no side effects from any erroneous operation. [[http://en.wikipedia.org/wiki/ACID|Transactions need to be ACID]]. This means atomic, consistent, isolated and durable.
+
+  * Atomic means the transaction is all or nothing.
+  * Consistent means that completing any transaction must keep the database valid, that is the transaction needs to conform to any data entry rules.
+  * Isolated means that if transactions are performed concurrently, the state of the system should be as if the transactions were performed one after the other. This could mean that the database is locked for a transaction and is opened when it finishes.
+  * Durable means that once a transaction completes, the data needs to be stored permanently to disk even if the system crashes straight afterwards.
+
+ACID transactions are paramount for databases doing financial work. Imagine you went to an online store and bought a game. You put in your credit card details and click purchase. The system at minimum is doing two things. It is logging your credit card to the financial company, and then putting a record into its sales/delivery system. So that your money gets processed and your good gets delivered. But what if halfway through this process, the system unexpectedly crashed? If the transaction was not ACID, then your money gets processed, but the purchase/delivery order wouldn't be placed!
+
+MySQL and most other SQL databases have good transactional support, and you can setup [[http://ellislab.com/codeigniter/user-guide/database/transactions.html|transactions using Codeigniter's active records]]. This abstracts the process making it easier to work with. Do note that the [[http://www.kavoir.com/2009/09/mysql-engines-innodb-vs-myisam-a-comparison-of-pros-and-cons.html|MySQL table needs to be setup with the InnoDB table engine]] to have transactions.
+
+So when choosing between using MongoDB or MySQL. If you the data you're trying to store naturally comes to mind as a relational data, that is data in tabular format that have relationships to each column, then choose MySQL. If your data doesn't fit that and comes to mind as an object that could have a variable number of columns (thus variable number of properties), choose MongoDB. If you need transactions, always use a SQL database.
+==== Database Planning ====
+
+The complexity of your database depends on two things. Firstly the quantity and coherence of your data set, and what kind of questions and answers you want to extract out of your database. For relational databases, there are two concepts that are important in planning out your databases. The first is designing your [[wp>Database schema|schema]], and the second is [[wp>Database normalization|database normalisation]].
+
+For most web applications, unless you're operating on big data, your schema planning should be fairly straight forward. However sometimes your web application will grow a bit more complex, and perhaps you want to extract insight from the data you have. This knowledge area is out of the scope of this course, however you can refer to the these tutorials if you want to learn more:
+
+  * [[http://net.tutsplus.com/tutorials/databases/visual-database-creation-with-mysql-workbench/|Visual Database Schema Creation with MySQL Workbench]]
+  * [[http://www.dreamincode.net/forums/topic/179103-relational-database-design-normalization/|Database Normalisation Tutorial]]
+
+=== Data Types ===
+
+For pretty much every table you create, you'll need at least an ''id'' column, which would be the unique number pointing to any particular row of data. This ''id'' column needs to have a datatype of integer or larger, and it should have the property of ''AUTO_INCREMENT'', and you should also position it as the primary key. The property of ''AUTO_INCREMENT'' makes the row automatically increment the number as you insert more data even if you don't insert anything into it (this is why we don't have to worry about it when inserting new rows in the model). Making it the primary key makes MySQL index the ''id'' column and gives it precedence making any look up queries with a matching id super fast.
+
+You should also take care to choose the correct data type for each column. Use ''VARCHAR'' for any text with a set number of characters. Use ''TEXT'' when you don't know how the long the data will be. Use ''FULLTEXT'' when you're indexing it using MyISAM tables. Use ''TINYINT'' if it's a binary true/false boolean data field. You can find out more at [[http://dev.mysql.com/doc/refman/5.0/en/data-types.html|MySQL's documentation on data types]].
 ==== Active Records ====
 
-Explain framework usage and PDO
+When interfacing with a database programmatically, it's best practice to use a library to abstract the process of connecting to the database and also provide a standard API to all the different database commands. This is because although many SQL databases use SQL, they often have differences in their SQL commands. It's far more easier to have a library remember all these commands then you writing different commands for different databases.
 
-Also abstraction of different databases into a set standard API.
+Another reason to use libraries is security. A library will often force you to conform to a certain of writing SQL commands, and libraries would automatically escape your SQL commands to prevent any injected SQL destroying your database.
 
-Also singleton pattern.
+For PHP in general, one the best native extensions to use is [[http://php.net/manual/en/book.pdo.php|PDO]]. However for Codeigniter, it has a native library called [[http://ellislab.com/codeigniter/user-guide/database/active_record.html|Active Records]], and it's simpler to use. Refer to Codeigniter's documentation on the Active Records API for more information. Do note that Active Records is a subset of Codeigniter's overall [[http://ellislab.com/codeigniter/user-guide/database/index.html|Database class]]. The database class provides much more functionality.
 
+=== Codeigniter Database Configuration ===
+
+For Codeigniter you should be configuring [[http://ellislab.com/codeigniter/user-guide/database/configuration.html|your database's connections in the configuration directory]] ''application/config/database.php''.
+
+Your [[http://ellislab.com/codeigniter/user-guide/database/connecting.html|database can then be autoloaded]] through Codeigniter's ''application/config/autoload.php'' and always switched on no matter which the user is on.
+
+You should set your ''db_debug'' option to false during production and if you're explicitly logging the database errors as shown in the MVC model section.
+
+Note to access database errors when ''db_debug'' is off you need to use these two undocumented properties:
+
+<code php>
+$num   = $this->db->_error_number()
+$msg = $this->db->_error_message();
+//this is also useful to examine the actual query passed into the database
+$last_query = $this->db->last_query();
+
+//you can then log it via log_message
+log_message('error', 'Problem Inserting to user table: ' . $msg . ' (' . $num . '), using this query: "' . $last_query . '"');
+</code>
+
+Refer [[http://ellislab.com/codeigniter/user-guide/general/errors.html|Codeigniter's documentation on error handling]] for more information on logging. Note that because log files are written to disk, this won't work in hosts that don't offer writable directories. Cloud hosts normally don't offer writable directories. However it is possible to make your helper class to log it to a third party or send logs to an email.
 ==== Search ====
 
-Full text search
+One of the most common things we do on a database is search for data. Actually most of the times we're selecting data that match some condition. That is not considered to be a search problem, it's a matching problem. This section specifically refers to wildcard search using the ''LIKE'' operator or full text search with indexes.
 
-Using Sphinx
+The [[http://dev.mysql.com/doc/refman/5.0/en/pattern-matching.html|SQL ''LIKE'' operator]] works like pattern matching. Essentially when you call something like ''SELECT * FROM pet WHERE name LIKE 'b%';'' and this would get all rows from the pet table, where the name starts with "b" and any number of characters after "b". The "%" sign is a wildcard. If you're looking for a row column to mention the word "cat" anywhere, then you would change the "b%" to "%cat%". And of course if you're looking for something to end in "cat", then it would "%cat". The Codeigniter's Active Records library provides an abstraction for these commands giving you a very simple search functionality. Commonly the ''LIKE'' operator is used to search for tags. Imagine you had a blog post, and each blog post is given a set of tags. Kind of like the tags that Youtube uses for their videos. In order to search for these tags, you would not use the ''WHERE'' operator, you would use ''LIKE'' with ''%tagname%''. If you had multiple tags to search for, you could either use ''AND LIKE'' or ''OR LIKE''. The former makes sure that all tags are present, the latter makes sure at least one tag is present. 
 
+Using ''LIKE'' is highly precise, often you need more fine grained control over you search capability. What if you're searching for "cat", but a tag has "cats". Then the ''LIKE'' operator would not the tag with "cats" unless you explicitly specified them. What about "kittens"? What happens when the data your searching through is larger, like perhaps you're searching through the blog's article content. This is when you need full text search.
+
+[[wp>Full text search|Full text search]] works by first establishing an index of the data. This index often groups related terms together, this is called stemming. For example, the words "drives", "drove", and "driven" will be recorded in the index under the single concept word "drive." It will also ignore stop words such as //the//, //is//, //at//, //which//, and //on//. Then the search algorithm goes through the index instead of going through the raw data. This makes for a faster search on a large amount of content. The balancing act in using full text search is between precision and recall. The ''LIKE'' operator has 100% precision, however it will have low recall. This makes it powerful if you're searching for an exact term. But often we don't know what kind of result we're looking for, so the full text search has higher recall. This however creates the problem of false positives. Results which are irrelevant to our query. There are a number of statistical and algorithmic techniques to improve a search engine, and they are all catered to different situations. You can read more about them on the Wikipedia article on full text search. For our purposes, we can keep it simple and use ''LIKE'' when we're looking for tag like data, and full text search for everything else.
+
+To implement full text search on MySQL, you need to use the MyISAM table engine, not InnoDB. Remember that InnoDB provides transactions and is more efficient for write intensive tables, whereas MyISAM is optimised for read intensive and thus search based tables. You can use both tables together in a single database. Setting up needs to be done when you create the table first, not after you create the table. To setup with the MyISAM engine, you can either use PHPMyAdmin's GUI, [[http://www.ignoredbydinosaurs.com/2012/05/database-migrations-codeigniter-101|Codeigniter's DBForge]] or straight SQL such as this:
+
+<code sql>
+CREATE TABLE pages (
+  id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+  url text NOT NULL,
+  title text NOT NULL,
+  content text NOT NULL,
+  updated datetime NOT NULL,
+  PRIMARY KEY  (id),
+  FULLTEXT KEY content (content)
+) ENGINE=MyISAM
+</code>
+
+If you already created the table, you can alter the table's engine using the [[http://dev.mysql.com/doc/refman/5.0/en/alter-table.html|ALTER TABLE]] syntax. Although it's easier to use PHPMyAdmin's GUI. We're going to start using the database migration tool via Codeigniter's DBForge, so we can keep our database's schema synchronised between development servers. Do note that DBForge currently doesn't support changing the engine of the table, so you'll need to add an additional command using standard query methods.
+
+<code php>
+//refer to migrations section to learn more about why we're doing this
+$this->db->query('ALTER TABLE  `table_name` ENGINE = MYISAM');  
+</code>
+
+Active Records by itself does not have abstracted methods for full text search. However it is possible using the ''$this->db->where()'' method. It has some quirks though. The method by default places backticks on your table and field names. This will corrupt your SQL query. You need to run a command with the 2nd parameter equal to ''NULL'' and the third parameter equal to ''FALSE''.
+
+<code php>
+$this->db->where('MATCH (field) AGAINST ("value")', NULL, FALSE);
+</code>
+
+To learn about the syntax of full text searches check out these two external resources:
+
+  * http://www.mysqltutorial.org/mysql-full-text-search.aspx
+  * http://devzone.zend.com/26/using-mysql-full-text-searching/
+
+You can also elect to use the ''$this->db->query()'' method as an alternative to Active Records. However this does not automatically escape the values for your SQL query opening you up to security issues. You will need to manually escape the values or use query binding. All of this is discussed in [[http://ellislab.com/codeigniter/user-guide/database/queries.html|Codeigniter's documentation on database queries]].
+
+If you have a large amount of content, and search is starting to get slower. You can either re-architect your database using one of the other database stores, or you can integrate the [[http://sphinxsearch.com/|Sphinx search engine]].
+
+{{ youtube>d--v0NhjIfc?large }}
 ==== Redis ====
 
-Non-Persistent (volatile data)
+Redis is a special database that is catered towards volatile data. This is data in which persistence is not a major issue. It's data you're willing to throw away after finishing the session. It operates like an in-memory key to value data store. This means it is super fast.
 
-Caching with Redis
+Redis in terms of web application development is usually used where memcached was used before. Essentially you can use it for session data, real time messages, publish and subscribing, caching and chat.
 
-Sessions with Redis
+We can switch to using Redis for session data if you require that kind of performance. For now we'll stick with working with MySQL, because it's simple and its enough for startup traffic. However if you're interested in hooking up Redis check out these articles:
+
+  * [[http://try.redis.io/|Interative Redis Tutorial]]
+  * [[http://phpmaster.com/an-introduction-to-redis-in-php-using-predis/|Introduction to using Redis with PHP]]
+  * [[http://www.justincarmony.com/blog/2012/01/10/php-workers-with-redis-solo/|Using Predis as a message queue to pass jobs]]
+  * [[http://blog.jmoz.co.uk/websockets-ratchet-react-redis|Redis with Web Sockets]]
+  * Libraries for utilising Redis: [[https://github.com/joelcox/codeigniter-redis|Codeigniter Redis]], [[https://github.com/nrk/predis|Predis]] and [[https://github.com/nrk/predis-async|Predis-Async (requires daemon)]]
+  * [[http://garantiadata.com/|Redis Cloud Server]] - for using with Cloud9
+==== Migrations ====
+
+Talk about using DB forge for migrations
 ===== Security =====
 
 Should make a security "checklist" before deployment.
@@ -757,6 +1117,15 @@ Salting
 
 Bcrypt encryption
 
+http://crackstation.net/hashing-security.htm
+
+http://php.net/manual/en/faq.passwords.php
+
+https://gist.github.com/nikic/3707231
+
+https://wiki.php.net/rfc/password_hash
+
+Can we use this? https://github.com/ircmaxell/password_compat min version 5.3.7. Cannot run on C9 atm, or Appfog. However Pagodabox and dotCloud will work. Also local installation of PHP will work too.
 ==== Payments & Credit Cards ====
 
 In short don't bother. Leave it to the experts. Have a third party process transactions and SSL at all times
@@ -784,6 +1153,13 @@ Login password matching
 
 Permissions using group system and bitwise operators
 
+http://ulogin.sourceforge.net/
+
+==== Access Control List ====
+
+https://github.com/benedmunds/CodeIgniter-Ion-Auth
+
+http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/
 ==== AJAX ====
 
 Can use normal sessions
@@ -793,6 +1169,12 @@ Can use REST based authentication using API key (but more for providing external
 Username & Login on each request
 
 Using Oauth and Oauth2 but refer to providing web services
+
+==== Oauth ====
+
+Login via whatever... you can build it yourself as an Oauth consumer and even provide login as by provisining Oauth... but you can just this right now...
+
+http://hybridauth.sourceforge.net/
 ===== .htaccess =====
 
 For apache

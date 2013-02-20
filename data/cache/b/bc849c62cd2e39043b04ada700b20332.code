@@ -1,0 +1,2 @@
+<span class="co1">//refer to migrations section to learn more about why we're doing this</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">query</span><span class="br0">&#40;</span><span class="st_h">'ALTER TABLE  `table_name` ENGINE = MYISAM'</span><span class="br0">&#41;</span><span class="sy0">;</span>  

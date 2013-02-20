@@ -1,0 +1,25 @@
+====== Lesson 12 - WAP ======
+
+**Expected Work**
+
+  - Go through each example in common UI in detail, read the comments
+  - Use firebug and the common UI demos and change the HTML and LESS code and see what happens
+  - Start coding your own header on a separate git project
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Continue through the common UI examples
+  - LESS syntax structure
+  - Bootstrap API
+  - 44 days left!
+
+**Practice**
+
+  - Continue working through common UI
+  - Construct your own HTML/CSS/LESS based on a new initializr project

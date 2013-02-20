@@ -457,8 +457,99 @@ Example Codeigniter Model:
 <span class="br0">&#125;</span></pre>
 
 </div>
-<!-- EDIT8 SECTION "Model" [20479-22957] -->
-<h3 class="sectionedit9" id="view">View</h3>
+
+<h4 id="crud">CRUD</h4>
+<div class="level4">
+
+<p>
+CRUD refers to <a href="http://en.wikipedia.org/wiki/Create, read, update and delete" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Create, read, update and delete">Create Read Update and Delete</a>. These are the four basic functions of any model when interacting with a database. You should read the <a href="#database" title="web_application_development:php_-_server_side_architecture ↵" class="wikilink1">Database Section</a> before proceeding. If you&#039;re using models to interface with a database, the convention is to name your model after the table name you&#039;re using. In each model class, there will be four public methods corresponding to CRUD.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=8" title="Download Snippet" class="mediafile mf_php">user_model.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">class</span> User_model <span class="kw2">extends</span> CI_Model<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//this will become available as $this-&gt;db..etc</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">load</span><span class="sy0">-&gt;</span><span class="me1">database</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">//you can name these functions using other terms or even terms closer to HTTP if you prefer</span>
+&nbsp;
+    <span class="co1">//the parameters here would be passed in from the controller, they would be acquired from the input library</span>
+    <span class="co1">//we could have as separate parameters, or a single array object</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> create<span class="br0">&#40;</span><span class="re0">$username</span><span class="sy0">,</span> <span class="re0">$password</span><span class="sy0">,</span> <span class="re0">$email</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="re0">$data</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+            <span class="st_h">'username'</span> <span class="sy0">=&gt;</span> <span class="re0">$username</span><span class="sy0">,</span> <span class="co1">//perhaps make it lowercase?</span>
+            <span class="st_h">'password'</span> <span class="sy0">=&gt;</span> password_hash<span class="br0">&#40;</span><span class="re0">$password</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//password_hash is not a defined function anywhere yet, I'm setting here so you remember that passwords need to be hashed and salted before inputting it into the database. See the security section on passwords. THIS IS IMPORTANT!</span>
+            <span class="st_h">'email'</span>    <span class="sy0">=&gt;</span> <span class="re0">$email</span><span class="sy0">,</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$query</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">insert</span><span class="br0">&#40;</span><span class="st_h">'user'</span><span class="sy0">,</span> <span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$query</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="co1">//some error occurred? We should log the database error</span>
+            <span class="co1">//the below only works if $db['default']['db_debug'] = FALSE in the database configuration (so that it doesn't display straight to the user</span>
+&nbsp;
+            <span class="re0">$msg</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span>_error_message<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$num</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span>_error_number<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$last_query</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">last_query</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            log_message<span class="br0">&#40;</span><span class="st_h">'error'</span><span class="sy0">,</span> <span class="st_h">'Problem Inserting to user table: '</span> <span class="sy0">.</span> <span class="re0">$msg</span> <span class="sy0">.</span> <span class="st_h">' ('</span> <span class="sy0">.</span> <span class="re0">$num</span> <span class="sy0">.</span> <span class="st_h">'), using this query: &quot;'</span> <span class="sy0">.</span> <span class="re0">$last_query</span> <span class="sy0">.</span> <span class="st_h">'&quot;'</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+&nbsp;
+            <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//it worked! return the last insert_id!</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">insert_id</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> read<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> update<span class="br0">&#40;</span><span class="re0">$id</span><span class="sy0">,</span> <span class="re0">$data</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> delete<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">//the above are not the only methods you would have, but are just the bare minimum, perhaps you need a method that gets all the listings, not just one entry...</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+You may notice eventually that CRUD is simply one of the many configurations of these four operations at different abstraction levels
+</p>
+<div class="table sectionedit9"><table class="inline">
+	<tr class="row0">
+		<td class="col0 leftalign">         </td><th class="col1 leftalign"> <abbr title="Structured Query Language">SQL</abbr>             </th><th class="col2 leftalign"> <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> (RESTful)     </th>
+	</tr>
+	<tr class="row1">
+		<th class="col0 leftalign"> Create  </th><td class="col1 leftalign"> INSERT          </td><td class="col2 leftalign"> POST               </td>
+	</tr>
+	<tr class="row2">
+		<th class="col0 leftalign"> Read    </th><td class="col1 leftalign"> SELECT          </td><td class="col2 leftalign"> GET                </td>
+	</tr>
+	<tr class="row3">
+		<th class="col0 leftalign"> Update  </th><td class="col1 leftalign"> UPDATE          </td><td class="col2 leftalign"> PUT                </td>
+	</tr>
+	<tr class="row4">
+		<th class="col0 leftalign"> Delete  </th><td class="col1 leftalign"> DELETE          </td><td class="col2 leftalign"> DELETE             </td>
+	</tr>
+</table></div>
+<!-- EDIT9 TABLE [25656-25910] -->
+</div>
+<!-- EDIT8 SECTION "Model" [20479-25910] -->
+<h3 class="sectionedit10" id="view">View</h3>
 <div class="level3">
 
 <p>
@@ -483,8 +574,8 @@ Example Codeigniter View:
 <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/html.html"><span class="kw2">html</span></a>&gt;</span></pre>
 
 </div>
-<!-- EDIT9 SECTION "View" [22958-23971] -->
-<h3 class="sectionedit10" id="controller">Controller</h3>
+<!-- EDIT10 SECTION "View" [25911-26924] -->
+<h3 class="sectionedit11" id="controller">Controller</h3>
 <div class="level3">
 
 <p>
@@ -526,9 +617,17 @@ Example Codeigniter Controller:
 &nbsp;
 <span class="br0">&#125;</span></pre>
 
+<p>
+When processing form inputs, instead of <a href="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html"  rel="nofollow">placing all the validation rules in your controller&#039;s methods</a>, keep them in a separate configuration file. Refer to this tutorial on <a href="http://chris-schmitz.com/cleaning-up-your-codeigniter-controllers/" class="urlextern" title="http://chris-schmitz.com/cleaning-up-your-codeigniter-controllers/"  rel="nofollow">Cleaning up your Codeigniter Controllers</a> to see how to do this:
+</p>
+
+<p>
+There&#039;ll be many developers who argue that your form inputs should be validated in your model. However Codeigniter&#039;s form validation library doesn&#039;t work from the model, so we have to place in our controller. But by following the technique of placing form rules in an external config file, this makes form validation much easier and thinner in our controllers.
+</p>
+
 </div>
-<!-- EDIT10 SECTION "Controller" [23972-26139] -->
-<h2 class="sectionedit11" id="templating">Templating</h2>
+<!-- EDIT11 SECTION "Controller" [26925-29841] -->
+<h2 class="sectionedit12" id="templating">Templating</h2>
 <div class="level2">
 
 <p>
@@ -597,15 +696,15 @@ Your views directory can start to look like this:
           |----articles_view.php</pre>
 
 </div>
-<!-- EDIT11 SECTION "Templating" [26140-29409] -->
-<h3 class="sectionedit12" id="layouts">Layouts</h3>
+<!-- EDIT12 SECTION "Templating" [29842-33111] -->
+<h3 class="sectionedit13" id="layouts">Layouts</h3>
 <div class="level3">
 
 <p>
 The CiTemplate static class provide a static <code>compose</code> method allowing you to define both views and their corresponding layouts. All layouts should inject a <code>$yield</code> variable. When you run <code>Template::compose()</code>, it will first sent any view data to the specified view, and return the compiled template, before dynamically adding it to the view data array and injecting it into the layout. For example, you should have a <code>default_layout.php</code> that is like this
 </p>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=10" title="Download Snippet" class="mediafile mf_php">default_layout.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=11" title="Download Snippet" class="mediafile mf_php">default_layout.php</a></dt>
 <dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
 <span class="sy1">&lt;?</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'header'</span><span class="sy0">,</span> <span class="re0">$header</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
 <span class="sy1">&lt;?=</span> <span class="re0">$yield</span> <span class="sy1">?&gt;</span>
@@ -635,7 +734,7 @@ The compose method also has a third parameter that specifies the layout file to 
 A cool thing you can do with this method is to specify a JSON layout like so:
 </p>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=12" title="Download Snippet" class="mediafile mf_php">json_layout.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=13" title="Download Snippet" class="mediafile mf_php">json_layout.php</a></dt>
 <dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
 <a href="http://www.php.net/header"><span class="kw3">header</span></a><span class="br0">&#40;</span><span class="st_h">'Content-type: application/json'</span><span class="br0">&#41;</span><span class="sy0">;</span>
@@ -654,8 +753,8 @@ To understand how the compose method works, look into the source code of <code>T
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Layouts" [29410-31904] -->
-<h3 class="sectionedit13" id="partials">Partials</h3>
+<!-- EDIT13 SECTION "Layouts" [33112-35606] -->
+<h3 class="sectionedit14" id="partials">Partials</h3>
 <div class="level3">
 
 <p>
@@ -745,8 +844,8 @@ By default they automatically echo their data as soon as they are called. Howeve
 <pre class="code php"><span class="re0">$partial_compiled</span> <span class="sy0">=</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'row'</span><span class="sy0">,</span> <span class="re0">$data</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT13 SECTION "Partials" [31905-34922] -->
-<h2 class="sectionedit14" id="using_libraries">Using Libraries</h2>
+<!-- EDIT14 SECTION "Partials" [35607-38624] -->
+<h2 class="sectionedit15" id="using_libraries">Using Libraries</h2>
 <div class="level2">
 
 <p>
@@ -758,8 +857,8 @@ There are different ways of structuring library classes, most of the ways are de
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Using Libraries" [34923-36098] -->
-<h3 class="sectionedit15" id="codeigniter_libraries">Codeigniter Libraries</h3>
+<!-- EDIT15 SECTION "Using Libraries" [38625-39800] -->
+<h3 class="sectionedit16" id="codeigniter_libraries">Codeigniter Libraries</h3>
 <div class="level3">
 
 <p>
@@ -782,6 +881,16 @@ If you&#039;re replacing a native library. You would use the same name of the cl
 If you&#039;re extending a native library just declare your class as MY_CLASSNAME extending CI_CLASSNAME. Furthermore if you&#039;re using a constructor, make sure to call the parent constructor with <code>parent::constructor();</code>.
 </p>
 
+<p>
+Note that if you&#039;re trying use Codeigniter&#039;s native libraries or database class inside your own custom library, you need to call the function <code>get_instance()</code>. This is a global function defined by Codeigniter. When you load in your library, that function points to creating an instance to Codeigniter&#039;s super object. It&#039;s actually a good demonstration of the <a href="http://en.wikipedia.org/wiki/Singleton_pattern" class="urlextern" title="http://en.wikipedia.org/wiki/Singleton_pattern"  rel="nofollow">singleton pattern</a>. Every time you call <code>get_instance</code> you don&#039;t actually initialise a whole new superobject. The function checks if the object has already been initialised, and if it has been, it will simply return that object. In the <a href="http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html"  rel="nofollow">documentation</a>, it recommends that you assign it to a object member property in your constructor, and then use the variable as if you were calling <code>$this</code> in your controllers and models.
+</p>
+<pre class="code php"><span class="re0">$CI</span> <span class="sy0">=</span> get_instance<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$CI</span><span class="sy0">-&gt;</span><span class="me1">do_something_native</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//like $CI-&gt;load-&gt;other_libary</span></pre>
+
+<p>
+However this actually isn&#039;t necessary. <a href="http://stackoverflow.com/questions/7195544/get-instance-in-codeigniter-why-assign-it-to-a-variable" class="urlextern" title="http://stackoverflow.com/questions/7195544/get-instance-in-codeigniter-why-assign-it-to-a-variable"  rel="nofollow">There are reasons for this</a>.
+</p>
+
 </div>
 
 <h4 id="sparks">Sparks</h4>
@@ -796,8 +905,8 @@ You would have spark packages located at project root, and with the augmented <c
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Codeigniter Libraries" [36099-39045] -->
-<h3 class="sectionedit16" id="composer_libraries">Composer Libraries</h3>
+<!-- EDIT16 SECTION "Codeigniter Libraries" [39801-43936] -->
+<h3 class="sectionedit17" id="composer_libraries">Composer Libraries</h3>
 <div class="level3">
 
 <p>
@@ -817,8 +926,8 @@ However there is a better way, and in fact this “Polycademy” way actually gi
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Composer Libraries" [39046-41259] -->
-<h3 class="sectionedit17" id="autoloading">Autoloading</h3>
+<!-- EDIT17 SECTION "Composer Libraries" [43937-46150] -->
+<h3 class="sectionedit18" id="autoloading">Autoloading</h3>
 <div class="level3">
 
 <p>
@@ -828,7 +937,7 @@ Codeigniter provides a <a href="http://ellislab.com/codeigniter/user-guide/gener
 <li class="level1"><div class="li"> Enable hooks in <code>config/config.php</code>.</div>
 </li>
 <li class="level1"><div class="li"> In your <code>config/hooks.php</code> define: <dl class="code">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=21" title="Download Snippet" class="mediafile mf_php">hooks.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=23" title="Download Snippet" class="mediafile mf_php">hooks.php</a></dt>
 <dd><pre class="code php"><span class="co1">//pre_system autoloader</span>
 <span class="re0">$hook</span><span class="br0">&#91;</span><span class="st_h">'pre_system'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
     <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader'</span><span class="sy0">,</span>
@@ -860,139 +969,548 @@ In order to autoload classes in directories, you&#039;ll have to use namespaces.
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Autoloading" [41260-43177] -->
-<h3 class="sectionedit18" id="namespaces">Namespaces</h3>
+<!-- EDIT18 SECTION "Autoloading" [46151-48068] -->
+<h3 class="sectionedit19" id="namespaces">Namespaces</h3>
 <div class="level3">
 
 <p>
-Vendor/Package/Library style naming.
+Namespaces are a way to encapsulate objects in order to avoid naming conflicts and shorten long path names to aliases. In your operating system you may have two files with the same name and extension. However they can never live in the same directory, because that would cause a naming conflict, and if you&#039;re trying to call that file, the operating system wouldn&#039;t know which one you&#039;re trying call.
 </p>
 
 <p>
-If the “use” keyword only points to a directory and not to a specific file, that all of those files become fair game. However you need to use the last namespace directory and prefix to all class initialisations. Like use Phpbounce\Mission_checker;
-Then your initialisations would be new Mission_checker\Lint(); There&#039;s no need to specify the filenames. The filenames should always be the same as the class names. One class per file.
+Namespaces in programming operate similarly. Imagine you&#039;re working in a team, and one of you defines an object called <code>class MyDB</code>, and your teammate who didn&#039;t know better also defined an object called <code>class MyDB</code>. Then if you include the files together into one script, this would cause a naming conflict. Previously we would just name one of the classes with a prefix such as <code>class SteveMyDB</code>. However this is ugly and inefficient. Instead we use namespaces to avoid changing our class names. In <abbr title="Hypertext Preprocessor">PHP</abbr> only classes, interfaces, functions and constants are affected by namespaces. It is recommended best practice to only have one namespace per file.
 </p>
 
 <p>
-Talk about usage of Abstracts and Interfaces in non-package specific
+There are two syntax commands in creating and importing namespaces. They should always be used at the top of the code in the file. You cannot use them in blocks or conditionals.
 </p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=24" title="Download Snippet" class="mediafile mf_php">SomeClass.php</a></dt>
+<dd><pre class="code file php"><span class="co1">//use 'namespace' to define the namespace for the current code</span>
+<span class="kw2">namespace</span> Polycademy\MissonChecker<span class="sy0">;</span>
+&nbsp;
+<span class="co1">//use 'use' to import other namespaces into the code or as an alias</span>
+<span class="co1">//the use command cannot import functions or constants, which is why we follow OOP</span>
+<span class="kw2">use</span> Polycademy\Abstracts\aArmor<span class="sy0">;</span>
+&nbsp;
+<span class="co1">//via the autoloading mechanism, the aArmor will point to Polycademy/Abstracts/aArmor.php then initialise the aArmor abstract, this will be done automatically</span>
+<span class="kw2">class</span> SomeClass <span class="kw2">extends</span> aArmor<span class="br0">&#123;</span><span class="br0">&#125;</span></pre>
+</dd></dl>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=25" title="Download Snippet" class="mediafile mf_php">aArmor.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">namespace</span> Polycademy\Abstracts<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">abstract</span> aArmor<span class="br0">&#123;</span><span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+When using namespaces, you need to abide by a similar directory structure. The above code defines the namespace as in Polycademy\MissionChecker. This means <code>SomeClass.php</code> exists in <code>base/path/Polycademy/MissionChecker/SomeClass.php</code>. As you can see the namespace is always defined at where the file is, but does not include the filename itself. The <code>base/path</code> is defined in your autoloader. If you choose to use CiAutoloading, then the base path is at Codeigniter&#039;s <code>application/libraries</code> and <code>application/third_party</code> folder. CiAutoloading also includes the Composer&#039;s own autoloader which has extra features. The <code>use Polycademy\Abstracts\aArmor</code> actually imports the file itself, it&#039;s not just pointing a directory. You can make <code>use</code> import a directory, however then when you call objects this will require you to append the directory name, so it&#039;s easier to import a file. Here&#039;s an example of the directory structure using Codeigniter and CiAutoloading.
+</p>
+<pre class="code">  application/libraries
+    |
+    |----Polycademy
+            |
+            |----MissionChecker
+            |       |
+            |       |----SomeClass.php
+            |       
+            |----Abstracts
+                    |
+                    |----aArmor.php</pre>
+
+<p>
+The namespaces are always referred to from the root of the base path. There can be further directories or less directories if you wish.
+</p>
+
+<p>
+Do note it is possible have <a href="http://www.php.net/manual/en/language.namespaces.definitionmultiple.php" class="urlextern" title="http://www.php.net/manual/en/language.namespaces.definitionmultiple.php"  rel="nofollow">multiple namespaces in one file</a>, however this is a bad practice as it will confuse you and other developers who expect namespaces as directories.
+</p>
+
+<p>
+Namespaces come to life when using autoloaders, especially PSR-0 compliant autoloaders. According to the PSR-0 rules, you have to namespace and structure your packages in this way:
+</p>
+<ol>
+<li class="level1"><div class="li"> A fully-qualified namespace and class must have the following structure \&lt;Vendor Name&gt;\(&lt;Namespace&gt;)*\&lt;Class Name&gt;.</div>
+</li>
+<li class="level1"><div class="li"> Each namespace must have a top-level namespace (“Vendor Name”).</div>
+</li>
+<li class="level1"><div class="li"> Each namespace can have as many sub-namespaces as it wishes.</div>
+</li>
+<li class="level1"><div class="li"> Each namespace separator is converted to a DIRECTORY_SEPARATOR when loading from the file system.</div>
+</li>
+<li class="level1"><div class="li"> Each underscore in the class name is converted to a DIRECTORY_SEPARATOR. The underscore has no special meaning in the namespace.</div>
+</li>
+<li class="level1"><div class="li"> The fully-qualified namespace and class is suffixed with .php when loading from the file system.</div>
+</li>
+<li class="level1"><div class="li"> Alphabetic characters in vendor names, namespaces, and class names may be of any combination of lower case and upper case.</div>
+</li>
+</ol>
+
+<p>
+So in our example the vendor name would be “Polycademy”, the next namespace should be the package name. In our example that&#039;s either MissionChecker or Abstracts. The 5th rule is why we camelcase our filenames and class names. Most packages that are on Composer follow this structure, but not all of them follow it strictly. It is possible to skip having a vendor name, and just have the package name, and it&#039;s also possible just to autoload classes without namespaces by defining them as a classmap. Refer to <a href="http://getcomposer.org/doc/04-schema.md#autoload" class="urlextern" title="http://getcomposer.org/doc/04-schema.md#autoload"  rel="nofollow">autoloading on Composer</a> for more information on that.
+</p>
+
+<p>
+As a recommendation when constructing your own libraries, try conforming to “Package/Library” style naming. If you are intending to share it, be PSR-0 compliant with “Vendor/Package/Library” style. However if you&#039;re importing third party libraries that are neither Composer or Sparks, then you should try to convert them into “Vendor/Package/Library” style. These would then be put in the third party folder.
+</p>
+
+<p>
+There are couple other important facets of namespacing that may be a bit confusing to a beginner. It&#039;s easier to explain this via code. Also note the <a href="http://www.php.net/manual/en/language.namespaces.nsconstants.php" class="urlextern" title="http://www.php.net/manual/en/language.namespaces.nsconstants.php"  rel="nofollow">namespace constants</a>, which you can use to explicitly refer to the current namespace if importing imports classes of the same name.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=26" title="Download Snippet" class="mediafile mf_php">Mapper.php</a></dt>
+<dd><pre class="code file php"><span class="co1">//assume autoloading is setup</span>
+&nbsp;
+<span class="co1">//ok so this file is in Guzzle/Url directory</span>
+<span class="kw2">namespace</span> Guzzle\Url<span class="sy0">;</span>
+&nbsp;
+<span class="co1">//we're importing something we want to use</span>
+<span class="kw2">use</span> Guzzle\Cookie\CookieParser<span class="sy0">;</span>
+&nbsp;
+<span class="co1">//here we're importing, but we're aliasing it too!</span>
+<span class="kw2">use</span> Guzzle\Message <span class="kw1">as</span> Awesome<span class="sy0">;</span>
+&nbsp;
+<span class="co1">//here we're importing a directory, just imagine that it is a directory and not a file</span>
+<span class="kw2">use</span> Guzzle\Directory<span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> Mapper<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//there's never any need to specify filename extensions, the classes and files are the same name.</span>
+&nbsp;
+        <span class="co1">//this works, because we imported the file (remember that class names should match file names)</span>
+        <span class="co1">//it first looks at the current namespace, then the imported namespace</span>
+        <span class="co1">//this is called an unqualified name</span>
+        <span class="re0">$cookie_parser</span> <span class="sy0">=</span> <span class="kw2">new</span> CookieParser<span class="sy0">;</span> 
+&nbsp;
+        <span class="co1">//this may work, it's not imported, so the current namespace gets appended</span>
+        <span class="co1">//it will only work if there was a Guzzle/Url/UrlParser.php</span>
+        <span class="co1">//this is also called an unqualified name</span>
+        <span class="re0">$url_parser</span> <span class="sy0">=</span> <span class="kw2">new</span> UrlParser<span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//this is called a qualified name, the current namespace gets appended to it</span>
+        <span class="co1">//it becomes Guzzle\Url\Another\Parser.php</span>
+        <span class="re0">$another_parser</span> <span class="sy0">=</span> <span class="kw2">new</span> Another\Parser<span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//this is called a FULLY qualified name, it does not append any of the current namespaces, and it does not recognise imported namespaces. It's like an absolute path.</span>
+        <span class="re0">$absolute_parser</span> <span class="sy0">=</span> <span class="kw2">new</span> \Other\Cool\Parser<span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//this uses an alias, and resolves to Guzzle\Message\Parsing.php</span>
+        <span class="re0">$aliased_parser</span> <span class="sy0">=</span> <span class="kw2">new</span> Awesome\Parsing<span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//this is not an alias, instead it points to the Directory import. So it resolves as Guzzle\Directory\SuperParser;</span>
+        <span class="re0">$directory_parser</span> <span class="sy0">=</span> <span class="kw2">new</span> Directory\SuperParser<span class="sy0">;</span>
+        <span class="co1">//therefore if the use keyword points to a directory and not to a specific file, all of those files become fair game. However you need to use the last namespace directory and prefix all class initialisations</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+The above code would correspond to this kind of directory structure:
+</p>
+<pre class="code">  application/libraries
+    |
+    |----Guzzle
+    |       |
+    |       |----Url
+    |       |       |
+    |       |       |----Mapper.php
+    |       |       |
+    |       |       |----UrlParser.php
+    |       |       |
+    |       |       |----Another
+    |       |               |
+    |       |               |----Parser.php
+    |       |       
+    |       |----Cookie
+    |       |       |
+    |       |       |----CookeParser.php
+    |       |
+    |       |----Message
+    |       |       |
+    |       |       |----Parsing.php
+    |       |
+    |       |
+    |       |
+    |       |----Directory
+    |               |
+    |               |----SuperParser.php
+    |
+    |----Other
+           |
+           |----Cool
+                   |
+                   |----Parser.php</pre>
 
 </div>
-<!-- EDIT18 SECTION "Namespaces" [43178-43741] -->
-<h3 class="sectionedit19" id="static_classes">Static Classes</h3>
+<!-- EDIT19 SECTION "Namespaces" [48069-56823] -->
+<h3 class="sectionedit20" id="static_classes">Static Classes</h3>
 <div class="level3">
 
 <p>
-Static classes are actually classes that have static member properties or methods. These properties and methods can be called without instantiating the class. They pretty much do the same thing a procedural function list, however they are more flexible to use and more consistent with OOP usage.
+Static classes are actually classes that have static member properties or methods. These properties and methods can be called without instantiating the class. They almost do the same thing as a procedural function list, however they are more flexible to use and more consistent with OOP usage.
 </p>
 
 <p>
-Static classes are alternatives to procedurally defining a large amount of helper functions that simply operate on data without storing any state itself. It&#039;s better to use static classes in OOP simply for two reasons. Consistency in software architecture and the fact that static classes can be autoloaded whereas function lists cannot. There will never be multiple instances of a static class because it doesn&#039;t store any state, you can use the same function for everything because it just operates of other things. Using the self:: way of calling static methods/variables also enforces a class scope and disciplines you towards single responsibility principle.
+Static classes are alternatives to procedurally defining a large amount of helper functions that simply operate on data without storing any state itself. It&#039;s better to use static classes in OOP for two reasons. Firstly it&#039;s the consistency with the rest of your OOP architecture, and secondly static classes can be autoloaded, whereas function lists cannot.
 </p>
 
 <p>
-Why static classes? So static classes would usually be put in the helpers because they are not instantiated and CI&#039;s loader auto instantiates what it loads. However with the addition of an autoloader, we would instead put our static classes in the libraries folder.
+Static classes are not instantiated. So you don&#039;t call <code>new StaticClass;</code>. You can call the class functions directly.
 </p>
-<pre class="code">class lol{
-
-	public static $auto = &#039;WHDFD&#039;;
-
-	public function what(){
-		$this-&gt;auto = &#039;auto&#039;;
-	}
-
-	public function no(){
-		echo self::$auto;
-		echo $this-&gt;auto;
-	}
-
-}
-
-$lol = new lol;
-$lol-&gt;what();
-$lol-&gt;no();
-</pre>
+<pre class="code php"><span class="kw2">class</span> StaticClass<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> static <span class="kw2">function</span> say_something<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">echo</span> <span class="st_h">'What!'</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//call them directly like this</span>
+StaticClass<span class="sy0">::</span><span class="me2">say_something</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 <p>
-Static methods and variables or static classes:
-1. Access static classes via self::$auto when inside the class. The self refers to the class, not the object. If you&#039;re calling static, you have use the fullname of the variable hence the $ at the start. When calling it as an object, you can just use the member name without the $. Such as $this→auto;
-2. If the method is static, you can still instantiate the object and use it. But the $this will not be available inside the static class.
-3. self:: will always refer to the variable when it was declared in the class.
-4. self:: will not work when dynamically instantiating object instance properties or variables. Because they were not statically defined in the class.
+The reason you cannot instantiate static classes, is because they don&#039;t store any state, they simply operate on other object&#039;s data. Therefore it doesn&#039;t make any sense to instantiate them. As instantiation is for the purposes of having same class (blueprint) be used for different object representations.
+</p>
+
+<p>
+Inside a static function, the normally available <code>$this</code> keyword is no longer available. The <code>$this</code> only exists when the object is instantiated. Since static classes are not instantiated, in order call it&#039;s own class methods you have to use the keyword <code>self</code>.
+</p>
+<pre class="code php"><span class="kw2">class</span> StaticClass<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> static <span class="re0">$static_variable</span> <span class="sy0">=</span> <span class="st_h">' Dude!'</span><span class="sy0">;</span>
+&nbsp;
+    <span class="kw2">public</span> static <span class="kw2">function</span> say_something<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">echo</span> <span class="st_h">'What '</span><span class="sy0">;</span>
+        <span class="kw2">self</span><span class="sy0">::</span><span class="me2">other_func</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> static <span class="kw2">function</span> other_func<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">echo</span> <span class="st_h">' Ever'</span><span class="sy0">;</span>
+        <span class="co1">//notice how in instantiated objects we use $this-&gt;static_variable; Here we're using self::$static_variable</span>
+        <span class="kw1">echo</span> <span class="kw2">self</span><span class="sy0">::</span><span class="re0">$static_variable</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+StaticClass<span class="sy0">::</span><span class="me2">say_something</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+We would put any static classes into our libraries folder. You won&#039;t need many static classes, as most things should be instantiated objects. But if you have a bunch of functions related to each other that don&#039;t store any state in variables, then you can use static classes.
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Static Classes" [43742-45944] -->
-<h2 class="sectionedit20" id="database">Database</h2>
+<!-- EDIT20 SECTION "Static Classes" [56824-59150] -->
+<h2 class="sectionedit21" id="database">Database</h2>
 <div class="level2">
 
+<p>
+Databases are where we store overall application state in the long term. Programming code that stores state, only store the state during the running of the session. In the case of <abbr title="Hypertext Preprocessor">PHP</abbr>, unless you&#039;re running a daemon, this only during the request and response cycle. Which means everything gets reset to their default status and the variables won&#039;t hold anything until you startup the program again. Therefore we need databases.
+</p>
+
+<p>
+There are many databases catered to many different situations. The one that we&#039;re going to be using is MySQL, which is the most popular relational database management system, and one more the flexible ones.
+</p>
+
+<p>
+Think of databases like Microsoft Excel. The excel program you&#039;re running can be thought of as an database instance. The excel document you opened can be thought of as the database. Each sheet in excel can be thought of as a table. Each table or sheet can have a large amount of columns and rows. We store data in a tabulated form, with each row denoting a section of related data, and each column being the type of the data. All of this is stored in multiple tables, and each table represents a plurality of related data.
+</p>
+
+<p>
+If you think about a blog. There would be a blog table. The table can have 5 columns being id, author, title, content and date. Each blog post occupies a row taking up those 5 columns. So the first blog post may be &#039;1&#039;, &#039;Roger&#039;, &#039;The Beginning of the End&#039;, &#039;Today we went on a fishing trip, I saw lots of fishes. Then we went home.&#039;, &#039;2013/01/01&#039;. Each blog post after the first would do the same thing.
+</p>
+
+<p>
+Database software usually don&#039;t have a <abbr title="Graphical User Interface">GUI</abbr> that comes with it. You would normally have to interface it using the command line. However the PHPMyAdmin adds a web based <abbr title="Graphical User Interface">GUI</abbr> to any MySQL databases, so you&#039;ll do most of your database work there. For other databases, you have to find other GUIs. When interfacing with the database in programming, you would use an abstraction layer such as Codeigniter&#039;s Active Records or <abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s PDO extension.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/4XX7X7upEIU%26list%3DPLwwh-11EOGvMTTrLIdKsmEpn0C0nk9CRQ?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/4XX7X7upEIU%26list%3DPLwwh-11EOGvMTTrLIdKsmEpn0C0nk9CRQ?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
 </div>
-<!-- EDIT20 SECTION "Database" [45945-45966] -->
-<h3 class="sectionedit21" id="sql_and_nosql">SQL and NoSQL</h3>
+<p>
+Before we start using the database, we should get acquainted with some of the architectural concepts in using databases. It&#039;s important to understand that databases are not part of your application server. They are a totally different long running process (it is persistent and not part of the request and response cycle) that is running and your programming in the application server connects to it and interacts with its <abbr title="Application Programming Interface">API</abbr>.
+</p>
+
+</div>
+<!-- EDIT21 SECTION "Database" [59151-61680] -->
+<h3 class="sectionedit22" id="sql_and_nosql">SQL and NoSQL</h3>
 <div class="level3">
 
 <p>
-Explain difference between <abbr title="Structured Query Language">SQL</abbr> and NoSQL
+You may have heard the terms <abbr title="Structured Query Language">SQL</abbr> and NoSQL. <abbr title="Structured Query Language">SQL</abbr> stands for “structured query language”, and NoSQL means “not only structured query language”. Since the 1970s it has become a standardised and popular language that interfaces with relational (tabular) based databases. Now when people talk about <abbr title="Structured Query Language">SQL</abbr> databases, they mean not only that the database&#039;s <abbr title="Application Programming Interface">API</abbr> require you to use <abbr title="Structured Query Language">SQL</abbr>, but that the database is relational.
+</p>
+<div class="vshare__right"><!--[if !IE]> -->
+<object width="255" height="210" type="application/x-shockwave-flash" data="http://www.vimeo.com/moogaloop.swf?clip_id=46886385">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="255" height="210" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.vimeo.com/moogaloop.swf?clip_id=46886385" />
+<!--><!-- -->
+  <param name="clip_id" value="46886385" />
+  <param name="FlashVars" value="clip_id=46886385" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+<p>
+NoSQL arrived on the scene recently in 1998, and has become more popular in recent years. Essentially NoSQL databases don&#039;t conform to the relational model, so they don&#039;t store data in a tabular format. They also don&#039;t use the <abbr title="Structured Query Language">SQL</abbr> language as an <abbr title="Application Programming Interface">API</abbr>. NoSQL databases are useful for data that don&#039;t conform or are easily represented in tabular format. Some NoSQL databases are faster than <abbr title="Structured Query Language">SQL</abbr> databases, simply because <abbr title="Structured Query Language">SQL</abbr> databases usually have more checks and balances to keep the data reliable.
 </p>
 
 <p>
-Intro to mysql, and why we should use active records or PDO
+<a href="http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis" class="urlextern" title="http://kkovacs.eu/cassandra-vs-mongodb-vs-couchdb-vs-redis"  rel="nofollow">NoSQL is not one type of database</a>, there are many different ways of storing data outside of relational databases, however the topic is beyond the scope of this course. You can find out more in the <a href="http://en.wikipedia.org/wiki/NoSQL" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/NoSQL">wikipedia article on NoSQL databases</a>.
 </p>
 
 <p>
-Transactions and ATOMICITY
+There are two NoSQL databases that have become popular and can be used for general applications. They are <a href="http://www.mongodb.org/" class="urlextern" title="http://www.mongodb.org/"  rel="nofollow">MongoDB</a> and <a href="http://redis.io/" class="urlextern" title="http://redis.io/"  rel="nofollow">Redis</a>. The blog example can be easily replicated in MongoDB. The key difference between MongoDB and MySQL that is quite important for you as a startup to realise is this: One of the reasons MongoDB is faster than MySQL because it has poorer ACID transactional support.
+</p>
+
+<p>
+What are ACID transactions? Well first transactions are a unit of work performed within a database management system, and treated in a coherent and reliable way independent of other transactions. Transactions are used when you need that unit of work to be reliable even if the system crashes or bugs out and the unit of work stops either completely or partially. This unit of work needs to be isolated from the rest of the system, so there is no side effects from any erroneous operation. <a href="http://en.wikipedia.org/wiki/ACID" class="urlextern" title="http://en.wikipedia.org/wiki/ACID"  rel="nofollow">Transactions need to be ACID</a>. This means atomic, consistent, isolated and durable.
+</p>
+<ul>
+<li class="level1"><div class="li"> Atomic means the transaction is all or nothing.</div>
+</li>
+<li class="level1"><div class="li"> Consistent means that completing any transaction must keep the database valid, that is the transaction needs to conform to any data entry rules.</div>
+</li>
+<li class="level1"><div class="li"> Isolated means that if transactions are performed concurrently, the state of the system should be as if the transactions were performed one after the other. This could mean that the database is locked for a transaction and is opened when it finishes.</div>
+</li>
+<li class="level1"><div class="li"> Durable means that once a transaction completes, the data needs to be stored permanently to disk even if the system crashes straight afterwards.</div>
+</li>
+</ul>
+
+<p>
+ACID transactions are paramount for databases doing financial work. Imagine you went to an online store and bought a game. You put in your credit card details and click purchase. The system at minimum is doing two things. It is logging your credit card to the financial company, and then putting a record into its sales/delivery system. So that your money gets processed and your good gets delivered. But what if halfway through this process, the system unexpectedly crashed? If the transaction was not ACID, then your money gets processed, but the purchase/delivery order wouldn&#039;t be placed!
+</p>
+
+<p>
+MySQL and most other <abbr title="Structured Query Language">SQL</abbr> databases have good transactional support, and you can setup <a href="http://ellislab.com/codeigniter/user-guide/database/transactions.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/transactions.html"  rel="nofollow">transactions using Codeigniter&#039;s active records</a>. This abstracts the process making it easier to work with. Do note that the <a href="http://www.kavoir.com/2009/09/mysql-engines-innodb-vs-myisam-a-comparison-of-pros-and-cons.html" class="urlextern" title="http://www.kavoir.com/2009/09/mysql-engines-innodb-vs-myisam-a-comparison-of-pros-and-cons.html"  rel="nofollow">MySQL table needs to be setup with the InnoDB table engine</a> to have transactions.
+</p>
+
+<p>
+So when choosing between using MongoDB or MySQL. If you the data you&#039;re trying to store naturally comes to mind as a relational data, that is data in tabular format that have relationships to each column, then choose MySQL. If your data doesn&#039;t fit that and comes to mind as an object that could have a variable number of columns (thus variable number of properties), choose MongoDB. If you need transactions, always use a <abbr title="Structured Query Language">SQL</abbr> database.
 </p>
 
 </div>
-<!-- EDIT21 SECTION "SQL and NoSQL" [45967-46122] -->
-<h3 class="sectionedit22" id="active_records">Active Records</h3>
+<!-- EDIT22 SECTION "SQL and NoSQL" [61681-66107] -->
+<h3 class="sectionedit23" id="database_planning">Database Planning</h3>
 <div class="level3">
 
 <p>
-Explain framework usage and PDO
+The complexity of your database depends on two things. Firstly the quantity and coherence of your data set, and what kind of questions and answers you want to extract out of your database. For relational databases, there are two concepts that are important in planning out your databases. The first is designing your <a href="http://en.wikipedia.org/wiki/Database schema" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Database schema">schema</a>, and the second is <a href="http://en.wikipedia.org/wiki/Database normalization" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Database normalization">database normalisation</a>.
 </p>
 
 <p>
-Also abstraction of different databases into a set standard <abbr title="Application Programming Interface">API</abbr>.
+For most web applications, unless you&#039;re operating on big data, your schema planning should be fairly straight forward. However sometimes your web application will grow a bit more complex, and perhaps you want to extract insight from the data you have. This knowledge area is out of the scope of this course, however you can refer to the these tutorials if you want to learn more:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://net.tutsplus.com/tutorials/databases/visual-database-creation-with-mysql-workbench/" class="urlextern" title="http://net.tutsplus.com/tutorials/databases/visual-database-creation-with-mysql-workbench/"  rel="nofollow">Visual Database Schema Creation with MySQL Workbench</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.dreamincode.net/forums/topic/179103-relational-database-design-normalization/" class="urlextern" title="http://www.dreamincode.net/forums/topic/179103-relational-database-design-normalization/"  rel="nofollow">Database Normalisation Tutorial</a></div>
+</li>
+</ul>
+
+</div>
+
+<h4 id="data_types">Data Types</h4>
+<div class="level4">
+
+<p>
+For pretty much every table you create, you&#039;ll need at least an <code>id</code> column, which would be the unique number pointing to any particular row of data. This <code>id</code> column needs to have a datatype of integer or larger, and it should have the property of <code>AUTO_INCREMENT</code>, and you should also position it as the primary key. The property of <code>AUTO_INCREMENT</code> makes the row automatically increment the number as you insert more data even if you don&#039;t insert anything into it (this is why we don&#039;t have to worry about it when inserting new rows in the model). Making it the primary key makes MySQL index the <code>id</code> column and gives it precedence making any look up queries with a matching id super fast.
 </p>
 
 <p>
-Also singleton pattern.
+You should also take care to choose the correct data type for each column. Use <code>VARCHAR</code> for any text with a set number of characters. Use <code>TEXT</code> when you don&#039;t know how the long the data will be. Use <code>FULLTEXT</code> when you&#039;re indexing it using MyISAM tables. Use <code>TINYINT</code> if it&#039;s a binary true/false boolean data field. You can find out more at <a href="http://dev.mysql.com/doc/refman/5.0/en/data-types.html" class="urlextern" title="http://dev.mysql.com/doc/refman/5.0/en/data-types.html"  rel="nofollow">MySQL&#039;s documentation on data types</a>.
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Active Records" [46123-46272] -->
-<h3 class="sectionedit23" id="search">Search</h3>
+<!-- EDIT23 SECTION "Database Planning" [66108-68393] -->
+<h3 class="sectionedit24" id="active_records">Active Records</h3>
 <div class="level3">
 
 <p>
-Full text search
+When interfacing with a database programmatically, it&#039;s best practice to use a library to abstract the process of connecting to the database and also provide a standard <abbr title="Application Programming Interface">API</abbr> to all the different database commands. This is because although many <abbr title="Structured Query Language">SQL</abbr> databases use <abbr title="Structured Query Language">SQL</abbr>, they often have differences in their <abbr title="Structured Query Language">SQL</abbr> commands. It&#039;s far more easier to have a library remember all these commands then you writing different commands for different databases.
 </p>
 
 <p>
-Using Sphinx
+Another reason to use libraries is security. A library will often force you to conform to a certain of writing <abbr title="Structured Query Language">SQL</abbr> commands, and libraries would automatically escape your <abbr title="Structured Query Language">SQL</abbr> commands to prevent any injected <abbr title="Structured Query Language">SQL</abbr> destroying your database.
+</p>
+
+<p>
+For <abbr title="Hypertext Preprocessor">PHP</abbr> in general, one the best native extensions to use is <a href="http://php.net/manual/en/book.pdo.php" class="urlextern" title="http://php.net/manual/en/book.pdo.php"  rel="nofollow">PDO</a>. However for Codeigniter, it has a native library called <a href="http://ellislab.com/codeigniter/user-guide/database/active_record.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/active_record.html"  rel="nofollow">Active Records</a>, and it&#039;s simpler to use. Refer to Codeigniter&#039;s documentation on the Active Records <abbr title="Application Programming Interface">API</abbr> for more information. Do note that Active Records is a subset of Codeigniter&#039;s overall <a href="http://ellislab.com/codeigniter/user-guide/database/index.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/index.html"  rel="nofollow">Database class</a>. The database class provides much more functionality.
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Search" [46273-46322] -->
-<h3 class="sectionedit24" id="redis">Redis</h3>
+
+<h4 id="codeigniter_database_configuration">Codeigniter Database Configuration</h4>
+<div class="level4">
+
+<p>
+For Codeigniter you should be configuring <a href="http://ellislab.com/codeigniter/user-guide/database/configuration.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/configuration.html"  rel="nofollow">your database&#039;s connections in the configuration directory</a> <code>application/config/database.php</code>.
+</p>
+
+<p>
+Your <a href="http://ellislab.com/codeigniter/user-guide/database/connecting.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/connecting.html"  rel="nofollow">database can then be autoloaded</a> through Codeigniter&#039;s <code>application/config/autoload.php</code> and always switched on no matter which the user is on.
+</p>
+
+<p>
+You should set your <code>db_debug</code> option to false during production and if you&#039;re explicitly logging the database errors as shown in the MVC model section.
+</p>
+
+<p>
+Note to access database errors when <code>db_debug</code> is off you need to use these two undocumented properties:
+</p>
+<pre class="code php"><span class="re0">$num</span>   <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span>_error_number<span class="br0">&#40;</span><span class="br0">&#41;</span>
+<span class="re0">$msg</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span>_error_message<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//this is also useful to examine the actual query passed into the database</span>
+<span class="re0">$last_query</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">last_query</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//you can then log it via log_message</span>
+log_message<span class="br0">&#40;</span><span class="st_h">'error'</span><span class="sy0">,</span> <span class="st_h">'Problem Inserting to user table: '</span> <span class="sy0">.</span> <span class="re0">$msg</span> <span class="sy0">.</span> <span class="st_h">' ('</span> <span class="sy0">.</span> <span class="re0">$num</span> <span class="sy0">.</span> <span class="st_h">'), using this query: &quot;'</span> <span class="sy0">.</span> <span class="re0">$last_query</span> <span class="sy0">.</span> <span class="st_h">'&quot;'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Refer <a href="http://ellislab.com/codeigniter/user-guide/general/errors.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/general/errors.html"  rel="nofollow">Codeigniter&#039;s documentation on error handling</a> for more information on logging. Note that because log files are written to disk, this won&#039;t work in hosts that don&#039;t offer writable directories. Cloud hosts normally don&#039;t offer writable directories. However it is possible to make your helper class to log it to a third party or send logs to an email.
+</p>
+
+</div>
+<!-- EDIT24 SECTION "Active Records" [68394-71210] -->
+<h3 class="sectionedit25" id="search">Search</h3>
 <div class="level3">
 
 <p>
-Non-Persistent (volatile data)
+One of the most common things we do on a database is search for data. Actually most of the times we&#039;re selecting data that match some condition. That is not considered to be a search problem, it&#039;s a matching problem. This section specifically refers to wildcard search using the <code>LIKE</code> operator or full text search with indexes.
 </p>
 
 <p>
-Caching with Redis
+The <a href="http://dev.mysql.com/doc/refman/5.0/en/pattern-matching.html" class="urlextern" title="http://dev.mysql.com/doc/refman/5.0/en/pattern-matching.html"  rel="nofollow">SQL &#039;&#039;LIKE&#039;&#039; operator</a> works like pattern matching. Essentially when you call something like <code>SELECT * FROM pet WHERE name LIKE &#039;b%&#039;;</code> and this would get all rows from the pet table, where the name starts with “b” and any number of characters after “b”. The ”%” sign is a wildcard. If you&#039;re looking for a row column to mention the word “cat” anywhere, then you would change the “b%” to ”%cat%”. And of course if you&#039;re looking for something to end in “cat”, then it would ”%cat”. The Codeigniter&#039;s Active Records library provides an abstraction for these commands giving you a very simple search functionality. Commonly the <code>LIKE</code> operator is used to search for tags. Imagine you had a blog post, and each blog post is given a set of tags. Kind of like the tags that Youtube uses for their videos. In order to search for these tags, you would not use the <code>WHERE</code> operator, you would use <code>LIKE</code> with <code>%tagname%</code>. If you had multiple tags to search for, you could either use <code>AND LIKE</code> or <code>OR LIKE</code>. The former makes sure that all tags are present, the latter makes sure at least one tag is present. 
 </p>
 
 <p>
-Sessions with Redis
+Using <code>LIKE</code> is highly precise, often you need more fine grained control over you search capability. What if you&#039;re searching for “cat”, but a tag has “cats”. Then the <code>LIKE</code> operator would not the tag with “cats” unless you explicitly specified them. What about “kittens”? What happens when the data your searching through is larger, like perhaps you&#039;re searching through the blog&#039;s article content. This is when you need full text search.
+</p>
+
+<p>
+<a href="http://en.wikipedia.org/wiki/Full text search" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Full text search">Full text search</a> works by first establishing an index of the data. This index often groups related terms together, this is called stemming. For example, the words “drives”, “drove”, and “driven” will be recorded in the index under the single concept word “drive.” It will also ignore stop words such as <em>the</em>, <em>is</em>, <em>at</em>, <em>which</em>, and <em>on</em>. Then the search algorithm goes through the index instead of going through the raw data. This makes for a faster search on a large amount of content. The balancing act in using full text search is between precision and recall. The <code>LIKE</code> operator has 100% precision, however it will have low recall. This makes it powerful if you&#039;re searching for an exact term. But often we don&#039;t know what kind of result we&#039;re looking for, so the full text search has higher recall. This however creates the problem of false positives. Results which are irrelevant to our query. There are a number of statistical and algorithmic techniques to improve a search engine, and they are all catered to different situations. You can read more about them on the Wikipedia article on full text search. For our purposes, we can keep it simple and use <code>LIKE</code> when we&#039;re looking for tag like data, and full text search for everything else.
+</p>
+
+<p>
+To implement full text search on MySQL, you need to use the MyISAM table engine, not InnoDB. Remember that InnoDB provides transactions and is more efficient for write intensive tables, whereas MyISAM is optimised for read intensive and thus search based tables. You can use both tables together in a single database. Setting up needs to be done when you create the table first, not after you create the table. To setup with the MyISAM engine, you can either use PHPMyAdmin&#039;s <abbr title="Graphical User Interface">GUI</abbr>, <a href="http://www.ignoredbydinosaurs.com/2012/05/database-migrations-codeigniter-101" class="urlextern" title="http://www.ignoredbydinosaurs.com/2012/05/database-migrations-codeigniter-101"  rel="nofollow">Codeigniter&#039;s DBForge</a> or straight <abbr title="Structured Query Language">SQL</abbr> such as this:
+</p>
+<pre class="code sql"><span class="kw1">CREATE</span> <span class="kw1">TABLE</span> pages <span class="br0">&#40;</span>
+  id <span class="kw1">INT</span><span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span> <span class="kw1">UNSIGNED</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">AUTO_INCREMENT</span><span class="sy0">,</span>
+  url text <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+  title text <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+  content text <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+  updated datetime <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
+  <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span>  <span class="br0">&#40;</span>id<span class="br0">&#41;</span><span class="sy0">,</span>
+  FULLTEXT <span class="kw1">KEY</span> content <span class="br0">&#40;</span>content<span class="br0">&#41;</span>
+<span class="br0">&#41;</span> ENGINE<span class="sy0">=</span>MyISAM</pre>
+
+<p>
+If you already created the table, you can alter the table&#039;s engine using the <a href="http://dev.mysql.com/doc/refman/5.0/en/alter-table.html" class="urlextern" title="http://dev.mysql.com/doc/refman/5.0/en/alter-table.html"  rel="nofollow">ALTER TABLE</a> syntax. Although it&#039;s easier to use PHPMyAdmin&#039;s <abbr title="Graphical User Interface">GUI</abbr>. We&#039;re going to start using the database migration tool via Codeigniter&#039;s DBForge, so we can keep our database&#039;s schema synchronised between development servers. Do note that DBForge currently doesn&#039;t support changing the engine of the table, so you&#039;ll need to add an additional command using standard query methods.
+</p>
+<pre class="code php"><span class="co1">//refer to migrations section to learn more about why we're doing this</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">query</span><span class="br0">&#40;</span><span class="st_h">'ALTER TABLE  `table_name` ENGINE = MYISAM'</span><span class="br0">&#41;</span><span class="sy0">;</span>  </pre>
+
+<p>
+Active Records by itself does not have abstracted methods for full text search. However it is possible using the <code>$this→db→where()</code> method. It has some quirks though. The method by default places backticks on your table and field names. This will corrupt your <abbr title="Structured Query Language">SQL</abbr> query. You need to run a command with the 2nd parameter equal to <code>NULL</code> and the third parameter equal to <code>FALSE</code>.
+</p>
+<pre class="code php"><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'MATCH (field) AGAINST (&quot;value&quot;)'</span><span class="sy0">,</span> <span class="kw4">NULL</span><span class="sy0">,</span> <span class="kw4">FALSE</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+To learn about the syntax of full text searches check out these two external resources:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.mysqltutorial.org/mysql-full-text-search.aspx" class="urlextern" title="http://www.mysqltutorial.org/mysql-full-text-search.aspx"  rel="nofollow">http://www.mysqltutorial.org/mysql-full-text-search.aspx</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://devzone.zend.com/26/using-mysql-full-text-searching/" class="urlextern" title="http://devzone.zend.com/26/using-mysql-full-text-searching/"  rel="nofollow">http://devzone.zend.com/26/using-mysql-full-text-searching/</a></div>
+</li>
+</ul>
+
+<p>
+You can also elect to use the <code>$this→db→query()</code> method as an alternative to Active Records. However this does not automatically escape the values for your <abbr title="Structured Query Language">SQL</abbr> query opening you up to security issues. You will need to manually escape the values or use query binding. All of this is discussed in <a href="http://ellislab.com/codeigniter/user-guide/database/queries.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/queries.html"  rel="nofollow">Codeigniter&#039;s documentation on database queries</a>.
+</p>
+
+<p>
+If you have a large amount of content, and search is starting to get slower. You can either re-architect your database using one of the other database stores, or you can integrate the <a href="http://sphinxsearch.com/" class="urlextern" title="http://sphinxsearch.com/"  rel="nofollow">Sphinx search engine</a>.
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/d--v0NhjIfc?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/d--v0NhjIfc?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+<!-- EDIT25 SECTION "Search" [71211-77403] -->
+<h3 class="sectionedit26" id="redis">Redis</h3>
+<div class="level3">
+
+<p>
+Redis is a special database that is catered towards volatile data. This is data in which persistence is not a major issue. It&#039;s data you&#039;re willing to throw away after finishing the session. It operates like an in-memory key to value data store. This means it is super fast.
+</p>
+
+<p>
+Redis in terms of web application development is usually used where memcached was used before. Essentially you can use it for session data, real time messages, publish and subscribing, caching and chat.
+</p>
+
+<p>
+We can switch to using Redis for session data if you require that kind of performance. For now we&#039;ll stick with working with MySQL, because it&#039;s simple and its enough for startup traffic. However if you&#039;re interested in hooking up Redis check out these articles:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://try.redis.io/" class="urlextern" title="http://try.redis.io/"  rel="nofollow">Interative Redis Tutorial</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://phpmaster.com/an-introduction-to-redis-in-php-using-predis/" class="urlextern" title="http://phpmaster.com/an-introduction-to-redis-in-php-using-predis/"  rel="nofollow">Introduction to using Redis with PHP</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.justincarmony.com/blog/2012/01/10/php-workers-with-redis-solo/" class="urlextern" title="http://www.justincarmony.com/blog/2012/01/10/php-workers-with-redis-solo/"  rel="nofollow">Using Predis as a message queue to pass jobs</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://blog.jmoz.co.uk/websockets-ratchet-react-redis" class="urlextern" title="http://blog.jmoz.co.uk/websockets-ratchet-react-redis"  rel="nofollow">Redis with Web Sockets</a></div>
+</li>
+<li class="level1"><div class="li"> Libraries for utilising Redis: <a href="https://github.com/joelcox/codeigniter-redis" class="urlextern" title="https://github.com/joelcox/codeigniter-redis"  rel="nofollow">Codeigniter Redis</a>, <a href="https://github.com/nrk/predis" class="urlextern" title="https://github.com/nrk/predis"  rel="nofollow">Predis</a> and <a href="https://github.com/nrk/predis-async" class="urlextern" title="https://github.com/nrk/predis-async"  rel="nofollow">Predis-Async (requires daemon)</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://garantiadata.com/" class="urlextern" title="http://garantiadata.com/"  rel="nofollow">Redis Cloud Server</a> - for using with Cloud9</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT26 SECTION "Redis" [77404-78838] -->
+<h3 class="sectionedit27" id="migrations">Migrations</h3>
+<div class="level3">
+
+<p>
+Talk about using DB forge for migrations
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Redis" [46323-46411] -->
-<h2 class="sectionedit25" id="security">Security</h2>
+<!-- EDIT27 SECTION "Migrations" [78839-78901] -->
+<h2 class="sectionedit28" id="security">Security</h2>
 <div class="level2">
 
 <p>
@@ -1000,8 +1518,8 @@ Should make a security “checklist” before deployment.
 </p>
 
 </div>
-<!-- EDIT25 SECTION "Security" [46412-46488] -->
-<h3 class="sectionedit26" id="input_validation">Input Validation</h3>
+<!-- EDIT28 SECTION "Security" [78902-78978] -->
+<h3 class="sectionedit29" id="input_validation">Input Validation</h3>
 <div class="level3">
 
 <p>
@@ -1017,8 +1535,8 @@ Testing against rules
 </p>
 
 </div>
-<!-- EDIT26 SECTION "Input Validation" [46489-46564] -->
-<h3 class="sectionedit27" id="csrf">CSRF</h3>
+<!-- EDIT29 SECTION "Input Validation" [78979-79054] -->
+<h3 class="sectionedit30" id="csrf">CSRF</h3>
 <div class="level3">
 
 <p>
@@ -1026,8 +1544,8 @@ Handling Passwords
 </p>
 
 </div>
-<!-- EDIT27 SECTION "CSRF" [46565-46601] -->
-<h3 class="sectionedit28" id="handling_passwords">Handling Passwords</h3>
+<!-- EDIT30 SECTION "CSRF" [79055-79091] -->
+<h3 class="sectionedit31" id="handling_passwords">Handling Passwords</h3>
 <div class="level3">
 
 <p>
@@ -1038,9 +1556,29 @@ Salting
 Bcrypt encryption
 </p>
 
+<p>
+<a href="http://crackstation.net/hashing-security.htm" class="urlextern" title="http://crackstation.net/hashing-security.htm"  rel="nofollow">http://crackstation.net/hashing-security.htm</a>
+</p>
+
+<p>
+<a href="http://php.net/manual/en/faq.passwords.php" class="urlextern" title="http://php.net/manual/en/faq.passwords.php"  rel="nofollow">http://php.net/manual/en/faq.passwords.php</a>
+</p>
+
+<p>
+<a href="https://gist.github.com/nikic/3707231" class="urlextern" title="https://gist.github.com/nikic/3707231"  rel="nofollow">https://gist.github.com/nikic/3707231</a>
+</p>
+
+<p>
+<a href="https://wiki.php.net/rfc/password_hash" class="urlextern" title="https://wiki.php.net/rfc/password_hash"  rel="nofollow">https://wiki.php.net/rfc/password_hash</a>
+</p>
+
+<p>
+Can we use this? <a href="https://github.com/ircmaxell/password_compat" class="urlextern" title="https://github.com/ircmaxell/password_compat"  rel="nofollow">https://github.com/ircmaxell/password_compat</a> min version 5.3.7. Cannot run on C9 atm, or Appfog. However Pagodabox and dotCloud will work. Also local installation of <abbr title="Hypertext Preprocessor">PHP</abbr> will work too.
+</p>
+
 </div>
-<!-- EDIT28 SECTION "Handling Passwords" [46602-46659] -->
-<h3 class="sectionedit29" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
+<!-- EDIT31 SECTION "Handling Passwords" [79092-79520] -->
+<h3 class="sectionedit32" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
 <div class="level3">
 
 <p>
@@ -1048,8 +1586,8 @@ In short don&#039;t bother. Leave it to the experts. Have a third party process 
 </p>
 
 </div>
-<!-- EDIT29 SECTION "Payments & Credit Cards" [46660-46804] -->
-<h3 class="sectionedit30" id="ssl">SSL</h3>
+<!-- EDIT32 SECTION "Payments & Credit Cards" [79521-79665] -->
+<h3 class="sectionedit33" id="ssl">SSL</h3>
 <div class="level3">
 
 <p>
@@ -1057,8 +1595,8 @@ For transmitting any sensitive information
 </p>
 
 </div>
-<!-- EDIT30 SECTION "SSL" [46805-46862] -->
-<h2 class="sectionedit31" id="sessions_authentication">Sessions &amp; Authentication</h2>
+<!-- EDIT33 SECTION "SSL" [79666-79723] -->
+<h2 class="sectionedit34" id="sessions_authentication">Sessions &amp; Authentication</h2>
 <div class="level2">
 
 <p>
@@ -1066,8 +1604,8 @@ Cursory note about <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>
 </p>
 
 </div>
-<!-- EDIT31 SECTION "Sessions & Authentication" [46863-46926] -->
-<h3 class="sectionedit32" id="sessions">Sessions</h3>
+<!-- EDIT34 SECTION "Sessions & Authentication" [79724-79787] -->
+<h3 class="sectionedit35" id="sessions">Sessions</h3>
 <div class="level3">
 
 <p>
@@ -1087,8 +1625,8 @@ Database based (best!) using Redis
 </p>
 
 </div>
-<!-- EDIT32 SECTION "Sessions" [46927-47026] -->
-<h3 class="sectionedit33" id="authentication_system">Authentication System</h3>
+<!-- EDIT35 SECTION "Sessions" [79788-79887] -->
+<h3 class="sectionedit36" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
 <p>
@@ -1099,9 +1637,26 @@ Login password matching
 Permissions using group system and bitwise operators
 </p>
 
+<p>
+<a href="http://ulogin.sourceforge.net/" class="urlextern" title="http://ulogin.sourceforge.net/"  rel="nofollow">http://ulogin.sourceforge.net/</a>
+</p>
+
 </div>
-<!-- EDIT33 SECTION "Authentication System" [47027-47138] -->
-<h3 class="sectionedit34" id="ajax">AJAX</h3>
+<!-- EDIT36 SECTION "Authentication System" [79888-80031] -->
+<h3 class="sectionedit37" id="access_control_list">Access Control List</h3>
+<div class="level3">
+
+<p>
+<a href="https://github.com/benedmunds/CodeIgniter-Ion-Auth" class="urlextern" title="https://github.com/benedmunds/CodeIgniter-Ion-Auth"  rel="nofollow">https://github.com/benedmunds/CodeIgniter-Ion-Auth</a>
+</p>
+
+<p>
+<a href="http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/" class="urlextern" title="http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/"  rel="nofollow">http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/</a>
+</p>
+
+</div>
+<!-- EDIT37 SECTION "Access Control List" [80032-80169] -->
+<h3 class="sectionedit38" id="ajax">AJAX</h3>
 <div class="level3">
 
 <p>
@@ -1121,8 +1676,21 @@ Using Oauth and Oauth2 but refer to providing web services
 </p>
 
 </div>
-<!-- EDIT34 SECTION "AJAX" [47139-47363] -->
-<h2 class="sectionedit35" id="htaccess">.htaccess</h2>
+<!-- EDIT38 SECTION "AJAX" [80170-80395] -->
+<h3 class="sectionedit39" id="oauth">Oauth</h3>
+<div class="level3">
+
+<p>
+Login via whatever… you can build it yourself as an Oauth consumer and even provide login as by provisining Oauth… but you can just this right now…
+</p>
+
+<p>
+<a href="http://hybridauth.sourceforge.net/" class="urlextern" title="http://hybridauth.sourceforge.net/"  rel="nofollow">http://hybridauth.sourceforge.net/</a>
+</p>
+
+</div>
+<!-- EDIT39 SECTION "Oauth" [80396-80602] -->
+<h2 class="sectionedit40" id="htaccess">.htaccess</h2>
 <div class="level2">
 
 <p>
@@ -1138,13 +1706,13 @@ GZIP Compression
 </p>
 
 </div>
-<!-- EDIT35 SECTION ".htaccess" [47364-47431] -->
-<h2 class="sectionedit36" id="caching">Caching</h2>
+<!-- EDIT40 SECTION ".htaccess" [80603-80670] -->
+<h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT36 SECTION "Caching" [47432-47452] -->
-<h3 class="sectionedit37" id="opcode_caching">Opcode Caching</h3>
+<!-- EDIT41 SECTION "Caching" [80671-80691] -->
+<h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
 <p>
@@ -1152,8 +1720,8 @@ Alredy done by APC
 </p>
 
 </div>
-<!-- EDIT37 SECTION "Opcode Caching" [47453-47498] -->
-<h3 class="sectionedit38" id="view_file_caching">View File Caching</h3>
+<!-- EDIT42 SECTION "Opcode Caching" [80692-80737] -->
+<h3 class="sectionedit43" id="view_file_caching">View File Caching</h3>
 <div class="level3">
 
 <p>
@@ -1161,8 +1729,8 @@ Include partial or fragment caching
 </p>
 
 </div>
-<!-- EDIT38 SECTION "View File Caching" [47499-47564] -->
-<h3 class="sectionedit39" id="database_caching">Database Caching</h3>
+<!-- EDIT43 SECTION "View File Caching" [80738-80803] -->
+<h3 class="sectionedit44" id="database_caching">Database Caching</h3>
 <div class="level3">
 
 <p>
@@ -1174,8 +1742,8 @@ Using either Redis (also memory) or MongoDB
 </p>
 
 </div>
-<!-- EDIT39 SECTION "Database Caching" [47565-47752] -->
-<h3 class="sectionedit40" id="browser_caching">Browser Caching</h3>
+<!-- EDIT44 SECTION "Database Caching" [80804-80991] -->
+<h3 class="sectionedit45" id="browser_caching">Browser Caching</h3>
 <div class="level3">
 
 <p>
@@ -1183,8 +1751,8 @@ Using .htaccess
 </p>
 
 </div>
-<!-- EDIT40 SECTION "Browser Caching" [47753-47795] -->
-<h2 class="sectionedit41" id="concurrent_processing">Concurrent Processing</h2>
+<!-- EDIT45 SECTION "Browser Caching" [80992-81034] -->
+<h2 class="sectionedit46" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
 <p>
@@ -1216,8 +1784,8 @@ Use Supervisor to keep track of tasks
 </p>
 
 </div>
-<!-- EDIT41 SECTION "Concurrent Processing" [47796-48226] -->
-<h2 class="sectionedit42" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
+<!-- EDIT46 SECTION "Concurrent Processing" [81035-81465] -->
+<h2 class="sectionedit47" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
 <p>
@@ -1233,8 +1801,8 @@ Oauth2
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Consuming Web Services APIs" [48227-48294] -->
-<h2 class="sectionedit43" id="providing_web_services_apis">Providing Web Services APIs</h2>
+<!-- EDIT47 SECTION "Consuming Web Services APIs" [81466-81533] -->
+<h2 class="sectionedit48" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
 <p>
@@ -1254,8 +1822,8 @@ Pusher <abbr title="Application Programming Interface">API</abbr>
 </p>
 
 </div>
-<!-- EDIT43 SECTION "Providing Web Services APIs" [48295-48386] -->
-<h2 class="sectionedit44" id="sockets_rtc">Sockets &amp; RTC</h2>
+<!-- EDIT48 SECTION "Providing Web Services APIs" [81534-81625] -->
+<h2 class="sectionedit49" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
 <p>
@@ -1267,4 +1835,4 @@ RTC (tokbox) and UDP and TCP
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Sockets & RTC" [48387-] -->
+<!-- EDIT49 SECTION "Sockets & RTC" [81626-] -->

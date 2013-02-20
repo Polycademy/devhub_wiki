@@ -25,3 +25,5 @@
   - Structure your web design application via the example given in the generic example
   - Try to get your header done in HTML and CSS
   - If you're ahead, apply mobile UX and SEO/Copywriting methodologies
+  - Integrating the mentor ideas
+  - Milestones from after this week: 3.5 weeks PHP, 2.5 weeks JS, 1 week Workflow, 1 week Deployment

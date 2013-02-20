@@ -1,0 +1,12 @@
+<span class="kw2">class</span> StaticClass<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> static <span class="kw2">function</span> say_something<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="kw1">echo</span> <span class="st_h">'What!'</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//call them directly like this</span>
+StaticClass<span class="sy0">::</span><span class="me2">say_something</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>

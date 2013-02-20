@@ -1,0 +1,24 @@
+====== Lesson 13 - WAP ======
+
+**Expected Work**
+
+  - Finish your header
+  - Continue working on your HTML and LESS. Don't get overwhelmed with the amount of code, just reference the examples when you need to. Spend some time reading the external references.
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Continue through the common UI examples
+  - Clearless Elements
+  - 43 days left!
+
+**Practice**
+
+  - Continue working through common UI
+  - Try to get at least half of your main body done
+  - When creating a new component or element, try to do it yourself via normal HTML, then google around or check the demos/docs for any examples. It's most likely that someone else has already done it before!

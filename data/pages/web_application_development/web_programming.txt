@@ -27,7 +27,7 @@ PHP:
 Javascript:
 
   * [[https://developer.mozilla.org/en/docs/JavaScript|MDN Javascript]] - The best reference and guide to Javascript, try to read as much of as possible and run them in your browser using the console.
-  * [[http://www.codecademy.com/tracks/javascript|Codecademy Javacript Track]] - Start playing in Codecademy, it will be an easy entry point into the syntax of javascript.
+  * [[http://www.codecademy.com/tracks/javascript|Codecademy Javascript Track]] - Start playing in Codecademy, it will be an easy entry point into the syntax of javascript.
 ===== Frameworks =====
 
 [{{ :web_application_development:jquery_application_architecture.jpg?200|jQuery Application Architecture Guide}}]

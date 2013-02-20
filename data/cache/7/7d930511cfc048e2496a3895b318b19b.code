@@ -1,0 +1,2 @@
+<span class="re0">$CI</span> <span class="sy0">=</span> get_instance<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$CI</span><span class="sy0">-&gt;</span><span class="me1">do_something_native</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//like $CI-&gt;load-&gt;other_libary</span>
