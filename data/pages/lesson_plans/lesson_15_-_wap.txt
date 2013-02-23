@@ -1,0 +1,27 @@
+====== Lesson 15 - WAP ======
+
+**Expected Work**
+
+  - Polish up your HTML & LESS
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Finish off the UI examples
+  - About responsive design - containers (proximity based on percentages & sizes depends on context (usage of max or min widths), graceful degradation, typography can use the em style (requires whole design based on em) or media query style)
+  - Responsive design is not about proportionality, it's about what looks good in different contexts
+  - Mobile UX - Mobile first or Responsive Design
+  - How to cloud host
+  - 41 days left!
+
+**Practice**
+
+  - Continue working through common UI
+  - Read up on external articles regarding design
+  - Apply responsive techniques
+  - Host it and celebrate

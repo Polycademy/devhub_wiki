@@ -440,18 +440,6 @@ Example Codeigniter Model:
 &nbsp;
     <span class="br0">&#125;</span>
 &nbsp;
-    <span class="kw2">public</span> <span class="kw2">function</span> get_article<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
-&nbsp;
-        <span class="co1">//code to get an article out of the database using $id</span>
-&nbsp;
-    <span class="br0">&#125;</span>
-&nbsp;
-    <span class="kw2">public</span> <span class="kw2">function</span> add_article<span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
-&nbsp;
-        <span class="co1">//code to add the article data to the database</span>
-&nbsp;
-    <span class="br0">&#125;</span>
-&nbsp;
     <span class="co1">//more accessors and mutators here...</span>
 &nbsp;
 <span class="br0">&#125;</span></pre>
@@ -511,13 +499,62 @@ CRUD refers to <a href="http://en.wikipedia.org/wiki/Create, read, update and de
 &nbsp;
     <span class="kw2">public</span> <span class="kw2">function</span> read<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
 &nbsp;
+        <span class="co1">//first validate the $id somehow</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span><a href="http://www.php.net/is_numeric"><span class="kw3">is_numeric</span></a><span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            show_404<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//we can just use *, but this is required when specifying multiple tables</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">select</span><span class="br0">&#40;</span><span class="st_h">'user.*'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'user.id'</span><span class="sy0">,</span> <span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">from</span><span class="br0">&#40;</span><span class="st_h">'user'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$user_query</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$user_query</span><span class="sy0">-&gt;</span><span class="me1">num_rows</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="re0">$result</span> <span class="sy0">=</span> <span class="re0">$user_query</span><span class="sy0">-&gt;</span><span class="me1">row</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="kw1">return</span> <span class="re0">$result</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="co1">//this is probably not an error, most likely there was no user with that id, so there were no results</span>
+            <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+&nbsp;
     <span class="br0">&#125;</span>
 &nbsp;
+    <span class="co1">//this would assume that the data array has already been passed in</span>
+    <span class="co1">//if there are columns you don't want to update, just don't pass them in as key to value properties of the $data array</span>
     <span class="kw2">public</span> <span class="kw2">function</span> update<span class="br0">&#40;</span><span class="re0">$id</span><span class="sy0">,</span> <span class="re0">$data</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="sy0">,</span> <span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">update</span><span class="br0">&#40;</span><span class="st_h">'user'</span><span class="sy0">,</span> <span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">affected_rows</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="sy0">&gt;</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="co1">//this returns the number of affected rows</span>
+            <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">affected_rows</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//we're not doing any error logging here, you can implement it yourself, remember this could actually mean there were no users with that id, not a database error</span>
+        <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span>
 &nbsp;
     <span class="br0">&#125;</span>
 &nbsp;
     <span class="kw2">public</span> <span class="kw2">function</span> delete<span class="br0">&#40;</span><span class="re0">$id</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">where</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="sy0">,</span> <span class="re0">$id</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$result</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">delete</span><span class="br0">&#40;</span><span class="st_h">'user'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//db-&gt;delete would return true if it worked</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$result</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="co1">//we can return the number of rows deleted</span>
+            <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">db</span><span class="sy0">-&gt;</span><span class="me1">affected_rows</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="kw4">false</span><span class="sy0">;</span> <span class="co1">//couldn't delete</span>
+        <span class="br0">&#125;</span>
 &nbsp;
     <span class="br0">&#125;</span>
 &nbsp;
@@ -546,9 +583,9 @@ You may notice eventually that CRUD is simply one of the many configurations of 
 		<th class="col0 leftalign"> Delete  </th><td class="col1 leftalign"> DELETE          </td><td class="col2 leftalign"> DELETE             </td>
 	</tr>
 </table></div>
-<!-- EDIT9 TABLE [25656-25910] -->
+<!-- EDIT9 TABLE [27090-27344] -->
 </div>
-<!-- EDIT8 SECTION "Model" [20479-25910] -->
+<!-- EDIT8 SECTION "Model" [20479-27344] -->
 <h3 class="sectionedit10" id="view">View</h3>
 <div class="level3">
 
@@ -574,7 +611,7 @@ Example Codeigniter View:
 <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/html.html"><span class="kw2">html</span></a>&gt;</span></pre>
 
 </div>
-<!-- EDIT10 SECTION "View" [25911-26924] -->
+<!-- EDIT10 SECTION "View" [27345-28358] -->
 <h3 class="sectionedit11" id="controller">Controller</h3>
 <div class="level3">
 
@@ -626,7 +663,7 @@ There&#039;ll be many developers who argue that your form inputs should be valid
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Controller" [26925-29841] -->
+<!-- EDIT11 SECTION "Controller" [28359-31275] -->
 <h2 class="sectionedit12" id="templating">Templating</h2>
 <div class="level2">
 
@@ -696,7 +733,7 @@ Your views directory can start to look like this:
           |----articles_view.php</pre>
 
 </div>
-<!-- EDIT12 SECTION "Templating" [29842-33111] -->
+<!-- EDIT12 SECTION "Templating" [31276-34545] -->
 <h3 class="sectionedit13" id="layouts">Layouts</h3>
 <div class="level3">
 
@@ -753,7 +790,7 @@ To understand how the compose method works, look into the source code of <code>T
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Layouts" [33112-35606] -->
+<!-- EDIT13 SECTION "Layouts" [34546-37040] -->
 <h3 class="sectionedit14" id="partials">Partials</h3>
 <div class="level3">
 
@@ -844,7 +881,7 @@ By default they automatically echo their data as soon as they are called. Howeve
 <pre class="code php"><span class="re0">$partial_compiled</span> <span class="sy0">=</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'row'</span><span class="sy0">,</span> <span class="re0">$data</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT14 SECTION "Partials" [35607-38624] -->
+<!-- EDIT14 SECTION "Partials" [37041-40058] -->
 <h2 class="sectionedit15" id="using_libraries">Using Libraries</h2>
 <div class="level2">
 
@@ -857,7 +894,7 @@ There are different ways of structuring library classes, most of the ways are de
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Using Libraries" [38625-39800] -->
+<!-- EDIT15 SECTION "Using Libraries" [40059-41234] -->
 <h3 class="sectionedit16" id="codeigniter_libraries">Codeigniter Libraries</h3>
 <div class="level3">
 
@@ -905,7 +942,7 @@ You would have spark packages located at project root, and with the augmented <c
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Codeigniter Libraries" [39801-43936] -->
+<!-- EDIT16 SECTION "Codeigniter Libraries" [41235-45370] -->
 <h3 class="sectionedit17" id="composer_libraries">Composer Libraries</h3>
 <div class="level3">
 
@@ -926,7 +963,7 @@ However there is a better way, and in fact this “Polycademy” way actually gi
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Composer Libraries" [43937-46150] -->
+<!-- EDIT17 SECTION "Composer Libraries" [45371-47584] -->
 <h3 class="sectionedit18" id="autoloading">Autoloading</h3>
 <div class="level3">
 
@@ -969,7 +1006,7 @@ In order to autoload classes in directories, you&#039;ll have to use namespaces.
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Autoloading" [46151-48068] -->
+<!-- EDIT18 SECTION "Autoloading" [47585-49502] -->
 <h3 class="sectionedit19" id="namespaces">Namespaces</h3>
 <div class="level3">
 
@@ -1146,7 +1183,7 @@ The above code would correspond to this kind of directory structure:
                    |----Parser.php</pre>
 
 </div>
-<!-- EDIT19 SECTION "Namespaces" [48069-56823] -->
+<!-- EDIT19 SECTION "Namespaces" [49503-58257] -->
 <h3 class="sectionedit20" id="static_classes">Static Classes</h3>
 <div class="level3">
 
@@ -1209,7 +1246,7 @@ We would put any static classes into our libraries folder. You won&#039;t need m
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Static Classes" [56824-59150] -->
+<!-- EDIT20 SECTION "Static Classes" [58258-60584] -->
 <h2 class="sectionedit21" id="database">Database</h2>
 <div class="level2">
 
@@ -1252,7 +1289,7 @@ Before we start using the database, we should get acquainted with some of the ar
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Database" [59151-61680] -->
+<!-- EDIT21 SECTION "Database" [60585-63114] -->
 <h3 class="sectionedit22" id="sql_and_nosql">SQL and NoSQL</h3>
 <div class="level3">
 
@@ -1311,7 +1348,7 @@ So when choosing between using MongoDB or MySQL. If you the data you&#039;re try
 </p>
 
 </div>
-<!-- EDIT22 SECTION "SQL and NoSQL" [61681-66107] -->
+<!-- EDIT22 SECTION "SQL and NoSQL" [63115-67541] -->
 <h3 class="sectionedit23" id="database_planning">Database Planning</h3>
 <div class="level3">
 
@@ -1343,7 +1380,7 @@ You should also take care to choose the correct data type for each column. Use <
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Database Planning" [66108-68393] -->
+<!-- EDIT23 SECTION "Database Planning" [67542-69827] -->
 <h3 class="sectionedit24" id="active_records">Active Records</h3>
 <div class="level3">
 
@@ -1392,7 +1429,7 @@ Refer <a href="http://ellislab.com/codeigniter/user-guide/general/errors.html" c
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Active Records" [68394-71210] -->
+<!-- EDIT24 SECTION "Active Records" [69828-72644] -->
 <h3 class="sectionedit25" id="search">Search</h3>
 <div class="level3">
 
@@ -1469,7 +1506,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT25 SECTION "Search" [71211-77403] -->
+<!-- EDIT25 SECTION "Search" [72645-78837] -->
 <h3 class="sectionedit26" id="redis">Redis</h3>
 <div class="level3">
 
@@ -1500,259 +1537,863 @@ We can switch to using Redis for session data if you require that kind of perfor
 </ul>
 
 </div>
-<!-- EDIT26 SECTION "Redis" [77404-78838] -->
+<!-- EDIT26 SECTION "Redis" [78838-80272] -->
 <h3 class="sectionedit27" id="migrations">Migrations</h3>
 <div class="level3">
 
 <p>
-Talk about using DB forge for migrations
+Database migrations is the process of synchronising your database schema between multiple different development servers and production servers. They are useful when you need to change your development environment to a different computer or when you&#039;re working with teams. Do note that migrations are not for synchronising data, it&#039;s only for schema changes.
+</p>
+
+<p>
+Synchronising code between teams and servers is easy now with the use of Git. However databases require more work to do this. The old way of doing database migrations was to export <abbr title="Structured Query Language">SQL</abbr> and its data from your current database, and import into a program that could read <abbr title="Structured Query Language">SQL</abbr> and that was connected to the server you wanted to import into. This was a cumbersome method and was inefficient. Instead database migrations are done programmatically through database scaffolding methods. Rather than migrating the <abbr title="Structured Query Language">SQL</abbr>. We create the database using an abstraction language, this will contain both the creation and destruction of the schema. We then run this code once and it will create our database for us. When we need to synchronise database schema, we simply synchronise the code and abstraction library, and run the code again on the other server. This way migrations becomes a simple matter of exchanging code via a version control system, and running it once to keep up with your team. If we decided that our latest schema change was incorrect, we can rollback easily because the code to destroy the data was already written and we can just run the destruction portion.
+</p>
+
+<p>
+Codeigniter offers its own brand of <a href="http://ellislab.com/codeigniter/user-guide/libraries/migration.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/migration.html"  rel="nofollow">migrations</a>. To activate migrations, you need to enable it in the <code>config/migrations.php</code>. Polycademy recommends you set the <code>migration_type</code> to be sequential, as this simplifies the naming of our migrations. The <code>migration_auto_latest</code> can be set to false, and you don&#039;t need to worry about the <code>migration_version</code>.
+</p>
+
+<p>
+Next you need to create a <code>migrate.php</code> controller. You&#039;ll have a variation of this code depending on what kind of flexibility you need your migrations to have.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=33" title="Download Snippet" class="mediafile mf_php">migrate.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw2">class</span> Migrate <span class="kw2">extends</span> CI_Controller <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        parent<span class="sy0">::</span>__construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">load</span><span class="sy0">-&gt;</span><span class="me1">library</span><span class="br0">&#40;</span><span class="st_h">'migration'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> index<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//this code means we're always going to get the latest migrations, that's why we didn't need to worry about migration_version in the migration config.</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="sy0">!</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">migration</span><span class="sy0">-&gt;</span><span class="me1">latest</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            show_error<span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">migration</span><span class="sy0">-&gt;</span><span class="me1">error_string</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+When you run migrations, you would simply visit that page once. It&#039;ll work, and it won&#039;t double up even if you visit twice! By the way, for security reasons, you may wish to limit this to be accessible only via <a href="http://stackoverflow.com/a/11744750/582917" class="urlextern" title="http://stackoverflow.com/a/11744750/582917"  rel="nofollow">the command line</a>. Or only when you&#039;re authenticated. Or just disable it during production, but only after you have migrated the schema to the production server.
+</p>
+
+<p>
+Now you have the controller and config set up, you need to create your first schema migration. These files would be stored in the <code>application/migrations</code> folder. Each of these classes would extend <code>CI_Migration</code> and they would have at minimum two methods. The <code>up</code> method is called when running the migration. The <code>down</code> method is called when rolling back. You can roll back by specifying more methods in the migrate controller, or setting the <code>migration_version</code>. We&#039;re going to assume that you just want to keep moving forward and not rollback. The names of each migration is prefixed with three numbers. The first schema will always be <code>001</code>. The name of the class will be the same as the filename but without the three numbers.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=34" title="Download Snippet" class="mediafile mf_php">001_add_missions.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//notice that the name of the class will be Migration_add_missions whereas the file name is 001_add_missions</span>
+<span class="kw2">class</span> Migration_add_missions <span class="kw2">extends</span> CI_Migration <span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> up<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//dbforge is already loaded when extending from CI_Migration</span>
+&nbsp;
+        <span class="co1">//dbforge will notice you're adding a field called id, it will automatically be assigned as an INT(9) auto_incrementing Primary Key.</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dbforge</span><span class="sy0">-&gt;</span><span class="me1">add_field</span><span class="br0">&#40;</span><span class="st_h">'id'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dbforge</span><span class="sy0">-&gt;</span><span class="me1">add_field</span><span class="br0">&#40;</span>
+            <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+                <span class="st_h">'title'</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+                    <span class="st_h">'type'</span> <span class="sy0">=&gt;</span> <span class="st_h">'VARCHAR'</span><span class="sy0">,</span>
+                    <span class="st_h">'constraint'</span> <span class="sy0">=&gt;</span> <span class="st_h">'100'</span><span class="sy0">,</span>
+                <span class="br0">&#41;</span><span class="sy0">,</span>
+                <span class="st_h">'description'</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+                    <span class="st_h">'type'</span> <span class="sy0">=&gt;</span> <span class="st_h">'TEXT'</span><span class="sy0">,</span>
+                <span class="br0">&#41;</span><span class="sy0">,</span>
+                <span class="st_h">'parameters'</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+                    <span class="st_h">'type'</span> <span class="sy0">=&gt;</span> <span class="st_h">'TEXT'</span><span class="sy0">,</span>
+                <span class="br0">&#41;</span><span class="sy0">,</span>
+            <span class="br0">&#41;</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dbforge</span><span class="sy0">-&gt;</span><span class="me1">create_table</span><span class="br0">&#40;</span><span class="st_h">'missions'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//you can also use active records and standard queries to insert raw data (though it's inadvisable except for dummy data like the first login account). You may have to autoload the database library to have it ready</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> down<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//when rolling back all we need to is remove the missions table</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dbforge</span><span class="sy0">-&gt;</span><span class="me1">drop_table</span><span class="br0">&#40;</span><span class="st_h">'missions'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+Each successive migration will be one number higher than the previous. So the next will be <code>002_some_thing_new.php</code> with the class name of <code>Migration_some_thing_new</code>. If you have to make changes to your schema, you never edit your previous migration. You always create a new migration to be applied! This is because of the linear history philosophy of migrations makes it easy to rollback. If you&#039;re going to go back in time, then you&#039;re going to create temporal disasters!
+</p>
+
+<p>
+Make sure to refer to the <a href="http://ellislab.com/codeigniter/user-guide/database/forge.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/forge.html"  rel="nofollow">DBForge documentation</a> for more information.
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Migrations" [78839-78901] -->
+<!-- EDIT27 SECTION "Migrations" [80273-86193] -->
 <h2 class="sectionedit28" id="security">Security</h2>
 <div class="level2">
 
 <p>
-Should make a security “checklist” before deployment.
+Security of web applications is important whenever you&#039;re handling user input, user account information or financial transactions. For the purposes of Polycademy, we&#039;ll be focusing on input validation, handling passwords, ssl encryption and payments. This section of security sets up the foundation for understanding sessions and authentication. Security is vast area of investigation, check out the <a href="https://www.owasp.org/index.php/Main_Page" class="urlextern" title="https://www.owasp.org/index.php/Main_Page"  rel="nofollow">OWASP site</a> for more information.
 </p>
 
 </div>
-<!-- EDIT28 SECTION "Security" [78902-78978] -->
+<!-- EDIT28 SECTION "Security" [86194-86694] -->
 <h3 class="sectionedit29" id="input_validation">Input Validation</h3>
 <div class="level3">
 
 <p>
-Escaping
+The most important concept to understand in security is to never trust the user. If your application only pushes out content but doesn&#039;t accept any input, then you don&#039;t need to really about this. However most likely you&#039;ll need to accept some user input, if only to change and edit settings for your web application. The most common implementation of accepting user input is the login and account administration, but any feature that is dependent on user input would apply.
 </p>
 
 <p>
-Testing against rules
+When you accept user input, you could either process the instructions and return the output without any state being kept, or query the state and return the output, or modify the state. The state here would refer to the database state which could be considered the overall application state. When you&#039;re just processing instructions, the most important thing is to not allow the user to execute any code that may interfere or cause side effects in your processing. When you&#039;re querying or modifying the database state, the most important thing is to prevent your user from querying state they don&#039;t have permissions for or modifying state that they shouldn&#039;t be able to.
 </p>
 
 <p>
-<abbr title="Structured Query Language">SQL</abbr> injection
+All three of these situations is about first validating that the user has permissions to access the feature you&#039;re providing (such as authentication), secondly validating their operations are legal within your rules (such as XSS filtering), and then isolating their operations so they have no undesired side effects (such as <abbr title="Structured Query Language">SQL</abbr> injection).
+</p>
+
+<p>
+The first validation is a matter of authentication, that is checking if the client is someone that can access your server and applying any permission rules onto their session. This is discussed in the <a href="#sessions_authentication" title="web_application_development:php_-_server_side_architecture ↵" class="wikilink1">Sessions &amp; Authentication</a> section.
 </p>
 
 </div>
-<!-- EDIT29 SECTION "Input Validation" [78979-79054] -->
-<h3 class="sectionedit30" id="csrf">CSRF</h3>
+
+<h4 id="constraints">Constraints</h4>
+<div class="level4">
+
+<p>
+In the above mentioned second validation, it is a matter of applying constraints onto inputted data. Codeigniter provides us with a <a href="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html"  rel="nofollow">validation library</a> to simplify the process of constraining form inputs. Remember to setup your validation constraints in an <a href="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html#savingtoconfig" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html#savingtoconfig"  rel="nofollow">external validation config file</a> so your controllers can be thinner. You can do this by creating a custom validation config file that is autoloaded, then pass it using <code>$this→form_validation→set_rules</code>.
+</p>
+
+<p>
+Here&#039;s a list of example constraints you may apply on data input:
+</p>
+<ul>
+<li class="level1"><div class="li"> Required - whether the data was sent in or not.</div>
+</li>
+<li class="level1"><div class="li"> Size limit - in terms of word limit or binary size limit.</div>
+</li>
+<li class="level1"><div class="li"> Data type - was the date really a date? Was the integer really an integer?</div>
+</li>
+<li class="level1"><div class="li"> Match - Did the password entry and password confirmation match?</div>
+</li>
+<li class="level1"><div class="li"> Integrity - Was the email passed in a valid email structure?</div>
+</li>
+<li class="level1"><div class="li"> Allowed - Did the input pass in restricted characters? Such as numbers when you only wanted the alphabet.</div>
+</li>
+<li class="level1"><div class="li"> XSS - Does the input have any scripts inside of it.</div>
+</li>
+</ul>
+
+<p>
+The form validation library will allow you to define your own custom callback functions if you need special validation constraints. Codeigniter&#039;s form validation library currently works only for forms, and so it is hard coupled to the controller. If you&#039;re a MVC purist, you may prefer an ORM or a <a href="https://github.com/Respect/Validation" class="urlextern" title="https://github.com/Respect/Validation"  rel="nofollow">data validation library</a> which can be used in the model instead.
+</p>
+
+</div>
+
+<h4 id="xss_csrf">XSS &amp; CSRF</h4>
+<div class="level4">
+
+<p>
+Two other constraints techniques are important to overall web application security. They are XSS filtering and CSRF protection.
+</p>
+
+<p>
+<a href="http://en.wikipedia.org/wiki/Cross-site scripting" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Cross-site scripting">XSS</a> or Cross Site Scripting happens when you accept user input and later display on the page to other users. That user input may be a cracker writing scripts which will then be executed when it is later interpreted by the browser of other users. This is dangerous as it can not only compromise the security of your users, but it can undermine the trust of your customers if they find out that visiting your site is dangerous. This usually happens in forums or places which accept comments. Codeigniter provides a global or granular way of filtering scripts out of form input. For the global option, just set <code>global_xss_filtering</code> in the <code>application/config/config.php</code> to true. However this may affect inputs which you are expecting scripts and not displaying them. It may also slow down your server, since not all user input is displayed back to the page or displayed in a manner in which XSS is possible. So it is often recommended to leave global XSS filtering switched off, and instead only apply it to <a href="http://ellislab.com/codeigniter/user-guide/libraries/security.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/security.html"  rel="nofollow">individual form inputs</a> when you&#039;re using the form validation library.
+</p>
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Aphp_-_server_side_architecture&amp;media=web_application_development:csrf-diagram.png" class="media" title="web_application_development:csrf-diagram.png"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:csrf-diagram.png" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Aphp_-_server_side_architecture&amp;media=web_application_development:csrf-diagram.png"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>CSRF Diagram</div></div></div>
+<p>
+<a href="http://en.wikipedia.org/wiki/Cross-site request forgery" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Cross-site request forgery">CSRF</a> or cross site request forgery is a slightly more complicated attack method. Basically a cracker creates a website that looks legitimate, but contains hidden javascript or links that point to your website&#039;s form or RESTful resource that requires authentication. Now the cracker needs to trick a user of your web application to come to his/her website. If that user has been authenticated to your website via a cookie based session, and if that session has not died or that user clicked “remember me” on the login, then the cracker&#039;s website can extract that cookie session and use it to authenticate its own request to your web application. This is why it&#039;s called cross site request forgery, because it&#039;s exploiting the trust of the user to forge a request to your web application. If you don&#039;t have CSRF protection, then the cracker now has access to your system via the user&#039;s credentials. This could be disastrous for not only your service if that user has high level permissions, but can also be disastrous if the cracker gains financial or private information of that user from your web service.
+</p>
+
+<p>
+CSRF can be defeated by using CSRF tokens. Essentially on every page load, a CSRF token will be generated, and placed in the user&#039;s cookie and also on the page form that is to be submitted. When the form is submitted, the token is compared to the cookie&#039;s token to see if they match. If a third party were to post the form, they would have a different CSRF token to the token stored in the user&#039;s session cookie. This would render their request invalid.
+</p>
+
+<p>
+Codeigniter provides CSRF protection natively. The settings are located in the <code>application/config/config.php</code>. Make sure <code>csrf_protection</code> is set to true. Now when the user comes into the page, the CSRF token will be set as part of their cookies. Check this out by going to Polycademy.com or PHPBounce and check the cookies tab in Firebug. However in order to set it on any form inputs, you need to use the <code>form_open</code> function that is part of the <a href="http://ellislab.com/codeigniter/user-guide/helpers/form_helper.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/helpers/form_helper.html"  rel="nofollow">Form Helper</a>. This is documented in the <a href="http://ellislab.com/codeigniter/user-guide/libraries/security.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/security.html"  rel="nofollow">Security Class</a>. <code>form_open</code> will automatically add a hidden input field with the CSRF token. However if you cannot use <code>form_open</code>, you can use <code>$this→security→get_csrf_hash()</code> and <code>$this→security→get_csrf_token_name()</code>. You can see these methods on the <a href="https://github.com/EllisLab/CodeIgniter/blob/develop/system/core/Security.php#L243-L269" class="urlextern" title="https://github.com/EllisLab/CodeIgniter/blob/develop/system/core/Security.php#L243-L269"  rel="nofollow">Security class on the github repo</a>. The CSRF token will be automatically validated on only and every POST requests. Whenever the <a href="http://ellislab.com/codeigniter/user-guide/libraries/input.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/input.html"  rel="nofollow">Input class</a> (which is natively autoloaded) detects a POST request, <a href="http://stackoverflow.com/a/6244868/582917" class="urlextern" title="http://stackoverflow.com/a/6244868/582917"  rel="nofollow">it will call on CSRF verify from the Security class</a>.
+</p>
+
+<p>
+One more thing, to use CSRF or XSS clean, you need to setup an encryption key in your <code>application/config/config.php</code>. This will be used by the security and encryption class to encrypt hashes and keys for you. Just randomly select 32 characters as your encryption key. Make sure to change it before going into production.
+</p>
+
+</div>
+
+<h4 id="isolation_preventing_side_effects">Isolation &amp; Preventing Side effects</h4>
+<div class="level4">
+
+<p>
+Finally the third validation is about isolating user input. There are two possibilities where user input may cause side effects. The first is code injection, and the second is <a href="http://php.net/manual/en/security.database.sql-injection.php" class="urlextern" title="http://php.net/manual/en/security.database.sql-injection.php"  rel="nofollow">SQL injection</a>. We already addressed front end code injection through XSS filtering, but preventing back end code injection is even easier. <a href="http://stackoverflow.com/a/951868/582917" class="urlextern" title="http://stackoverflow.com/a/951868/582917"  rel="nofollow">All you have to do is to not use &#039;&#039;eval&#039;&#039;</a>. Basically don&#039;t execute or run anything the user gives you. You shouldn&#039;t store code in the database either. (Evalling can get quite complicated if you&#039;re trying to implement something like PHPBounce!)
+</p>
+
+<p>
+The second is a more pertinent problem. When we run <abbr title="Structured Query Language">SQL</abbr> queries, such as searching for some rows which has the field name matching to some user inputted name, then we run the risk of that user inputted name not being a name and being an extra <abbr title="Structured Query Language">SQL</abbr> instruction, such as drop table. To prevent <abbr title="Structured Query Language">SQL</abbr> injection, we first escape the input, this means putting backslashes on any operators so they are interpreted as text. This was the original method of protecting against <abbr title="Structured Query Language">SQL</abbr> injection. However this has been deprecated as it is not foolproof and it was an ugly method of writing a function for each input. Instead bound parameters have been suggested, where you setup a <abbr title="Structured Query Language">SQL</abbr> template and then insert the variables. MySQL will never interpret the inserted variable as <abbr title="Structured Query Language">SQL</abbr>.
+</p>
+
+<p>
+However, since we&#039;re using Codeigniter&#039;s active records, we don&#039;t need to worry about this at all. Codeigniter will automatically escape and bind any of our variables. Unless we&#039;re using the standard query method, because that&#039;s a raw anything goes method for complex queries that active records doesn&#039;t provide. So yay for frameworks!
+</p>
+
+</div>
+
+<h4 id="ajax_csrf">AJAX &amp; CSRF</h4>
+<div class="level4">
+
+<p>
+When using <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>, there&#039;s three problems you have to solve in order to implement it with CSRF. The first problem is that the CSRF is validated on any POST requests. If you were using <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> to serialise a form entry that was used with <code>form_open()</code>, then it would work, because Codeigniter automatically added the CSRF token as a hidden input field. However if you were to submit POST requests outside of a form input, such as through submitting some action via a button, then the CSRF would not validate because there was no CSRF token sent through with the request. In order to solve this problem, you need to capture the CSRF token from the cookie with javascript, and inject it into your <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> POST requests. There&#039;s a couple methods of doing this:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://jerel.co/blog/2012/03/a-simple-solution-to-codeigniter-csrf-protection-and-ajax" class="urlextern" title="http://jerel.co/blog/2012/03/a-simple-solution-to-codeigniter-csrf-protection-and-ajax"  rel="nofollow">http://jerel.co/blog/2012/03/a-simple-solution-to-codeigniter-csrf-protection-and-ajax</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://aymsystems.com/ajax-csrf-protection-codeigniter-20" class="urlextern" title="http://aymsystems.com/ajax-csrf-protection-codeigniter-20"  rel="nofollow">http://aymsystems.com/ajax-csrf-protection-codeigniter-20</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://blog.biernacki.ca/2011/12/enabling-csrf-protection-in-codeigniter-for-ajax-calls/" class="urlextern" title="http://blog.biernacki.ca/2011/12/enabling-csrf-protection-in-codeigniter-for-ajax-calls/"  rel="nofollow">http://blog.biernacki.ca/2011/12/enabling-csrf-protection-in-codeigniter-for-ajax-calls/</a></div>
+</li>
+<li class="level1"><div class="li"> Simply use <code>$this→security→get_csrf_token_name()</code> and <code>$this→security→get_csrf_hash()</code> and pass them to javascript variables.</div>
+</li>
+</ul>
+
+<p>
+The second problem is of CSRF regeneration. In the <code>application/config/config.php</code>, there&#039;s an option to regenerate CSRF. This would regenerate the CSRF on each POST request. This would work fine in a page load based form. So every time you submitted the form, the page reloaded with the new CSRF code. However when you&#039;re using <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> to submit POST requests, then the page doesn&#039;t get reloaded. When you submit another request or concurrent asynchronous requests, then the CSRF gets regenerated on the server, but the client side still has the old CSRF token. The easiest way to resolve this is to simply disable CSRF token regeneration. However a more complex method may involve extracting the CSRF token from the <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> response and refreshing the token on the client side&#039;s cookie and CSRF variable via javascript. This will require you to pass back the CSRF token on each response on the server side though.
+</p>
+
+<p>
+The third problem is the newer RESTful <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods called PUT and DELETE. The CSRF is not validated when you send in a PUT or DELETE request. In order to do so, you&#039;ll need to extend the Security class with a custom class and add in a new method similar to the <code>$this→security→csrf_verify()</code> method. You&#039;ll need to remove the conditional checking of POST requests, since you&#039;re trying to do this for PUT and DELETE requests. Remember you&#039;re not removing the native method, but adding a newer one. The native one gets called by the Input class automatically, so you don&#039;t want to break the Input class&#039;s dependencies. Once you have the custom library loaded, you simply call your version of <code>csrf_verify()</code> on any controller that receives PUT and DELETE requests. However this may not be required since <a href="http://stackoverflow.com/a/11972282/582917" class="urlextern" title="http://stackoverflow.com/a/11972282/582917"  rel="nofollow">PUT and DELETE requests are difficult to use when attempting a CSRF attack</a>.
+</p>
+
+</div>
+<!-- EDIT29 SECTION "Input Validation" [86695-99600] -->
+<h3 class="sectionedit30" id="handling_passwords">Handling Passwords</h3>
 <div class="level3">
 
 <p>
-Handling Passwords
+When you start to have user accounts, you&#039;ll need to figure out how to handle passwords. <a href="http://www.phptherightway.com/#password_hashing" class="urlextern" title="http://www.phptherightway.com/#password_hashing"  rel="nofollow">The trick is never store raw passwords in your database</a>. You need to encrypt all passwords and only store the hash in the database. When the user submits their password, you encrypt it in the same manner and you compare the hashes, not the raw passwords. What this means is that if someone else got access to your database, they still wouldn&#039;t be able to figure out that the real password was. It also means you as the developer won&#039;t know what the real passwords are. This is why when you forgot your old password, most secure web applications ask you for a new one, there&#039;s no way to get the old one back.
+</p>
+
+<p>
+Encryption is a vast knowledge area that is beyond the scope of this course. There are weak encryptions and there are strong encryptions. The term encryption technically refers to two way encryption that is the ability of encrypting and decrypting data. For passwords, we only want one way encryption. The technical word for this is hashing. Hashing by itself is not enough. Crackers can use a <a href="http://en.wikipedia.org/wiki/Rainbow table" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Rainbow table">rainbow table</a> with precompiled collision lists of source input and corresponding hash, and match those to your hashes (if they got access to it) and acquire a list of source input. This is why password hashing involves on extra step called <a href="http://en.wikipedia.org/wiki/Salt (cryptography)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Salt (cryptography)">salting</a>.
+</p>
+
+<p>
+The recommended encryption method as of now is <a href="http://en.wikipedia.org/wiki/bcrypt" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/bcrypt">Bcrypt</a>. You can use the bcrypt encrytion method via the <code>crypt()</code> native <abbr title="Hypertext Preprocessor">PHP</abbr> function. This is explained in the <a href="http://stackoverflow.com/a/6337021/582917" class="urlextern" title="http://stackoverflow.com/a/6337021/582917"  rel="nofollow">Stackoverflow post on bcrypt hashing</a>. The <a href="http://www.php.net/manual/en/function.crypt.php" class="urlextern" title="http://www.php.net/manual/en/function.crypt.php"  rel="nofollow">crypt function</a> will automatically add a salt to your passwords, so you don&#039;t have to worry about that.
+</p>
+
+<p>
+However there is a new native password hashing function that is on <abbr title="Hypertext Preprocessor">PHP</abbr> 5.5 or greater. Its functionality is explained in the <a href="https://wiki.php.net/rfc/password_hash" class="urlextern" title="https://wiki.php.net/rfc/password_hash"  rel="nofollow">accepted RFC for implementation</a>. Most <abbr title="Hypertext Preprocessor">PHP</abbr> hosts do not currently run on <abbr title="Hypertext Preprocessor">PHP</abbr> 5.5, so a <a href="https://github.com/ircmaxell/password_compat" class="urlextern" title="https://github.com/ircmaxell/password_compat"  rel="nofollow">password compatibility shim</a> has been created for hosts running on 5.3.7 or greater. The problem with this is that Cloud9 and Appfog do not currently support 5.3.7. However Pagodabox and dotCloud will work with the compatibility shim. If you intend to use the shim, you&#039;ll need to develop locally and host it on dotCloud or Pagodabox. Make sure to check the version of your <abbr title="Hypertext Preprocessor">PHP</abbr> with the console command of <code>php -v</code>.
 </p>
 
 </div>
-<!-- EDIT30 SECTION "CSRF" [79055-79091] -->
-<h3 class="sectionedit31" id="handling_passwords">Handling Passwords</h3>
+<!-- EDIT30 SECTION "Handling Passwords" [99601-102211] -->
+<h3 class="sectionedit31" id="ssl">SSL</h3>
 <div class="level3">
 
 <p>
-Salting
+While the above security measures protect your server from unwanted external attacks, none of them protect the transmission of data over the wire. If you&#039;re transmitting sensitive data over the internet such as financial transactions, credit card information or even just user login and password, it&#039;s essential to implement <abbr title="Secure Sockets Layer">SSL</abbr>.
 </p>
 
 <p>
-Bcrypt encryption
+<abbr title="Secure Sockets Layer">SSL</abbr> or secure sockets layer is actually the predecessor of <a href="http://en.wikipedia.org/wiki/Transport Layer Security" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Transport Layer Security">TLS called transport layer security</a>. However most people still call it <abbr title="Secure Sockets Layer">SSL</abbr>. You are accessing a website over <abbr title="Secure Sockets Layer">SSL</abbr> whenever you have the HTTPS protocol on your browser&#039;s <abbr title="Uniform Resource Locator">URL</abbr> location. That means any data you send over to the website and any data you receive from the website has been encrypted against any eavesdroppers. Note that there are complications when you use <abbr title="Secure Sockets Layer">SSL</abbr> protected resources with non <abbr title="Secure Sockets Layer">SSL</abbr> protected resources on the same page. It&#039;s recommended that if you&#039;re going to use <abbr title="Secure Sockets Layer">SSL</abbr>, just use it for every page, this will simplify the process. Nowadays servers and connections are fast enough to process <abbr title="Secure Sockets Layer">SSL</abbr> quickly so there won&#039;t be any noticeable lag.
 </p>
 
 <p>
-<a href="http://crackstation.net/hashing-security.htm" class="urlextern" title="http://crackstation.net/hashing-security.htm"  rel="nofollow">http://crackstation.net/hashing-security.htm</a>
+<abbr title="Secure Sockets Layer">SSL</abbr> is as much about identification as it is about encryption. So although you can use <abbr title="Secure Sockets Layer">SSL</abbr> without buying a certificate from a certificate authority, any external users will get a notice that your certificate cannot be trusted, this is not very good for user experience. Therefore you should buy a real certificate from a real certificate authority. When the client requests a <abbr title="Secure Sockets Layer">SSL</abbr> connection, the server sends that certificate, the client validates and uses it to encrypt its request. Then the connection is established, and everything operates as normal. You may need to redirect your users who are attempting an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> connection to HTTPS connection. This is how sites like Facebook and Twitter operate, they will always redirect you to an HTTPS connection.
 </p>
 
 <p>
-<a href="http://php.net/manual/en/faq.passwords.php" class="urlextern" title="http://php.net/manual/en/faq.passwords.php"  rel="nofollow">http://php.net/manual/en/faq.passwords.php</a>
+Implementing <abbr title="Secure Sockets Layer">SSL</abbr> depends on your host. Refer to the host documentation to install <abbr title="Secure Sockets Layer">SSL</abbr>. You will then need to modify some settings on your <abbr title="Domain Name System">DNS</abbr>, .htaccess and your framework code. For example for <a href="https://docs.appfog.com/customize/ssl" class="urlextern" title="https://docs.appfog.com/customize/ssl"  rel="nofollow">AppFog check their Custom SSL docs</a>. 
 </p>
 
 <p>
-<a href="https://gist.github.com/nikic/3707231" class="urlextern" title="https://gist.github.com/nikic/3707231"  rel="nofollow">https://gist.github.com/nikic/3707231</a>
+Remember to use <abbr title="Secure Sockets Layer">SSL</abbr> with Codeigniter, you&#039;ll need to change your base <abbr title="Uniform Resource Locator">URL</abbr> to represent HTTPS protocol and you&#039;ll need set the cookies to be delivered over <abbr title="Secure Sockets Layer">SSL</abbr> in your <code>application/config/config.php</code>. To modify htaccess settings to redirect all users to <abbr title="Secure Sockets Layer">SSL</abbr> connection see this <a href="http://ellislab.com/forums/viewthread/86113/" class="urlextern" title="http://ellislab.com/forums/viewthread/86113/"  rel="nofollow">forum thread</a>.
 </p>
 
 <p>
-<a href="https://wiki.php.net/rfc/password_hash" class="urlextern" title="https://wiki.php.net/rfc/password_hash"  rel="nofollow">https://wiki.php.net/rfc/password_hash</a>
-</p>
-
-<p>
-Can we use this? <a href="https://github.com/ircmaxell/password_compat" class="urlextern" title="https://github.com/ircmaxell/password_compat"  rel="nofollow">https://github.com/ircmaxell/password_compat</a> min version 5.3.7. Cannot run on C9 atm, or Appfog. However Pagodabox and dotCloud will work. Also local installation of <abbr title="Hypertext Preprocessor">PHP</abbr> will work too.
+When you&#039;re developing on localhost, you won&#039;t need to implement <abbr title="Secure Sockets Layer">SSL</abbr> until you&#039;re ready to deploy. This is because <abbr title="Secure Sockets Layer">SSL</abbr> really doesn&#039;t have anything to do with the application server, it&#039;s all about request and response cycle between the client and the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server. The application server doesn&#039;t need to care how its requests and responses are being handled. However if you need to see <abbr title="Secure Sockets Layer">SSL</abbr> being done on the localhost check this tutorial on <a href="http://www.neilstuff.com/apache/apache2-ssl-windows.htm" class="urlextern" title="http://www.neilstuff.com/apache/apache2-ssl-windows.htm"  rel="nofollow">Apache with SSL on Windows</a>.
 </p>
 
 </div>
-<!-- EDIT31 SECTION "Handling Passwords" [79092-79520] -->
+<!-- EDIT31 SECTION "SSL" [102212-105215] -->
 <h3 class="sectionedit32" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
 <div class="level3">
 
 <p>
-In short don&#039;t bother. Leave it to the experts. Have a third party process transactions and <abbr title="Secure Sockets Layer">SSL</abbr> at all times
+In short don&#039;t bother. Leave it to the experts. Have a third party process transactions for you and they will handle any <abbr title="Secure Sockets Layer">SSL</abbr> related issues. If you are adamant about implementing this yourself be prepared to shell out a lot of cash and resources, because it&#039;s not just about technology, but PCI compliance, legal issues and auditing.
 </p>
 
 </div>
-<!-- EDIT32 SECTION "Payments & Credit Cards" [79521-79665] -->
-<h3 class="sectionedit33" id="ssl">SSL</h3>
-<div class="level3">
-
-<p>
-For transmitting any sensitive information
-</p>
-
-</div>
-<!-- EDIT33 SECTION "SSL" [79666-79723] -->
-<h2 class="sectionedit34" id="sessions_authentication">Sessions &amp; Authentication</h2>
+<!-- EDIT32 SECTION "Payments & Credit Cards" [105216-105586] -->
+<h2 class="sectionedit33" id="sessions_authentication">Sessions &amp; Authentication</h2>
 <div class="level2">
 
 <p>
-Cursory note about <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>
+For there to be users to your web application, you need user accounts. To have user accounts to need to authenticate any login request, and then you need to keep their logged in state persistent on the server or client side, or else they&#039;d have to login on each page request. This is achieved through an authentication system and sessions. When you start to have more complicated user accounts such as administrators, moderators, paying customers or guests, then you need an access control list. Note that the implementations discussed below are based on a non-RESTful system. RESTful systems demand a different philosophy and technical implementation for authentication. For pragmatic reasons we&#039;re not going to fully abide by REST, because it&#039;s currently too strict and it&#039;s more about philosophy than technology.
 </p>
 
 </div>
-<!-- EDIT34 SECTION "Sessions & Authentication" [79724-79787] -->
-<h3 class="sectionedit35" id="sessions">Sessions</h3>
+<!-- EDIT33 SECTION "Sessions & Authentication" [105587-106441] -->
+<h3 class="sectionedit34" id="sessions">Sessions</h3>
 <div class="level3">
 
 <p>
-Cookie based
+Sessions refer to the state of a particular user logged into your system and interacting with it. The key to implementing sessions is understanding where this state data is kept. In RESTful philosophy, state should be kept at the client, and the server should not be transmitting state. Polycademy does not recommend this. State in terms of web applications should be kept on both the client and the server. The client stores state via an encrypted cookie. The server keeps state in the database. When the user first logs in, the server will setup a cookie with all the user&#039;s login data and send it to the client&#039;s browser, at the same time it will create a corresponding entry into the database. The cookie will have an expiration date that matches the expiration date in the database. Each time the user requests some resource to the server, the server will check the cookie and match it to the database session data, if they match, it means the user is still logged in and interacting with the system. This is how most web applications authenticate their users. The remember me functionality is based on a long expiration cookie, but eventually all cookies die. Once the cookie is cleared or dead, the user will need to login again to recycle the process.
 </p>
 
 <p>
-<abbr title="Uniform Resource Locator">URL</abbr> based
+There are other methods of keeping session state, most of it depends on whether you&#039;re talking about the client or server. For clients, one other method is to store the state in the <abbr title="Uniform Resource Locator">URL</abbr> as query parameters rather than as a cookie. For the server, one other method involves storing the session data in memory such as memcache or Redis database. <abbr title="Hypertext Preprocessor">PHP</abbr> also offers native sessions which stores to file disk. However the cookie based with database backend sessions is the easiest and most flexible.
 </p>
 
 <p>
-<abbr title="Hypertext Preprocessor">PHP</abbr> Session based
-</p>
-
-<p>
-Database based (best!) using Redis
+You could implement all of this functionality using raw <abbr title="Hypertext Preprocessor">PHP</abbr>, but we&#039;re using a framework, and we&#039;ll also use a third party library to abstract the messy <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> handling.
 </p>
 
 </div>
-<!-- EDIT35 SECTION "Sessions" [79788-79887] -->
-<h3 class="sectionedit36" id="authentication_system">Authentication System</h3>
+<!-- EDIT34 SECTION "Sessions" [106442-108384] -->
+<h3 class="sectionedit35" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
 <p>
-Login password matching
+To implement this system in Codeigniter, you need to first setup your cookie and session settings in your <code>application/config/config.php</code>. The settings are straight forward, make sure to customise the prefix to match your web application&#039;s name.
 </p>
+<pre class="code php"><span class="co1">//this is the config from PHPBounce! Notice the bounce_ to customise the name of the cookies.</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_driver'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'cookie'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_valid_drivers'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_cookie_name'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'session'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_expiration'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">7200</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_expire_on_close'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_encrypt_cookie'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">TRUE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_use_database'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span> <span class="co1">//we're not using CI's native session database functionality, so leave this false</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_table_name'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'bounce_sessions'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_match_ip'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_match_useragent'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="kw4">TRUE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_time_to_update'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">300</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_prefix'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="st_h">'bounce_'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_domain'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_path'</span><span class="br0">&#93;</span>		<span class="sy0">=</span> <span class="st_h">'/'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_secure'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_httponly'</span><span class="br0">&#93;</span> 	<span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span></pre>
 
 <p>
-Permissions using group system and bitwise operators
-</p>
-
-<p>
-<a href="http://ulogin.sourceforge.net/" class="urlextern" title="http://ulogin.sourceforge.net/"  rel="nofollow">http://ulogin.sourceforge.net/</a>
+We won&#039;t actually be using Codeigniter&#039;s session database store session state serverside, but a third party authentication library called <a href="https://github.com/benedmunds/CodeIgniter-Ion-Auth" class="urlextern" title="https://github.com/benedmunds/CodeIgniter-Ion-Auth"  rel="nofollow">Ion Auth</a>. Simply follow the instructions on their Github repository and <a href="http://benedmunds.com/ion_auth/" class="urlextern" title="http://benedmunds.com/ion_auth/"  rel="nofollow">official documentation to install</a> ion auth. Make sure to use bcrypt for your password handling. This package is kind of ugly, the code has not been formatted well, however it is a rock solid library and easy to customise. Ion auth will actually provide you password handling, authentication, session handling and a simple access control list all in one.
 </p>
 
 </div>
-<!-- EDIT36 SECTION "Authentication System" [79888-80031] -->
-<h3 class="sectionedit37" id="access_control_list">Access Control List</h3>
+<!-- EDIT35 SECTION "Authentication System" [108385-110120] -->
+<h3 class="sectionedit36" id="access_control_list">Access Control List</h3>
 <div class="level3">
 
 <p>
-<a href="https://github.com/benedmunds/CodeIgniter-Ion-Auth" class="urlextern" title="https://github.com/benedmunds/CodeIgniter-Ion-Auth"  rel="nofollow">https://github.com/benedmunds/CodeIgniter-Ion-Auth</a>
+An access control list is refers the process of validating different users for different levels of permissions. Implementations of an <abbr title="Access Control List">ACL</abbr> can range from simple group permissions to complicated role based permissions often implemented in forums. Using <a href="https://github.com/benedmunds/CodeIgniter-Ion-Auth" class="urlextern" title="https://github.com/benedmunds/CodeIgniter-Ion-Auth"  rel="nofollow">Ion Auth</a> provides a simple group based permission model. Essentially every user is assigned to one group. Instead of storing permission codes into the group&#039;s database state, you as the developer simply checks if the user is part of a particular group and then grants or denies permissions.
 </p>
 
 <p>
-<a href="http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/" class="urlextern" title="http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/"  rel="nofollow">http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/</a>
+This is not a robust system since you will need to keep track of all the permissions while writing the code (the permissions are not centralised), and you cannot take advantage of cascading permissions or anything complicated. However it is simple and easy to use and covers most use cases.
 </p>
+
+<p>
+If you do need more a complicated permissions system (such as multi-level accounts) consider implementing bitwise/bitmask permissions or use the Zend <abbr title="Access Control List">ACL</abbr> library (it&#039;s part of the Zend framework, but can be used independently).
+</p>
+
+<p>
+Refer to these resources for using bits for permission systems:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://alanhollis.com/a-quick-guide-to-using-bitmasks-for-permissions-in-php/" class="urlextern" title="http://alanhollis.com/a-quick-guide-to-using-bitmasks-for-permissions-in-php/"  rel="nofollow">http://alanhollis.com/a-quick-guide-to-using-bitmasks-for-permissions-in-php/</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.php4every1.com/tutorials/create-permissions-using-bitwise-operators-in-php/" class="urlextern" title="http://www.php4every1.com/tutorials/create-permissions-using-bitwise-operators-in-php/"  rel="nofollow">http://www.php4every1.com/tutorials/create-permissions-using-bitwise-operators-in-php/</a></div>
+</li>
+</ul>
+
+<p>
+Refer to these resources to use Zend <abbr title="Access Control List">ACL</abbr>:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/" class="urlextern" title="http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/"  rel="nofollow">http://lucdebrouwer.nl/adding-zend-acl-to-codeigniter/</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.mattstone.me/?p=3" class="urlextern" title="http://www.mattstone.me/?p=3"  rel="nofollow">http://www.mattstone.me/?p=3</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://framework.zend.com/wiki/display/ZFUSER/Using+Zend_Acl+with+a+database+backend" class="urlextern" title="http://framework.zend.com/wiki/display/ZFUSER/Using+Zend_Acl+with+a+database+backend"  rel="nofollow">http://framework.zend.com/wiki/display/ZFUSER/Using+Zend_Acl+with+a+database+backend</a></div>
+</li>
+</ul>
 
 </div>
-<!-- EDIT37 SECTION "Access Control List" [80032-80169] -->
-<h3 class="sectionedit38" id="ajax">AJAX</h3>
-<div class="level3">
-
-<p>
-Can use normal sessions
-</p>
-
-<p>
-Can use REST based authentication using <abbr title="Application Programming Interface">API</abbr> key (but more for providing external service_
-</p>
-
-<p>
-Username &amp; Login on each request
-</p>
-
-<p>
-Using Oauth and Oauth2 but refer to providing web services
-</p>
-
-</div>
-<!-- EDIT38 SECTION "AJAX" [80170-80395] -->
-<h3 class="sectionedit39" id="oauth">Oauth</h3>
-<div class="level3">
-
-<p>
-Login via whatever… you can build it yourself as an Oauth consumer and even provide login as by provisining Oauth… but you can just this right now…
-</p>
-
-<p>
-<a href="http://hybridauth.sourceforge.net/" class="urlextern" title="http://hybridauth.sourceforge.net/"  rel="nofollow">http://hybridauth.sourceforge.net/</a>
-</p>
-
-</div>
-<!-- EDIT39 SECTION "Oauth" [80396-80602] -->
-<h2 class="sectionedit40" id="htaccess">.htaccess</h2>
+<!-- EDIT36 SECTION "Access Control List" [110121-111733] -->
+<h2 class="sectionedit37" id="htaccess">.htaccess</h2>
 <div class="level2">
 
 <p>
-For apache
-</p>
-
-<p>
-<abbr title="Uniform Resource Locator">URL</abbr> rewriting
-</p>
-
-<p>
-GZIP Compression
+The <a href="http://en.wikipedia.org/wiki/.htaccess" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/.htaccess">.htaccess</a> file is a directory level configuration file used to configure the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server. It is most commonly used with the Apache <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server. It has several common uses in web applications. One of which is authorisation, it is possible for the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server to request authorisation credentials before granting a response. Normally this isn&#039;t used due to poor user experience and limited authorisation functionality, instead it is more commonly used to simply deny all access in directories that should not be publicly accessible such your configuration directory or library directory. You&#039;ll notice in Codeigniter that there is an .htaccess file placed in every almost every directory, most of which are simply denying all access. Other major uses include <abbr title="Uniform Resource Locator">URL</abbr> rewriting, compression and controlling the browser cache. We&#039;ll also be using the .htaccess file that comes with H5BP and packaged using Initializr as an example since it implements many of these features by default.
 </p>
 
 </div>
-<!-- EDIT40 SECTION ".htaccess" [80603-80670] -->
+<!-- EDIT37 SECTION ".htaccess" [111734-112756] -->
+<h3 class="sectionedit38" id="url_rewriting">URL Rewriting</h3>
+<div class="level3">
+
+<p>
+<a href="http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html" class="urlextern" title="http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html"  rel="nofollow">URL rewriting</a> means modifying a website&#039;s <abbr title="Uniform Resource Locator">URL</abbr> so that it looks different. Why would you want to do this? Well one implement is when you&#039;re using the front controller method in an MVC web application, then all requests are routed first to the <code>index.php</code> as the front controller. Any subsequent parameters would be passed in as <abbr title="Uniform Resource Locator">URL</abbr> segments to point to any controller and method. This would result into a <abbr title="Uniform Resource Locator">URL</abbr> similar to “<a href="http://example.com/index.php/controller/method" class="urlextern" title="http://example.com/index.php/controller/method"  rel="nofollow">http://example.com/index.php/controller/method</a>”. Having the index.php inside the <abbr title="Uniform Resource Locator">URL</abbr> is superfluous, we might as well not have it and have the server expect it by default. We can use <abbr title="Uniform Resource Locator">URL</abbr> rewriting to remove the index.php from the <abbr title="Uniform Resource Locator">URL</abbr> and preserve the <abbr title="Uniform Resource Locator">URL</abbr>&#039;s functionality.
+</p>
+<pre class="code">#this section is already provided by H5BP, but we modified to suit Codeigniter, different frameworks will require different options
+#this is condtion to check if the module was loaded by apache, most hosts support it automatically
+&lt;IfModule mod_rewrite.c&gt;
+    #this is an option telling Apache to recognise symbolic links, so if you were trying a URL pointing to a file which was a link to another file, it will follow that link to the real file, the + sign is just for merging any options set previously
+    Options +FollowSymlinks
+    #turn on the rewriting engine!
+    RewriteEngine On
+    #these are conditions for the the rewrite rule
+    #this condition is true if the terms index.php, images, css, js, robots.txt, favicon.ico do not appear in the URL, if they do, then we don&#039;t want to activate the rewrite rule, since this would point to a valid resource
+    RewriteCond $1 !^(index\.php|images|css|js|robots\.txt|favicon\.ico)
+    #this condition is true if the requested resource is not a valid file
+    RewriteCond %{REQUEST_FILENAME} !-f
+    #this condition is true if the requested resource is not a valid directory
+    RewriteCond %{REQUEST_FILENAME} !-d
+    #the below is based on REGEX (it takes the URL segments after the example.com and appends them to index.php, passing it back as the URL to be called) So that way instead of calling www.example.com/index.php/controller, I can just call www.example.com/controler
+    RewriteRule ^(.*)$ ./index.php/$1 [L,QSA]
+&lt;/IfModule&gt;</pre>
+
+<p>
+When rewriting is setup, Apache first matches the <abbr title="Uniform Resource Locator">URL</abbr> against a rule pattern. If it does not match, mod_rewrite immediately stops processing that rule, and goes on to the next rule. If the pattern matches, mod_rewrite checks for rule conditions. If none are present, the <abbr title="Uniform Resource Locator">URL</abbr> will be replaced with a new string, constructed from the substitution string, and mod_rewrite goes on to the next rule. If RewriteConds exist, an inner loop is started, processing them in the order that they are listed. Conditions are not matched against the current <abbr title="Uniform Resource Locator">URL</abbr> directly. A TestString is constructed by expanding variables, back-references, map lookups, etc., against which the CondPattern is matched. If the pattern fails to match one of the conditions, the complete set of rule and associated conditions fails. If the pattern matches a given condition, then matching continues to the next condition, until no more conditions are available. If all conditions match, processing is continued with the substitution of the Substitution string for the <abbr title="Uniform Resource Locator">URL</abbr>.
+</p>
+
+<p>
+Another example would be removing or adding in the “www” to “<a href="http://example.com" class="urlextern" title="http://example.com"  rel="nofollow">http://example.com</a>”. Polycademy recommends you to remove the “www” as it is not necessary either. This shortens the <abbr title="Uniform Resource Locator">URL</abbr> making it easier to share. Furthermore by explicitly removing the “www” you remove the possibility of duplicate URLs pointing to the same content. This is important for SEO as search engines do not like duplicate content.
+</p>
+<pre class="code">#this is already activated by default
+&lt;IfModule mod_rewrite.c&gt;
+    #this is true if HTTPS isn&#039;t on, we don&#039;t want to mess with that
+    RewriteCond %{HTTPS} !=on
+    #this cond is true if the HTTP_HOST began with &quot;www&quot; (or else why bother rewriting)
+    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+    RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+&lt;/IfModule&gt;</pre>
+
+<p>
+<abbr title="Uniform Resource Locator">URL</abbr> rewriting can also be done via the application server using routing functionality, however this does not intercept the connection when it was first made, so you can only point to different resources but not change the <abbr title="Uniform Resource Locator">URL</abbr> in the user&#039;s browser.
+</p>
+
+<p>
+H5BP also provides a large amount of other rewrite rules to make your life easier, you read the comments in the supplied .htaccess file.
+</p>
+
+<p>
+To learn more about rewriting, check out this <a href="http://net.tutsplus.com/tutorials/other/a-deeper-look-at-mod_rewrite-for-apache/" class="urlextern" title="http://net.tutsplus.com/tutorials/other/a-deeper-look-at-mod_rewrite-for-apache/"  rel="nofollow">Nettuts tutorial on rewriting</a>.
+</p>
+
+</div>
+<!-- EDIT38 SECTION "URL Rewriting" [112757-117410] -->
+<h3 class="sectionedit39" id="compression">Compression</h3>
+<div class="level3">
+
+<p>
+Compression is the science of using algorithms to concatenate separate files and encode it in a format that reduces redundancy in order to compress the file size. You can then transmit the files over the internet and save time to upload/download and bandwidth. The compressed files will need to be decompressed to be use, because the compressed encoding is not designed to be easily editable. It is possible to <a href="http://en.wikipedia.org/wiki/HTTP compression" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/HTTP compression">compress website content</a>.
+</p>
+
+<p>
+<a href="http://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/" class="urlextern" title="http://betterexplained.com/articles/how-to-optimize-your-site-with-gzip-compression/"  rel="nofollow">Modern browsers can accept compressed archives from websites</a> and automatically decompress the content before displaying it. While it takes time and resources to compress and decompress content, the size savings in transmission can reach up to 80%. This can seriously improve the transmission performance of your website. You can check the size savings using the <a href="http://www.whatsmyip.org/http-compression-test/" class="urlextern" title="http://www.whatsmyip.org/http-compression-test/"  rel="nofollow">WhatsMyIPAddress service</a> and submit popular websites and check the size savings.
+</p>
+
+<p>
+On the client side, browsers will only accept <a href="http://en.wikipedia.org/wiki/gzip" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/gzip">gzip</a> compressed content. This is executed when the browser sends an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> request to the server. Along with the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> request, they add in an <code>Accept-Encoding</code> field with values of compression types. For example this could be the browser request:
+</p>
+<pre class="code">GET /encrypted-area HTTP/1.1
+Host: www.example.com
+Accept-Encoding: gzip, deflate</pre>
+
+<p>
+On the server side, gzipping can take place on the application server or the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server. The Apache <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server can take care of this for you. There are two methods of gzipping data using Apache, you can either use mod_gzip or mod_deflate. Both of these are extension modules to the Apache <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server. mod_gzip is somewhat more reliable than mod_deflate, however mod_deflate is quicker at compression and decompression. Both use gzip encoding.
+</p>
+
+<p>
+H5BP&#039;s .htaccess file already by default provides gzipping rules. Note that gzipping is only used on text based files that are delivered to the browser such as <abbr title="HyperText Markup Language">HTML</abbr>, <abbr title="Cascading Style Sheets">CSS</abbr> and <abbr title="JavaScript">JS</abbr>. Images are not gzipped because image formats have already been compressed by virtue of their format. Double compression simply increases the size of the file.
+</p>
+<pre class="code">&lt;IfModule mod_deflate.c&gt;
+    #This is using the mod_deflate filter, notice  how we &quot;deflate&quot; the output based on the type of the file. The type of the file is determined by their MIME type. So these are all the kinds of files that H5BP will deflate just before they get sent to the browser.
+    &lt;IfModule mod_filter.c&gt;
+        AddOutputFilterByType DEFLATE application/atom+xml \
+                                      application/javascript \
+                                      application/json \
+                                      application/rss+xml \
+                                      application/vnd.ms-fontobject \
+                                      application/x-font-ttf \
+                                      application/xhtml+xml \
+                                      application/xml \
+                                      font/opentype \
+                                      image/svg+xml \
+                                      image/x-icon \
+                                      text/css \
+                                      text/html \
+                                      text/plain \
+                                      text/x-component \
+                                      text/xml
+    &lt;/IfModule&gt;
+&lt;/IfModule&gt;</pre>
+
+<p>
+The server sends back an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> response similar to this:
+</p>
+<pre class="code">HTTP/1.1 200 OK
+Date: Mon, 23 May 2005 22:38:34 GMT
+Server: Apache/1.3.3.7 (Unix)  (Red-Hat/Linux)
+Last-Modified: Wed, 08 Jan 2003 23:11:55 GMT
+Etag: &quot;3f80f-1b6-3e1cb03b&quot;
+Accept-Ranges: bytes
+Content-Length: 438
+Connection: close
+Content-Type: text/html; charset=UTF-8
+Content-Encoding: gzip</pre>
+
+<p>
+Notice that the content-encoding has a value of gzip. If we use H5BP&#039;s deflate module command instead, then it will use “deflate”.
+</p>
+
+</div>
+<!-- EDIT39 SECTION "Compression" [117411-121435] -->
+<h3 class="sectionedit40" id="controlling_browser_cache">Controlling Browser Cache</h3>
+<div class="level3">
+
+<p>
+The .htaccess file also has the ability to control the browser cache. Browsers naturally cache the content that it receives so that when you visit the website a second time, it will load the resources from cache rather than reloading it from the server. However sometimes you need fine grain control over how long the resources should be cached and a fallback to cache bust cached items if you need to do a quick change. Again H5BP provides us all this, so you don&#039;t need to change anything. The relevant code is:
+</p>
+<pre class="code">&lt;IfModule mod_expires.c&gt;
+    ExpiresActive on
+    # Perhaps better to whitelist expires rules? Perhaps.
+    ExpiresDefault                          &quot;access plus 1 month&quot;
+    
+    # cache.appcache needs re-requests in FF 3.6 (thanks Remy ~Introducing HTML5)
+    ExpiresByType text/cache-manifest       &quot;access plus 0 seconds&quot;
+    
+    # Your document html
+    ExpiresByType text/html                 &quot;access plus 0 seconds&quot;
+    
+    # Data should not be cached as dynamic websites change this often!
+    ExpiresByType text/xml                  &quot;access plus 0 seconds&quot;
+    ExpiresByType application/xml           &quot;access plus 0 seconds&quot;
+    ExpiresByType application/json          &quot;access plus 0 seconds&quot;
+    
+    # Feeds change often but not that often
+    ExpiresByType application/rss+xml       &quot;access plus 1 hour&quot;
+    ExpiresByType application/atom+xml      &quot;access plus 1 hour&quot;
+    
+    # Favicon (cannot be renamed)
+    ExpiresByType image/x-icon              &quot;access plus 1 week&quot;
+    
+    # Media: images, video, audio
+    ExpiresByType image/gif                 &quot;access plus 1 month&quot;
+    ExpiresByType image/png                 &quot;access plus 1 month&quot;
+    ExpiresByType image/jpeg                &quot;access plus 1 month&quot;
+    ExpiresByType video/ogg                 &quot;access plus 1 month&quot;
+    ExpiresByType audio/ogg                 &quot;access plus 1 month&quot;
+    ExpiresByType video/mp4                 &quot;access plus 1 month&quot;
+    ExpiresByType video/webm                &quot;access plus 1 month&quot;
+    
+    # HTC files  (css3pie)
+    ExpiresByType text/x-component          &quot;access plus 1 month&quot;
+    
+    # Webfonts
+    ExpiresByType application/x-font-ttf    &quot;access plus 1 month&quot;
+    ExpiresByType font/opentype             &quot;access plus 1 month&quot;
+    ExpiresByType application/x-font-woff   &quot;access plus 1 month&quot;
+    ExpiresByType image/svg+xml             &quot;access plus 1 month&quot;
+    ExpiresByType application/vnd.ms-fontobject &quot;access plus 1 month&quot;
+    
+    # CSS and JavaScript hardly ever change
+    ExpiresByType text/css                  &quot;access plus 1 year&quot;
+    ExpiresByType application/javascript    &quot;access plus 1 year&quot;
+&lt;/IfModule&gt;</pre>
+
+<p>
+You&#039;ll notice how cache control is a simple matter of defining the expiration date of files via their <abbr title="Multipurpose Internet Mail Extension">MIME</abbr> type. The default cache times are quite long, so we need a way to cache bust any items we changed. The simplest way of doing this is simply adding a dummy query parameter to the <abbr title="Uniform Resource Locator">URL</abbr>. <a href="https://github.com/h5bp/html5-boilerplate/blob/master/doc/htaccess.md#cache-busting" class="urlextern" title="https://github.com/h5bp/html5-boilerplate/blob/master/doc/htaccess.md#cache-busting"  rel="nofollow">However this was not always reliable for clients who were behind a proxy server</a>. That&#039;s why the file extension cache busting method was produced with mod_rewrite in the .htaccess file. These rules by default have not been activated, you&#039;ll need to uncomment out the hash ”#” to use them.
+</p>
+<pre class="code">#these rules will need to be uncommented
+&lt;IfModule mod_rewrite.c&gt;
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    #looks for files that have (anything).(any numbers).(js or css or png or jpg or gif) and returns them as (anything).(js or css or png or jpg or gif)
+    RewriteRule ^(.+)\.(\d+)\.(js|css|png|jpg|gif)$ $1.$3 [L]
+&lt;/IfModule&gt;</pre>
+
+<p>
+This way instead of using query parameters, you can cache bust javascript, css, png, jpg or gif files by prepending random numbers to the file extension. For example to cache bust “main.css”, in your <abbr title="HyperText Markup Language">HTML</abbr>, simply link to it by “main.123.css”. You do not need to change name of the actual file, just the link to it. So you just change the numbers everytime you make a change to the <abbr title="Cascading Style Sheets">CSS</abbr> file. From them on, the new version will be cached appropriately by the browser.
+</p>
+
+</div>
+<!-- EDIT40 SECTION "Controlling Browser Cache" [121436-125655] -->
 <h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
+<p>
+Caching is a matter of storing dynamically produced data in a static state so that the data does not need to be reproduced every time it is called. There are many different types of cache and different methods are suitable for different contexts. As a startup you shouldn&#039;t worry about caching unless you start to see performance bottlenecks. In the end the browser is the best place to store cache, and that&#039;s already been handled by H5BP. Other than that there are mainly three types of caching, opcode caching, file caching and memory caching.
+</p>
+
 </div>
-<!-- EDIT41 SECTION "Caching" [80671-80691] -->
+<!-- EDIT41 SECTION "Caching" [125656-126223] -->
 <h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
 <p>
-Alredy done by APC
+<abbr title="Hypertext Preprocessor">PHP</abbr> is an interpreted language, so every time it runs, it will interpret and compile it while it runs. Opcode caching is about caching the compiled bytecodes of any particular script, so <abbr title="Hypertext Preprocessor">PHP</abbr> can simply execute the compiled code without having to interpret and compile again. All of this is already handled automatically by default, so you don&#039;t need to worry about it.
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Opcode Caching" [80692-80737] -->
-<h3 class="sectionedit43" id="view_file_caching">View File Caching</h3>
+<!-- EDIT42 SECTION "Opcode Caching" [126224-126618] -->
+<h3 class="sectionedit43" id="file_caching">File Caching</h3>
 <div class="level3">
 
 <p>
-Include partial or fragment caching
+File caching refers to how a cache is stored, not necessarily caching “files”. File caching is mainly used for either web page output caching or database caching. This is done so to avoid unnecessary database calls or even to shortcut the processing time of any long winded operation. Accessing the filesystem can often be much faster than accessing a database. By the nature of file caching, the host you&#039;re using must allow writable filesystems. 
+</p>
+
+<p>
+Codeigniter offers two native caching libraries relying on a writable file system. Both are quite simple file caching systems and don&#039;t offer granular control over partial data.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://ellislab.com/codeigniter/user-guide/general/caching.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/general/caching.html"  rel="nofollow">Web Page Output Caching</a> - Can only be used on full pages. Best suited for static pages that have to query the database and don&#039;t change much.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ellislab.com/codeigniter/user-guide/database/caching.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/database/caching.html"  rel="nofollow">Database Caching</a> - This caches the results of a database query to file. This is best used for data that users may read a lot but doesn&#039;t change much. It does not an expiration timer, so you&#039;ll need to manage the cache clearing on other callbacks.</div>
+</li>
+</ul>
+
+<p>
+Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-cache/" class="urlextern" title="https://github.com/philsturgeon/codeigniter-cache/"  rel="nofollow">partial caching library</a> that is far more powerful and allows granular control over your caching. You&#039;ll need to create your own conditionals to either read from cache or do full processing.
 </p>
 
 </div>
-<!-- EDIT43 SECTION "View File Caching" [80738-80803] -->
-<h3 class="sectionedit44" id="database_caching">Database Caching</h3>
+<!-- EDIT43 SECTION "File Caching" [126619-128075] -->
+<h3 class="sectionedit44" id="memory_caching">Memory Caching</h3>
 <div class="level3">
 
 <p>
-Caching database calls, but also storing data into a database that is sometimes called from external web services
+Sometimes file caching just doesn&#039;t cut it, we need access to that data faster. That&#039;s when you would start to use memory caching. Storing data into memory is very fast, however it is very volatile, and you can&#039;t actually store that much into memory. Therefore memory caching should be used for very short term data and constantly changing volatile data. User account sessions is one aspect that many high traffic web applications cache into their memory.
 </p>
 
 <p>
-Using either Redis (also memory) or MongoDB
+There are many different implementations of memory caching, and the different methods have different properties especially when it comes to multi-server scaling. Think about it, how can the memory cache extend out to hundreds if not thousands of different servers, and each client may need to access a shared memory space. Again all of these factors are most likely not important at the startup stage. However if you are interested in implementing this you should look into the <a href="https://github.com/jamm/memory" class="urlextern" title="https://github.com/jamm/memory"  rel="nofollow">PHP Memory Cacher library</a> that abstracts the commands to store data into memory. It supports a number of different memory caches including APC, Memcache, Redis and Couchbase.
+</p>
+
+<p>
+Note that Codeigniter also provides a more powerful caching class called the <a href="http://ellislab.com/codeigniter/user-guide/libraries/caching.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/caching.html"  rel="nofollow">Caching Driver</a>. It also allows you to specify APC or Memcache. However it&#039;s not as good as the <abbr title="Hypertext Preprocessor">PHP</abbr> Memory Cacher.
+</p>
+
+<p>
+Be wary of <a href="http://en.wikipedia.org/wiki/Race_condition#Software" class="urlextern" title="http://en.wikipedia.org/wiki/Race_condition#Software"  rel="nofollow">race conditions</a> when you&#039;re using memory caching with multiple servers and multiple processes!
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Database Caching" [80804-80991] -->
-<h3 class="sectionedit45" id="browser_caching">Browser Caching</h3>
+<!-- EDIT44 SECTION "Memory Caching" [128076-129672] -->
+<h2 class="sectionedit45" id="restful_routing">RESTful Routing</h2>
+<div class="level2">
+
+<p>
+Routing refers to the practice of customising the direction of <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> requests to the designated controller that handles the request. This is not the same as <abbr title="Uniform Resource Locator">URL</abbr> rewriting although it operates similarly. Routing does not change the <abbr title="Uniform Resource Locator">URL</abbr> in the browser, it simply changes the controller that gets called. Routing usually takes place in the front controller, as the front controller is the gate that accepts all requests. Codeigniter automatically routs requests based on this pattern:
+</p>
+<pre class="code">http://example.com/controller/method/1st_parameter/
+# or
+http://example.com/directory/controller/method/1st_parameter/
+# you can also have multiple parameters (each of these parameters must be accepted by the controller)
+http://example.com/controller/method/1st_parameter/2nd_parameter/</pre>
+
+<p>
+Note that Codeigniter by default does not allow nesting of directory subfolders. You can only go one level deep. If you require deep nesting of your directories, you should either use the <a href="https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc" class="urlextern" title="https://bitbucket.org/wiredesignz/codeigniter-modular-extensions-hmvc"  rel="nofollow">HMVC extension</a> or <a href="http://stackoverflow.com/a/13752487/582917" class="urlextern" title="http://stackoverflow.com/a/13752487/582917"  rel="nofollow">modify the router class</a>. 
+</p>
+
+<p>
+However sometimes you do not want to abide by this default pattern. Sometimes you need to customise your routes so that when someone gets <code><a href="http://example.com/controller/1st_parameter" class="urlextern" title="http://example.com/controller/1st_parameter"  rel="nofollow">http://example.com/controller/1st_parameter</a></code>, they will actually pointed to <code><a href="http://example.com/different_controller/different_method/1st_parameter" class="urlextern" title="http://example.com/different_controller/different_method/1st_parameter"  rel="nofollow">http://example.com/different_controller/different_method/1st_parameter</a></code>. Again this does not change the <abbr title="Uniform Resource Locator">URL</abbr> in the client&#039;s browser, all of this is done behind the scenes.
+</p>
+
+<p>
+To implement custom routes, you can use <a href="http://ellislab.com/codeigniter/user-guide/general/routing.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/general/routing.html"  rel="nofollow">Codeigniter&#039;s native URI Routing configuration file</a> located in <code>application/config/routes.php</code>.
+</p>
+
+<p>
+One question that was often asked by beginning developers is, how best to rout your applications. Before there weren&#039;t any conventions or standards as to how URLs should be constructed. However in recent years the REST standard has become mainstream.
+</p>
+
+</div>
+<!-- EDIT45 SECTION "RESTful Routing" [129673-131691] -->
+<h3 class="sectionedit46" id="rest">REST</h3>
 <div class="level3">
 
 <p>
-Using .htaccess
+The history of REST: <a href="http://blog.dhananjaynene.com/2009/06/why-rest/" class="urlextern" title="http://blog.dhananjaynene.com/2009/06/why-rest/"  rel="nofollow">http://blog.dhananjaynene.com/2009/06/why-rest/</a>
+</p>
+
+<p>
+RESTful ← Explain - rest isn&#039;t about what kind of data is returned, it&#039;s a style of utilising URLs. It can be for <abbr title="HyperText Markup Language">HTML</abbr> or JSON or <abbr title="Extensible Markup Language">XML</abbr>.
+</p>
+
+<p>
+Providing a REST <abbr title="Application Programming Interface">API</abbr> server just for routing for now:
+</p>
+
+<p>
+For the more important RESTful aspects such as content negotiation… etc, see providing web server APIs
+</p>
+
+<p>
+Using <a href="https://github.com/jamierumbelow/pigeon" class="urlextern" title="https://github.com/jamierumbelow/pigeon"  rel="nofollow">https://github.com/jamierumbelow/pigeon</a> (for routing) to provide easy restful routing.
 </p>
 
 </div>
-<!-- EDIT45 SECTION "Browser Caching" [80992-81034] -->
-<h2 class="sectionedit46" id="concurrent_processing">Concurrent Processing</h2>
+<!-- EDIT46 SECTION "REST" [131692-132169] -->
+<h3 class="sectionedit47" id="handling_output">Handling Output</h3>
+<div class="level3">
+
+<p>
+Using Template::compose with special layouts to layout your JSON… or go straight to rendering <abbr title="HyperText Markup Language">HTML</abbr>.
+</p>
+
+<p>
+This should point to the providing web services
+</p>
+
+</div>
+<!-- EDIT47 SECTION "Handling Output" [132170-132347] -->
+<h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
+<div class="level2">
+
+<p>
+Using REST as a client ⇒ Use Guzzle or CI&#039;s rest client
+</p>
+
+</div>
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [132348-132447] -->
+<h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
+<div class="level3">
+
+<p>
+Two ways: Oauth1 or Oauth2. This depends on the third party.
+</p>
+
+<p>
+For Oauth1 use 3 legged oauth
+</p>
+
+<p>
+For Oauth2 just do it normally.
+</p>
+
+<p>
+Oauth - CI&#039;s Oauth 1 Client → <a href="https://github.com/philsturgeon/codeigniter-oauth2" class="urlextern" title="https://github.com/philsturgeon/codeigniter-oauth2"  rel="nofollow">https://github.com/philsturgeon/codeigniter-oauth2</a>
+</p>
+
+<p>
+Oauth2 - CI&#039;s Oauth 2 Client → <a href="https://github.com/philsturgeon/codeigniter-oauth" class="urlextern" title="https://github.com/philsturgeon/codeigniter-oauth"  rel="nofollow">https://github.com/philsturgeon/codeigniter-oauth</a>
+</p>
+
+<p>
+OR Use Hybrid Auth <a href="http://hybridauth.sourceforge.net/" class="urlextern" title="http://hybridauth.sourceforge.net/"  rel="nofollow">http://hybridauth.sourceforge.net/</a> OR BETTER YET (IONAUTH WITH HYBRIDAUTH ⇒ <a href="https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth" class="urlextern" title="https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth"  rel="nofollow">https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth</a>)
+</p>
+
+</div>
+<!-- EDIT49 SECTION "Third Party Login" [132448-132924] -->
+<h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
+<div class="level2">
+
+<p>
+and <a href="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/"  rel="nofollow">http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/</a> (for extra methods)
+</p>
+
+<p>
+REST provision
+</p>
+
+<p>
+Oauth Provision
+</p>
+
+<p>
+JSON
+</p>
+
+<p>
+Pusher <abbr title="Application Programming Interface">API</abbr>
+</p>
+
+</div>
+<!-- EDIT50 SECTION "Providing Web Services APIs" [132925-133128] -->
+<h3 class="sectionedit51" id="restful_authentication">RESTful Authentication</h3>
+<div class="level3">
+
+<p>
+Web <abbr title="Application Programming Interface">API</abbr>/RESTful/<abbr title="Asynchronous JavaScript and XML">AJAX</abbr> authentication based authentication is separate from Restful routing. REST doesn&#039;t have anything to do with it. This is also separate from <abbr title="Secure Sockets Layer">SSL</abbr>, which is protecting the data from sniffing or tampering. But to authenticate the client, you need these below.
+</p>
+
+<p>
+You can use:
+</p>
+
+<p>
+1. Cookie Based Sessions (not truly RESTful due to state being kept on the server, but most pragmatic and easy)
+</p>
+
+<p>
+2. Basic Auth (user/pass sent on each request) over <abbr title="Secure Sockets Layer">SSL</abbr> - ugly (lacks logout capability) (good for machine to machine)
+</p>
+
+<p>
+3. <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Digest (encrypted user/pass sent on each request) over normal <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> - ugly (lacks logout capability) (logins are stored on the client, so good for machine to machine) <a href="http://en.wikipedia.org/wiki/Digest_access_authentication" class="urlextern" title="http://en.wikipedia.org/wiki/Digest_access_authentication"  rel="nofollow">http://en.wikipedia.org/wiki/Digest_access_authentication</a>
+</p>
+
+<p>
+4. Cert Auth
+</p>
+
+<p>
+5. Query Authentication - <a href="http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication" class="urlextern" title="http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication"  rel="nofollow">http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication</a>
+</p>
+
+<p>
+6. 2 Legged Oauth1 OR “Client Credientials” with Oauth2
+</p>
+
+<p>
+This authentication for your own server. However to authenticate against third party services either via server to server, or client to server. Then you need to see consuming web services.
+</p>
+
+<p>
+Choosing which method depends on your goals and whether your service is machine to machine or a web app for browsers (client to machine).
+</p>
+
+<p>
+IMPLEMENTATIONS OF OAUTH2 as a SERVER Libraries:
+</p>
+
+<p>
+<a href="https://github.com/bshaffer/oauth2-server-php" class="urlextern" title="https://github.com/bshaffer/oauth2-server-php"  rel="nofollow">https://github.com/bshaffer/oauth2-server-php</a>
+</p>
+
+<p>
+<a href="https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/" class="urlextern" title="https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/"  rel="nofollow">https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/</a>
+</p>
+
+<p>
+Note that Oauth2 is still in draft stages, that&#039;s why implementations are still changing.
+</p>
+
+<p>
+Don&#039;t bother with Oauth1 right now, it&#039;ll be outdated eventually. Either go for Oauth2 if you&#039;re up for it. Or just use Cookie based sessions.
+</p>
+
+</div>
+<!-- EDIT51 SECTION "RESTful Authentication" [133129-134821] -->
+<h2 class="sectionedit52" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
 <p>
@@ -1784,46 +2425,8 @@ Use Supervisor to keep track of tasks
 </p>
 
 </div>
-<!-- EDIT46 SECTION "Concurrent Processing" [81035-81465] -->
-<h2 class="sectionedit47" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
-<div class="level2">
-
-<p>
-Using REST
-</p>
-
-<p>
-Oauth
-</p>
-
-<p>
-Oauth2
-</p>
-
-</div>
-<!-- EDIT47 SECTION "Consuming Web Services APIs" [81466-81533] -->
-<h2 class="sectionedit48" id="providing_web_services_apis">Providing Web Services APIs</h2>
-<div class="level2">
-
-<p>
-REST provision
-</p>
-
-<p>
-Oauth Provision
-</p>
-
-<p>
-JSON
-</p>
-
-<p>
-Pusher <abbr title="Application Programming Interface">API</abbr>
-</p>
-
-</div>
-<!-- EDIT48 SECTION "Providing Web Services APIs" [81534-81625] -->
-<h2 class="sectionedit49" id="sockets_rtc">Sockets &amp; RTC</h2>
+<!-- EDIT52 SECTION "Concurrent Processing" [134822-135252] -->
+<h2 class="sectionedit53" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
 <p>
@@ -1835,4 +2438,4 @@ RTC (tokbox) and UDP and TCP
 </p>
 
 </div>
-<!-- EDIT49 SECTION "Sockets & RTC" [81626-] -->
+<!-- EDIT53 SECTION "Sockets & RTC" [135253-] -->

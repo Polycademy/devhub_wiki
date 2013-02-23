@@ -787,7 +787,32 @@ Video editing is best done with 4 tools. They are <a href="http://www.videolan.o
 
 </div>
 <!-- EDIT18 SECTION "Testing Stack" [40725-40751] -->
-<h3 class="sectionedit19" id="browser_testing">Browser Testing</h3>
+<h3 class="sectionedit19" id="backend_debugging">Backend Debugging</h3>
+<div class="level3">
+
+<p>
+Front end debugging has been enhanced with the arrival of firebug and related developer tools. However for <abbr title="Hypertext Preprocessor">PHP</abbr>, backend debugging used to be a matter of either using <code>var_dump</code> or logging to file in order to see what your code was doing at the time of execution. This was especially difficult when working with <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>, and the code you were executing was not loading onto a new page, but behind the scenes. Both of these methods aren&#039;t very seamless, <code>var_dump</code> may break your layout and break any cache buffering. Logging to a file was a hassle, and sometimes you couldn&#039;t have a writable directory.
+</p>
+
+<p>
+However there are some solutions to this. The first that I recommend is using the <a href="http://www.firephp.org/" class="urlextern" title="http://www.firephp.org/"  rel="nofollow">FirePHP extension</a> to the Firebug extension. This is an addon to firebug that allows you to log any data from <abbr title="Hypertext Preprocessor">PHP</abbr> straight to the browser, no matter whether it was <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> or a full page load. Just go ahead and install FirePHP into your Firefox browser which has Firebug. You also need their server side library. The developer who made it is currently upgrading it to FirePHP 1.0. However we&#039;ll be using their “FirePHPCore Server Library” version. When you download it, you&#039;ll find two files with the extension as <code>.php</code>. We&#039;ll be using the one if <code>class.php</code> inside it. You&#039;ll need to rename to <code>FirePHP.php</code> and copy that library to your libraries folder. Then you can load it normally or using autoloading. The main method you&#039;ll be using is <code>$firephp→log()</code>. Refer to their <a href="http://www.firephp.org/HQ/Use.htm" class="urlextern" title="http://www.firephp.org/HQ/Use.htm"  rel="nofollow">official documentation on usage</a>. You can also choose to use <a href="https://github.com/Seldaek/monolog" class="urlextern" title="https://github.com/Seldaek/monolog"  rel="nofollow">Monolog</a> which has a FirePHP handler among many other logging features as your server side library.
+</p>
+
+<p>
+For Chrome users you have the <a href="http://code.google.com/p/php-console/" class="urlextern" title="http://code.google.com/p/php-console/"  rel="nofollow">PHP-Console</a>.
+</p>
+
+<p>
+If you cannot use Firefox or Chrome. There&#039;s a new option using the third party service <a href="http://phpconsole.com/" class="urlextern" title="http://phpconsole.com/"  rel="nofollow">PHPConsole</a>. When you use their library, it logs everything to their service. It is currently in invitation beta only. The advantages of using PHPConsole is that it can work in teams, so everyone can see the error logs, and your logs become persistent and synchronised over the internet.
+</p>
+
+<p>
+Of course the holy grail of debugging is <a href="http://xdebug.org/" class="urlextern" title="http://xdebug.org/"  rel="nofollow">Xdebug</a>. However this would already installed by default if you use Wampserver. It offers a much more detailed trace of any errors your programming caused.
+</p>
+
+</div>
+<!-- EDIT19 SECTION "Backend Debugging" [40752-43223] -->
+<h3 class="sectionedit20" id="browser_testing">Browser Testing</h3>
 <div class="level3">
 
 <p>
@@ -807,8 +832,8 @@ If you are using Mac or Linux, try <a href="http://browsershots.org/" class="url
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Browser Testing" [40752-42060] -->
-<h3 class="sectionedit20" id="unit_testing">Unit Testing</h3>
+<!-- EDIT20 SECTION "Browser Testing" [43224-44532] -->
+<h3 class="sectionedit21" id="unit_testing">Unit Testing</h3>
 <div class="level3">
 
 </div>
@@ -913,13 +938,13 @@ Back end javascript involving Node.js should instead use <a href="http://net.tut
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Unit Testing" [42061-48712] -->
-<h2 class="sectionedit21" id="build_stack">Build Stack</h2>
+<!-- EDIT21 SECTION "Unit Testing" [44533-51184] -->
+<h2 class="sectionedit22" id="build_stack">Build Stack</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT21 SECTION "Build Stack" [48713-48737] -->
-<h3 class="sectionedit22" id="code_quality">Code Quality</h3>
+<!-- EDIT22 SECTION "Build Stack" [51185-51209] -->
+<h3 class="sectionedit23" id="code_quality">Code Quality</h3>
 <div class="level3">
 
 <p>
@@ -935,8 +960,8 @@ Although <abbr title="Hypertext Preprocessor">PHP</abbr> has <a href="http://pea
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Code Quality" [48738-49708] -->
-<h3 class="sectionedit23" id="css_preprocessors">CSS Preprocessors</h3>
+<!-- EDIT23 SECTION "Code Quality" [51210-52180] -->
+<h3 class="sectionedit24" id="css_preprocessors">CSS Preprocessors</h3>
 <div class="level3">
 
 <p>
@@ -960,8 +985,8 @@ When we get to <a href="/doku.php?id=web_application_development:web_design" cla
 </p>
 
 </div>
-<!-- EDIT23 SECTION "CSS Preprocessors" [49709-51330] -->
-<h3 class="sectionedit24" id="phing_php_build_system">Phing PHP Build System</h3>
+<!-- EDIT24 SECTION "CSS Preprocessors" [52181-53802] -->
+<h3 class="sectionedit25" id="phing_php_build_system">Phing PHP Build System</h3>
 <div class="level3">
 
 <p>
@@ -1016,8 +1041,8 @@ Phing has a <a href="http://www.phing.info/docs/guide/stable/" class="urlextern"
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Phing PHP Build System" [51331-53168] -->
-<h3 class="sectionedit25" id="js_build_system">JS Build System</h3>
+<!-- EDIT25 SECTION "Phing PHP Build System" [53803-55640] -->
+<h3 class="sectionedit26" id="js_build_system">JS Build System</h3>
 <div class="level3">
 
 <p>
@@ -1025,8 +1050,8 @@ There are three build systems for Javascript. <a href="http://gruntjs.com/" clas
 </p>
 
 </div>
-<!-- EDIT25 SECTION "JS Build System" [53169-53608] -->
-<h2 class="sectionedit26" id="production_stack">Production Stack</h2>
+<!-- EDIT26 SECTION "JS Build System" [55641-56080] -->
+<h2 class="sectionedit27" id="production_stack">Production Stack</h2>
 <div class="level2">
 
 <p>
@@ -1038,7 +1063,7 @@ To start using Appfog, create an account on Appfog, setup an app, and then insta
 </p>
 
 </div>
-<!-- EDIT26 SECTION "Production Stack" [53609-] --><div class="footnotes">
+<!-- EDIT27 SECTION "Production Stack" [56081-] --><div class="footnotes">
 <div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
 By Arturo muthuvel (Own Work) [CC-BY-SA-3.0 (<a href="http://creativecommons.org/licenses/by-sa/3.0" class="urlextern" title="http://creativecommons.org/licenses/by-sa/3.0"  rel="nofollow">http://creativecommons.org/licenses/by-sa/3.0</a>)], via Wikimedia Commons</div>
 <div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 

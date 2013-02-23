@@ -343,6 +343,18 @@ We won't be doing much audio editing, but if you need audio conversion, you won'
 Video editing is best done with 4 tools. They are [[http://www.videolan.org/|VLC player]], [[http://www.virtualdub.org/|Virtual Dub]], [[http://camstudio.org/|Camstudio]] and [[http://www.adobe.com/products/premiere.html|Adobe Premiere Pro]].
 ===== Testing Stack =====
 
+==== Backend Debugging ====
+
+Front end debugging has been enhanced with the arrival of firebug and related developer tools. However for PHP, backend debugging used to be a matter of either using ''var_dump'' or logging to file in order to see what your code was doing at the time of execution. This was especially difficult when working with AJAX, and the code you were executing was not loading onto a new page, but behind the scenes. Both of these methods aren't very seamless, ''var_dump'' may break your layout and break any cache buffering. Logging to a file was a hassle, and sometimes you couldn't have a writable directory.
+
+However there are some solutions to this. The first that I recommend is using the [[http://www.firephp.org/|FirePHP extension]] to the Firebug extension. This is an addon to firebug that allows you to log any data from PHP straight to the browser, no matter whether it was AJAX or a full page load. Just go ahead and install FirePHP into your Firefox browser which has Firebug. You also need their server side library. The developer who made it is currently upgrading it to FirePHP 1.0. However we'll be using their "FirePHPCore Server Library" version. When you download it, you'll find two files with the extension as ''.php''. We'll be using the one if ''class.php'' inside it. You'll need to rename to ''FirePHP.php'' and copy that library to your libraries folder. Then you can load it normally or using autoloading. The main method you'll be using is ''$firephp->log()''. Refer to their [[http://www.firephp.org/HQ/Use.htm|official documentation on usage]]. You can also choose to use [[https://github.com/Seldaek/monolog|Monolog]] which has a FirePHP handler among many other logging features as your server side library.
+
+For Chrome users you have the [[http://code.google.com/p/php-console/|PHP-Console]].
+
+If you cannot use Firefox or Chrome. There's a new option using the third party service [[http://phpconsole.com/|PHPConsole]]. When you use their library, it logs everything to their service. It is currently in invitation beta only. The advantages of using PHPConsole is that it can work in teams, so everyone can see the error logs, and your logs become persistent and synchronised over the internet.
+
+Of course the holy grail of debugging is [[http://xdebug.org/|Xdebug]]. However this would already installed by default if you use Wampserver. It offers a much more detailed trace of any errors your programming caused.
+
 ==== Browser Testing ====
 
 In a perfect world, we could just develop our application for one modern browser, and it would work for all browsers. Unfortunately this isn't true. We need to manually test the layout and front end dynamic functionality through all available browsers.

@@ -1,0 +1,19 @@
+<span class="co1">//this is the config from PHPBounce! Notice the bounce_ to customise the name of the cookies.</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_driver'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'cookie'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_valid_drivers'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_cookie_name'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'session'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_expiration'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">7200</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_expire_on_close'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_encrypt_cookie'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">TRUE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_use_database'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span> <span class="co1">//we're not using CI's native session database functionality, so leave this false</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_table_name'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'bounce_sessions'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_match_ip'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_match_useragent'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="kw4">TRUE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'sess_time_to_update'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="nu0">300</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_prefix'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="st_h">'bounce_'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_domain'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_path'</span><span class="br0">&#93;</span>		<span class="sy0">=</span> <span class="st_h">'/'</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_secure'</span><span class="br0">&#93;</span>	<span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'cookie_httponly'</span><span class="br0">&#93;</span> 	<span class="sy0">=</span> <span class="kw4">FALSE</span><span class="sy0">;</span>

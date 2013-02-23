@@ -14,7 +14,11 @@
 **Lecture**
 
   - Continue through the common UI examples
+  - CSS Inheritance
+  - Advanced Box Model with display rules, positioning rules, border-box and Bootstrap columns/grids
+  - Vendor prefixes
   - Clearless Elements
+  - OODA loop of web design and long term OODA loop
   - 43 days left!
 
 **Practice**

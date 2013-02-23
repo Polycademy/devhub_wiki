@@ -1,0 +1,25 @@
+====== Lesson 14 - WAP ======
+
+**Expected Work**
+
+  - Continue working on the body
+  - Get started on other UI elements
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Continue through the common UI examples
+  - Z-index
+  - Using bootstrap forms
+  - Transparency and overlay
+  - 42 days left!
+
+**Practice**
+
+  - Continue working through common UI
+  - Start thinking about responsive design
