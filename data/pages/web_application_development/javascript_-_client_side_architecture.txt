@@ -39,3 +39,22 @@ Model being AJAX
 View Model Bindings
 
 Controller and Routing
+
+=== File Uploading ===
+
+OH FILE UPLOADING, two options use:
+
+http://blueimp.github.com/jQuery-File-Upload/ (bootstrap integration)
+
+OR
+
+http://www.plupload.com/ (very full featured but not integrated in bootstrap by default, lots of fallbacks for older browsers)
+
+OR 
+
+http://fineuploader.com/ (bootstrap integration)
+
+They both require server side implementations!
+
+Or if it's just front end, then just use File Picker (requires no server side implementation)
+

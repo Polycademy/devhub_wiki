@@ -1311,11 +1311,13 @@ In short don't bother. Leave it to the experts. Have a third party process trans
 For there to be users to your web application, you need user accounts. To have user accounts to need to authenticate any login request, and then you need to keep their logged in state persistent on the server or client side, or else they'd have to login on each page request. This is achieved through an authentication system and sessions. When you start to have more complicated user accounts such as administrators, moderators, paying customers or guests, then you need an access control list. Note that the implementations discussed below are based on a non-RESTful system. RESTful systems demand a different philosophy and technical implementation for authentication. For pragmatic reasons we're not going to fully abide by REST, because it's currently too strict and it's more about philosophy than technology.
 ==== Sessions ====
 
-Sessions refer to the state of a particular user logged into your system and interacting with it. The key to implementing sessions is understanding where this state data is kept. In RESTful philosophy, state should be kept at the client, and the server should not be transmitting state. Polycademy does not recommend this. State in terms of web applications should be kept on both the client and the server. The client stores state via an encrypted cookie. The server keeps state in the database. When the user first logs in, the server will setup a cookie with all the user's login data and send it to the client's browser, at the same time it will create a corresponding entry into the database. The cookie will have an expiration date that matches the expiration date in the database. Each time the user requests some resource to the server, the server will check the cookie and match it to the database session data, if they match, it means the user is still logged in and interacting with the system. This is how most web applications authenticate their users. The remember me functionality is based on a long expiration cookie, but eventually all cookies die. Once the cookie is cleared or dead, the user will need to login again to recycle the process.
+Sessions refer to the state of a particular user logged into your system and interacting with it. The key to implementing sessions is understanding where this state data is kept. State in terms of web applications should be kept on both the client and the server. The client stores state via an encrypted cookie. The server keeps state in the database. When the user first logs in, the server will setup a cookie with all the user's login data and send it to the client's browser, at the same time it will create a corresponding entry into the database. The cookie will have an expiration date that matches the expiration date in the database. Each time the user requests some resource to the server, the server will check the cookie and match it to the database session data, if they match, it means the user is still logged in and interacting with the system. This is how most web applications authenticate their users. The remember me functionality is based on a long expiration cookie, but eventually all cookies die. Once the cookie is cleared or dead, the user will need to login again to recycle the process.
 
 There are other methods of keeping session state, most of it depends on whether you're talking about the client or server. For clients, one other method is to store the state in the URL as query parameters rather than as a cookie. For the server, one other method involves storing the session data in memory such as memcache or Redis database. PHP also offers native sessions which stores to file disk. However the cookie based with database backend sessions is the easiest and most flexible.
 
-You could implement all of this functionality using raw PHP, but we're using a framework, and we'll also use a third party library to abstract the messy HTTP handling.
+You could implement all of this functionality using raw PHP, but we're using a framework, and we'll also use the [[https://github.com/benedmunds/CodeIgniter-Ion-Auth|Ion Auth]] third party library to abstract the messy HTTP handling.
+
+There's a caveat to all of the above information. In the RESTful standard, state should be kept at the client, and the server should not be transmitting state. This will be discussed in the [[#rest|REST section]]. For now you just have to know that there are alternatives to session state if you need to be REST compliant.
 ==== Authentication System ====
 
 To implement this system in Codeigniter, you need to first setup your cookie and session settings in your ''application/config/config.php''. The settings are straight forward, make sure to customise the prefix to match your web application's name.
@@ -1579,103 +1581,178 @@ To implement custom routes, you can use [[http://ellislab.com/codeigniter/user-g
 One question that was often asked by beginning developers is, how best to rout your applications. Before there weren't any conventions or standards as to how URLs should be constructed. However in recent years the REST standard has become mainstream.
 ==== REST ====
 
-The history of REST: http://blog.dhananjaynene.com/2009/06/why-rest/
+[[wp>Representational state transfer|REST]] stands for Representational State Transfer which was invented by Roy Fielding in his doctoral thesis. To understand REST, you should first investigate the history of the internet. [[http://blog.dhananjaynene.com/2009/06/why-rest/|Dhananjay Nene explains the history of internet and how it led to the REST architecture style]]. Once you have understood where the internet came from, you should read this article on how [[http://blog.dhananjaynene.com/2009/06/rest-is-the-dbms-of-the-internet/|REST can be understood the DBMS of the internet]]. Another good reference is the [[wp>Hypertext Transfer Protocol|Wikipedia article on HTTP]].
 
+REST has emerged as the dominant model of web services. You can think of all the major open APIs such as Facebook's API, Twitter's API and Github's API as REST based. But REST is not just for APIs, in fact the REST movement is about converting all web resources into APIs. If you think about it, your browser is the client, and all servers expose API methods to access its resources and do things to its resources. REST however places constraints on how we expose those API methods.
 
-RESTful <- Explain - rest isn't about what kind of data is returned, it's a style of utilising URLs. It can be for HTML or JSON or XML.
+As explained in the history of the internet, when people started to use the internet for more than just accessing static information or exchanging files, businesses started to create service oriented architectures. These architectures exposed API methods that were called RPCs (remote procedure calls). This style of architecture was neither scalable or efficient. The reason being is that vendors needed to provide an extensive documentation upfront about how to use their API. Each API call was unique to each vendor. There was no standardisation in the way we called the APIs. REST came along and standardised these approaches. The most important constraint of REST is the enforcement of an uniform interface of operation verbs, that were completely independent of the resource type. Basically clients should not need to know what the resource they're calling to understand the operation they are executing. You may start to realise that this is similar  to the concept of interfaces in OOP. Just imagine that all web servers were objects "implementing" the REST interface which defined four methods: (in the case of HTTP) GET, POST, PUT and DELETE.
 
-Providing a REST API server just for routing for now:
+The next most important constraint of the REST architecture is that every resource on the web has a unique URL. Every resource URL can be called upon using either of the four HTTP methods, and this would do different functions based on what the resource is. Furthermore every resource needs to be manually readable just by the web browser, so that your API users can understand what your API is without having write code. REST style doesn't care what your resource is, that's up to you. It doesn't specify what functionality you're providing, just simply the style of communication between the client and the server. So your resource depending on what the client wants can be requested in different formats (called "Representations"), such as straight HTML, JSON (for AJAX) or even XML. An important thing to understand is that URLs which are resources should be nouns. There should not be any verbs that specify actions in the URLs. The actions are specified by the four HTTP verb methods.
 
-For the more important RESTful aspects such as content negotiation... etc, see providing web server APIs
+These constraints along with the many other constraints make RESTful web services highly scalable and easy to use. This is why the SOA (service oriented architecture) industry using RPCs is moving towards ROA (resourceful/restful oriented architecture).
 
-Using https://github.com/jamierumbelow/pigeon (for routing) to provide easy restful routing.
+The four HTTP methods work like this:
+
+  * GET - this is the simplest type of HTTP request method; the one that browsers use each time you click a link or type a URL into the address bar. It instructs the server to transmit the data identified by the URL to the client. Data should never be modified on the server side as a result of a GET request. In this sense, a GET request is read-only, but of course, once the client receives the data, it is free to do any operation with it on its own side – for instance, format it for display.
+  * POST - this is used when the processing you wish to happen on the server should be repeated, if the POST request is repeated, this means they are not "idempotent". You are essentially telling the server to take the request payload and add it as a "subordinate" to the resource. Think of it as a create operation.
+  * PUT - is very similar to POST, but is used for updating a resource too. So you're telling the server to "put" the request payload into the designated resource URL. If the resource URL already exists, then it updates the resource. [[http://stackoverflow.com/questions/630453/put-vs-post-in-rest|Therefore it can be used for both create and update operations.]] However most developers would recommend it to keep it as update so you don't get confused.
+  * DELETE - this means delete the resource from the designated resource URL.
+
+The four HTTP methods are appended to the HTTP header when the client sends the request. If the resource was ''example.com/blog''. Then we could GET ''example.com/blog'' and retrieve all the blog posts. We could POST ''example.com/blog'' and create a new blog post. In reality the URL would actually be ''example.com/blog/id_of_new_post''. Because it doesn't modify the blog resource, but adds a child resource to the blog resource. We could also PUT ''example.com/blog/already_existing_id'' and it would update the child resource with an ''id'' equal to an already existing id. Finally we could DELETE ''example.com/blog/already_existing_id''.
+
+One thing to realise is that browsers don't currently support PUT or DELETE verbs in normal operation or forms except through XHR AJAX. This means that if you need browser users to access PUT and DELETE actions directly, then they will need to specified as part of their URLs like ''example.com/resource/delete''. This is a violation of RESTful principles but it's necessary. However it they are meant to be accessed through AJAX, then you can force the verbs to be part of the HTTP header when sending the request, and your server will handle the request accordingly.
+
+If the request comes from GET, any parameters should be extracted from the URL using the global variable ''$_GET''. If the request comes from POST. It can be extracted from the ''$_POST'' variable. These are abstracted by [[http://ellislab.com/codeigniter/user-guide/libraries/input.html|Codeigniter's Input class]]. However if you use PUT or DELETE, these do not get automatically put into a global variable you'll need to use [[http://php.net/manual/en/wrappers.php.php|php://input wrapper]]. [[http://stackoverflow.com/questions/8893574/php-php-input-vs-post|This will extract the raw request payload without any processing]]. You may need to use [[http://php.net/manual/en/function.parse-str.php|parse_str()]] function if the payload is serialised key to value format. However a more common data format that gets put into the request payload when using AJAX would be JSON. This would require you to use [[http://php.net/manual/en/function.json-decode.php|json_decode()]]. Make sure to understand how the request payload is structured and plan for it. Doing it properly will avoid the need to painfully debug AJAX request and responses. Using Firebug or other web developer tools will be very helpful in this regard. Remember to XSS clean and validate any of these requests.
+
+Once you've handled the request you need to pass back a response with an [[http://blog.garethj.com/2009/02/17/building-a-restful-web-application-with-php/#returningResponses|appropriate HTTP response code]].
+
+  * 200 OK: successful request when data is returned
+  * 201 Created: Successful request when something is created at another URL (specified by the value returned in the Location header)
+  * 204 No Content: Successful request when no data is returned
+  * 400 Bad Request: Incorrect parameters specified on request
+  * 404 Not Found: No resource at the specified URL
+  * 405 Method Not Allowed: when a client makes a request using an HTTP verb not supported at the requested URL (supported verbs are returned in the Allow header)
+  * 406 Not Acceptable: Requested data format not supported
+  * 500 Internal Server Error: An unexpected error occurred
+  * 501 Not Implemented: when a client makes a request using an unknown HTTP verb
+
+The 200 status code doesn't actually need to be manually returned, if you return any data, the browser will assume it was a 200 status code. Some of these status codes will be implemented on different levels in your application. For example a 501 error would be implemented at either the HTTP server level or the routing level.
+
+One constraint of RESTful architecture is the concept of stateless server. Essentially the server should not manage the state of the request. Every request is supposed to carry all the necessary payload to authenticate and validate the request, hence "State Transfer" in the REST name. This means servers using database sessions actually violate RESTful style. Note that we're talking application state not resource state. Application state is the state of the client in interacting with your application. [[http://jcalcote.wordpress.com/2009/08/10/restful-authentication/|This is somewhat controversial constraint]]. While there are advantages to stateless servers in scalability, because if you have a million clients, you don't have a million records of session to manage, instead each client simply passes in their authentication token each time they want something, it some what difficult to create a secure authentication method that is good of user experience when complying with statelessness. There are number of methods that are described in the [[#providing_web_services_apis|Providing a Web Service APIs]] section. However you need to balance your effort against your reward. The question to ask yourself is "Are you building a RESTful API which will only be used by your own web based browser clients (that might be a single page application), or are you building a RESTful API for third party web services so they can create mashups?". If your answer is the former, you can then choose to either create a RESTful compliant authentication scheme (difficult) or go with the old cookie database based sessions. If your answer was the latter, then you should definitely create a RESTful compliant authentication scheme, as your clients (who are third party services) will be expecting that, and servers usually don't carry cookies. You can also use a both in a [[http://programmers.stackexchange.com/questions/141019/should-cookies-be-used-in-a-restful-api|fallback strategy to deal with both browsers and servers]].
+
+Now you understand the RESTful standard. The first thing to implement RESTful style URLs through your application's routing feature. You could manually write all the resource routes yourself. Or you can use the excellent [[https://github.com/jamierumbelow/pigeon|Pigeon library]] that is integrated into Codeigniter and can be called from the routes config file. This is just the tip of the iceberg, but you're on your way to a RESTful web application.
 ==== Handling Output ====
 
-Using Template::compose with special layouts to layout your JSON... or go straight to rendering HTML.
+Each resource URL should be able viewable in different formats according to RESTful standards. This is called [[wp>Content negotiation|content negotiation]]. Clients and browsers can specify the data formats they are capable of receiving using the HTTP Accept header. In javacript this can be set using the setRequestHeader method on the XMLHttpRequest object. A normal browser request (meaning navigating using the URLs in the browser) does not add any custom HTTP Accept headers to the request. You can use jQuery or direct javascript to add it in.
 
-This should point to the providing web services
+On the server side you would receive accept headers by extracting the global PHP variable ''$_SERVER['HTTP_ACCEPT']''. Codeigniter provides an abstraction for this via their [[http://ellislab.com/codeigniter/user-guide/libraries/input.html|Input class]], you can use the ''$this->input->server()'' command. The accept headers will need be parsed using a combination of string functions and regex depending how flexible you want it to be. Most of the times if you're providing multiple response formats, then it's a resource that is to be called from a third party web service, you can simply rely on the first acceptable data format in their request header, since developers using your API would want only one format. Look into this [[http://stackoverflow.com/questions/1049401/how-to-select-content-type-from-http-accept-header-in-php|Stackoverflow question]], [[https://github.com/kwijibo/Accept-Header-Parser|Accept-Header-Parser Library]] and this blog article [[http://bililite.com/blog/2010/01/06/parsing-the-http-accept-header/|Parsing the HTTP Accept Header]] for inspiration.
+
+Since your resources will have different representational formats depending on how the client requested it, this then becomes a matter of handling output. The best way to implement this is through a templating library. The [[https://github.com/Polycademy/CiTemplating|CiTemplating library]] that I discussed earlier is built for this. Simply create different layouts for different representational formats. Now when you need to output HTML, use an HTML layout. If you need JSON, use a JSON layout. The layouts stay the same, it's the data that you inject that changes. By the way JSON doesn't really have a template, because JSON is usually extracted raw using AJAX, and then manipulated by javascript, and then rendered on the client side.
+
+Of course if the data doesn't change much, remember to cache the JSON output!
 ===== Consuming Web Services APIs =====
 
-Using REST as a client => Use Guzzle or CI's rest client
+Now that you understand how REST works, you pretty much understand how all the major web service APIs work as long as they are not the old RPC/SOAP service oriented architecture. Now instead of manually coding all the granular aspects of HTTP handling and processing the request and response of RESTful architectures, you can use many well tested libraries that developers have created to abstract all those procedures.
 
+API or HTTP related libraries sit on either the consumption side or the provision side. This section talks about consuming third party APIs. This means you need an HTTP client library. Do note however that different HTTP client libraries have support for different authorisation and authentication schemes. All libraries will support basic HTTP authentication passing in username and password with each request, some will support [[http://stackoverflow.com/questions/599048/http-digest-authentication-versus-ssl|HTTP digest authentication]], but you have to watch out for any web service APIs that a rely on Oauth 1.0a or Oauth 2.0. Twitter for examples uses Oauth 1.0a whereas Facebook, Google and Github implemented Oauth 2.0. Many web services are moving from Oauth 1.0a to 2.0 but it will take a long time before Oauth 2.0 becomes a standard. Some of the more basic third party services don't need so much authentication complexity, they simply use private key or HTTP basic authentication. In fact some services have no authentication schemes and you can just query the URL directly.
 
+Here's a list of client side HTTP/REST libraries you can take advantage of. Note that these are for a PHP server to act as a client side to a third party service. If you're intending for the browser to be the client, you'll need to find javascript libraries.
+
+  * [[https://github.com/philsturgeon/codeigniter-restclient|Phil Sturgeon's Codeigniter REST Client]] - This library is integrated into Codeigniter. You can see how to use it on the [[http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/|bottom half of his Nettut's tutorial]]. This supports HTTP basic and HTTP digest.
+  * [[http://guzzlephp.org/|Guzzle]] - A full featured and well documented HTTP client library. It supports HTTP basic, digest and Oauth 1 authentication schemes.
+
+Of course you cannot just rely libraries, every API has their own documentation. You'll have to read about them in your own time.
+
+You'll notice that almost all APIs requiring any kind of authentication will use a SSL connection with the HTTPS protocol. This is to prevent eavesdropping on your authentication keys.
 ==== Third Party Login ====
 
-Two ways: Oauth1 or Oauth2. This depends on the third party.
+Consuming third party APIs is relatively a straight forward matter once you have understood the fundamentals of REST. However authenticating against third parties is difficult due to the numerous implementations. Before we go further, let's go through a bit of history. In 2005 Brad Fitzpatrick the creator of Live Journal, created [[http://openidexplained.com/|OpenID]]. He called it a distributed identification system. This was the beginning of the concept of third party login systems, that were designed to remove the need to constantly register at sites and forums just access them. After all if everyone was just entering a username, password and email, why can't a trusted authority simply keep a database of these records, and all web services can simply use their records when someone wanted to login? In 2006, Twitter was attempting to integrate OpenID into their systems. At the same time another company Ma.gnolia wanted to authorise the integration of their services into the desktop dashboard widgets. Several developers from these companies met up to discuss how best to implement this system. They concluded that even with OpenID that provided third party login, there were still no standards for third party API authorisation. So they began work on Oauth 1.0 and eventually Oauth 1.0a with security improvements. [[http://oauth.net/|Oauth 2.0]] is now be worked on and many companies have already adopted drafts of the standard, however the standard is still fresh so documentation is few and far between.
 
-For Oauth1 use 3 legged oauth
+In order to future proof this course, we're going to talk about Oauth 2 and not Oauth 1. The Oauth standard has gone through 31 drafts and as of this writing stands on RFC 6749. The [[http://tools.ietf.org/html/rfc6749|complete documentation on Oauth 2 is located on Internet Engineering Task Force's website]]. The important parts of that document to developers is at [[http://tools.ietf.org/html/rfc6749#section-4|section 4]] where it starts talking about the different authorisation flows or schemes that relevant to different contexts. You should start reading from there. Other sources of information include:
 
-For Oauth2 just do it normally.
+  * Aaron Parecki's [[http://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified|simpler explanation of the different Oauth 2 authorisation flows]].
+  * [[https://developers.google.com/accounts/docs/OAuth2|Google's Oauth2 diagrams]]
+  * [[http://tutorials.jenkov.com/oauth2/index.html|Jenkov's Oauth2 Tutorials]]
 
-Oauth - CI's Oauth 1 Client -> https://github.com/philsturgeon/codeigniter-oauth2
+The most used flow would be the Authorisation Code Grant flow. We first have to register our web application at the third party web service. They should provide us with our application credentials as a client ID and client secret. We then produce a link on the front end, that points to the authorisation end point which would be at the third party. The user would click on that link and allow our application to access their information. The third party service redirects our user with a URL that has that has an authorisation code as part of the URL query parameters. We would extract this query parameter and call the API end point (which could be the same server as the authorisation end point or different servers) with this authorisation code and exchange it for access token. Finally we use the token and make API calls with that in our HTTP header. This access token may be time limited for a particular session. You can see that there are three separate requests your server is making here. One request for the user to allow access, another request to exchange the authorisation code for an access token, and a final request to the API with the access token.
 
-Oauth2 - CI's Oauth 2 Client -> https://github.com/philsturgeon/codeigniter-oauth
+If we were making a single page application and required third party login without any server side calls, we would use the [[http://tools.ietf.org/html/rfc6749#section-4.2|Implicit Grant flow]] which doesn't expose the client secret.
 
-OR Use Hybrid Auth http://hybridauth.sourceforge.net/ OR BETTER YET (IONAUTH WITH HYBRIDAUTH => https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth)
+If you wanted your application to modify its own resources that are on the third party independent of any user logging in, then you would use the client credentials grant flow. Think of it as the software or server logging into its own account, there is no human user involved here.
+
+Another interesting use case would be the single page application logging in via Oauth 2 to our own server based provider. This could use the password grant flow (the user is logging in) or the client credentials (the software is logging in) grant flow. This is discussed in the next section on [[#providing_web_services_apis|Providing Web Service APIs]].
+
+If you want to provide your user the ability to auto login or remember me functionality while using third party logins, you have to make use of the ''refresh_token'' grant type. The refresh token may be optionally provided to you when you exchange the authorisation code to get the access token. So if the third party doesn't provide it, then you can't have auto login with that third party. The access token expires after some time, you'll have to check the particular API docs to see how they represent that. You can constantly use the access token until it expires, in which case the next time your user visits, you'll send a refresh token to acquire a new access token. So make you [[http://stackoverflow.com/questions/9809742/how-to-automate-login-to-google-api-to-get-oauth-2-0-token-to-access-known-user|store the access token and refresh token in your account database]]. This is explained in the [[http://tools.ietf.org/html/rfc6749#section-6|IETF rfc about refreshing access tokens]]. Furthermore in order to have a proper user account database, you would extract the necessary information about the user you need and cache in your database, so that way you don't need to constantly call the third party API for the same information each time your user makes a request.
+
+We have a number of libraries available to abstract all of these authentication schemes and flows.
+
+  * [[https://github.com/philsturgeon/codeigniter-oauth|Codeigniter Oauth 1]]
+  * [[https://github.com/philsturgeon/codeigniter-oauth2|Codeigniter Oauth 2]]
+  * [[http://hybridauth.sourceforge.net/|HybridAuth]] - probably supports the most amount of schemes and flows. It focuses more on provider integration so it does have support for OAuth 1 and OAuth2.
+  * [[https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth|HybridAuth combined with Ion Auth]]
+  * [[http://opauth.org/|Opauth]] - Inspired by OmniAuth in Rails.
+  * [[https://github.com/Lusitanian/PHPoAuthLib|PHPoAuthLib]] - Generic library that supports both Oauth1 and Oauth2.
 ===== Providing Web Services APIs =====
 
-and http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/ (for extra methods)
+The internet is becoming more of a neural net of applications than just a large file hosting service. The rise of REST, JSON, AJAX and web services have given even more rise to web mashups and integrations. Some companies have been built through integration into a larger more popular service.
 
-REST provision
+Creating a popular API is probably more about business value than the exact technical implementation. Never the less implementing APIs require a different mind set from just consuming APIs.
 
-Oauth Provision
+The first thing to note is that you should create your APIs from the REST standard. From there you will need to consider what kind of resources you're going to expose, and what you're going to let your consumers do with those resources through the different HTTP methods. Next you'll need to figure out your response formats, basically how your data will be represented and therefore consumed. RESTful philosophy states you should support as many as possible! Afterwards you'll need to consider your authentication scheme, which all depends on how people will be using your API. Are they accessing the user account data so they have third party login, or are they using your service for machine to machine communication and third party processing instead? You should also consider versioning your API, so you can upgrade your API without breaking backwards compatibility. That simply means prefixing all API calls with something like ''example.com/apiv1/resource/parameter'' and then ''example.com/apiv2/resource/parameter''. Finally you'll need to throttle your API calls, so your users won't overload the server. You'll need to consider all the different exceptions and errors that you will output to the client for incorrect authorisation or incorrect HTTP methods.
 
-JSON
+Most of these implementations are outside the scope of this course, but a lot of that theory has already been covered in previous sections. This section will just focus on provisioning an authorisation scheme and handling RESTful responses. Jamie Rumbelow's book [[https://efendibooks.com/books/codeigniter-handbook/vol-2|CodeIgniter Handbook - Vol. 2 API Design]] is also a good reference if you want to get stuck into this.
 
-Pusher API
+==== RESTful Authentication & Stateless State ====
 
+The first thing to do is to go buy an SSL certificate from a valid CA. All Oauth2 connections must be through HTTPS because we are transmitting sensitive data. SSL connections are designed to authenticate the connection to the server, but also identifies the server as trustworthy. In order to RESTfully authenticate the client, we must first understand an important constrant of REST, and that is REST applications are stateless. That is, the server should be not be managing the application state of the user. This means cookies with corresponding database records are not an option. Application state should be handled by the client, not the server. The server only manages resource states. The difference being that application state are variables that are only relevant to one particular client, and hence are volatile and quickly destroyed when the user leaves. Resource states are sharable and persistent and used by all clients.
 
-==== RESTful Authentication ====
+Now for the purposes of sanity, if you have complex state keeping requirements such as a shopping cart, or you don't think you'll scale out to billions of users, you can relax this constraint. REST is not a religion. Use it when it's practical for you.
 
-Web API/RESTful/AJAX authentication based authentication is separate from Restful routing. REST doesn't have anything to do with it. This is also separate from SSL, which is protecting the data from sniffing or tampering. But to authenticate the client, you need these below.
+However let's investigate our REST compliant authentication or stateless state options.
 
-You can use:
+  * HTTP Basic Authentication - User and Password sent on the HTTP headers each request. This has an ugly log in interface, and lacks a log out capability. Very basic, it's better for machine to machine communication.
+  * HTTP Digest - Same as HTTP Basic but now the username and password is encrypted. It still has the same problems as HTTP Basic though, and the encryption isn't strong. Refer to the [[http://php.net/manual/en/features.http-auth.php|PHP documentation for capturing HTTP basic or digest requests]].
+  * Query Parameter Authentication - A unique session ID is placed on the URL as a query parameter. This gets matched to a row in a cache or database. This is pretty the same as session cookies, only now the session ID is in the URL. This allows it to be more portable than session cookies, since cookies are part of the HTTP standard, and you may want your REST API accessible by other interfaces. However this has problems since now when people share their URLs they will have their session ID appended to their URLs which make no sense to the new visitor.
+  * Implement your sessions or shopping cart as a resource on the server which has a persistent URL associated to each session. You can then use HTTP verbs to manipulate these sessions. This is not truly RESTful since you're just providing a REST interface to the session cookie/database implementation. This does not have the scalability benefits of having application state on the client side.
+  * [[http://www.peej.co.uk/articles/no-sessions.html|Use javascript and single page applications to handle state on the client side]]. They will use HTML5 APIs for local storage or other mechanisms to store any application state. A unique identifier or username and password information will still need to be passed to the server for validation however.
+  * Provide your own Oauth 2.0 authorisation scheme. This one is the most viable, and you can couple it with the javascript method. 
 
-1. Cookie Based Sessions (not truly RESTful due to state being kept on the server, but most pragmatic and easy)
+As I said before. The specific flows when providing your own Oauth 2.0 API depends on the clients who will be accessing it. If it's a web application used by clients who are browsers, this usually means they have user accounts. Since you're the one providing the front end, there will be a trust relationship, so you can use the [[http://tools.ietf.org/html/rfc6749#section-4.3|password grant flow]]. However if it's machines that will be communicating with your API to access their machine user account, or maybe your front end does not require a log in, just a unique application state, then you can use the [[http://tools.ietf.org/html/rfc6749#section-4.4|client credentials grant flow]].
 
-2. Basic Auth (user/pass sent on each request) over SSL - ugly (lacks logout capability) (good for machine to machine)
+Luckily there's premade libraries that are designed for Oauth 2.0 servers.
 
-3. HTTP Digest (encrypted user/pass sent on each request) over normal HTTP - ugly (lacks logout capability) (logins are stored on the client, so good for machine to machine) http://en.wikipedia.org/wiki/Digest_access_authentication
+  * [[https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/|Codeigniter OAuth 2.0 Server]] - Documentation is sparse on this.
+  * [[https://github.com/bshaffer/oauth2-server-php|Generic Oauth2 Server PHP]] - This is the best server based implementation of Oauth 2.0 I've seen and it has good documentation and examples.
 
-4. Cert Auth
+Regardless of the authentication scheme, if writing state management in javascript is not your cup of tea, then just stick to simple cookie to database session management. Just remember that in order to scale cookie to database sessions, you'll need a distributed memory caching technology such as memcache or redis, so that it can be accessible across multiple computers.
+==== RESTful Server ====
 
-5. Query Authentication - http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication
+Phil Sturgeon created a [[https://github.com/philsturgeon/codeigniter-restserver|Codeigniter REST based server library]]. It provides basic authentication schemes, HTTP method handling and output format handling. He explained how it works in his [[http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/|Nettuts article on the server and client libraries]].
 
-6. 2 Legged Oauth1 OR "Client Credientials" with Oauth2
+Other implementations include:
 
-This authentication for your own server. However to authenticate against third party services either via server to server, or client to server. Then you need to see consuming web services.
+  * [[http://www.websanova.com/tutorials/web-services/how-to-design-a-rest-api-and-why-you-should|Websanova's tutorial on REST in Codeigniter.]]
+  * [[http://adamwhitney.net/blog/?p=707|Adam Whitney's take on RESTful service in Codeigniter]]
 
-Choosing which method depends on your goals and whether your service is machine to machine or a web app for browsers (client to machine).
+There are also frameworks designed to be used as an API. You shouldn't follow each person's implementation religiously, find what works good for your purposes and just implement it, it's the best way to learn.
 
+==== Debugging APIs ====
 
-IMPLEMENTATIONS OF OAUTH2 as a SERVER Libraries:
-
-https://github.com/bshaffer/oauth2-server-php
-
-https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/
-
-Note that Oauth2 is still in draft stages, that's why implementations are still changing.
-
-Don't bother with Oauth1 right now, it'll be outdated eventually. Either go for Oauth2 if you're up for it. Or just use Cookie based sessions.
+Also note that debugging APIs will require the use of Curl. Firebug and associated web developer tools will also help when debugging AJAX APIs.
 
 ===== Concurrent Processing =====
 
-Multithreading PHP is not multithreaded
+PHP is not a multithreaded language. That means it wasn't designed to be easily multithreaded into separate processes and have concurrent or parallel processing. Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating PHP in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
 
-For offloading work (image thumbnailing), distributing work (getting data from multiple places).
+It's important to understand that while PHP isn't multithreaded, it's also not a long running processes. So that means while long running processes may block execution and response to a single user, other users will not experience this blocking effect because Apache spawns a new PHP process for each request response cycle. This is unlike Node, which only has one process for the entire application. 
 
-Using daemons
+However that doesn't mean it's impossible to have concurrent processing. Native PHP functions allow you to fork off a process so it becomes an independent process. While this does spread the workload, it's not very flexible since you can't get any messages or responses back from the forked working process. It's just a blackbox, you won't even know if it succeeded or not. A better way is using job managing queue and long running worker daemons (or short lived worker threads depending on what you need).
 
-Using ZMQ
+A job managing queue is simply a daemon (a persistent process) that receives messages to manage jobs and then creates jobs by spinning up a worker thread, or passing messages to idle worker threads to start work. It can then manage them by asking about their status and also passing back responses to the main thread.
 
-Using Gearman workers
+There are two good choices for a job managing queue for PHP:
 
-A note due to host environments, you may not able to use daemons, zmq or gearman. You may then have to use hacks, or use dotCloud's workers. Or thirdparty the workers.
+  * [[http://gearman.org/|Gearman]]
+  * [[http://www.zeromq.org/|ZMQ]] - ZMQ is actually much more than just a job manager, read their documentation to find out.
 
-Use Supervisor to keep track of tasks
+Refer to these blog tutorials for more information on implementation:
 
+  * http://www.lornajane.net/posts/2011/Using-Gearman-from-PHP
+  * http://www.mwop.net/blog/240-Writing-Gearman-Workers-in-PHP.html
+
+Please note, that due to your host environments, you may not able to use daemons or worker threads, such as ZMQ or Gearman. dotCloud is one cloud host offering worker threads. Remember to also use [[http://supervisord.org/|Supervisor]] to keep your daemons persistent, it will restart them if they crash.
+
+{{url>http://www.slideshare.net/slideshow/embed_code/2340418?rel=0 427px,356px noscroll noborder}}
+
+An important concept to understand is that using long running daemons instead of Apache's spin up a PHP instance for each request, can be beneficial for different scenarios. A lot of the excitement about Node.js is attributed to its event driven asynchronous non-blocking IO architecture, allowing it to serve many connections. PHP has its own implementations with [[http://reactphp.org/|React]] and [[https://github.com/shaneharter/PHP-Daemon|PHP-Daemon]].
 ===== Sockets & RTC =====
 
-Sockets using Ratchet (daemons) (Pub/Sub) and HAProxy (Ratchet can provide an always on subscriber or publisher..?)
+You've heard of the real time web right? The rise of single page applications? Well these rely on web sockets and occasionally RTC. Before you go ahead with this, you need to understand network programming, the underlying protocols that the internet is built upon. [[http://gafferongames.com/networking-for-game-programmers/|Glenn Fiedler has provided an excellent series of blogs articles talking about network programming geared towards game developers]]. Read that before you proceed.
 
-RTC (tokbox) and UDP and TCP
+PHP has one good server side web socket implementation:
+
+  * [[http://socketo.me/|Ratchet]] - Ratchet is a library/framework for asynchronous event based socket programming. This will allow you to create chat servers and other real time updates via socket push. It runs as a daemon similar to Gearman. Well specifically the framework is not a daemon, but any class leveraging Ratchet would be the daemon. This daemon would operate separately from your main solution stack. So make sure to architect it properly. Since it will be on different port to your main HTTP server, you'll need to place a [[http://haproxy.1wt.eu/|HAProxy]] in front of both Ratchet and Apache. Then you'll use ZMQ or Gearman to pass messages between your main application and your socket server.
+
+There will be no free web hosts that will support a Ratchet configuration, you'll need to purchase a VPS or dedicated host to run this.
+
+[[http://www.scriptol.com/ajax/webrtc.php|Web RTC]] is a very new technology, so [[https://labs.ericsson.com/blog/a-web-rtc-tutorial|there aren't many applications of this technology]]. You can however use the third party API [[http://www.tokbox.com/|TokBox]] for WebRTC video.

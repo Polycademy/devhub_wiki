@@ -1851,7 +1851,7 @@ For there to be users to your web application, you need user accounts. To have u
 <div class="level3">
 
 <p>
-Sessions refer to the state of a particular user logged into your system and interacting with it. The key to implementing sessions is understanding where this state data is kept. In RESTful philosophy, state should be kept at the client, and the server should not be transmitting state. Polycademy does not recommend this. State in terms of web applications should be kept on both the client and the server. The client stores state via an encrypted cookie. The server keeps state in the database. When the user first logs in, the server will setup a cookie with all the user&#039;s login data and send it to the client&#039;s browser, at the same time it will create a corresponding entry into the database. The cookie will have an expiration date that matches the expiration date in the database. Each time the user requests some resource to the server, the server will check the cookie and match it to the database session data, if they match, it means the user is still logged in and interacting with the system. This is how most web applications authenticate their users. The remember me functionality is based on a long expiration cookie, but eventually all cookies die. Once the cookie is cleared or dead, the user will need to login again to recycle the process.
+Sessions refer to the state of a particular user logged into your system and interacting with it. The key to implementing sessions is understanding where this state data is kept. State in terms of web applications should be kept on both the client and the server. The client stores state via an encrypted cookie. The server keeps state in the database. When the user first logs in, the server will setup a cookie with all the user&#039;s login data and send it to the client&#039;s browser, at the same time it will create a corresponding entry into the database. The cookie will have an expiration date that matches the expiration date in the database. Each time the user requests some resource to the server, the server will check the cookie and match it to the database session data, if they match, it means the user is still logged in and interacting with the system. This is how most web applications authenticate their users. The remember me functionality is based on a long expiration cookie, but eventually all cookies die. Once the cookie is cleared or dead, the user will need to login again to recycle the process.
 </p>
 
 <p>
@@ -1859,11 +1859,15 @@ There are other methods of keeping session state, most of it depends on whether 
 </p>
 
 <p>
-You could implement all of this functionality using raw <abbr title="Hypertext Preprocessor">PHP</abbr>, but we&#039;re using a framework, and we&#039;ll also use a third party library to abstract the messy <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> handling.
+You could implement all of this functionality using raw <abbr title="Hypertext Preprocessor">PHP</abbr>, but we&#039;re using a framework, and we&#039;ll also use the <a href="https://github.com/benedmunds/CodeIgniter-Ion-Auth" class="urlextern" title="https://github.com/benedmunds/CodeIgniter-Ion-Auth"  rel="nofollow">Ion Auth</a> third party library to abstract the messy <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> handling.
+</p>
+
+<p>
+There&#039;s a caveat to all of the above information. In the RESTful standard, state should be kept at the client, and the server should not be transmitting state. This will be discussed in the <a href="#rest" title="web_application_development:php_-_server_side_architecture ↵" class="wikilink1">REST section</a>. For now you just have to know that there are alternatives to session state if you need to be REST compliant.
 </p>
 
 </div>
-<!-- EDIT34 SECTION "Sessions" [106442-108384] -->
+<!-- EDIT34 SECTION "Sessions" [106442-108630] -->
 <h3 class="sectionedit35" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
@@ -1895,7 +1899,7 @@ We won&#039;t actually be using Codeigniter&#039;s session database store sessio
 </p>
 
 </div>
-<!-- EDIT35 SECTION "Authentication System" [108385-110120] -->
+<!-- EDIT35 SECTION "Authentication System" [108631-110366] -->
 <h3 class="sectionedit36" id="access_control_list">Access Control List</h3>
 <div class="level3">
 
@@ -1934,7 +1938,7 @@ Refer to these resources to use Zend <abbr title="Access Control List">ACL</abbr
 </ul>
 
 </div>
-<!-- EDIT36 SECTION "Access Control List" [110121-111733] -->
+<!-- EDIT36 SECTION "Access Control List" [110367-111979] -->
 <h2 class="sectionedit37" id="htaccess">.htaccess</h2>
 <div class="level2">
 
@@ -1943,7 +1947,7 @@ The <a href="http://en.wikipedia.org/wiki/.htaccess" class="interwiki iw_wp" tit
 </p>
 
 </div>
-<!-- EDIT37 SECTION ".htaccess" [111734-112756] -->
+<!-- EDIT37 SECTION ".htaccess" [111980-113002] -->
 <h3 class="sectionedit38" id="url_rewriting">URL Rewriting</h3>
 <div class="level3">
 
@@ -1997,7 +2001,7 @@ To learn more about rewriting, check out this <a href="http://net.tutsplus.com/t
 </p>
 
 </div>
-<!-- EDIT38 SECTION "URL Rewriting" [112757-117410] -->
+<!-- EDIT38 SECTION "URL Rewriting" [113003-117656] -->
 <h3 class="sectionedit39" id="compression">Compression</h3>
 <div class="level3">
 
@@ -2064,7 +2068,7 @@ Notice that the content-encoding has a value of gzip. If we use H5BP&#039;s defl
 </p>
 
 </div>
-<!-- EDIT39 SECTION "Compression" [117411-121435] -->
+<!-- EDIT39 SECTION "Compression" [117657-121681] -->
 <h3 class="sectionedit40" id="controlling_browser_cache">Controlling Browser Cache</h3>
 <div class="level3">
 
@@ -2134,7 +2138,7 @@ This way instead of using query parameters, you can cache bust javascript, css, 
 </p>
 
 </div>
-<!-- EDIT40 SECTION "Controlling Browser Cache" [121436-125655] -->
+<!-- EDIT40 SECTION "Controlling Browser Cache" [121682-125901] -->
 <h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
@@ -2143,7 +2147,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT41 SECTION "Caching" [125656-126223] -->
+<!-- EDIT41 SECTION "Caching" [125902-126469] -->
 <h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
@@ -2152,7 +2156,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Opcode Caching" [126224-126618] -->
+<!-- EDIT42 SECTION "Opcode Caching" [126470-126864] -->
 <h3 class="sectionedit43" id="file_caching">File Caching</h3>
 <div class="level3">
 
@@ -2175,7 +2179,7 @@ Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-cac
 </p>
 
 </div>
-<!-- EDIT43 SECTION "File Caching" [126619-128075] -->
+<!-- EDIT43 SECTION "File Caching" [126865-128321] -->
 <h3 class="sectionedit44" id="memory_caching">Memory Caching</h3>
 <div class="level3">
 
@@ -2196,7 +2200,7 @@ Be wary of <a href="http://en.wikipedia.org/wiki/Race_condition#Software" class=
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Memory Caching" [128076-129672] -->
+<!-- EDIT44 SECTION "Memory Caching" [128322-129918] -->
 <h2 class="sectionedit45" id="restful_routing">RESTful Routing</h2>
 <div class="level2">
 
@@ -2226,216 +2230,382 @@ One question that was often asked by beginning developers is, how best to rout y
 </p>
 
 </div>
-<!-- EDIT45 SECTION "RESTful Routing" [129673-131691] -->
+<!-- EDIT45 SECTION "RESTful Routing" [129919-131937] -->
 <h3 class="sectionedit46" id="rest">REST</h3>
 <div class="level3">
 
 <p>
-The history of REST: <a href="http://blog.dhananjaynene.com/2009/06/why-rest/" class="urlextern" title="http://blog.dhananjaynene.com/2009/06/why-rest/"  rel="nofollow">http://blog.dhananjaynene.com/2009/06/why-rest/</a>
+<a href="http://en.wikipedia.org/wiki/Representational state transfer" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Representational state transfer">REST</a> stands for Representational State Transfer which was invented by Roy Fielding in his doctoral thesis. To understand REST, you should first investigate the history of the internet. <a href="http://blog.dhananjaynene.com/2009/06/why-rest/" class="urlextern" title="http://blog.dhananjaynene.com/2009/06/why-rest/"  rel="nofollow">Dhananjay Nene explains the history of internet and how it led to the REST architecture style</a>. Once you have understood where the internet came from, you should read this article on how <a href="http://blog.dhananjaynene.com/2009/06/rest-is-the-dbms-of-the-internet/" class="urlextern" title="http://blog.dhananjaynene.com/2009/06/rest-is-the-dbms-of-the-internet/"  rel="nofollow">REST can be understood the DBMS of the internet</a>. Another good reference is the <a href="http://en.wikipedia.org/wiki/Hypertext Transfer Protocol" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Hypertext Transfer Protocol">Wikipedia article on HTTP</a>.
 </p>
 
 <p>
-RESTful ← Explain - rest isn&#039;t about what kind of data is returned, it&#039;s a style of utilising URLs. It can be for <abbr title="HyperText Markup Language">HTML</abbr> or JSON or <abbr title="Extensible Markup Language">XML</abbr>.
+REST has emerged as the dominant model of web services. You can think of all the major open APIs such as Facebook&#039;s <abbr title="Application Programming Interface">API</abbr>, Twitter&#039;s <abbr title="Application Programming Interface">API</abbr> and Github&#039;s <abbr title="Application Programming Interface">API</abbr> as REST based. But REST is not just for APIs, in fact the REST movement is about converting all web resources into APIs. If you think about it, your browser is the client, and all servers expose <abbr title="Application Programming Interface">API</abbr> methods to access its resources and do things to its resources. REST however places constraints on how we expose those <abbr title="Application Programming Interface">API</abbr> methods.
 </p>
 
 <p>
-Providing a REST <abbr title="Application Programming Interface">API</abbr> server just for routing for now:
+As explained in the history of the internet, when people started to use the internet for more than just accessing static information or exchanging files, businesses started to create service oriented architectures. These architectures exposed <abbr title="Application Programming Interface">API</abbr> methods that were called RPCs (remote procedure calls). This style of architecture was neither scalable or efficient. The reason being is that vendors needed to provide an extensive documentation upfront about how to use their <abbr title="Application Programming Interface">API</abbr>. Each <abbr title="Application Programming Interface">API</abbr> call was unique to each vendor. There was no standardisation in the way we called the APIs. REST came along and standardised these approaches. The most important constraint of REST is the enforcement of an uniform interface of operation verbs, that were completely independent of the resource type. Basically clients should not need to know what the resource they&#039;re calling to understand the operation they are executing. You may start to realise that this is similar  to the concept of interfaces in OOP. Just imagine that all web servers were objects “implementing” the REST interface which defined four methods: (in the case of <abbr title="Hyper Text Transfer Protocol">HTTP</abbr>) GET, POST, PUT and DELETE.
 </p>
 
 <p>
-For the more important RESTful aspects such as content negotiation… etc, see providing web server APIs
+The next most important constraint of the REST architecture is that every resource on the web has a unique <abbr title="Uniform Resource Locator">URL</abbr>. Every resource <abbr title="Uniform Resource Locator">URL</abbr> can be called upon using either of the four <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods, and this would do different functions based on what the resource is. Furthermore every resource needs to be manually readable just by the web browser, so that your <abbr title="Application Programming Interface">API</abbr> users can understand what your <abbr title="Application Programming Interface">API</abbr> is without having write code. REST style doesn&#039;t care what your resource is, that&#039;s up to you. It doesn&#039;t specify what functionality you&#039;re providing, just simply the style of communication between the client and the server. So your resource depending on what the client wants can be requested in different formats (called “Representations”), such as straight <abbr title="HyperText Markup Language">HTML</abbr>, JSON (for <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>) or even <abbr title="Extensible Markup Language">XML</abbr>. An important thing to understand is that URLs which are resources should be nouns. There should not be any verbs that specify actions in the URLs. The actions are specified by the four <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> verb methods.
 </p>
 
 <p>
-Using <a href="https://github.com/jamierumbelow/pigeon" class="urlextern" title="https://github.com/jamierumbelow/pigeon"  rel="nofollow">https://github.com/jamierumbelow/pigeon</a> (for routing) to provide easy restful routing.
+These constraints along with the many other constraints make RESTful web services highly scalable and easy to use. This is why the SOA (service oriented architecture) industry using RPCs is moving towards ROA (resourceful/restful oriented architecture).
+</p>
+
+<p>
+The four <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods work like this:
+</p>
+<ul>
+<li class="level1"><div class="li"> GET - this is the simplest type of <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> request method; the one that browsers use each time you click a link or type a <abbr title="Uniform Resource Locator">URL</abbr> into the address bar. It instructs the server to transmit the data identified by the <abbr title="Uniform Resource Locator">URL</abbr> to the client. Data should never be modified on the server side as a result of a GET request. In this sense, a GET request is read-only, but of course, once the client receives the data, it is free to do any operation with it on its own side – for instance, format it for display.</div>
+</li>
+<li class="level1"><div class="li"> POST - this is used when the processing you wish to happen on the server should be repeated, if the POST request is repeated, this means they are not “idempotent”. You are essentially telling the server to take the request payload and add it as a “subordinate” to the resource. Think of it as a create operation.</div>
+</li>
+<li class="level1"><div class="li"> PUT - is very similar to POST, but is used for updating a resource too. So you&#039;re telling the server to “put” the request payload into the designated resource <abbr title="Uniform Resource Locator">URL</abbr>. If the resource <abbr title="Uniform Resource Locator">URL</abbr> already exists, then it updates the resource. <a href="http://stackoverflow.com/questions/630453/put-vs-post-in-rest" class="urlextern" title="http://stackoverflow.com/questions/630453/put-vs-post-in-rest"  rel="nofollow">Therefore it can be used for both create and update operations.</a> However most developers would recommend it to keep it as update so you don&#039;t get confused.</div>
+</li>
+<li class="level1"><div class="li"> DELETE - this means delete the resource from the designated resource <abbr title="Uniform Resource Locator">URL</abbr>.</div>
+</li>
+</ul>
+
+<p>
+The four <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods are appended to the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> header when the client sends the request. If the resource was <code>example.com/blog</code>. Then we could GET <code>example.com/blog</code> and retrieve all the blog posts. We could POST <code>example.com/blog</code> and create a new blog post. In reality the <abbr title="Uniform Resource Locator">URL</abbr> would actually be <code>example.com/blog/id_of_new_post</code>. Because it doesn&#039;t modify the blog resource, but adds a child resource to the blog resource. We could also PUT <code>example.com/blog/already_existing_id</code> and it would update the child resource with an <code>id</code> equal to an already existing id. Finally we could DELETE <code>example.com/blog/already_existing_id</code>.
+</p>
+
+<p>
+One thing to realise is that browsers don&#039;t currently support PUT or DELETE verbs in normal operation or forms except through XHR <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>. This means that if you need browser users to access PUT and DELETE actions directly, then they will need to specified as part of their URLs like <code>example.com/resource/delete</code>. This is a violation of RESTful principles but it&#039;s necessary. However it they are meant to be accessed through <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>, then you can force the verbs to be part of the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> header when sending the request, and your server will handle the request accordingly.
+</p>
+
+<p>
+If the request comes from GET, any parameters should be extracted from the <abbr title="Uniform Resource Locator">URL</abbr> using the global variable <code>$_GET</code>. If the request comes from POST. It can be extracted from the <code>$_POST</code> variable. These are abstracted by <a href="http://ellislab.com/codeigniter/user-guide/libraries/input.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/input.html"  rel="nofollow">Codeigniter&#039;s Input class</a>. However if you use PUT or DELETE, these do not get automatically put into a global variable you&#039;ll need to use <a href="http://php.net/manual/en/wrappers.php.php" class="urlextern" title="http://php.net/manual/en/wrappers.php.php"  rel="nofollow">php://input wrapper</a>. <a href="http://stackoverflow.com/questions/8893574/php-php-input-vs-post" class="urlextern" title="http://stackoverflow.com/questions/8893574/php-php-input-vs-post"  rel="nofollow">This will extract the raw request payload without any processing</a>. You may need to use <a href="http://php.net/manual/en/function.parse-str.php" class="urlextern" title="http://php.net/manual/en/function.parse-str.php"  rel="nofollow">parse_str()</a> function if the payload is serialised key to value format. However a more common data format that gets put into the request payload when using <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> would be JSON. This would require you to use <a href="http://php.net/manual/en/function.json-decode.php" class="urlextern" title="http://php.net/manual/en/function.json-decode.php"  rel="nofollow">json_decode()</a>. Make sure to understand how the request payload is structured and plan for it. Doing it properly will avoid the need to painfully debug <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> request and responses. Using Firebug or other web developer tools will be very helpful in this regard. Remember to XSS clean and validate any of these requests.
+</p>
+
+<p>
+Once you&#039;ve handled the request you need to pass back a response with an <a href="http://blog.garethj.com/2009/02/17/building-a-restful-web-application-with-php/#returningResponses" class="urlextern" title="http://blog.garethj.com/2009/02/17/building-a-restful-web-application-with-php/#returningResponses"  rel="nofollow">appropriate HTTP response code</a>.
+</p>
+<ul>
+<li class="level1"><div class="li"> 200 OK: successful request when data is returned</div>
+</li>
+<li class="level1"><div class="li"> 201 Created: Successful request when something is created at another <abbr title="Uniform Resource Locator">URL</abbr> (specified by the value returned in the Location header)</div>
+</li>
+<li class="level1"><div class="li"> 204 No Content: Successful request when no data is returned</div>
+</li>
+<li class="level1"><div class="li"> 400 Bad Request: Incorrect parameters specified on request</div>
+</li>
+<li class="level1"><div class="li"> 404 Not Found: No resource at the specified <abbr title="Uniform Resource Locator">URL</abbr></div>
+</li>
+<li class="level1"><div class="li"> 405 Method Not Allowed: when a client makes a request using an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> verb not supported at the requested <abbr title="Uniform Resource Locator">URL</abbr> (supported verbs are returned in the Allow header)</div>
+</li>
+<li class="level1"><div class="li"> 406 Not Acceptable: Requested data format not supported</div>
+</li>
+<li class="level1"><div class="li"> 500 Internal Server Error: An unexpected error occurred</div>
+</li>
+<li class="level1"><div class="li"> 501 Not Implemented: when a client makes a request using an unknown <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> verb</div>
+</li>
+</ul>
+
+<p>
+The 200 status code doesn&#039;t actually need to be manually returned, if you return any data, the browser will assume it was a 200 status code. Some of these status codes will be implemented on different levels in your application. For example a 501 error would be implemented at either the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server level or the routing level.
+</p>
+
+<p>
+One constraint of RESTful architecture is the concept of stateless server. Essentially the server should not manage the state of the request. Every request is supposed to carry all the necessary payload to authenticate and validate the request, hence “State Transfer” in the REST name. This means servers using database sessions actually violate RESTful style. Note that we&#039;re talking application state not resource state. Application state is the state of the client in interacting with your application. <a href="http://jcalcote.wordpress.com/2009/08/10/restful-authentication/" class="urlextern" title="http://jcalcote.wordpress.com/2009/08/10/restful-authentication/"  rel="nofollow">This is somewhat controversial constraint</a>. While there are advantages to stateless servers in scalability, because if you have a million clients, you don&#039;t have a million records of session to manage, instead each client simply passes in their authentication token each time they want something, it some what difficult to create a secure authentication method that is good of user experience when complying with statelessness. There are number of methods that are described in the <a href="#providing_web_services_apis" title="web_application_development:php_-_server_side_architecture ↵" class="wikilink1">Providing a Web Service APIs</a> section. However you need to balance your effort against your reward. The question to ask yourself is “Are you building a RESTful <abbr title="Application Programming Interface">API</abbr> which will only be used by your own web based browser clients (that might be a single page application), or are you building a RESTful <abbr title="Application Programming Interface">API</abbr> for third party web services so they can create mashups?”. If your answer is the former, you can then choose to either create a RESTful compliant authentication scheme (difficult) or go with the old cookie database based sessions. If your answer was the latter, then you should definitely create a RESTful compliant authentication scheme, as your clients (who are third party services) will be expecting that, and servers usually don&#039;t carry cookies. You can also use a both in a <a href="http://programmers.stackexchange.com/questions/141019/should-cookies-be-used-in-a-restful-api" class="urlextern" title="http://programmers.stackexchange.com/questions/141019/should-cookies-be-used-in-a-restful-api"  rel="nofollow">fallback strategy to deal with both browsers and servers</a>.
+</p>
+
+<p>
+Now you understand the RESTful standard. The first thing to implement RESTful style URLs through your application&#039;s routing feature. You could manually write all the resource routes yourself. Or you can use the excellent <a href="https://github.com/jamierumbelow/pigeon" class="urlextern" title="https://github.com/jamierumbelow/pigeon"  rel="nofollow">Pigeon library</a> that is integrated into Codeigniter and can be called from the routes config file. This is just the tip of the iceberg, but you&#039;re on your way to a RESTful web application.
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131692-132169] -->
+<!-- EDIT46 SECTION "REST" [131938-143153] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
 <p>
-Using Template::compose with special layouts to layout your JSON… or go straight to rendering <abbr title="HyperText Markup Language">HTML</abbr>.
+Each resource <abbr title="Uniform Resource Locator">URL</abbr> should be able viewable in different formats according to RESTful standards. This is called <a href="http://en.wikipedia.org/wiki/Content negotiation" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Content negotiation">content negotiation</a>. Clients and browsers can specify the data formats they are capable of receiving using the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Accept header. In javacript this can be set using the setRequestHeader method on the XMLHttpRequest object. A normal browser request (meaning navigating using the URLs in the browser) does not add any custom <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Accept headers to the request. You can use jQuery or direct javascript to add it in.
 </p>
 
 <p>
-This should point to the providing web services
+On the server side you would receive accept headers by extracting the global <abbr title="Hypertext Preprocessor">PHP</abbr> variable <code>$_SERVER[&#039;<abbr title="Hyper Text Transfer Protocol">HTTP</abbr>_ACCEPT&#039;]</code>. Codeigniter provides an abstraction for this via their <a href="http://ellislab.com/codeigniter/user-guide/libraries/input.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/input.html"  rel="nofollow">Input class</a>, you can use the <code>$this→input→server()</code> command. The accept headers will need be parsed using a combination of string functions and regex depending how flexible you want it to be. Most of the times if you&#039;re providing multiple response formats, then it&#039;s a resource that is to be called from a third party web service, you can simply rely on the first acceptable data format in their request header, since developers using your <abbr title="Application Programming Interface">API</abbr> would want only one format. Look into this <a href="http://stackoverflow.com/questions/1049401/how-to-select-content-type-from-http-accept-header-in-php" class="urlextern" title="http://stackoverflow.com/questions/1049401/how-to-select-content-type-from-http-accept-header-in-php"  rel="nofollow">Stackoverflow question</a>, <a href="https://github.com/kwijibo/Accept-Header-Parser" class="urlextern" title="https://github.com/kwijibo/Accept-Header-Parser"  rel="nofollow">Accept-Header-Parser Library</a> and this blog article <a href="http://bililite.com/blog/2010/01/06/parsing-the-http-accept-header/" class="urlextern" title="http://bililite.com/blog/2010/01/06/parsing-the-http-accept-header/"  rel="nofollow">Parsing the HTTP Accept Header</a> for inspiration.
+</p>
+
+<p>
+Since your resources will have different representational formats depending on how the client requested it, this then becomes a matter of handling output. The best way to implement this is through a templating library. The <a href="https://github.com/Polycademy/CiTemplating" class="urlextern" title="https://github.com/Polycademy/CiTemplating"  rel="nofollow">CiTemplating library</a> that I discussed earlier is built for this. Simply create different layouts for different representational formats. Now when you need to output <abbr title="HyperText Markup Language">HTML</abbr>, use an <abbr title="HyperText Markup Language">HTML</abbr> layout. If you need JSON, use a JSON layout. The layouts stay the same, it&#039;s the data that you inject that changes. By the way JSON doesn&#039;t really have a template, because JSON is usually extracted raw using <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>, and then manipulated by javascript, and then rendered on the client side.
+</p>
+
+<p>
+Of course if the data doesn&#039;t change much, remember to cache the JSON output!
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [132170-132347] -->
+<!-- EDIT47 SECTION "Handling Output" [143154-145638] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
 <p>
-Using REST as a client ⇒ Use Guzzle or CI&#039;s rest client
+Now that you understand how REST works, you pretty much understand how all the major web service APIs work as long as they are not the old <abbr title="Remote Procedure Call">RPC</abbr>/<abbr title="Simple Object Access Protocol">SOAP</abbr> service oriented architecture. Now instead of manually coding all the granular aspects of <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> handling and processing the request and response of RESTful architectures, you can use many well tested libraries that developers have created to abstract all those procedures.
+</p>
+
+<p>
+<abbr title="Application Programming Interface">API</abbr> or <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> related libraries sit on either the consumption side or the provision side. This section talks about consuming third party APIs. This means you need an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> client library. Do note however that different <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> client libraries have support for different authorisation and authentication schemes. All libraries will support basic <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> authentication passing in username and password with each request, some will support <a href="http://stackoverflow.com/questions/599048/http-digest-authentication-versus-ssl" class="urlextern" title="http://stackoverflow.com/questions/599048/http-digest-authentication-versus-ssl"  rel="nofollow">HTTP digest authentication</a>, but you have to watch out for any web service APIs that a rely on Oauth 1.0a or Oauth 2.0. Twitter for examples uses Oauth 1.0a whereas Facebook, Google and Github implemented Oauth 2.0. Many web services are moving from Oauth 1.0a to 2.0 but it will take a long time before Oauth 2.0 becomes a standard. Some of the more basic third party services don&#039;t need so much authentication complexity, they simply use private key or <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> basic authentication. In fact some services have no authentication schemes and you can just query the <abbr title="Uniform Resource Locator">URL</abbr> directly.
+</p>
+
+<p>
+Here&#039;s a list of client side <abbr title="Hyper Text Transfer Protocol">HTTP</abbr>/REST libraries you can take advantage of. Note that these are for a <abbr title="Hypertext Preprocessor">PHP</abbr> server to act as a client side to a third party service. If you&#039;re intending for the browser to be the client, you&#039;ll need to find javascript libraries.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/philsturgeon/codeigniter-restclient" class="urlextern" title="https://github.com/philsturgeon/codeigniter-restclient"  rel="nofollow">Phil Sturgeon&#039;s Codeigniter REST Client</a> - This library is integrated into Codeigniter. You can see how to use it on the <a href="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/"  rel="nofollow">bottom half of his Nettut&#039;s tutorial</a>. This supports <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> basic and <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> digest.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://guzzlephp.org/" class="urlextern" title="http://guzzlephp.org/"  rel="nofollow">Guzzle</a> - A full featured and well documented <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> client library. It supports <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> basic, digest and Oauth 1 authentication schemes.</div>
+</li>
+</ul>
+
+<p>
+Of course you cannot just rely libraries, every <abbr title="Application Programming Interface">API</abbr> has their own documentation. You&#039;ll have to read about them in your own time.
+</p>
+
+<p>
+You&#039;ll notice that almost all APIs requiring any kind of authentication will use a <abbr title="Secure Sockets Layer">SSL</abbr> connection with the HTTPS protocol. This is to prevent eavesdropping on your authentication keys.
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [132348-132447] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [145639-148283] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
 <p>
-Two ways: Oauth1 or Oauth2. This depends on the third party.
+Consuming third party APIs is relatively a straight forward matter once you have understood the fundamentals of REST. However authenticating against third parties is difficult due to the numerous implementations. Before we go further, let&#039;s go through a bit of history. In 2005 Brad Fitzpatrick the creator of Live Journal, created <a href="http://openidexplained.com/" class="urlextern" title="http://openidexplained.com/"  rel="nofollow">OpenID</a>. He called it a distributed identification system. This was the beginning of the concept of third party login systems, that were designed to remove the need to constantly register at sites and forums just access them. After all if everyone was just entering a username, password and email, why can&#039;t a trusted authority simply keep a database of these records, and all web services can simply use their records when someone wanted to login? In 2006, Twitter was attempting to integrate OpenID into their systems. At the same time another company Ma.gnolia wanted to authorise the integration of their services into the desktop dashboard widgets. Several developers from these companies met up to discuss how best to implement this system. They concluded that even with OpenID that provided third party login, there were still no standards for third party <abbr title="Application Programming Interface">API</abbr> authorisation. So they began work on Oauth 1.0 and eventually Oauth 1.0a with security improvements. <a href="http://oauth.net/" class="urlextern" title="http://oauth.net/"  rel="nofollow">Oauth 2.0</a> is now be worked on and many companies have already adopted drafts of the standard, however the standard is still fresh so documentation is few and far between.
 </p>
 
 <p>
-For Oauth1 use 3 legged oauth
+In order to future proof this course, we&#039;re going to talk about Oauth 2 and not Oauth 1. The Oauth standard has gone through 31 drafts and as of this writing stands on <abbr title="Request for Comments">RFC</abbr> 6749. The <a href="http://tools.ietf.org/html/rfc6749" class="urlextern" title="http://tools.ietf.org/html/rfc6749"  rel="nofollow">complete documentation on Oauth 2 is located on Internet Engineering Task Force&#039;s website</a>. The important parts of that document to developers is at <a href="http://tools.ietf.org/html/rfc6749#section-4" class="urlextern" title="http://tools.ietf.org/html/rfc6749#section-4"  rel="nofollow">section 4</a> where it starts talking about the different authorisation flows or schemes that relevant to different contexts. You should start reading from there. Other sources of information include:
+</p>
+<ul>
+<li class="level1"><div class="li"> Aaron Parecki&#039;s <a href="http://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified" class="urlextern" title="http://aaronparecki.com/articles/2012/07/29/1/oauth2-simplified"  rel="nofollow">simpler explanation of the different Oauth 2 authorisation flows</a>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://developers.google.com/accounts/docs/OAuth2" class="urlextern" title="https://developers.google.com/accounts/docs/OAuth2"  rel="nofollow">Google&#039;s Oauth2 diagrams</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://tutorials.jenkov.com/oauth2/index.html" class="urlextern" title="http://tutorials.jenkov.com/oauth2/index.html"  rel="nofollow">Jenkov&#039;s Oauth2 Tutorials</a></div>
+</li>
+</ul>
+
+<p>
+The most used flow would be the Authorisation Code Grant flow. We first have to register our web application at the third party web service. They should provide us with our application credentials as a client ID and client secret. We then produce a link on the front end, that points to the authorisation end point which would be at the third party. The user would click on that link and allow our application to access their information. The third party service redirects our user with a <abbr title="Uniform Resource Locator">URL</abbr> that has that has an authorisation code as part of the <abbr title="Uniform Resource Locator">URL</abbr> query parameters. We would extract this query parameter and call the <abbr title="Application Programming Interface">API</abbr> end point (which could be the same server as the authorisation end point or different servers) with this authorisation code and exchange it for access token. Finally we use the token and make <abbr title="Application Programming Interface">API</abbr> calls with that in our <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> header. This access token may be time limited for a particular session. You can see that there are three separate requests your server is making here. One request for the user to allow access, another request to exchange the authorisation code for an access token, and a final request to the <abbr title="Application Programming Interface">API</abbr> with the access token.
 </p>
 
 <p>
-For Oauth2 just do it normally.
+If we were making a single page application and required third party login without any server side calls, we would use the <a href="http://tools.ietf.org/html/rfc6749#section-4.2" class="urlextern" title="http://tools.ietf.org/html/rfc6749#section-4.2"  rel="nofollow">Implicit Grant flow</a> which doesn&#039;t expose the client secret.
 </p>
 
 <p>
-Oauth - CI&#039;s Oauth 1 Client → <a href="https://github.com/philsturgeon/codeigniter-oauth2" class="urlextern" title="https://github.com/philsturgeon/codeigniter-oauth2"  rel="nofollow">https://github.com/philsturgeon/codeigniter-oauth2</a>
+If you wanted your application to modify its own resources that are on the third party independent of any user logging in, then you would use the client credentials grant flow. Think of it as the software or server logging into its own account, there is no human user involved here.
 </p>
 
 <p>
-Oauth2 - CI&#039;s Oauth 2 Client → <a href="https://github.com/philsturgeon/codeigniter-oauth" class="urlextern" title="https://github.com/philsturgeon/codeigniter-oauth"  rel="nofollow">https://github.com/philsturgeon/codeigniter-oauth</a>
+Another interesting use case would be the single page application logging in via Oauth 2 to our own server based provider. This could use the password grant flow (the user is logging in) or the client credentials (the software is logging in) grant flow. This is discussed in the next section on <a href="#providing_web_services_apis" title="web_application_development:php_-_server_side_architecture ↵" class="wikilink1">Providing Web Service APIs</a>.
 </p>
 
 <p>
-OR Use Hybrid Auth <a href="http://hybridauth.sourceforge.net/" class="urlextern" title="http://hybridauth.sourceforge.net/"  rel="nofollow">http://hybridauth.sourceforge.net/</a> OR BETTER YET (IONAUTH WITH HYBRIDAUTH ⇒ <a href="https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth" class="urlextern" title="https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth"  rel="nofollow">https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth</a>)
+If you want to provide your user the ability to auto login or remember me functionality while using third party logins, you have to make use of the <code>refresh_token</code> grant type. The refresh token may be optionally provided to you when you exchange the authorisation code to get the access token. So if the third party doesn&#039;t provide it, then you can&#039;t have auto login with that third party. The access token expires after some time, you&#039;ll have to check the particular <abbr title="Application Programming Interface">API</abbr> docs to see how they represent that. You can constantly use the access token until it expires, in which case the next time your user visits, you&#039;ll send a refresh token to acquire a new access token. So make you <a href="http://stackoverflow.com/questions/9809742/how-to-automate-login-to-google-api-to-get-oauth-2-0-token-to-access-known-user" class="urlextern" title="http://stackoverflow.com/questions/9809742/how-to-automate-login-to-google-api-to-get-oauth-2-0-token-to-access-known-user"  rel="nofollow">store the access token and refresh token in your account database</a>. This is explained in the <a href="http://tools.ietf.org/html/rfc6749#section-6" class="urlextern" title="http://tools.ietf.org/html/rfc6749#section-6"  rel="nofollow">IETF rfc about refreshing access tokens</a>. Furthermore in order to have a proper user account database, you would extract the necessary information about the user you need and cache in your database, so that way you don&#039;t need to constantly call the third party <abbr title="Application Programming Interface">API</abbr> for the same information each time your user makes a request.
 </p>
+
+<p>
+We have a number of libraries available to abstract all of these authentication schemes and flows.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/philsturgeon/codeigniter-oauth" class="urlextern" title="https://github.com/philsturgeon/codeigniter-oauth"  rel="nofollow">Codeigniter Oauth 1</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/philsturgeon/codeigniter-oauth2" class="urlextern" title="https://github.com/philsturgeon/codeigniter-oauth2"  rel="nofollow">Codeigniter Oauth 2</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://hybridauth.sourceforge.net/" class="urlextern" title="http://hybridauth.sourceforge.net/"  rel="nofollow">HybridAuth</a> - probably supports the most amount of schemes and flows. It focuses more on provider integration so it does have support for OAuth 1 and OAuth2.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth" class="urlextern" title="https://github.com/mamprogr/CodeIgniter-IonAuth-HybridAuth"  rel="nofollow">HybridAuth combined with Ion Auth</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://opauth.org/" class="urlextern" title="http://opauth.org/"  rel="nofollow">Opauth</a> - Inspired by OmniAuth in Rails.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/Lusitanian/PHPoAuthLib" class="urlextern" title="https://github.com/Lusitanian/PHPoAuthLib"  rel="nofollow">PHPoAuthLib</a> - Generic library that supports both Oauth1 and Oauth2.</div>
+</li>
+</ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [132448-132924] -->
+<!-- EDIT49 SECTION "Third Party Login" [148284-154841] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
 <p>
-and <a href="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/"  rel="nofollow">http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/</a> (for extra methods)
+The internet is becoming more of a neural net of applications than just a large file hosting service. The rise of REST, JSON, <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> and web services have given even more rise to web mashups and integrations. Some companies have been built through integration into a larger more popular service.
 </p>
 
 <p>
-REST provision
+Creating a popular <abbr title="Application Programming Interface">API</abbr> is probably more about business value than the exact technical implementation. Never the less implementing APIs require a different mind set from just consuming APIs.
 </p>
 
 <p>
-Oauth Provision
+The first thing to note is that you should create your APIs from the REST standard. From there you will need to consider what kind of resources you&#039;re going to expose, and what you&#039;re going to let your consumers do with those resources through the different <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods. Next you&#039;ll need to figure out your response formats, basically how your data will be represented and therefore consumed. RESTful philosophy states you should support as many as possible! Afterwards you&#039;ll need to consider your authentication scheme, which all depends on how people will be using your <abbr title="Application Programming Interface">API</abbr>. Are they accessing the user account data so they have third party login, or are they using your service for machine to machine communication and third party processing instead? You should also consider versioning your <abbr title="Application Programming Interface">API</abbr>, so you can upgrade your <abbr title="Application Programming Interface">API</abbr> without breaking backwards compatibility. That simply means prefixing all <abbr title="Application Programming Interface">API</abbr> calls with something like <code>example.com/apiv1/resource/parameter</code> and then <code>example.com/apiv2/resource/parameter</code>. Finally you&#039;ll need to throttle your <abbr title="Application Programming Interface">API</abbr> calls, so your users won&#039;t overload the server. You&#039;ll need to consider all the different exceptions and errors that you will output to the client for incorrect authorisation or incorrect <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods.
 </p>
 
 <p>
-JSON
-</p>
-
-<p>
-Pusher <abbr title="Application Programming Interface">API</abbr>
+Most of these implementations are outside the scope of this course, but a lot of that theory has already been covered in previous sections. This section will just focus on provisioning an authorisation scheme and handling RESTful responses. Jamie Rumbelow&#039;s book <a href="https://efendibooks.com/books/codeigniter-handbook/vol-2" class="urlextern" title="https://efendibooks.com/books/codeigniter-handbook/vol-2"  rel="nofollow">CodeIgniter Handbook - Vol. 2 API Design</a> is also a good reference if you want to get stuck into this.
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [132925-133128] -->
-<h3 class="sectionedit51" id="restful_authentication">RESTful Authentication</h3>
+<!-- EDIT50 SECTION "Providing Web Services APIs" [154842-157065] -->
+<h3 class="sectionedit51" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
 <p>
-Web <abbr title="Application Programming Interface">API</abbr>/RESTful/<abbr title="Asynchronous JavaScript and XML">AJAX</abbr> authentication based authentication is separate from Restful routing. REST doesn&#039;t have anything to do with it. This is also separate from <abbr title="Secure Sockets Layer">SSL</abbr>, which is protecting the data from sniffing or tampering. But to authenticate the client, you need these below.
+The first thing to do is to go buy an <abbr title="Secure Sockets Layer">SSL</abbr> certificate from a valid CA. All Oauth2 connections must be through HTTPS because we are transmitting sensitive data. <abbr title="Secure Sockets Layer">SSL</abbr> connections are designed to authenticate the connection to the server, but also identifies the server as trustworthy. In order to RESTfully authenticate the client, we must first understand an important constrant of REST, and that is REST applications are stateless. That is, the server should be not be managing the application state of the user. This means cookies with corresponding database records are not an option. Application state should be handled by the client, not the server. The server only manages resource states. The difference being that application state are variables that are only relevant to one particular client, and hence are volatile and quickly destroyed when the user leaves. Resource states are sharable and persistent and used by all clients.
 </p>
 
 <p>
-You can use:
+Now for the purposes of sanity, if you have complex state keeping requirements such as a shopping cart, or you don&#039;t think you&#039;ll scale out to billions of users, you can relax this constraint. REST is not a religion. Use it when it&#039;s practical for you.
 </p>
 
 <p>
-1. Cookie Based Sessions (not truly RESTful due to state being kept on the server, but most pragmatic and easy)
+However let&#039;s investigate our REST compliant authentication or stateless state options.
+</p>
+<ul>
+<li class="level1"><div class="li"> <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Basic Authentication - User and Password sent on the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> headers each request. This has an ugly log in interface, and lacks a log out capability. Very basic, it&#039;s better for machine to machine communication.</div>
+</li>
+<li class="level1"><div class="li"> <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Digest - Same as <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Basic but now the username and password is encrypted. It still has the same problems as <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Basic though, and the encryption isn&#039;t strong. Refer to the <a href="http://php.net/manual/en/features.http-auth.php" class="urlextern" title="http://php.net/manual/en/features.http-auth.php"  rel="nofollow">PHP documentation for capturing HTTP basic or digest requests</a>.</div>
+</li>
+<li class="level1"><div class="li"> Query Parameter Authentication - A unique session ID is placed on the <abbr title="Uniform Resource Locator">URL</abbr> as a query parameter. This gets matched to a row in a cache or database. This is pretty the same as session cookies, only now the session ID is in the <abbr title="Uniform Resource Locator">URL</abbr>. This allows it to be more portable than session cookies, since cookies are part of the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> standard, and you may want your REST <abbr title="Application Programming Interface">API</abbr> accessible by other interfaces. However this has problems since now when people share their URLs they will have their session ID appended to their URLs which make no sense to the new visitor.</div>
+</li>
+<li class="level1"><div class="li"> Implement your sessions or shopping cart as a resource on the server which has a persistent <abbr title="Uniform Resource Locator">URL</abbr> associated to each session. You can then use <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> verbs to manipulate these sessions. This is not truly RESTful since you&#039;re just providing a REST interface to the session cookie/database implementation. This does not have the scalability benefits of having application state on the client side.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.peej.co.uk/articles/no-sessions.html" class="urlextern" title="http://www.peej.co.uk/articles/no-sessions.html"  rel="nofollow">Use javascript and single page applications to handle state on the client side</a>. They will use HTML5 APIs for local storage or other mechanisms to store any application state. A unique identifier or username and password information will still need to be passed to the server for validation however.</div>
+</li>
+<li class="level1"><div class="li"> Provide your own Oauth 2.0 authorisation scheme. This one is the most viable, and you can couple it with the javascript method. </div>
+</li>
+</ul>
+
+<p>
+As I said before. The specific flows when providing your own Oauth 2.0 <abbr title="Application Programming Interface">API</abbr> depends on the clients who will be accessing it. If it&#039;s a web application used by clients who are browsers, this usually means they have user accounts. Since you&#039;re the one providing the front end, there will be a trust relationship, so you can use the <a href="http://tools.ietf.org/html/rfc6749#section-4.3" class="urlextern" title="http://tools.ietf.org/html/rfc6749#section-4.3"  rel="nofollow">password grant flow</a>. However if it&#039;s machines that will be communicating with your <abbr title="Application Programming Interface">API</abbr> to access their machine user account, or maybe your front end does not require a log in, just a unique application state, then you can use the <a href="http://tools.ietf.org/html/rfc6749#section-4.4" class="urlextern" title="http://tools.ietf.org/html/rfc6749#section-4.4"  rel="nofollow">client credentials grant flow</a>.
 </p>
 
 <p>
-2. Basic Auth (user/pass sent on each request) over <abbr title="Secure Sockets Layer">SSL</abbr> - ugly (lacks logout capability) (good for machine to machine)
+Luckily there&#039;s premade libraries that are designed for Oauth 2.0 servers.
 </p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/" class="urlextern" title="https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/"  rel="nofollow">Codeigniter OAuth 2.0 Server</a> - Documentation is sparse on this.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/bshaffer/oauth2-server-php" class="urlextern" title="https://github.com/bshaffer/oauth2-server-php"  rel="nofollow">Generic Oauth2 Server PHP</a> - This is the best server based implementation of Oauth 2.0 I&#039;ve seen and it has good documentation and examples.</div>
+</li>
+</ul>
 
 <p>
-3. <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Digest (encrypted user/pass sent on each request) over normal <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> - ugly (lacks logout capability) (logins are stored on the client, so good for machine to machine) <a href="http://en.wikipedia.org/wiki/Digest_access_authentication" class="urlextern" title="http://en.wikipedia.org/wiki/Digest_access_authentication"  rel="nofollow">http://en.wikipedia.org/wiki/Digest_access_authentication</a>
-</p>
-
-<p>
-4. Cert Auth
-</p>
-
-<p>
-5. Query Authentication - <a href="http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication" class="urlextern" title="http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication"  rel="nofollow">http://blog.synopse.info/post/2011/05/24/How-to-implement-RESTful-authentication</a>
-</p>
-
-<p>
-6. 2 Legged Oauth1 OR “Client Credientials” with Oauth2
-</p>
-
-<p>
-This authentication for your own server. However to authenticate against third party services either via server to server, or client to server. Then you need to see consuming web services.
-</p>
-
-<p>
-Choosing which method depends on your goals and whether your service is machine to machine or a web app for browsers (client to machine).
-</p>
-
-<p>
-IMPLEMENTATIONS OF OAUTH2 as a SERVER Libraries:
-</p>
-
-<p>
-<a href="https://github.com/bshaffer/oauth2-server-php" class="urlextern" title="https://github.com/bshaffer/oauth2-server-php"  rel="nofollow">https://github.com/bshaffer/oauth2-server-php</a>
-</p>
-
-<p>
-<a href="https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/" class="urlextern" title="https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/"  rel="nofollow">https://github.com/alexbilbie/CodeIgniter-OAuth-2.0-Server/</a>
-</p>
-
-<p>
-Note that Oauth2 is still in draft stages, that&#039;s why implementations are still changing.
-</p>
-
-<p>
-Don&#039;t bother with Oauth1 right now, it&#039;ll be outdated eventually. Either go for Oauth2 if you&#039;re up for it. Or just use Cookie based sessions.
+Regardless of the authentication scheme, if writing state management in javascript is not your cup of tea, then just stick to simple cookie to database session management. Just remember that in order to scale cookie to database sessions, you&#039;ll need a distributed memory caching technology such as memcache or redis, so that it can be accessible across multiple computers.
 </p>
 
 </div>
-<!-- EDIT51 SECTION "RESTful Authentication" [133129-134821] -->
-<h2 class="sectionedit52" id="concurrent_processing">Concurrent Processing</h2>
+<!-- EDIT51 SECTION "RESTful Authentication & Stateless State" [157066-161828] -->
+<h3 class="sectionedit52" id="restful_server">RESTful Server</h3>
+<div class="level3">
+
+<p>
+Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-restserver" class="urlextern" title="https://github.com/philsturgeon/codeigniter-restserver"  rel="nofollow">Codeigniter REST based server library</a>. It provides basic authentication schemes, <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> method handling and output format handling. He explained how it works in his <a href="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/working-with-restful-services-in-codeigniter-2/"  rel="nofollow">Nettuts article on the server and client libraries</a>.
+</p>
+
+<p>
+Other implementations include:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.websanova.com/tutorials/web-services/how-to-design-a-rest-api-and-why-you-should" class="urlextern" title="http://www.websanova.com/tutorials/web-services/how-to-design-a-rest-api-and-why-you-should"  rel="nofollow">Websanova&#039;s tutorial on REST in Codeigniter.</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://adamwhitney.net/blog/?p=707" class="urlextern" title="http://adamwhitney.net/blog/?p=707"  rel="nofollow">Adam Whitney&#039;s take on RESTful service in Codeigniter</a></div>
+</li>
+</ul>
+
+<p>
+There are also frameworks designed to be used as an <abbr title="Application Programming Interface">API</abbr>. You shouldn&#039;t follow each person&#039;s implementation religiously, find what works good for your purposes and just implement it, it&#039;s the best way to learn.
+</p>
+
+</div>
+<!-- EDIT52 SECTION "RESTful Server" [161829-162729] -->
+<h3 class="sectionedit53" id="debugging_apis">Debugging APIs</h3>
+<div class="level3">
+
+<p>
+Also note that debugging APIs will require the use of Curl. Firebug and associated web developer tools will also help when debugging <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> APIs.
+</p>
+
+</div>
+<!-- EDIT53 SECTION "Debugging APIs" [162730-162900] -->
+<h2 class="sectionedit54" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
 <p>
-Multithreading <abbr title="Hypertext Preprocessor">PHP</abbr> is not multithreaded
+<abbr title="Hypertext Preprocessor">PHP</abbr> is not a multithreaded language. That means it wasn&#039;t designed to be easily multithreaded into separate processes and have concurrent or parallel processing. Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating <abbr title="Hypertext Preprocessor">PHP</abbr> in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
 </p>
 
 <p>
-For offloading work (image thumbnailing), distributing work (getting data from multiple places).
+It&#039;s important to understand that while <abbr title="Hypertext Preprocessor">PHP</abbr> isn&#039;t multithreaded, it&#039;s also not a long running processes. So that means while long running processes may block execution and response to a single user, other users will not experience this blocking effect because Apache spawns a new <abbr title="Hypertext Preprocessor">PHP</abbr> process for each request response cycle. This is unlike Node, which only has one process for the entire application. 
 </p>
 
 <p>
-Using daemons
+However that doesn&#039;t mean it&#039;s impossible to have concurrent processing. Native <abbr title="Hypertext Preprocessor">PHP</abbr> functions allow you to fork off a process so it becomes an independent process. While this does spread the workload, it&#039;s not very flexible since you can&#039;t get any messages or responses back from the forked working process. It&#039;s just a blackbox, you won&#039;t even know if it succeeded or not. A better way is using job managing queue and long running worker daemons (or short lived worker threads depending on what you need).
 </p>
 
 <p>
-Using ZMQ
+A job managing queue is simply a daemon (a persistent process) that receives messages to manage jobs and then creates jobs by spinning up a worker thread, or passing messages to idle worker threads to start work. It can then manage them by asking about their status and also passing back responses to the main thread.
 </p>
 
 <p>
-Using Gearman workers
+There are two good choices for a job managing queue for <abbr title="Hypertext Preprocessor">PHP</abbr>:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://gearman.org/" class="urlextern" title="http://gearman.org/"  rel="nofollow">Gearman</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.zeromq.org/" class="urlextern" title="http://www.zeromq.org/"  rel="nofollow">ZMQ</a> - ZMQ is actually much more than just a job manager, read their documentation to find out.</div>
+</li>
+</ul>
+
+<p>
+Refer to these blog tutorials for more information on implementation:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.lornajane.net/posts/2011/Using-Gearman-from-PHP" class="urlextern" title="http://www.lornajane.net/posts/2011/Using-Gearman-from-PHP"  rel="nofollow">http://www.lornajane.net/posts/2011/Using-Gearman-from-PHP</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.mwop.net/blog/240-Writing-Gearman-Workers-in-PHP.html" class="urlextern" title="http://www.mwop.net/blog/240-Writing-Gearman-Workers-in-PHP.html"  rel="nofollow">http://www.mwop.net/blog/240-Writing-Gearman-Workers-in-PHP.html</a></div>
+</li>
+</ul>
+
+<p>
+Please note, that due to your host environments, you may not able to use daemons or worker threads, such as ZMQ or Gearman. dotCloud is one cloud host offering worker threads. Remember to also use <a href="http://supervisord.org/" class="urlextern" title="http://supervisord.org/"  rel="nofollow">Supervisor</a> to keep your daemons persistent, it will restart them if they crash.
 </p>
 
 <p>
-A note due to host environments, you may not able to use daemons, zmq or gearman. You may then have to use hacks, or use dotCloud&#039;s workers. Or thirdparty the workers.
+<iframe title="" src="http://www.slideshare.net/slideshow/embed_code/2340418?rel=0" style="width:427px; height:356px" frameborder="0" scrolling="no"></iframe>
 </p>
 
 <p>
-Use Supervisor to keep track of tasks
+An important concept to understand is that using long running daemons instead of Apache&#039;s spin up a <abbr title="Hypertext Preprocessor">PHP</abbr> instance for each request, can be beneficial for different scenarios. A lot of the excitement about Node.js is attributed to its event driven asynchronous non-blocking IO architecture, allowing it to serve many connections. <abbr title="Hypertext Preprocessor">PHP</abbr> has its own implementations with <a href="http://reactphp.org/" class="urlextern" title="http://reactphp.org/"  rel="nofollow">React</a> and <a href="https://github.com/shaneharter/PHP-Daemon" class="urlextern" title="https://github.com/shaneharter/PHP-Daemon"  rel="nofollow">PHP-Daemon</a>.
 </p>
 
 </div>
-<!-- EDIT52 SECTION "Concurrent Processing" [134822-135252] -->
-<h2 class="sectionedit53" id="sockets_rtc">Sockets &amp; RTC</h2>
+<!-- EDIT54 SECTION "Concurrent Processing" [162901-166190] -->
+<h2 class="sectionedit55" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
 <p>
-Sockets using Ratchet (daemons) (Pub/Sub) and HAProxy (Ratchet can provide an always on subscriber or publisher..?)
+You&#039;ve heard of the real time web right? The rise of single page applications? Well these rely on web sockets and occasionally RTC. Before you go ahead with this, you need to understand network programming, the underlying protocols that the internet is built upon. <a href="http://gafferongames.com/networking-for-game-programmers/" class="urlextern" title="http://gafferongames.com/networking-for-game-programmers/"  rel="nofollow">Glenn Fiedler has provided an excellent series of blogs articles talking about network programming geared towards game developers</a>. Read that before you proceed.
 </p>
 
 <p>
-RTC (tokbox) and UDP and TCP
+<abbr title="Hypertext Preprocessor">PHP</abbr> has one good server side web socket implementation:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://socketo.me/" class="urlextern" title="http://socketo.me/"  rel="nofollow">Ratchet</a> - Ratchet is a library/framework for asynchronous event based socket programming. This will allow you to create chat servers and other real time updates via socket push. It runs as a daemon similar to Gearman. Well specifically the framework is not a daemon, but any class leveraging Ratchet would be the daemon. This daemon would operate separately from your main solution stack. So make sure to architect it properly. Since it will be on different port to your main <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server, you&#039;ll need to place a <a href="http://haproxy.1wt.eu/" class="urlextern" title="http://haproxy.1wt.eu/"  rel="nofollow">HAProxy</a> in front of both Ratchet and Apache. Then you&#039;ll use ZMQ or Gearman to pass messages between your main application and your socket server.</div>
+</li>
+</ul>
+
+<p>
+There will be no free web hosts that will support a Ratchet configuration, you&#039;ll need to purchase a VPS or dedicated host to run this.
+</p>
+
+<p>
+<a href="http://www.scriptol.com/ajax/webrtc.php" class="urlextern" title="http://www.scriptol.com/ajax/webrtc.php"  rel="nofollow">Web RTC</a> is a very new technology, so <a href="https://labs.ericsson.com/blog/a-web-rtc-tutorial" class="urlextern" title="https://labs.ericsson.com/blog/a-web-rtc-tutorial"  rel="nofollow">there aren&#039;t many applications of this technology</a>. You can however use the third party <abbr title="Application Programming Interface">API</abbr> <a href="http://www.tokbox.com/" class="urlextern" title="http://www.tokbox.com/"  rel="nofollow">TokBox</a> for WebRTC video.
 </p>
 
 </div>
-<!-- EDIT53 SECTION "Sockets & RTC" [135253-] -->
+<!-- EDIT55 SECTION "Sockets & RTC" [166191-] -->
