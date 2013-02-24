@@ -1,0 +1,238 @@
+
+<h1 class="sectionedit1" id="php_-_design_patterns">PHP - Design Patterns</h1>
+<div class="level1">
+
+<p>
+Developers have been developing since computers first began. This means we have a history of common problems and have constructed solutions to these, shared them and over decades optimised them. This article will discuss common problems that you&#039;ll face when constructing your web application, and the best practices to deal with them. This article cannot possible cover all design patterns, and some problems require extracurricular study or outside expertise in computer science or mathematics to solve. In fact some problems are not actually computational problems but are people problems.
+</p>
+
+<p>
+Note that the term design patterns in programming often refers to <a href="http://en.wikipedia.org/wiki/Software design pattern" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Software design pattern">specific practices that have been given a name and have a large following in theory</a>. This article defines design patterns as more broad than that, it will cover practices that only come with experience and practices that come out of theory.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "PHP - Design Patterns" [1-969] -->
+<h2 class="sectionedit2" id="php_standards">PHP Standards</h2>
+<div class="level2">
+
+<p>
+There are a million ways to skin a cat. Just because you can skin the cat in the way you currently prefer, doesn&#039;t mean you should. We follow standards to help collaboration, scalability and maintainability. Of course standards are not religion, you&#039;ll need to balance the effort against reward when complying with standards.
+</p>
+
+<p>
+For a long time <abbr title="Hypertext Preprocessor">PHP</abbr> didn&#039;t have any standards. That is why it can be written procedurally or object oriented and incorporate aspects of functional.
+</p>
+
+<p>
+However the <a href="http://www.php-fig.org/" class="urlextern" title="http://www.php-fig.org/"  rel="nofollow">PHP FIG team</a> was constructed out of representatives from major <abbr title="Hypertext Preprocessor">PHP</abbr> frameworks. They came together to create standards for the framework development and <abbr title="Hypertext Preprocessor">PHP</abbr> in general. Their standards are called PSR (<abbr title="Hypertext Preprocessor">PHP</abbr> Standard Recommendations). You can find all of the <a href="https://github.com/php-fig/fig-standards/tree/master/accepted" class="urlextern" title="https://github.com/php-fig/fig-standards/tree/master/accepted"  rel="nofollow">accepted (voted in) standards on their Github repository</a>.
+</p>
+
+</div>
+<!-- EDIT2 SECTION "PHP Standards" [970-1892] -->
+<h3 class="sectionedit3" id="psr-0">PSR-0</h3>
+<div class="level3">
+
+<p>
+The PSR-0 standard was their first standard and the most readily accepted standard by the <abbr title="Hypertext Preprocessor">PHP</abbr> community. This was for autoloading and structuring of sharable code libraries. We already went through the PSR-
+</p>
+
+</div>
+<!-- EDIT3 SECTION "PSR-0" [1893-2117] -->
+<h3 class="sectionedit4" id="psr-1">PSR-1</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT4 SECTION "PSR-1" [2118-2134] -->
+<h3 class="sectionedit5" id="psr-2">PSR-2</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT5 SECTION "PSR-2" [2135-2151] -->
+<h3 class="sectionedit6" id="psr-3">PSR-3</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT6 SECTION "PSR-3" [2152-2168] -->
+<h2 class="sectionedit7" id="oop_patterns">OOP Patterns</h2>
+<div class="level2">
+
+<p>
+Method Overloading (with default parameters)
+</p>
+
+<p>
+Method Overriding (extended)
+</p>
+
+<p>
+Dependency Injection + Inversion of Control IOC ⇒ <a href="http://net.tutsplus.com/tutorials/php/dependency-injection-huh/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/dependency-injection-huh/"  rel="nofollow">http://net.tutsplus.com/tutorials/php/dependency-injection-huh/</a> And Type hinting
+</p>
+
+<p>
+and <a href="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/" class="urlextern" title="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/"  rel="nofollow">http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/</a> SOLID principles
+</p>
+
+<p>
+Method chaining
+</p>
+
+</div>
+<!-- EDIT7 SECTION "OOP Patterns" [2169-2515] -->
+<h2 class="sectionedit8" id="functional_programming">Functional Programming</h2>
+<div class="level2">
+
+<p>
+Closures, anonymous functions, function currying
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Functional Programming" [2516-2601] -->
+<h2 class="sectionedit9" id="exception_error_handling">Exception/Error Handling</h2>
+<div class="level2">
+
+<p>
+Custom Exceptions
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Exception/Error Handling" [2602-2658] -->
+<h2 class="sectionedit10" id="communication_patterns">Communication Patterns</h2>
+<div class="level2">
+
+<p>
+Pub/sub
+</p>
+
+<p>
+Socket Programming
+</p>
+
+<p>
+Event driven programming, event emitting and dispatch
+</p>
+
+<p>
+Using CURL and web scraping (Goutte)
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Communication Patterns" [2659-2816] -->
+<h2 class="sectionedit11" id="input_output">Input/Output</h2>
+<div class="level2">
+
+<p>
+Teach binary
+</p>
+
+<p>
+File manipulation operations
+</p>
+
+<p>
+Non blocking IO
+</p>
+
+<p>
+Asynchronous programming
+</p>
+
+<p>
+Compression
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Input/Output" [2817-2942] -->
+<h2 class="sectionedit12" id="shell_operations">Shell Operations</h2>
+<div class="level2">
+
+<p>
+Proc open
+</p>
+
+<p>
+Process forking
+</p>
+
+<p>
+Shell commands and passthru
+</p>
+
+</div>
+<!-- EDIT12 SECTION "Shell Operations" [2943-3029] -->
+<h2 class="sectionedit13" id="parsing_operations">Parsing Operations</h2>
+<div class="level2">
+
+<p>
+Regular expressions (for extracting information)
+</p>
+
+<p>
+<abbr title="HyperText Markup Language">HTML</abbr> Parsing → Query Path (for extracting structure)
+</p>
+
+<p>
+<abbr title="HyperText Markup Language">HTML</abbr> filtering → <a href="http://htmlpurifier.org/" class="urlextern" title="http://htmlpurifier.org/"  rel="nofollow">http://htmlpurifier.org/</a>
+</p>
+
+<p>
+<abbr title="Extensible Markup Language">XML</abbr> library and Xpath
+</p>
+
+<p>
+Also the area of study in language parsing and regex is huge. See Nikita&#039;s article: <a href="http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html" class="urlextern" title="http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html"  rel="nofollow">http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html</a>
+</p>
+
+</div>
+<!-- EDIT13 SECTION "Parsing Operations" [3030-3395] -->
+<h2 class="sectionedit14" id="structural_patterns">Structural Patterns</h2>
+<div class="level2">
+
+<p>
+Facade
+</p>
+
+<p>
+Decorator
+</p>
+
+</div>
+<!-- EDIT14 SECTION "Structural Patterns" [3396-3447] -->
+<h2 class="sectionedit15" id="creational_patterns">Creational Patterns</h2>
+<div class="level2">
+
+<p>
+Factory… etc
+</p>
+
+</div>
+<!-- EDIT15 SECTION "Creational Patterns" [3448-3496] -->
+<h2 class="sectionedit16" id="behavioural_patterns">Behavioural Patterns</h2>
+<div class="level2">
+
+<p>
+Observor
+</p>
+
+</div>
+<!-- EDIT16 SECTION "Behavioural Patterns" [3497-3540] -->
+<h2 class="sectionedit17" id="artificial_intelligence">Artificial Intelligence</h2>
+<div class="level2">
+
+<p>
+Artificial Intelligence
+</p>
+
+<p>
+machine learning…
+</p>
+
+<p>
+Operational Transformation
+</p>
+
+<p>
+Natural Language Processing
+</p>
+
+</div>
+<!-- EDIT17 SECTION "Artificial Intelligence" [3541-] -->

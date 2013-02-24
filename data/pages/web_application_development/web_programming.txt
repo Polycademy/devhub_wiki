@@ -19,7 +19,7 @@ These are the best reference resources for syntax.
 
 PHP:
 
-  * [[http://www.php.net/manual/en/index.php|PHP.net]] - You do not need to read the whole manual. Instead use it as a reference for a particular function or object. The best way to search PHP.net is to use google.
+  * [[http://www.php.net/manual/en/index.php|PHP.net]] - You do not need to read the whole manual. Instead use it as a reference for a particular function or object. The best way to search PHP.net is to use google. Please note the PHP version that you're running. Not all hosts run the most latest PHP version, and the versions between your development and host server may be different. You'll need to find the lowest common denominator.
   * [[http://prototype.php.net/manual/en/|Protoype PHP.net]] - This is a better starting point to get acquainted with the operators and functions of PHP.
   * [[http://phpbounce.aws.af.cm|PHP Bounce]] - You should also try this application built in Polycademy. It is also a good tool to test out syntax, without loading up a web server.
   * [[http://www.phptherightway.com/|PHP The Right Way]]

@@ -19,3 +19,7 @@ DOM manipulation
 Input Validation
 
 http://net.tutsplus.com/tutorials/javascript-ajax/event-based-programming-what-async-has-over-sync/
+
+Using Canvas for 2D animation.
+
+Using WebGL for 3d animation.

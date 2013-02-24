@@ -1753,6 +1753,6 @@ PHP has one good server side web socket implementation:
 
   * [[http://socketo.me/|Ratchet]] - Ratchet is a library/framework for asynchronous event based socket programming. This will allow you to create chat servers and other real time updates via socket push. It runs as a daemon similar to Gearman. Well specifically the framework is not a daemon, but any class leveraging Ratchet would be the daemon. This daemon would operate separately from your main solution stack. So make sure to architect it properly. Since it will be on different port to your main HTTP server, you'll need to place a [[http://haproxy.1wt.eu/|HAProxy]] in front of both Ratchet and Apache. Then you'll use ZMQ or Gearman to pass messages between your main application and your socket server.
 
-There will be no free web hosts that will support a Ratchet configuration, you'll need to purchase a VPS or dedicated host to run this.
+There will be no free web hosts that will support a Ratchet configuration, you'll need to purchase a VPS or dedicated host to run this. Another option would be to use the third party service [[http://pusher.com/|Pusher]] as your intermediate socket server.
 
 [[http://www.scriptol.com/ajax/webrtc.php|Web RTC]] is a very new technology, so [[https://labs.ericsson.com/blog/a-web-rtc-tutorial|there aren't many applications of this technology]]. You can however use the third party API [[http://www.tokbox.com/|TokBox]] for WebRTC video.

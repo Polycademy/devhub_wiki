@@ -1,56 +1,106 @@
 ====== PHP - Design Patterns ======
 
+Developers have been developing since computers first began. This means we have a history of common problems and have constructed solutions to these, shared them and over decades optimised them. This article will discuss common problems that you'll face when constructing your web application, and the best practices to deal with them. This article cannot possible cover all design patterns, and some problems require extracurricular study or outside expertise in computer science or mathematics to solve. In fact some problems are not actually computational problems but are people problems.
+
+Note that the term design patterns in programming often refers to [[wp>Software design pattern|specific practices that have been given a name and have a large following in theory]]. This article defines design patterns as more broad than that, it will cover practices that only come with experience and practices that come out of theory.
+===== PHP Standards =====
+
+There are a million ways to skin a cat. Just because you can skin the cat in the way you currently prefer, doesn't mean you should. We follow standards to help collaboration, scalability and maintainability. Of course standards are not religion, you'll need to balance the effort against reward when complying with standards.
+
+For a long time PHP didn't have any standards. That is why it can be written procedurally or object oriented and incorporate aspects of functional.
+
+However the [[http://www.php-fig.org/|PHP FIG team]] was constructed out of representatives from major PHP frameworks. They came together to create standards for the framework development and PHP in general. Their standards are called PSR (PHP Standard Recommendations). You can find all of the [[https://github.com/php-fig/fig-standards/tree/master/accepted|accepted (voted in) standards on their Github repository]].
+
+==== PSR-0 ====
+
+The PSR-0 standard was their first standard and the most readily accepted standard by the PHP community. This was for autoloading and structuring of sharable code libraries. We already went through the PSR-
+
+==== PSR-1 ====
+
+==== PSR-2 ====
+
+==== PSR-3 ====
+
+===== OOP Patterns =====
+
 Method Overloading (with default parameters)
 
-Method Overriding
+Method Overriding (extended)
 
-Default parameters
-
-Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/
-And Type hinting
+Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/ And Type hinting
 
 and http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/ SOLID principles
 
-Exception handling
-
-==== Standards ====
-
-Check the PHP Fig (Framework Interop Group): http://www.php-fig.org/
-
-Then checkout their PSR standards. (PHP Standard Recommendation).
-
-Regular expressions
-
-Intro to patterns
-
-Pub/sub
-
-Event driven
-
-Artificial Intelligence, machine learning...
+Method chaining
+===== Functional Programming =====
 
 Closures, anonymous functions, function currying
 
-Design patterns from both sides
+===== Exception/Error Handling =====
 
-JS use patterns such as canvas and webGL.
+Custom Exceptions
+
+===== Communication Patterns =====
+
+Pub/sub
+
+Socket Programming
+
+Event driven programming, event emitting and dispatch
+
+Using CURL and web scraping (Goutte)
+
+===== Input/Output =====
 
 Teach binary
 
-Using bitwise operators for settings
+File manipulation operations
 
-Using interfaces + http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/
+Non blocking IO
 
-Dependency Injection (typehinting with default being null)
+Asynchronous programming
 
-==== Database ====
+Compression
 
-Database access
+===== Shell Operations =====
 
-Database normalisation
+Proc open
 
-Foreign keys
+Process forking
 
-Indexing and searching
+Shell commands and passthru
 
-NoSQL what is it?
+===== Parsing Operations =====
+
+Regular expressions (for extracting information)
+
+HTML Parsing -> Query Path (for extracting structure)
+
+HTML filtering -> http://htmlpurifier.org/
+
+XML library and Xpath
+
+Also the area of study in language parsing and regex is huge. See Nikita's article: http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html
+===== Structural Patterns =====
+
+Facade
+
+Decorator
+
+===== Creational Patterns =====
+
+Factory... etc
+
+===== Behavioural Patterns =====
+
+Observor
+
+===== Artificial Intelligence =====
+
+Artificial Intelligence
+
+machine learning...
+
+Operational Transformation
+
+Natural Language Processing
