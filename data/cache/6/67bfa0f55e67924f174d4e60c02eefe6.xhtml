@@ -35,8 +35,25 @@ For a long time <abbr title="Hypertext Preprocessor">PHP</abbr> didn&#039;t have
 However the <a href="http://www.php-fig.org/" class="urlextern" title="http://www.php-fig.org/"  rel="nofollow">PHP FIG team</a> was constructed out of representatives from major <abbr title="Hypertext Preprocessor">PHP</abbr> frameworks. They came together to create standards for the framework development and <abbr title="Hypertext Preprocessor">PHP</abbr> in general. Their standards are called PSR (<abbr title="Hypertext Preprocessor">PHP</abbr> Standard Recommendations). You can find all of the <a href="https://github.com/php-fig/fig-standards/tree/master/accepted" class="urlextern" title="https://github.com/php-fig/fig-standards/tree/master/accepted"  rel="nofollow">accepted (voted in) standards on their Github repository</a>.
 </p>
 
+<p>
+One important standard that isn&#039;t mentioned in the PSRs, is the docblock syntax. Comments in <abbr title="Hypertext Preprocessor">PHP</abbr> can be written via double forward slashes or a single hash.
+</p>
+<pre class="code php"><span class="co2">#this is a comment
+</span><span class="co1">//this is also a comment, most libraries use the // style because it looks nicer. Many languages use the // instead of the # so it keeps things consistent.</span>
+<span class="coMULTI">/*
+This
+is
+a
+multiline
+comment
+*/</span></pre>
+
+<p>
+This is useful for one liner comments. However sometimes we need to write larger comments to explain functions, methods and classes. You should use the <a href="http://en.wikipedia.org/wiki/PHPDoc" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/PHPDoc">PHPDoc docblock syntax</a>. The syntax is also sometimes used by libraries which use meaningful commenting to inject code or other features into your coding. One example is dependency injection that is managed by docblock comments. However I am not a fan of this approach as I think this confuses people and comments should be comments, not meta programming code.
+</p>
+
 </div>
-<!-- EDIT2 SECTION "PHP Standards" [1247-2169] -->
+<!-- EDIT2 SECTION "PHP Standards" [1247-3082] -->
 <h3 class="sectionedit3" id="psr-0">PSR-0</h3>
 <div class="level3">
 
@@ -57,66 +74,321 @@ Remember since we&#039;re using CiAutoloading, we can put PSR-0 libraries into o
 </p>
 
 </div>
-<!-- EDIT3 SECTION "PSR-0" [2170-3711] -->
+<!-- EDIT3 SECTION "PSR-0" [3083-4624] -->
 <h3 class="sectionedit4" id="psr-1">PSR-1</h3>
 <div class="level3">
 
+<p>
+The <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md" class="urlextern" title="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md"  rel="nofollow">PSR-1 standard is a basic coding style standard</a>. You don&#039;t have to follow it to the letter, but doing so will help interoperability between developers.
+</p>
+
+<p>
+Some of the important highlights is the practice of StudlyCaps for class names. It&#039;s also a good practice to follow StudlyCaps for folder directories holding classes, as this will keep things consistent for namespacing. Notice also that it also specifies that your class method names should be camelCased, but your variable names can be either underscored or camelCased. While this may be a good practice in library development, you don&#039;t need to follow this in your controller methods or models. Controller methods should behave RESTfully but also be readable since it&#039;s going into the <abbr title="Uniform Resource Locator">URL</abbr>. Sharing underscore based URLs are always easier than having ambiguous camelCased or hyphen URLs.
+</p>
+
+<p>
+Note that you not use underscores for your classnames when you&#039;re autoloading. The PSR-0 autoloader will think of underscores as directory separators. This will confuse you, so make sure to avoid that. Underscores in folder names won&#039;t affect it, but it&#039;s best to avoid and keep all class names or folder names as StudlyCaps.
+</p>
+
 </div>
-<!-- EDIT4 SECTION "PSR-1" [3712-3728] -->
+<!-- EDIT4 SECTION "PSR-1" [4625-5911] -->
 <h3 class="sectionedit5" id="psr-2">PSR-2</h3>
 <div class="level3">
 
+<p>
+The <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md" class="urlextern" title="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md"  rel="nofollow">PSR-2 standard is a major coding style standard</a>.
+</p>
+
+<p>
+This was the most controversial, mainly because developers nitpicked little things they didn&#039;t like. For example many developers prefer using tabs instead of 4 spaces, however this is often a non-issue, since many IDEs allow you to set the tabbing size and whether it gets replaced by spaces anyway. Notepad++ will allow you to do this through <code>setting→preferences</code>.
+</p>
+
+<p>
+However many of the standards guide is part of good developmental practice, so make sure you read it and understand why they put it as part of the standard. It&#039;s not just because they prefer it that way!
+</p>
+
+<p>
+In the end it&#039;s up to you if you prefer to abide by the PSR-2. If you do you can proudly claim it in your library.
+</p>
+
 </div>
-<!-- EDIT5 SECTION "PSR-2" [3729-3745] -->
+<!-- EDIT5 SECTION "PSR-2" [5912-6767] -->
 <h3 class="sectionedit6" id="psr-3">PSR-3</h3>
 <div class="level3">
 
+<p>
+The <a href="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md" class="urlextern" title="https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md"  rel="nofollow">PSR-3 standard is actually a guide for a common interface to logging classes</a>. This means unless you&#039;re building a logging application you won&#039;t need to worry about it.
+</p>
+
+<p>
+However having a common logging interface means you can dependency inject any logging class and expect it to work in similar ways due to the enforcement of the interface contract. This way your libraries can log errors or notices to the application, without knowing what kind of logging library the user is going to have in advance. If you are going to implement logging, make sure to wrap it in conditional logic in case the user has no logging class available.
+</p>
+
+<p>
+At any case, <a href="http://ellislab.com/codeigniter/user-guide/general/errors.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/general/errors.html"  rel="nofollow">Codeigniter&#039;s logging class</a> is not compatible with PSR-3. So only use it for your non-shareable controllers and models. If you need a more robust library, use <a href="https://github.com/Seldaek/monolog" class="urlextern" title="https://github.com/Seldaek/monolog"  rel="nofollow">Monolog</a> which is PSR-3 compliant.
+</p>
+
 </div>
-<!-- EDIT6 SECTION "PSR-3" [3746-3762] -->
+<!-- EDIT6 SECTION "PSR-3" [6768-7825] -->
 <h2 class="sectionedit7" id="oop_patterns">OOP Patterns</h2>
 <div class="level2">
 
 <p>
-Method Overloading (with default parameters)
+In the <a href="/polycademy_projects/devhub_wiki/doku.php?id=web_application_development:php_-_server_side_architecture" class="wikilink1" title="web_application_development:php_-_server_side_architecture">PHP server side architecture section</a> we talked about the four principles of object oriented programming. This section is going to expand on that topic in a more practical sense.
+</p>
+
+</div>
+<!-- EDIT7 SECTION "OOP Patterns" [7826-8072] -->
+<h3 class="sectionedit8" id="solid_principles">SOLID Principles</h3>
+<div class="level3">
+
+<p>
+The <a href="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/" class="urlextern" title="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/"  rel="nofollow">SOLID principles</a> stand for Single responsibility, Open-closed, Liskov substitution, Interface segregation and Dependency inversion. These principles are intended to make your development maintainable and scalable.
+</p>
+
+</div>
+
+<h4 id="single_responsibility_principle">Single Responsibility Principle</h4>
+<div class="level4">
+
+<p>
+Each object should only have a single responsibility, and that entire responsibility should be encapsulated by that object. It&#039;s about making sure your object is cohesive.
 </p>
 
 <p>
-Method Overriding (extended)
+A responsibility is defined as a reason to change. Classes should only have one reason to change. As an example, consider a class that compiles and prints a report. This could be changed for two reasons. First, the content of the report can change. Second, the format of the report can change. The single responsibility principle says that these two aspects of the problem are really two separate responsibilities, and should therefore be in separate classes.
 </p>
 
 <p>
-Dependency Injection + Inversion of Control IOC ⇒ <a href="http://net.tutsplus.com/tutorials/php/dependency-injection-huh/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/dependency-injection-huh/"  rel="nofollow">http://net.tutsplus.com/tutorials/php/dependency-injection-huh/</a> And Type hinting
+By keeping your object cohesive, it means any edits or improvements you make to the code of a class will be focused on that single responsibility, hence lowering the chance of breaking the code for other responsibilities. This also isolates any problems making it easier to understand if you need to debug.
 </p>
 
 <p>
-and <a href="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/" class="urlextern" title="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/"  rel="nofollow">http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/</a> SOLID principles
+You may then argue how deep should problems be separated? After all, with a microscope, there&#039;s always more room to break things down. Well there&#039;s a famous computer science aphorism made by David Wheeler: <a href="http://en.wikipedia.org/wiki/Indirection" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Indirection">&quot;All problems in computer science can be solved by another level of indirection.&quot;</a>  Which was then retorted by Kevlin Henney with ”…except for the problem of too many layers of indirection.”
+</p>
+
+</div>
+
+<h4 id="open-closed_principle">Open-Closed Principle</h4>
+<div class="level4">
+
+<p>
+Each object should be open to be extended, but closed for modification. Basically this refers to the fact that changes to the source code that isn&#039;t a bug fix often requires extra unit testing and code reviews because extra features may break existing compatibility. This is especially true for highly coupled code.
+</p>
+
+<p>
+Therefore new features should be created through the extension of child classes, instead of modifying the existing source code.
+</p>
+
+<p>
+However if you left this principle on such vague terms, then you&#039;ll eventually hit the problem of feature creep and messy structure. This is why the Open-Closed principle in practice actually refers to the usage of abstract interfaces, so that new features can be created as concrete objects that implement the abstract <em>closed</em> interface. This allows an easy swapping out of features as dependencies. Note that this could be done with abstracts in <abbr title="Hypertext Preprocessor">PHP</abbr> too. Normal classes could also be extended, but interfaces would the most suitable for this purpose, since interfaces shouldn&#039;t be changed much after creation.
+</p>
+
+<p>
+Let&#039;s see an example:
+</p>
+<pre class="code php"><span class="co1">//here's out abstract interface</span>
+<span class="kw2">interface</span> Vehicle<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> accelerate<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> stop<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//our first feature was just a Sedan</span>
+<span class="kw2">class</span> Sedan implements Vehicle<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> accelerate<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'Vroom!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> stop<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'EHHH!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//later on we found out we needed Trucks too (this was modified, but the interface wasn't)</span>
+<span class="kw2">class</span> Truck implements Vehicle<span class="br0">&#123;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> accelerate<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'Brrrm!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> stop<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'CHHH!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//now we can use the new feature that was openly extended from the interface</span>
+<span class="co1">//but since the interface was closed, we didn't need any more code reviews, and we have a consistent &quot;interface&quot; to work with</span>
+<span class="kw2">class</span> Drive<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//these dependencies are hard coupled, you normally shouldn't do this, use dependency injection instead</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> buy_groceries<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$vehicle</span> <span class="sy0">=</span> <span class="kw2">new</span> Sedan<span class="sy0">;</span>
+        <span class="re0">$vehicle</span><span class="sy0">-&gt;</span><span class="me1">accelerate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="st_h">'At Groceries!'</span><span class="sy0">;</span>
+        <span class="re0">$vehicle</span><span class="sy0">-&gt;</span><span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> deliver_groceries<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$vehicle</span> <span class="sy0">=</span> <span class="kw2">new</span> Truck<span class="sy0">;</span>
+        <span class="re0">$vehicle</span><span class="sy0">-&gt;</span><span class="me1">accelerate</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="st_h">'At Retail!'</span><span class="sy0">;</span>
+        <span class="re0">$vehicle</span><span class="sy0">-&gt;</span><span class="me1">stop</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+
+<h4 id="liskov_substitution_principle">Liskov Substitution Principle</h4>
+<div class="level4">
+
+<p>
+Any child class that inherits from a parent class or abstract or interface should not break the parent class&#039;s functionality if the child class gets substituted for the parent class. Code may be type hinting for the parent class or abstract interface, and if the child class gets substituted, they will expect similar functionality. Consider this example:
+</p>
+<pre class="code php"><span class="co1">//here is the parent class</span>
+<span class="kw2">class</span> Rectangle<span class="br0">&#123;</span>
+    <span class="kw2">protected</span> width<span class="sy0">;</span>
+    <span class="kw2">protected</span> height<span class="sy0">;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> set_height<span class="br0">&#40;</span><span class="re0">$y</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">height</span> <span class="sy0">=</span> <span class="re0">$y</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> set_width<span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">width</span> <span class="sy0">=</span> <span class="re0">$x</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> area<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">width</span> <span class="sy0">*</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">height</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//squares are rectangles in math, but we'll see in a moment this violates LSP</span>
+<span class="kw2">class</span> Square <span class="kw2">extends</span> Rectangle<span class="br0">&#123;</span>
+    <span class="co1">//we're method overriding here!</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> area<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">width</span> ^ <span class="nu0">2</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//now Square class can be substituted for Rectangle</span>
+<span class="kw2">class</span> Geometry<span class="br0">&#123;</span>
+    <span class="kw2">public</span> __construct<span class="br0">&#40;</span>Rectangle <span class="re0">$shape</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$shape</span><span class="sy0">-&gt;</span><span class="me1">set_width</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$shape</span><span class="sy0">-&gt;</span><span class="me1">set_height</span><span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="re0">$shape</span><span class="sy0">-&gt;</span><span class="me1">area</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//this works, it's using the parent class</span>
+<span class="re0">$rectangle_geometry</span> <span class="sy0">=</span> <span class="kw2">new</span> Geometry<span class="br0">&#40;</span><span class="kw2">new</span> Rectangle<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this works as well, because Square extends Rectangle, the type hint passes</span>
+<span class="co1">//however the functionality as expected is broken due to the method overriding</span>
+<span class="co1">//violates liskov substitution principle so this is bad code!</span>
+<span class="re0">$square_geometry</span> <span class="sy0">=</span> <span class="kw2">new</span> Geometry<span class="br0">&#40;</span><span class="kw2">new</span> Square<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+
+<h4 id="interface_segregation_principle">Interface Segregation principle</h4>
+<div class="level4">
+
+<p>
+No objects implementing interfaces should be forced to implement methods that have no relation to their responsibility. This basically means we should break down large interfaces into small and highly cohesive interfaces, so when we&#039;re implementing interfaces, objects won&#039;t need to define functions that have no use and are just there to satisfy the interface. If you find yourself doing this, you need to break your interfaces down into one super abstract interface and relatively concrete child interfaces! 
+</p>
+
+<p>
+Also note that you can have child interfaces extending parent interfaces, and by implementing the child interface, you&#039;ll inherit the parent interface too.
+</p>
+
+</div>
+
+<h4 id="dependency_inversion_principle">Dependency Inversion principle</h4>
+<div class="level4">
+
+</div>
+<!-- EDIT8 SECTION "SOLID Principles" [8073-14395] -->
+<h3 class="sectionedit9" id="method_manipulation">Method Manipulation</h3>
+<div class="level3">
+
+<p>
+Visibility - Public, Protected, Private
+</p>
+
+<p>
+Usage of Final
+</p>
+
+<p>
+Method Overloading with default parameters being at the end of the argument list
+</p>
+
+<p>
+Method overriding through extension
+</p>
+
+<p>
+Static
 </p>
 
 <p>
 Method chaining
 </p>
 
+<p>
+Traits (<a href="http://phpmaster.com/using-traits-in-php-5-4/" class="urlextern" title="http://phpmaster.com/using-traits-in-php-5-4/"  rel="nofollow">http://phpmaster.com/using-traits-in-php-5-4/</a>)
+</p>
+
 </div>
-<!-- EDIT7 SECTION "OOP Patterns" [3763-4109] -->
-<h2 class="sectionedit8" id="functional_programming">Functional Programming</h2>
+<!-- EDIT9 SECTION "Method Manipulation" [14396-14683] -->
+<h3 class="sectionedit10" id="dependency_management">Dependency Management</h3>
+<div class="level3">
+
+<p>
+Dependency Injection + Inversion of Control IOC ⇒ <a href="http://net.tutsplus.com/tutorials/php/dependency-injection-huh/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/dependency-injection-huh/"  rel="nofollow">http://net.tutsplus.com/tutorials/php/dependency-injection-huh/</a> And Type hinting
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Dependency Management" [14684-14848] -->
+<h2 class="sectionedit11" id="functional_programming">Functional Programming</h2>
 <div class="level2">
 
 <p>
 Closures, anonymous functions, function currying
 </p>
+<pre class="code">$closureWithArgs = function ($arg1, $arg2) {
+    // body
+};
+
+$closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
+    // body
+};</pre>
 
 </div>
-<!-- EDIT8 SECTION "Functional Programming" [4110-4195] -->
-<h2 class="sectionedit9" id="exception_error_handling">Exception/Error Handling</h2>
+<!-- EDIT11 SECTION "Functional Programming" [14849-15096] -->
+<h2 class="sectionedit12" id="exception_error_handling">Exception/Error Handling</h2>
 <div class="level2">
 
 <p>
-Custom Exceptions
+Custom Exceptions:
+</p>
+<pre class="code">try {
+    // try body
+} catch (FirstExceptionType $e) {
+    // catch body
+} catch (OtherExceptionType $e) {
+    // catch body
+}</pre>
+
+<p>
+Conditional declaration:
+</p>
+<pre class="code">// conditional declaration is *not* a side effect
+if (! function_exists(&#039;bar&#039;)) {
+    function bar()
+    {
+        // function body
+    }
+}</pre>
+
+<p>
+What&#039;s the difference between throwing an error or try → catch, vs if else. Exceptions are real exceptions. If/else is branching logic.
 </p>
 
 </div>
-<!-- EDIT9 SECTION "Exception/Error Handling" [4196-4252] -->
-<h2 class="sectionedit10" id="communication_patterns">Communication Patterns</h2>
+<!-- EDIT12 SECTION "Exception/Error Handling" [15097-15617] -->
+<h2 class="sectionedit13" id="communication_patterns">Communication Patterns</h2>
 <div class="level2">
 
 <p>
@@ -136,8 +408,8 @@ Using CURL and web scraping (Goutte)
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Communication Patterns" [4253-4410] -->
-<h2 class="sectionedit11" id="input_output">Input/Output</h2>
+<!-- EDIT13 SECTION "Communication Patterns" [15618-15775] -->
+<h2 class="sectionedit14" id="input_output">Input/Output</h2>
 <div class="level2">
 
 <p>
@@ -153,7 +425,7 @@ Non blocking IO
 </p>
 
 <p>
-Asynchronous programming
+Asynchronous programming (<a href="http://en.wikipedia.org/wiki/Asynchronous_I/O" class="urlextern" title="http://en.wikipedia.org/wiki/Asynchronous_I/O"  rel="nofollow">http://en.wikipedia.org/wiki/Asynchronous_I/O</a>)
 </p>
 
 <p>
@@ -169,8 +441,8 @@ Also mention Amazon S3 for file storage CDNs (most hosts dont allow to be a file
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Input/Output" [4411-4690] -->
-<h2 class="sectionedit12" id="shell_operations">Shell Operations</h2>
+<!-- EDIT14 SECTION "Input/Output" [15776-16103] -->
+<h2 class="sectionedit15" id="shell_operations">Shell Operations</h2>
 <div class="level2">
 
 <p>
@@ -186,8 +458,8 @@ Shell commands and passthru
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Shell Operations" [4691-4777] -->
-<h2 class="sectionedit13" id="parsing_operations">Parsing Operations</h2>
+<!-- EDIT15 SECTION "Shell Operations" [16104-16190] -->
+<h2 class="sectionedit16" id="parsing_operations">Parsing Operations</h2>
 <div class="level2">
 
 <p>
@@ -211,8 +483,8 @@ Also the area of study in language parsing and regex is huge. See Nikita&#039;s 
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Parsing Operations" [4778-5143] -->
-<h2 class="sectionedit14" id="structural_patterns">Structural Patterns</h2>
+<!-- EDIT16 SECTION "Parsing Operations" [16191-16556] -->
+<h2 class="sectionedit17" id="structural_patterns">Structural Patterns</h2>
 <div class="level2">
 
 <p>
@@ -224,8 +496,8 @@ Decorator
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Structural Patterns" [5144-5195] -->
-<h2 class="sectionedit15" id="creational_patterns">Creational Patterns</h2>
+<!-- EDIT17 SECTION "Structural Patterns" [16557-16608] -->
+<h2 class="sectionedit18" id="creational_patterns">Creational Patterns</h2>
 <div class="level2">
 
 <p>
@@ -233,8 +505,8 @@ Factory… etc
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Creational Patterns" [5196-5244] -->
-<h2 class="sectionedit16" id="behavioural_patterns">Behavioural Patterns</h2>
+<!-- EDIT18 SECTION "Creational Patterns" [16609-16657] -->
+<h2 class="sectionedit19" id="behavioural_patterns">Behavioural Patterns</h2>
 <div class="level2">
 
 <p>
@@ -242,8 +514,8 @@ Observor
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Behavioural Patterns" [5245-5288] -->
-<h2 class="sectionedit17" id="artificial_intelligence">Artificial Intelligence</h2>
+<!-- EDIT19 SECTION "Behavioural Patterns" [16658-16701] -->
+<h2 class="sectionedit20" id="artificial_intelligence">Artificial Intelligence</h2>
 <div class="level2">
 
 <p>
@@ -263,4 +535,4 @@ Natural Language Processing
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Artificial Intelligence" [5289-] -->
+<!-- EDIT20 SECTION "Artificial Intelligence" [16702-] -->

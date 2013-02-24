@@ -15,6 +15,21 @@ For a long time PHP didn't have any standards. That is why it can be written pro
 
 However the [[http://www.php-fig.org/|PHP FIG team]] was constructed out of representatives from major PHP frameworks. They came together to create standards for the framework development and PHP in general. Their standards are called PSR (PHP Standard Recommendations). You can find all of the [[https://github.com/php-fig/fig-standards/tree/master/accepted|accepted (voted in) standards on their Github repository]].
 
+One important standard that isn't mentioned in the PSRs, is the docblock syntax. Comments in PHP can be written via double forward slashes or a single hash.
+
+<code php>
+#this is a comment
+//this is also a comment, most libraries use the // style because it looks nicer. Many languages use the // instead of the # so it keeps things consistent.
+/*
+This
+is
+a
+multiline
+comment
+*/
+</code>
+
+This is useful for one liner comments. However sometimes we need to write larger comments to explain functions, methods and classes. You should use the [[wp>PHPDoc|PHPDoc docblock syntax]]. The syntax is also sometimes used by libraries which use meaningful commenting to inject code or other features into your coding. One example is dependency injection that is managed by docblock comments. However I am not a fan of this approach as I think this confuses people and comments should be comments, not meta programming code.
 ==== PSR-0 ====
 
 The PSR-0 standard was their first standard and the most readily accepted standard by the PHP community. This was for autoloading and structuring of sharable code libraries. We already went through the PSR-0 standard in [[PHP - Server Side Architecture#composer_libraries|the composer section in the server side architecture article]]. The [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|official documentation is located on Github]].
@@ -26,29 +41,214 @@ Codeigniter itself is not a PSR-0 framework, if it were, everything from control
 Remember since we're using CiAutoloading, we can put PSR-0 libraries into our own libraries directory or third_party directory, or we could use Composer to autoload them for us.
 ==== PSR-1 ====
 
+The [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-1-basic-coding-standard.md|PSR-1 standard is a basic coding style standard]]. You don't have to follow it to the letter, but doing so will help interoperability between developers.
+
+Some of the important highlights is the practice of StudlyCaps for class names. It's also a good practice to follow StudlyCaps for folder directories holding classes, as this will keep things consistent for namespacing. Notice also that it also specifies that your class method names should be camelCased, but your variable names can be either underscored or camelCased. While this may be a good practice in library development, you don't need to follow this in your controller methods or models. Controller methods should behave RESTfully but also be readable since it's going into the URL. Sharing underscore based URLs are always easier than having ambiguous camelCased or hyphen URLs.
+
+Note that you not use underscores for your classnames when you're autoloading. The PSR-0 autoloader will think of underscores as directory separators. This will confuse you, so make sure to avoid that. Underscores in folder names won't affect it, but it's best to avoid and keep all class names or folder names as StudlyCaps.
 ==== PSR-2 ====
 
+The [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md|PSR-2 standard is a major coding style standard]].
+
+This was the most controversial, mainly because developers nitpicked little things they didn't like. For example many developers prefer using tabs instead of 4 spaces, however this is often a non-issue, since many IDEs allow you to set the tabbing size and whether it gets replaced by spaces anyway. Notepad++ will allow you to do this through ''setting->preferences''.
+
+However many of the standards guide is part of good developmental practice, so make sure you read it and understand why they put it as part of the standard. It's not just because they prefer it that way!
+
+In the end it's up to you if you prefer to abide by the PSR-2. If you do you can proudly claim it in your library.
 ==== PSR-3 ====
 
+The [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-3-logger-interface.md|PSR-3 standard is actually a guide for a common interface to logging classes]]. This means unless you're building a logging application you won't need to worry about it.
+
+However having a common logging interface means you can dependency inject any logging class and expect it to work in similar ways due to the enforcement of the interface contract. This way your libraries can log errors or notices to the application, without knowing what kind of logging library the user is going to have in advance. If you are going to implement logging, make sure to wrap it in conditional logic in case the user has no logging class available.
+
+At any case, [[http://ellislab.com/codeigniter/user-guide/general/errors.html|Codeigniter's logging class]] is not compatible with PSR-3. So only use it for your non-shareable controllers and models. If you need a more robust library, use [[https://github.com/Seldaek/monolog|Monolog]] which is PSR-3 compliant.
 ===== OOP Patterns =====
 
-Method Overloading (with default parameters)
+In the [[PHP - Server Side Architecture|PHP server side architecture section]] we talked about the four principles of object oriented programming. This section is going to expand on that topic in a more practical sense.
 
-Method Overriding (extended)
+==== SOLID Principles ====
 
-Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/ And Type hinting
+The [[http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/|SOLID principles]] stand for Single responsibility, Open-closed, Liskov substitution, Interface segregation and Dependency inversion. These principles are intended to make your development maintainable and scalable.
 
-and http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/ SOLID principles
+=== Single Responsibility Principle ===
+
+Each object should only have a single responsibility, and that entire responsibility should be encapsulated by that object. It's about making sure your object is cohesive.
+
+A responsibility is defined as a reason to change. Classes should only have one reason to change. As an example, consider a class that compiles and prints a report. This could be changed for two reasons. First, the content of the report can change. Second, the format of the report can change. The single responsibility principle says that these two aspects of the problem are really two separate responsibilities, and should therefore be in separate classes.
+
+By keeping your object cohesive, it means any edits or improvements you make to the code of a class will be focused on that single responsibility, hence lowering the chance of breaking the code for other responsibilities. This also isolates any problems making it easier to understand if you need to debug.
+
+You may then argue how deep should problems be separated? After all, with a microscope, there's always more room to break things down. Well there's a famous computer science aphorism made by David Wheeler: [[wp>Indirection|"All problems in computer science can be solved by another level of indirection."]]  Which was then retorted by Kevlin Henney with "...except for the problem of too many layers of indirection."
+
+=== Open-Closed Principle ===
+
+Each object should be open to be extended, but closed for modification. Basically this refers to the fact that changes to the source code that isn't a bug fix often requires extra unit testing and code reviews because extra features may break existing compatibility. This is especially true for highly coupled code.
+
+Therefore new features should be created through the extension of child classes, instead of modifying the existing source code.
+
+However if you left this principle on such vague terms, then you'll eventually hit the problem of feature creep and messy structure. This is why the Open-Closed principle in practice actually refers to the usage of abstract interfaces, so that new features can be created as concrete objects that implement the abstract //closed// interface. This allows an easy swapping out of features as dependencies. Note that this could be done with abstracts in PHP too. Normal classes could also be extended, but interfaces would the most suitable for this purpose, since interfaces shouldn't be changed much after creation.
+
+Let's see an example:
+
+<code php>
+//here's out abstract interface
+interface Vehicle{
+    public function accelerate();
+    public function stop();
+}
+
+//our first feature was just a Sedan
+class Sedan implements Vehicle{
+    public function accelerate(){
+        echo 'Vroom!';
+    }
+    public function stop(){
+        echo 'EHHH!';
+    }
+}
+
+//later on we found out we needed Trucks too (this was modified, but the interface wasn't)
+class Truck implements Vehicle{
+    public function accelerate(){
+        echo 'Brrrm!';
+    }
+    public function stop(){
+        echo 'CHHH!';
+    }
+}
+
+//now we can use the new feature that was openly extended from the interface
+//but since the interface was closed, we didn't need any more code reviews, and we have a consistent "interface" to work with
+class Drive(){
+    //these dependencies are hard coupled, you normally shouldn't do this, use dependency injection instead
+    public function buy_groceries(){
+        $vehicle = new Sedan;
+        $vehicle->accelerate();
+        echo 'At Groceries!';
+        $vehicle->stop();
+    }
+    public function deliver_groceries(){
+        $vehicle = new Truck;
+        $vehicle->accelerate();
+        echo 'At Retail!';
+        $vehicle->stop();
+    }
+}
+</code>
+
+=== Liskov Substitution Principle ===
+
+Any child class that inherits from a parent class or abstract or interface should not break the parent class's functionality if the child class gets substituted for the parent class. Code may be type hinting for the parent class or abstract interface, and if the child class gets substituted, they will expect similar functionality. Consider this example:
+
+<code php>
+//here is the parent class
+class Rectangle{
+    protected width;
+    protected height;
+    public function set_height($y){
+        $this->height = $y;
+    }
+    public function set_width($x){
+        $this->width = $x;
+    }
+    public function area(){
+        return $this->width * $this->height;
+    }
+}
+
+//squares are rectangles in math, but we'll see in a moment this violates LSP
+class Square extends Rectangle{
+    //we're method overriding here!
+    public function area(){
+        return $this->width ^ 2;
+    }
+}
+
+//now Square class can be substituted for Rectangle
+class Geometry{
+    public __construct(Rectangle $shape){
+        $shape->set_width(100);
+        $shape->set_height(50);
+        echo $shape->area();
+    }
+}
+
+//this works, it's using the parent class
+$rectangle_geometry = new Geometry(new Rectangle);
+
+//this works as well, because Square extends Rectangle, the type hint passes
+//however the functionality as expected is broken due to the method overriding
+//violates liskov substitution principle so this is bad code!
+$square_geometry = new Geometry(new Square);
+</code>
+
+=== Interface Segregation principle ===
+
+No objects implementing interfaces should be forced to implement methods that have no relation to their responsibility. This basically means we should break down large interfaces into small and highly cohesive interfaces, so when we're implementing interfaces, objects won't need to define functions that have no use and are just there to satisfy the interface. If you find yourself doing this, you need to break your interfaces down into one super abstract interface and relatively concrete child interfaces! 
+
+Also note that you can have child interfaces extending parent interfaces, and by implementing the child interface, you'll inherit the parent interface too.
+
+=== Dependency Inversion principle ===
+
+==== Method Manipulation ====
+
+Visibility - Public, Protected, Private
+
+Usage of Final
+
+Method Overloading with default parameters being at the end of the argument list
+
+Method overriding through extension
+
+Static
 
 Method chaining
+
+Traits (http://phpmaster.com/using-traits-in-php-5-4/)
+
+==== Dependency Management ====
+
+Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/ And Type hinting
 ===== Functional Programming =====
 
 Closures, anonymous functions, function currying
 
+<code>
+$closureWithArgs = function ($arg1, $arg2) {
+    // body
+};
+
+$closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
+    // body
+};
+</code>
 ===== Exception/Error Handling =====
 
-Custom Exceptions
+Custom Exceptions:
 
+<code>
+try {
+    // try body
+} catch (FirstExceptionType $e) {
+    // catch body
+} catch (OtherExceptionType $e) {
+    // catch body
+}
+</code>
+
+Conditional declaration:
+
+<code>
+// conditional declaration is *not* a side effect
+if (! function_exists('bar')) {
+    function bar()
+    {
+        // function body
+    }
+}
+</code>
+
+What's the difference between throwing an error or try -> catch, vs if else. Exceptions are real exceptions. If/else is branching logic.
 ===== Communication Patterns =====
 
 Pub/sub
@@ -67,7 +267,7 @@ File manipulation operations
 
 Non blocking IO
 
-Asynchronous programming
+Asynchronous programming (http://en.wikipedia.org/wiki/Asynchronous_I/O)
 
 Compression
 

@@ -1,0 +1,39 @@
+<span class="co1">//here is the parent class</span>
+<span class="kw2">class</span> Rectangle<span class="br0">&#123;</span>
+    <span class="kw2">protected</span> width<span class="sy0">;</span>
+    <span class="kw2">protected</span> height<span class="sy0">;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> set_height<span class="br0">&#40;</span><span class="re0">$y</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">height</span> <span class="sy0">=</span> <span class="re0">$y</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> set_width<span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">width</span> <span class="sy0">=</span> <span class="re0">$x</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> area<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">width</span> <span class="sy0">*</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">height</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//squares are rectangles in math, but we'll see in a moment this violates LSP</span>
+<span class="kw2">class</span> Square <span class="kw2">extends</span> Rectangle<span class="br0">&#123;</span>
+    <span class="co1">//we're method overriding here!</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> area<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">width</span> ^ <span class="nu0">2</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//now Square class can be substituted for Rectangle</span>
+<span class="kw2">class</span> Geometry<span class="br0">&#123;</span>
+    <span class="kw2">public</span> __construct<span class="br0">&#40;</span>Rectangle <span class="re0">$shape</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$shape</span><span class="sy0">-&gt;</span><span class="me1">set_width</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$shape</span><span class="sy0">-&gt;</span><span class="me1">set_height</span><span class="br0">&#40;</span><span class="nu0">50</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="re0">$shape</span><span class="sy0">-&gt;</span><span class="me1">area</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//this works, it's using the parent class</span>
+<span class="re0">$rectangle_geometry</span> <span class="sy0">=</span> <span class="kw2">new</span> Geometry<span class="br0">&#40;</span><span class="kw2">new</span> Rectangle<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this works as well, because Square extends Rectangle, the type hint passes</span>
+<span class="co1">//however the functionality as expected is broken due to the method overriding</span>
+<span class="co1">//violates liskov substitution principle so this is bad code!</span>
+<span class="re0">$square_geometry</span> <span class="sy0">=</span> <span class="kw2">new</span> Geometry<span class="br0">&#40;</span><span class="kw2">new</span> Square<span class="br0">&#41;</span><span class="sy0">;</span>
