@@ -1,5 +1,7 @@
 ====== Software Development Workflow ======
 
+Load testing: http://www.blitz.io/
+
 ==== Software Development Process ====
 
 DRY
@@ -24,9 +26,11 @@ Using firephp
 
 Using Xdebug
 
-TDD
+TDD - PHPUnit/PHPSpec2 + Jasmine
 
-BDD
+BDD - Behat + Jasmine
+
+Profiling for speed
 
 ==== Build Tools ====
 

@@ -4,9 +4,9 @@ Polycademy has a repository of ideas and projects that either haven't been made,
 
 ===== Web Apps =====
 
-==== Webapp Number 1 ====
+==== Git Pocket ====
 
-Description: Blah
+Git Pocket is manages your starred repositories on Git into stacks. Stacks are shareable socially and can integrate into package managers so you can download your "stack" for different purposes.
 ===== Mobile Apps =====
 
 ===== Desktop Apps =====

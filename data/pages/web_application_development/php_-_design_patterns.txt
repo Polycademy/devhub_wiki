@@ -3,6 +3,10 @@
 Developers have been developing since computers first began. This means we have a history of common problems and have constructed solutions to these, shared them and over decades optimised them. This article will discuss common problems that you'll face when constructing your web application, and the best practices to deal with them. This article cannot possible cover all design patterns, and some problems require extracurricular study or outside expertise in computer science or mathematics to solve. In fact some problems are not actually computational problems but are people problems.
 
 Note that the term design patterns in programming often refers to [[wp>Software design pattern|specific practices that have been given a name and have a large following in theory]]. This article defines design patterns as more broad than that, it will cover practices that only come with experience and practices that come out of theory.
+
+Also check out this [[http://www.mindmeister.com/7008138/design-patterns|mindmap of different design patterns and their categories]]:
+
+{{url>http://www.mindmeister.com/maps/public_map_shell/263325254/design-patterns?width=600&height=400&z=auto 427px,356px noscroll noborder}}
 ===== PHP Standards =====
 
 There are a million ways to skin a cat. Just because you can skin the cat in the way you currently prefer, doesn't mean you should. We follow standards to help collaboration, scalability and maintainability. Of course standards are not religion, you'll need to balance the effort against reward when complying with standards.
@@ -13,8 +17,13 @@ However the [[http://www.php-fig.org/|PHP FIG team]] was constructed out of repr
 
 ==== PSR-0 ====
 
-The PSR-0 standard was their first standard and the most readily accepted standard by the PHP community. This was for autoloading and structuring of sharable code libraries. We already went through the PSR-
+The PSR-0 standard was their first standard and the most readily accepted standard by the PHP community. This was for autoloading and structuring of sharable code libraries. We already went through the PSR-0 standard in [[PHP - Server Side Architecture#composer_libraries|the composer section in the server side architecture article]]. The [[https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-0.md|official documentation is located on Github]].
 
+Not all of our libraries need to be PSR-0 based. Only those that we want shareable. Some libraries are actually a simple static class, and they will be autoloaded based on a class map and not namespacing. This is what was done with the CiTemplating library. The reason being is that if you use any of the static methods, you would need to call the namespace in every view file. This is usually not a problem in parser based templating libraries, because of their domain specific language. But this was straight and simple PHP.
+
+Codeigniter itself is not a PSR-0 framework, if it were, everything from controllers to models would require namespacing and autoloading. However newer frameworks are becoming fully PSR-0 based, if you're interested take a look at the [[http://laravel.com/|Laravel framework]]. For now you won't need all those complexities so we'll stick with Codeigniter.
+
+Remember since we're using CiAutoloading, we can put PSR-0 libraries into our own libraries directory or third_party directory, or we could use Composer to autoload them for us.
 ==== PSR-1 ====
 
 ==== PSR-2 ====
@@ -62,6 +71,9 @@ Asynchronous programming
 
 Compression
 
+File streaming by binary chunks (due to memory limits)
+
+Also mention Amazon S3 for file storage CDNs (most hosts dont allow to be a file hosting service)
 ===== Shell Operations =====
 
 Proc open
