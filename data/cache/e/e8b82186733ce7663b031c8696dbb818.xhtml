@@ -2,40 +2,135 @@
 <h1 class="sectionedit1" id="user_interface">User Interface</h1>
 <div class="level1">
 
+<p>
+Web user interfaces are unique in that they require an understanding of the document object model. There are also common UI patterns among web applications, and due to variability in screen sizes, web designers have to design interfaces that are viewable in any size. Furthermore web interfaces are not static graphics, they are interactive. <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> makes the process even more unique as interactions are performed in real time and new information can overlay or replace elements already on the page.
+</p>
+
 </div>
-<!-- EDIT1 SECTION "User Interface" [1-30] -->
+<!-- EDIT1 SECTION "User Interface" [1-529] -->
 <h2 class="sectionedit2" id="understanding_the_box_model">Understanding the Box Model</h2>
 <div class="level2">
+
+<p>
+Web layouts consists of <abbr title="HyperText Markup Language">HTML</abbr> as the markup language that describes the structure of information. Then <abbr title="Cascading Style Sheets">CSS</abbr> rules are applied in order to style the document. Javascript is the scripting language of browsers, and this is used to make layouts dynamic and eventful.
+</p>
+
+<p>
+The key concept to grasp when designing layouts is the box model.
+</p>
 
 <p>
 <a href="/polycademy_projects/devhub_wiki/lib/exe/detail.php?id=web_application_development%3Auser_interface&amp;media=web_application_development:boxdim.png" class="media" title="web_application_development:boxdim.png"><img src="/polycademy_projects/devhub_wiki/lib/exe/fetch.php?media=web_application_development:boxdim.png" class="mediacenter" alt="" /></a>
 </p>
 
+<p>
+All elements on the web are structured in boxes. Elements inside containers are usually boxes inside boxes. Simply you put your content inside the content box. Padding is used to pad out the containing edges, usually with a background colour. This is so that your content doesn&#039;t stick to the edge. Borders are used to setup borders. Margins are used for layout, in that you use it to push other boxes away.
+</p>
+
+<p>
+All elements begin relative to the root, which in positioning terms is the top left corner of the browser. Many browsers already have default <abbr title="Cascading Style Sheets">CSS</abbr> rules, but as a designer we&#039;ll be overriding them.
+</p>
+
+<p>
+The box model concept is also coupled to the <abbr title="Cascading Style Sheets">CSS</abbr> display rules. We&#039;ll examine this in more detail in the <abbr title="HyperText Markup Language">HTML</abbr> &amp; <abbr title="Cascading Style Sheets">CSS</abbr> section.
+</p>
+
 </div>
-<!-- EDIT2 SECTION "Understanding the Box Model" [31-119] -->
+<!-- EDIT2 SECTION "Understanding the Box Model" [530-1680] -->
 <h2 class="sectionedit3" id="common_ui_patterns">Common UI Patterns</h2>
 <div class="level2">
 
 <p>
-Just basic UI patterns, don&#039;t conflict with Bootstrap&#039;s UI patterns.
+There are many common user interface patterns across web applications. Consistency with these UI patterns allows your users to instantly recognise how to use your web application. However these are just guidelines. Let your creativity flow!
 </p>
+<ul>
+<li class="level1"><div class="li"> Headers - <a href="http://blog.usabilla.com/how-to-design-a-more-effective-website-header/" class="urlextern" title="http://blog.usabilla.com/how-to-design-a-more-effective-website-header/"  rel="nofollow">Effect Website Headers</a></div>
+</li>
+<li class="level1"><div class="li"> Footers - <a href="http://www.smashingmagazine.com/2008/04/08/footers-in-modern-web-design-creative-examples-and-ideas/" class="urlextern" title="http://www.smashingmagazine.com/2008/04/08/footers-in-modern-web-design-creative-examples-and-ideas/"  rel="nofollow">Footers in Modern Web Design</a>, </div>
+</li>
+<li class="level1"><div class="li"> Tables - <a href="http://coding.smashingmagazine.com/2008/08/13/top-10-css-table-designs/" class="urlextern" title="http://coding.smashingmagazine.com/2008/08/13/top-10-css-table-designs/"  rel="nofollow">Top 10 CSS Tables</a>, <a href="http://www.datatables.net/" class="urlextern" title="http://www.datatables.net/"  rel="nofollow">Datatables</a>, <a href="http://designshack.net/articles/css/15-tips-for-designing-terrific-tables/" class="urlextern" title="http://designshack.net/articles/css/15-tips-for-designing-terrific-tables/"  rel="nofollow">Tips on designing tables</a></div>
+</li>
+<li class="level1"><div class="li"> Forms - <a href="http://www.smashingmagazine.com/web-form-design-showcases-and-solutions/" class="urlextern" title="http://www.smashingmagazine.com/web-form-design-showcases-and-solutions/"  rel="nofollow">Web Forms Design Showcase</a></div>
+</li>
+<li class="level1"><div class="li"> Upvote/Downvote - <a href="http://www.quora.com/" class="urlextern" title="http://www.quora.com/"  rel="nofollow">Quora</a>, <a href="http://news.ycombinator.com/" class="urlextern" title="http://news.ycombinator.com/"  rel="nofollow">Hacker News</a>, <a href="http://stackoverflow.com/" class="urlextern" title="http://stackoverflow.com/"  rel="nofollow">Stack Overflow</a>, <a href="http://slashdot.org/" class="urlextern" title="http://slashdot.org/"  rel="nofollow">Slashdot</a></div>
+</li>
+<li class="level1"><div class="li"> Marketplace - <a href="http://www.designcrowd.com.au/" class="urlextern" title="http://www.designcrowd.com.au/"  rel="nofollow">Designcrowd</a></div>
+</li>
+<li class="level1"><div class="li"> Slider - <a href="http://3.7designs.co/blog/2008/04/12-websites-that-slide-and-scroll-with-javascript/" class="urlextern" title="http://3.7designs.co/blog/2008/04/12-websites-that-slide-and-scroll-with-javascript/"  rel="nofollow">12 Websites using Slide</a>, <a href="http://liquidslider.kevinbatdorf.com/" class="urlextern" title="http://liquidslider.kevinbatdorf.com/"  rel="nofollow">Liquidslider</a></div>
+</li>
+<li class="level1"><div class="li"> Horizontal Scroll - <a href="http://webdesignledger.com/inspiration/40-of-the-best-horizontal-scrolling-websites" class="urlextern" title="http://webdesignledger.com/inspiration/40-of-the-best-horizontal-scrolling-websites"  rel="nofollow">40 Horizontal Scroll Sites</a></div>
+</li>
+<li class="level1"><div class="li"> Parallax effect - <a href="http://blog.usabilla.com/15-reasons-why-parallax-scrolling-in-web-design-is-awesome/" class="urlextern" title="http://blog.usabilla.com/15-reasons-why-parallax-scrolling-in-web-design-is-awesome/"  rel="nofollow">Why use Parallax effect?</a></div>
+</li>
+<li class="level1"><div class="li"> Grids - <a href="http://fluidsquares.com/" class="urlextern" title="http://fluidsquares.com/"  rel="nofollow">Fluid Squares</a></div>
+</li>
+<li class="level1"><div class="li"> Usability Tools - <a href="http://uxdesign.smashingmagazine.com/2009/06/23/10-ui-design-patterns-you-should-be-paying-attention-to/" class="urlextern" title="http://uxdesign.smashingmagazine.com/2009/06/23/10-ui-design-patterns-you-should-be-paying-attention-to/"  rel="nofollow">UI Patterns Overview</a></div>
+</li>
+</ul>
 
 </div>
-<!-- EDIT3 SECTION "Common UI Patterns" [120-220] -->
+<!-- EDIT3 SECTION "Common UI Patterns" [1681-3497] -->
 <h2 class="sectionedit4" id="fluid_design">Fluid Design</h2>
 <div class="level2">
 
-</div>
-<!-- EDIT4 SECTION "Fluid Design" [221-246] -->
-<h2 class="sectionedit5" id="ajax_intro">AJAX Intro</h2>
-<div class="level2">
-
 <p>
-Rise of single page apps.
-Realtimeness.
-Design so your site can receive updates in realtime or via ajax.
-Such as dynamic loading, pushing.
+Fluid design is the art and mathematics of making your design work on small screens and large screens. There are a number of tricks making design fluid, and it can get quite complicated resizing everything in proportion. However we&#039;ll be using Twitter Bootstrap and HTML5BP as our <abbr title="HyperText Markup Language">HTML</abbr>/<abbr title="Cascading Style Sheets">CSS</abbr> framework which will abstract most of those difficulties.
 </p>
 
 </div>
-<!-- EDIT5 SECTION "AJAX Intro" [247-] -->
+<!-- EDIT4 SECTION "Fluid Design" [3498-3872] -->
+<h3 class="sectionedit5" id="text_width">Text width</h3>
+<div class="level3">
+
+<p>
+<a href="http://www.maxdesign.com.au/articles/em/" class="urlextern" title="http://www.maxdesign.com.au/articles/em/"  rel="nofollow">Typographic research</a> has shown that people don&#039;t like reading long lines of text. The recommended size is 52–78 characters (including spaces) per line. Of course this is a generalisation, as it depends on text size and line-height. Mark Boulton expands on this with an in depth article about <a href="http://www.markboulton.co.uk/journal/five-simple-steps-to-better-typography" class="urlextern" title="http://www.markboulton.co.uk/journal/five-simple-steps-to-better-typography"  rel="nofollow">typography and readability</a>.
+</p>
+
+<p>
+Typography with <abbr title="Cascading Style Sheets">CSS</abbr> doesn&#039;t fluidly scale currently, so there is a tool for that called <a href="http://fittextjs.com/" class="urlextern" title="http://fittextjs.com/"  rel="nofollow">FitText</a>. This <a href="http://trentwalton.com/2012/06/19/fluid-type/" class="urlextern" title="http://trentwalton.com/2012/06/19/fluid-type/"  rel="nofollow">Fluid Type</a> article explains the reasons for using it.
+</p>
+
+</div>
+<!-- EDIT5 SECTION "Text width" [3873-4574] -->
+<h3 class="sectionedit6" id="progressive_enhancement_or_graceful_degradation">Progressive Enhancement or Graceful Degradation</h3>
+<div class="level3">
+
+<p>
+Fluid design isn&#039;t about sizing everything down in perfect proportion. You can&#039;t size down a desktop website to a mobile website without it being impossible to read. It&#039;s about knowing what&#039;s important to keep and that is less is more.
+</p>
+
+<p>
+Figure out the context of your mobile users, and you&#039;ll find out what mobile users really want. They don&#039;t have much time, since they&#039;re usually on the move, they also have slow internet. So it&#039;s important to cut out what&#039;s not important and only leave the essential.
+</p>
+
+<p>
+To do this you can use <abbr title="Cascading Style Sheets">CSS</abbr> Media Queries or have a separate mobile website or app. You may notice on the Polycademy website, when you size down, the navigation collapses into a small menu button. You don&#039;t want that blocking the content! Mobile browsers are often less powerful and less featureful than their desktop counterparts so you&#039;ll need to follow <a href="http://coding.smashingmagazine.com/2009/04/22/progressive-enhancement-what-it-is-and-how-to-use-it/" class="urlextern" title="http://coding.smashingmagazine.com/2009/04/22/progressive-enhancement-what-it-is-and-how-to-use-it/"  rel="nofollow">Progressive Enhancement</a>. This basically means adding extra functionality if the browser supports it, if they don&#039;t gracefully degrade, so that older or less powerful browsers can still use the information.
+</p>
+
+<p>
+Refer to the Smashing Magazine list on <a href="http://www.smashingmagazine.com/responsive-web-design-guidelines-tutorials/" class="urlextern" title="http://www.smashingmagazine.com/responsive-web-design-guidelines-tutorials/"  rel="nofollow">responsive design guidelines</a> for more information.
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Progressive Enhancement or Graceful Degradation" [4575-5975] -->
+<h2 class="sectionedit7" id="ajax_intro">AJAX Intro</h2>
+<div class="level2">
+
+<p>
+<abbr title="Asynchronous JavaScript and XML">AJAX</abbr> means Asynchronous Javascript and <abbr title="Extensible Markup Language">XML</abbr>. It was a technology originally created by Internet Explorer, and it was an alternative way to load content into the page without refreshing the page. This creates a closer experience to desktop applications. <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> brings power and complications to the web designer and front end developer.
+</p>
+<ul>
+<li class="level1"><div class="li"> <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> Usability Concerns - <a href="http://coding.smashingmagazine.com/2010/02/10/some-things-you-should-know-about-ajax/" class="urlextern" title="http://coding.smashingmagazine.com/2010/02/10/some-things-you-should-know-about-ajax/"  rel="nofollow">http://coding.smashingmagazine.com/2010/02/10/some-things-you-should-know-about-ajax/</a></div>
+</li>
+<li class="level1"><div class="li"> Common Ajax Problems - <a href="http://www.webdesignerdepot.com/2009/12/solutions-to-5-common-ajax-problems/" class="urlextern" title="http://www.webdesignerdepot.com/2009/12/solutions-to-5-common-ajax-problems/"  rel="nofollow">http://www.webdesignerdepot.com/2009/12/solutions-to-5-common-ajax-problems/</a></div>
+</li>
+<li class="level1"><div class="li"> Rise of Single Page Apps - <a href="http://happyworm.com/blog/2010/08/23/the-future-of-web-apps-single-page-applications/" class="urlextern" title="http://happyworm.com/blog/2010/08/23/the-future-of-web-apps-single-page-applications/"  rel="nofollow">http://happyworm.com/blog/2010/08/23/the-future-of-web-apps-single-page-applications/</a> &amp; <a href="http://pandodaily.com/2012/12/06/html-javascript-and-the-app-ification-of-the-web/" class="urlextern" title="http://pandodaily.com/2012/12/06/html-javascript-and-the-app-ification-of-the-web/"  rel="nofollow">http://pandodaily.com/2012/12/06/html-javascript-and-the-app-ification-of-the-web/</a></div>
+</li>
+</ul>
+
+<p>
+At the design stage it&#039;s important to understand the limitations and quirks of <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>. With the speed of javascript rising in web browsers, a single page app powered by complex javascript becomes possible. However we still have many older browsers in use and mobile browsers cannot run complex javascript. As a front end developer you&#039;ll need to figure out how you can decouple your layout from user input, so that your layout can flexibly adapt to back end data. This will be examined in detail when we study javascript.
+</p>
+
+</div>
+<!-- EDIT7 SECTION "AJAX Intro" [5976-] -->

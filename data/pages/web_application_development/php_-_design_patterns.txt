@@ -190,19 +190,44 @@ Also note that you can have child interfaces extending parent interfaces, and by
 
 === Dependency Inversion principle ===
 
+Conventional dependency relationships from high level classes to low level utility classes are inverted for the purpose of rendering high-level classes independent of the low-level classes implementation details. High-level classes should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend upon details. Details should depend upon abstractions. Both high and low-level objects must depend on the same abstraction.
+
+[{{ :web_application_development:embrace-change-switch-ligh-reversed-dependency.png?200|Dependency Inverted Switch with a Switchable Interface}}]
+
+Basically instead of flowing from a concrete library depending on a concrete lower level library, the concrete library depends on an intermediate abstraction. This has been what we've been doing with interfaces. The high level class type hints at an interface to be injected, the low level class implements the interface. The interface is created as an abstract intermediary. All concrete classes thus depend on abstractions linking to more concrete classes.
+
+This is the essence of dependency injection, so that way we can not only unit test our classes by passing in dependencies, but we can also have highly maintainable code so we can easily swap out dependencies.
 ==== Method Manipulation ====
 
-Visibility - Public, Protected, Private
+=== Constructor & Destructors ===
 
-Usage of Final
+http://php.net/manual/en/language.oop5.decon.php
+
+Using __construct and parent::__construct();
+
+Using destructors to clean up connections and resources. Also to do any house cleaning operations such as putting cache to disk. The destructor will be called when the PHP script finishes. Better than writing an explicit command to be called. Can be used with the unset command (http://stackoverflow.com/questions/8798443/best-way-to-destroy-php-object)
+
+=== Visibility ===
+
+Public, Protected, Private
+
+=== Method Overloading ===
 
 Method Overloading with default parameters being at the end of the argument list
 
-Method overriding through extension
+=== Method Chaining ===
 
-Static
+Return $this
 
-Method chaining
+=== Method Overriding ===
+
+Extending
+
+Usage of Final to prevent over riding
+
+=== Traits ===
+
+5.4 and above
 
 Traits (http://phpmaster.com/using-traits-in-php-5-4/)
 

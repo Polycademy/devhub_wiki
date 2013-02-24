@@ -297,33 +297,87 @@ Also note that you can have child interfaces extending parent interfaces, and by
 <h4 id="dependency_inversion_principle">Dependency Inversion principle</h4>
 <div class="level4">
 
+<p>
+Conventional dependency relationships from high level classes to low level utility classes are inverted for the purpose of rendering high-level classes independent of the low-level classes implementation details. High-level classes should not depend on low-level modules. Both should depend on abstractions. Abstractions should not depend upon details. Details should depend upon abstractions. Both high and low-level objects must depend on the same abstraction.
+</p>
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/polycademy_projects/devhub_wiki/lib/exe/detail.php?id=web_application_development%3Aphp_-_design_patterns&amp;media=web_application_development:embrace-change-switch-ligh-reversed-dependency.png" class="media" title="web_application_development:embrace-change-switch-ligh-reversed-dependency.png"><img src="/polycademy_projects/devhub_wiki/lib/exe/fetch.php?w=200&amp;media=web_application_development:embrace-change-switch-ligh-reversed-dependency.png" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/polycademy_projects/devhub_wiki/lib/exe/detail.php?id=web_application_development%3Aphp_-_design_patterns&amp;media=web_application_development:embrace-change-switch-ligh-reversed-dependency.png"><img width="15" height="11" alt="" src="/polycademy_projects/devhub_wiki/lib/plugins/imagebox/magnify-clip.png"/></a></div>Dependency Inverted Switch with a Switchable Interface</div></div></div>
+<p>
+Basically instead of flowing from a concrete library depending on a concrete lower level library, the concrete library depends on an intermediate abstraction. This has been what we&#039;ve been doing with interfaces. The high level class type hints at an interface to be injected, the low level class implements the interface. The interface is created as an abstract intermediary. All concrete classes thus depend on abstractions linking to more concrete classes.
+</p>
+
+<p>
+This is the essence of dependency injection, so that way we can not only unit test our classes by passing in dependencies, but we can also have highly maintainable code so we can easily swap out dependencies.
+</p>
+
 </div>
-<!-- EDIT8 SECTION "SOLID Principles" [8073-14395] -->
+<!-- EDIT8 SECTION "SOLID Principles" [8073-15675] -->
 <h3 class="sectionedit9" id="method_manipulation">Method Manipulation</h3>
 <div class="level3">
 
+</div>
+
+<h4 id="constructor_destructors">Constructor &amp; Destructors</h4>
+<div class="level4">
+
 <p>
-Visibility - Public, Protected, Private
+<a href="http://php.net/manual/en/language.oop5.decon.php" class="urlextern" title="http://php.net/manual/en/language.oop5.decon.php"  rel="nofollow">http://php.net/manual/en/language.oop5.decon.php</a>
 </p>
 
 <p>
-Usage of Final
+Using <em class="u">construct and parent::</em>construct();
 </p>
+
+<p>
+Using destructors to clean up connections and resources. Also to do any house cleaning operations such as putting cache to disk. The destructor will be called when the <abbr title="Hypertext Preprocessor">PHP</abbr> script finishes. Better than writing an explicit command to be called. Can be used with the unset command (<a href="http://stackoverflow.com/questions/8798443/best-way-to-destroy-php-object" class="urlextern" title="http://stackoverflow.com/questions/8798443/best-way-to-destroy-php-object"  rel="nofollow">http://stackoverflow.com/questions/8798443/best-way-to-destroy-php-object</a>)
+</p>
+
+</div>
+
+<h4 id="visibility">Visibility</h4>
+<div class="level4">
+
+<p>
+Public, Protected, Private
+</p>
+
+</div>
+
+<h4 id="method_overloading">Method Overloading</h4>
+<div class="level4">
 
 <p>
 Method Overloading with default parameters being at the end of the argument list
 </p>
 
+</div>
+
+<h4 id="method_chaining">Method Chaining</h4>
+<div class="level4">
+
 <p>
-Method overriding through extension
+Return $this
+</p>
+
+</div>
+
+<h4 id="method_overriding">Method Overriding</h4>
+<div class="level4">
+
+<p>
+Extending
 </p>
 
 <p>
-Static
+Usage of Final to prevent over riding
 </p>
 
+</div>
+
+<h4 id="traits">Traits</h4>
+<div class="level4">
+
 <p>
-Method chaining
+5.4 and above
 </p>
 
 <p>
@@ -331,7 +385,7 @@ Traits (<a href="http://phpmaster.com/using-traits-in-php-5-4/" class="urlextern
 </p>
 
 </div>
-<!-- EDIT9 SECTION "Method Manipulation" [14396-14683] -->
+<!-- EDIT9 SECTION "Method Manipulation" [15676-16553] -->
 <h3 class="sectionedit10" id="dependency_management">Dependency Management</h3>
 <div class="level3">
 
@@ -340,7 +394,7 @@ Dependency Injection + Inversion of Control IOC ⇒ <a href="http://net.tutsplus
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Dependency Management" [14684-14848] -->
+<!-- EDIT10 SECTION "Dependency Management" [16554-16718] -->
 <h2 class="sectionedit11" id="functional_programming">Functional Programming</h2>
 <div class="level2">
 
@@ -356,7 +410,7 @@ $closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
 };</pre>
 
 </div>
-<!-- EDIT11 SECTION "Functional Programming" [14849-15096] -->
+<!-- EDIT11 SECTION "Functional Programming" [16719-16966] -->
 <h2 class="sectionedit12" id="exception_error_handling">Exception/Error Handling</h2>
 <div class="level2">
 
@@ -387,7 +441,7 @@ What&#039;s the difference between throwing an error or try → catch, vs if els
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Exception/Error Handling" [15097-15617] -->
+<!-- EDIT12 SECTION "Exception/Error Handling" [16967-17487] -->
 <h2 class="sectionedit13" id="communication_patterns">Communication Patterns</h2>
 <div class="level2">
 
@@ -408,7 +462,7 @@ Using CURL and web scraping (Goutte)
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Communication Patterns" [15618-15775] -->
+<!-- EDIT13 SECTION "Communication Patterns" [17488-17645] -->
 <h2 class="sectionedit14" id="input_output">Input/Output</h2>
 <div class="level2">
 
@@ -441,7 +495,7 @@ Also mention Amazon S3 for file storage CDNs (most hosts dont allow to be a file
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Input/Output" [15776-16103] -->
+<!-- EDIT14 SECTION "Input/Output" [17646-17973] -->
 <h2 class="sectionedit15" id="shell_operations">Shell Operations</h2>
 <div class="level2">
 
@@ -458,7 +512,7 @@ Shell commands and passthru
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Shell Operations" [16104-16190] -->
+<!-- EDIT15 SECTION "Shell Operations" [17974-18060] -->
 <h2 class="sectionedit16" id="parsing_operations">Parsing Operations</h2>
 <div class="level2">
 
@@ -483,7 +537,7 @@ Also the area of study in language parsing and regex is huge. See Nikita&#039;s 
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Parsing Operations" [16191-16556] -->
+<!-- EDIT16 SECTION "Parsing Operations" [18061-18426] -->
 <h2 class="sectionedit17" id="structural_patterns">Structural Patterns</h2>
 <div class="level2">
 
@@ -496,7 +550,7 @@ Decorator
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Structural Patterns" [16557-16608] -->
+<!-- EDIT17 SECTION "Structural Patterns" [18427-18478] -->
 <h2 class="sectionedit18" id="creational_patterns">Creational Patterns</h2>
 <div class="level2">
 
@@ -505,7 +559,7 @@ Factory… etc
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Creational Patterns" [16609-16657] -->
+<!-- EDIT18 SECTION "Creational Patterns" [18479-18527] -->
 <h2 class="sectionedit19" id="behavioural_patterns">Behavioural Patterns</h2>
 <div class="level2">
 
@@ -514,7 +568,7 @@ Observor
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Behavioural Patterns" [16658-16701] -->
+<!-- EDIT19 SECTION "Behavioural Patterns" [18528-18571] -->
 <h2 class="sectionedit20" id="artificial_intelligence">Artificial Intelligence</h2>
 <div class="level2">
 
@@ -535,4 +589,4 @@ Natural Language Processing
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Artificial Intelligence" [16702-] -->
+<!-- EDIT20 SECTION "Artificial Intelligence" [18572-] -->
