@@ -1,0 +1,8 @@
+<span class="kw2">class</span> SomeRandomClass<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$parameter</span><span class="sy0">;</span>
+    <span class="kw2">private</span> <span class="re0">$type_hinted_dependency</span><span class="sy0">;</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$default_parameter</span><span class="sy0">,</span> iInterface <span class="re0">$type_hinted_dependency</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">parameter</span> <span class="sy0">=</span> <span class="re0">$default_parameter</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">type_hinted_dependency</span> <span class="sy0">=</span> <span class="re0">$type_hinted_dependency</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

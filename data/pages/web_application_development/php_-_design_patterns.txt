@@ -199,38 +199,142 @@ Basically instead of flowing from a concrete library depending on a concrete low
 This is the essence of dependency injection, so that way we can not only unit test our classes by passing in dependencies, but we can also have highly maintainable code so we can easily swap out dependencies.
 ==== Method Manipulation ====
 
+Methods are the functional units to a class. Also note that when developers talk about "members" or "properties" of a class they usually mean the variables to the class, not the methods. It is recommended that developers use methods as the verbs in order to manipulate the state of a class, rather than directly accessing the variables.
+
 === Constructor & Destructors ===
 
-http://php.net/manual/en/language.oop5.decon.php
+Every class can have a [[http://php.net/manual/en/language.oop5.decon.php|constructor and destructor]] [[http://www.php.net/manual/en/language.oop5.magic.php|magic method]]. All magic methods are prepended with double underscores.
 
-Using __construct and parent::__construct();
+The construct function is called whenever the object is instantiated. This is only relevant for instantiated objects, not static classes. This function is used to setup all the necessary dependencies and variables for the object to operate. Therefore we often pass in parameters to the method with type hints for dependencies.
 
-Using destructors to clean up connections and resources. Also to do any house cleaning operations such as putting cache to disk. The destructor will be called when the PHP script finishes. Better than writing an explicit command to be called. Can be used with the unset command (http://stackoverflow.com/questions/8798443/best-way-to-destroy-php-object)
+<code php>
+class SomeRandomClass{
+    private $parameter;
+    private $type_hinted_dependency;
+    public function __construct($default_parameter, iInterface $type_hinted_dependency){
+        $this->parameter = $default_parameter;
+        $this->type_hinted_dependency = $type_hinted_dependency;
+    }
+}
+</code>
+
+When you're extending a class, you may need to call the parent constructor, as that will setup the parent's initialisation. You will need to call:
+
+<code php>
+class ChildClass extends ParentClass{
+    public function __construct(){
+        //notice how we use the :: instead of the -> which means its calling it statically...
+        parent::__construct();
+    }
+}
+</code>
+
+Destructors are similar to constructors, but they are called either when the scripts finishes execution (in the case PHP it finishes once the response is sent) or when the [[http://stackoverflow.com/questions/8798443/best-way-to-destroy-php-object|object is unset]].
+
+Destructors are somewhat rare in PHP because of the automatic garbage collection of memory at the end of script execution. However you can use destructors to clean up connections, resources and do house cleaning operations like logging any cache to disk. If you find yourself calling an explicit command to do whenever you want to stop using an object, then you put it in the destructor.
+
+Destructors will however need to be used for long running daemon processes to avoid memory leaks.
 
 === Visibility ===
 
-Public, Protected, Private
+The [[http://www.php.net/manual/en/language.oop5.visibility.php|visibility modifiers]] are there to enforce proper encapsulation coding style, but also are a hint of your intentions to other developers reading your code, thus making it easier to understand. Therefore it's best practice to always put a visibility modifier (even if your code works without them), and make sure they are contextually relevant. If they are public, they should be and will be accessed from outside the class. If they are protected, they should be and will be accessed from child classes. If they are private they should be and will not be accessed from classes other than the designated class. Refer to the official documentation for syntax.
+
+Because we should be using verbs to modify state, methods are the ones that should be public, and class properties should be not accessible outside of methods. This however is a guideline, not a religion.
 
 === Method Overloading ===
 
-Method Overloading with default parameters being at the end of the argument list
+[[http://www.php.net/manual/en/language.oop5.overloading.php|PHP's interpretation of overloading]] is different from other languages. This part refers to method overloading from the perspective of other languages.
+
+Method overloading refers to the definition of multiple methods with the same name but different number of parameters. The goal is be able to call the same method with different parameters and execute different branches of logic.
+
+PHP doesn't need to do this because it has the capability of having default parameters in its argument list. This pretty much simulates the same functionality. All default parameters should be at the end of the argument list.
+
+<code php>
+
+//default parameters has to be after the required parameters or else there'll be a fatal error
+function do_something(
+    $required,
+    &$reference, //this is pass by reference
+    $optional = null,
+    iInterface $object = null,
+    $string = 'blah blah blah',
+    $array = array('lol'),
+    $boolean = false,
+){
+//default parameters are not the same as typehints, an empty variable will have the default type, but anything else could be passed in
+}
+</code>
+
+Note that the passing by reference with the ''&'' prefixed. This means the value is references instead of copied. Normally when you pass in a variable to a function, it copies the value and then does work on it. It doesn't affect the original variable. However you can use ''&'' to make sure that any changes to that variable that happens inside the function also gets changed outside of the function, this is because the value is now a reference to the original value. This often gets used when we want a function to have multiple side effects, so that it's not only returning a final output, but also modifying things around it. This is more frequently used when manipulating arrays through the ''foreach'' function. We can use it to change the array's values as we iterate through it, instead of returning a finished value and then replacing the old array with the new array. Other than that, you should keep your references to a minimum.
+
+One more thing to note is default parameter of ''null''. When we type hint an object to be passed in and at the same time have a default parameter of ''null'', this means we can pass in ''null'' as the parameter when calling the function. This allows us to bypass the need to pass in an object. This can be useful when you need to conditionally branch logic depending on the existence of an object, but you don't want to force your user to need to have an object that implements the interface.
+
+If you need to have variable number of parameters, try using [[http://www.php.net/manual/en/function.func-get-args.php|func_get_args]].
 
 === Method Chaining ===
 
-Return $this
+[[wp>Method chaining|Method chaining]] the practice of calling multiple methods one after the other in a very succinct way. For example:
+
+<code php>
+$result = $object->place('dog')->with('cat')->and('tree')->result();
+</code>
+
+Method chaining may potentially reduce the number of code written and improve readability. However too many method chains will result in a train wreck where it becomes difficult to isolate bugs.
+
+The key to implementation is to have an object with a number mutator methods that return ''$this''.
+
+For example:
+
+<code php>
+class FakeString{
+    private $str;
+    function __construct(){
+        $this->str = "";
+    }
+    //mutator methods mutate a variable
+    function addA(){
+        $this->str .= "a";
+        return $this;
+    }
+    function addB(){
+        $this->str .= "b";
+        return $this;
+    }
+    function getStr(){
+        return $this->str;
+    }
+}
+
+$a = new fakeString();
+
+echo $a->addA()->addB()->getStr();
+</code>
+
+You'll see method chaining when using Codeigniter's Active Records class.
 
 === Method Overriding ===
 
-Extending
+Method overriding simply refers to child classes that override a method from their parent class. This method would have to have the same name to override. You would do this every time you need to reuse the parent class's functionality but need one thing changed. Of course be careful not to violate the Liskov Substitution Principle. Sometimes you should create a completely new class, or use an interface instead. You'll use this technique often with Codeigniter since it allows all of its native classes to be extended and overwritten.
 
-Usage of Final to prevent over riding
+You can also use the ''final'' keyword to prevent overriding. This simply means the method the final form and should not be overwritten. The ''final'' keyword can be used on the class itself to prevent overwriting, or just a single method.
+
+<code php>
+class BaseClass {
+   //finalised method
+   final public function do_something() {}
+}
+
+//finalised class
+final class NoChildren{
+   public function do_something() {}
+}
+</code>
 
 === Traits ===
 
-5.4 and above
+Remember how child classes cannot extend multiple parent classes? Well there's a [[wp>Multiple inheritance#The_diamond_problem|reason for that]].
 
-Traits (http://phpmaster.com/using-traits-in-php-5-4/)
-
+Instead programming languages have designed mixins to be alternatives to multiple extensions. PHP calls them [[http://phpmaster.com/using-traits-in-php-5-4/|"traits"]]. These are only available on PHP 5.4. However don't use traits too much, you'll start to violate OOP principles because of how easy it seems at first, but eventually run into maintenance problems.
 ==== Dependency Management ====
 
 Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/ And Type hinting

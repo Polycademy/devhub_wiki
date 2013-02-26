@@ -1,0 +1,26 @@
+====== Lesson 16 - WAP ======
+
+**Expected Work**
+
+  - Finish Design
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Introduction to Web Programming and the Frameworks we're going to use
+  - Understanding the Application Stack
+  - Separation into Architecture, Design Patterns and Workflow
+  - Begin setting up Codeigniter from the commonprogramming repository
+  - Starting OOP
+  - 40 days left!
+
+**Practice**
+
+  - Start reading about the PHP Syntax
+  - Play with PHPBounce
+  - Read about the PSR standards

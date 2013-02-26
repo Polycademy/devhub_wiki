@@ -1,0 +1,22 @@
+<span class="kw2">class</span> FakeString<span class="br0">&#123;</span>
+    <span class="kw2">private</span> <span class="re0">$str</span><span class="sy0">;</span>
+    <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">str</span> <span class="sy0">=</span> <span class="st0">&quot;&quot;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="co1">//mutator methods mutate a variable</span>
+    <span class="kw2">function</span> addA<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">str</span> <span class="sy0">.=</span> <span class="st0">&quot;a&quot;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">function</span> addB<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">str</span> <span class="sy0">.=</span> <span class="st0">&quot;b&quot;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+    <span class="kw2">function</span> getStr<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">str</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$a</span> <span class="sy0">=</span> <span class="kw2">new</span> fakeString<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">echo</span> <span class="re0">$a</span><span class="sy0">-&gt;</span><span class="me1">addA</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">addB</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">-&gt;</span><span class="me1">getStr</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>

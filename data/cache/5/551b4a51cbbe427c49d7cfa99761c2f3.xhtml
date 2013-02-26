@@ -1,0 +1,482 @@
+
+<h1 class="sectionedit1" id="web_programming">Web Programming</h1>
+<div class="level1">
+
+<p>
+Intro to web programming, separate into <abbr title="Hypertext Preprocessor">PHP</abbr> and <abbr title="JavaScript">JS</abbr>.
+</p>
+
+</div>
+<!-- EDIT1 SECTION "Web Programming" [1-84] -->
+<h2 class="sectionedit2" id="syntax">Syntax</h2>
+<div class="level2">
+
+<p>
+Refer to documentation for syntax
+</p>
+
+<p>
+<abbr title="Hypertext Preprocessor">PHP</abbr>.net, PHPBounce, PHPMaster, Net tuts
+</p>
+
+<p>
+MDN, Books on <abbr title="JavaScript">JS</abbr>… Codecademy
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Syntax" [85-212] -->
+<h2 class="sectionedit3" id="frameworks">Frameworks</h2>
+<div class="level2">
+
+<p>
+Refer to these
+</p>
+
+<p>
+Codeigniter User Guide
+</p>
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/polycademy_projects/devhub_wiki/lib/exe/detail.php?id=web_application_development%3Aweb_programming&amp;media=web_application_development:jquery_application_architecture.jpg" class="media" title="web_application_development:jquery_application_architecture.jpg"><img src="/polycademy_projects/devhub_wiki/lib/exe/fetch.php?w=200&amp;media=web_application_development:jquery_application_architecture.jpg" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/polycademy_projects/devhub_wiki/lib/exe/detail.php?id=web_application_development%3Aweb_programming&amp;media=web_application_development:jquery_application_architecture.jpg"><img width="15" height="11" alt="" src="/polycademy_projects/devhub_wiki/lib/plugins/imagebox/magnify-clip.png"/></a></div>jQuery Application Architecture Guide</div></div></div>
+<p>
+Javascript MVC docs
+</p>
+
+<p>
+JQuery Docs
+</p>
+
+</div>
+<!-- EDIT3 SECTION "Frameworks" [213-426] -->
+<h2 class="sectionedit4" id="architecture">Architecture</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT4 SECTION "Architecture" [427-452] -->
+<h3 class="sectionedit5" id="understanding_the_application_stack">Understanding the Application Stack</h3>
+<div class="level3">
+
+</div>
+<!-- EDIT5 SECTION "Understanding the Application Stack" [453-499] -->
+<h3 class="sectionedit6" id="consuming_web_services_api">Consuming Web Services API</h3>
+<div class="level3">
+
+<p>
+REST style
+</p>
+
+<p>
+Client Heavy
+</p>
+
+<p>
+Composer (third party)
+</p>
+
+<p>
+MVC, <abbr title="JavaScript">JS</abbr> based MVC…
+</p>
+
+<p>
+Templating
+</p>
+
+<p>
+Namespaces… etc
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Consuming Web Services API" [500-640] -->
+<h3 class="sectionedit7" id="autoloading">Autoloading</h3>
+<div class="level3">
+
+<p>
+Autoloading works with Codeigniter aswell.
+</p>
+
+<p>
+You need to enable hooks on the config.php.
+</p>
+
+<p>
+Then in hooks.php define
+</p>
+<dl class="code">
+<dt><a href="/polycademy_projects/devhub_wiki/doku.php?do=export_code&amp;id=web_application_development:web_programming&amp;codeblock=0" title="Download Snippet" class="mediafile mf_php">hooks.php</a></dt>
+<dd><pre class="code php"><span class="co1">//pre_system autoloader</span>
+<span class="re0">$hook</span><span class="br0">&#91;</span><span class="st_h">'pre_system'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+    <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader'</span><span class="sy0">,</span>
+    <span class="st_h">'function'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'__construct'</span><span class="sy0">,</span>
+    <span class="st_h">'filename'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader.php'</span><span class="sy0">,</span>
+    <span class="st_h">'filepath'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'hooks'</span><span class="sy0">,</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+<p>
+Place this into the hooks directory. It is a PSR-0 compliant autoloader.
+Do not use underscores in your library names, (_). They will be translated into directories.
+All folders and files should be Capitalised and Camelcased.
+Interfaces and Abstracts can be placed as iInterface or aAbstract and polaced in Interface and Abstract folder.
+Use namespaces and use “use” to import aliases. Import straight to the file. Then initialise classes automagically. Use fully qualified names to access static classes or library classes.
+Place static classes in the library folder.
+Capable of using third_party too.
+Folder names can have underscores.
+</p>
+
+<p>
+If the “use” keyword only points to a directory and not to a specific file, that all of those files become fair game. However you need to use the last namespace directory and prefix to all class initialisations. Like use Phpbounce\Mission_checker;
+Then your initialisations would be new Mission_checker\Lint(); There&#039;s no need to specify the filenames. The filenames should always be the same as the class names. One class per file.
+</p>
+<dl class="code">
+<dt><a href="/polycademy_projects/devhub_wiki/doku.php?do=export_code&amp;id=web_application_development:web_programming&amp;codeblock=1" title="Download Snippet" class="mediafile mf_php">Autoloader.php</a></dt>
+<dd><pre class="code php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> Autoloader<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//LOADING COMPOSER</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/file_exists"><span class="kw3">file_exists</span></a><span class="br0">&#40;</span>FCPATH <span class="sy0">.</span> <span class="st_h">'/vendor/autoload.php'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="kw1">include_once</span> FCPATH <span class="sy0">.</span> <span class="st_h">'/vendor/autoload.php'</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//STANDARD AUTOLOADER</span>
+        <a href="http://www.php.net/spl_autoload_register"><span class="kw3">spl_autoload_register</span></a><span class="br0">&#40;</span><a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="re0">$this</span><span class="sy0">,</span> <span class="st_h">'autoload'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//use vendor/package/Library.php for package related stuff (psr-0 kind of thing) (each package can have its own autoloader and get its own interfaces and abstracts)</span>
+        <span class="co1">//use Library.php for non-packaged libraries framework specific</span>
+        <span class="co1">//use abstracts/aLibrary.php for non-packaged abstracts framework specific</span>
+        <span class="co1">//use interfaces/iLibrary.php for non-packaged interfaces framework specific</span>
+        <span class="co1">//MY_Library.php will be loaded using $this-&gt;load as a CI specific library</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> autoload<span class="br0">&#40;</span><span class="re0">$class</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//PSR-0 autoloader</span>
+&nbsp;
+        <span class="re0">$library_path</span> <span class="sy0">=</span> APPPATH <span class="sy0">.</span> <span class="st_h">'libraries/'</span><span class="sy0">;</span>
+        <span class="re0">$third_party_path</span> <span class="sy0">=</span> APPPATH <span class="sy0">.</span> <span class="st_h">'third_party/'</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//remote the first ns (\) since libraries already have it</span>
+&nbsp;
+        <span class="re0">$class</span> <span class="sy0">=</span> <a href="http://www.php.net/ltrim"><span class="kw3">ltrim</span></a><span class="br0">&#40;</span><span class="re0">$class</span><span class="sy0">,</span> <span class="st_h">'\\'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$file</span>  <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+        <span class="re0">$namespace</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span> <span class="br0">&#40;</span><span class="re0">$last_namespace_pos</span> <span class="sy0">=</span> <a href="http://www.php.net/strrpos"><span class="kw3">strrpos</span></a><span class="br0">&#40;</span><span class="re0">$class</span><span class="sy0">,</span> <span class="st_h">'\\'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+            <span class="re0">$namespace</span> <span class="sy0">=</span> <a href="http://www.php.net/substr"><span class="kw3">substr</span></a><span class="br0">&#40;</span><span class="re0">$class</span><span class="sy0">,</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="re0">$last_namespace_pos</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$class</span> <span class="sy0">=</span> <a href="http://www.php.net/substr"><span class="kw3">substr</span></a><span class="br0">&#40;</span><span class="re0">$class</span><span class="sy0">,</span> <span class="re0">$last_namespace_pos</span> <span class="sy0">+</span> <span class="nu0">1</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">//replace all backslashes with DIRECTORY_SEPARATOR, it adds one more to the end</span>
+            <span class="re0">$file</span> <span class="sy0">=</span> <a href="http://www.php.net/strtr"><span class="kw3">strtr</span></a><span class="br0">&#40;</span><span class="re0">$namespace</span><span class="sy0">,</span> <span class="st_h">'\\'</span><span class="sy0">,</span> <span class="kw4">DIRECTORY_SEPARATOR</span><span class="br0">&#41;</span> <span class="sy0">.</span> <span class="kw4">DIRECTORY_SEPARATOR</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//replace all class names with (_) with DIRECTORY_SEPARATOR</span>
+        <span class="re0">$file</span> <span class="sy0">.=</span> <a href="http://www.php.net/strtr"><span class="kw3">strtr</span></a><span class="br0">&#40;</span><span class="re0">$class</span><span class="sy0">,</span> <span class="st_h">'_'</span><span class="sy0">,</span> <span class="kw4">DIRECTORY_SEPARATOR</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/file_exists"><span class="kw3">file_exists</span></a><span class="br0">&#40;</span><span class="re0">$library_path</span> <span class="sy0">.</span> <span class="re0">$file</span> <span class="sy0">.</span> <span class="st_h">'.php'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="kw1">require_once</span><span class="br0">&#40;</span><span class="re0">$library_path</span> <span class="sy0">.</span> <span class="re0">$file</span> <span class="sy0">.</span> <span class="st_h">'.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span><span class="kw1">elseif</span><span class="br0">&#40;</span><a href="http://www.php.net/file_exists"><span class="kw3">file_exists</span></a><span class="br0">&#40;</span><span class="re0">$third_party_path</span> <span class="sy0">.</span> <span class="re0">$file</span> <span class="sy0">.</span> <span class="st_h">'.php'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="kw1">require_once</span><span class="br0">&#40;</span><span class="re0">$third_party_path</span> <span class="sy0">.</span> <span class="re0">$file</span> <span class="sy0">.</span> <span class="st_h">'.php'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">return</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+Caching
+</p>
+
+<p>
+Using workers
+</p>
+
+<p>
+A note about coffeescript
+</p>
+
+<p>
+HTML5 stack (browser level, dom level)
+</p>
+
+<p>
+Sockets, <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>, all the communication level stacks…
+</p>
+
+<p>
+Multithreading
+</p>
+
+<p>
+Async vs sync
+</p>
+
+<p>
+Single Page Applications
+</p>
+
+<p>
+Polyglot apps with ZMQ
+</p>
+
+<p>
+TCP, UDP
+</p>
+
+<p>
+For CI: Use the helper folder for static classes. Use an autoloader for interfaces/abstracts. Actually extend the loader method to allow load without instantiation.
+</p>
+
+<p>
+INTERFACES why? → For teams and for dependency injection.
+Basically you type hint in the constructor for an object to be injected but also to implement a interface contract.
+The interface is like the blueprint for your classes.
+You can be assured that all classes implementing this interface will have a fixed <abbr title="Application Programming Interface">API</abbr>.
+Then if you are swapping out your classes to something else, you can pass in a new object that still implements that interface, and you don&#039;t have to worry about whether the <abbr title="Application Programming Interface">API</abbr> methods change. They still work the same.
+Interfaces can be combined too, to provide some sort of super class implementation. So this class can be used anywhere or either-or. Regardless of whether the type hint is for the first interface or for the second interface. It&#039;ll still work!
+</p>
+
+<p>
+Use abstracts to provide a boilerplate class. Like a parent class which has some common methods, and yet has methods that has to be implemented. Abstract methods have to be either protected or public which then has to be represented. You can only inherit from one abstract.
+</p>
+
+<p>
+Use interfaces to group related classes that are meant to have the same <abbr title="Application Programming Interface">API</abbr>.
+</p>
+
+<p>
+Use abstracts as a <strong>parent class that needs to have children</strong>. Not just any standard parent class.
+</p>
+
+<p>
+Like abstract armor → chinese armor, european armor. Abstract armor and abstract sword can implement physical_object interface. The interface can specify that all physical_objects need weight method. The abstract armor leaves the weight undefined, but requires an abstract of blacksmith and defines a common function of armor rating calculation. Then Chinese_Armor extends abstract Armor. This creates the weight function as defined by interface and blacksmith function as defined by the abstract. It creates a protection function unique to Chinese_Armor. Then we create a Fight function that type hints for either Physical Object, or Ab_Armor. We create the Chinese_Armor and pass the dependency into the constructor dependency injection. Then in the fight we use the protection function. Note that the abstract can reference $this→weight even though it hasn&#039;t been defined, this is because the interface says it will be implemented, so the abstract can rely on this. Abstracts are never used by themselves.
+</p>
+
+</div>
+<!-- EDIT7 SECTION "Autoloading" [641-6871] -->
+<h3 class="sectionedit8" id="security">Security</h3>
+<div class="level3">
+
+<p>
+Should make a security “checklist” before deployment.
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Security" [6872-6946] -->
+<h2 class="sectionedit9" id="patterns">Patterns</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT9 SECTION "Patterns" [6947-6968] -->
+<h3 class="sectionedit10" id="standards">Standards</h3>
+<div class="level3">
+
+<p>
+Check the <abbr title="Hypertext Preprocessor">PHP</abbr> Fig (Framework Interop Group): <a href="http://www.php-fig.org/" class="urlextern" title="http://www.php-fig.org/"  rel="nofollow">http://www.php-fig.org/</a>
+</p>
+
+<p>
+Then checkout their PSR standards. (<abbr title="Hypertext Preprocessor">PHP</abbr> Standard Recommendation).
+</p>
+
+<p>
+Regular expressions
+</p>
+
+<p>
+Intro to patterns
+</p>
+
+<p>
+Pub/sub
+</p>
+
+<p>
+Event driven
+</p>
+
+<p>
+Artificial Intelligence, machine learning…
+</p>
+
+<p>
+Closures, anonymous functions, function currying
+</p>
+
+<p>
+Design patterns from both sides
+</p>
+
+<p>
+<abbr title="JavaScript">JS</abbr> use patterns such as canvas and webGL.
+</p>
+
+<p>
+Teach binary
+</p>
+
+<p>
+Using bitwise operators for settings
+</p>
+
+<p>
+Using interfaces + <a href="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/" class="urlextern" title="http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/"  rel="nofollow">http://net.tutsplus.com/tutorials/how-to-write-code-that-embraces-change/</a>
+</p>
+
+<p>
+Dependency Injection (typehinting with default being null)
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Standards" [6969-7567] -->
+<h3 class="sectionedit11" id="dynamic_client_side">Dynamic Client Side</h3>
+<div class="level3">
+
+<p>
+OOP
+</p>
+
+<p>
+Functional Programming
+</p>
+
+<p>
+Type Hinting
+</p>
+
+<p>
+Programming Tactics, Module Augmentation Pattern, Facade Pattern
+</p>
+
+<p>
+<abbr title="Document Object Model">DOM</abbr> manipulation
+</p>
+
+<p>
+Input Validation
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Dynamic Client Side" [7568-7743] -->
+<h3 class="sectionedit12" id="database">Database</h3>
+<div class="level3">
+
+<p>
+Database access
+</p>
+
+<p>
+Database normalisation
+</p>
+
+<p>
+Foreign keys
+</p>
+
+<p>
+Indexing and searching
+</p>
+
+<p>
+NoSQL what is it?
+</p>
+
+</div>
+<!-- EDIT12 SECTION "Database" [7744-7860] -->
+<h2 class="sectionedit13" id="workflow">Workflow</h2>
+<div class="level2">
+
+</div>
+<!-- EDIT13 SECTION "Workflow" [7861-7882] -->
+<h3 class="sectionedit14" id="software_development_process">Software Development Process</h3>
+<div class="level3">
+
+<p>
+DRY
+</p>
+
+<p>
+<abbr title="Keep it simple stupid">KISS</abbr>
+</p>
+
+<p>
+Googling (using stack overflow, online etiquette, using github issues, contributing to open source)
+</p>
+
+<p>
+People to follow or blogs to read!
+</p>
+
+</div>
+<!-- EDIT14 SECTION "Software Development Process" [7883-8070] -->
+<h3 class="sectionedit15" id="bug_testing">Bug Testing</h3>
+<div class="level3">
+
+<p>
+Using firebug
+</p>
+
+<p>
+Using Xdebug
+</p>
+
+<p>
+TDD
+</p>
+
+<p>
+BDD
+</p>
+
+<p>
+Database Migrations
+</p>
+
+</div>
+<!-- EDIT15 SECTION "Bug Testing" [8071-8153] -->
+<h3 class="sectionedit16" id="build_tools">Build Tools</h3>
+<div class="level3">
+
+<p>
+Build Tools (minification, concatenation)
+</p>
+
+<p>
+Phing
+</p>
+
+</div>
+<!-- EDIT16 SECTION "Build Tools" [8154-8226] -->
+<h2 class="sectionedit17" id="notable_code_libraries_and_web_services">Notable Code Libraries and Web Services</h2>
+<div class="level2">
+
+<p>
+List them down
+</p>
+
+<p>
+Use packagist
+</p>
+
+<p>
+Use github
+</p>
+
+<p>
+Use bower… etc
+</p>
+
+<p>
+Google Maps, Twitter, Facebook, Open Layers, D3.. etc
+</p>
+
+</div>
+<!-- EDIT17 SECTION "Notable Code Libraries and Web Services" [8227-] -->
