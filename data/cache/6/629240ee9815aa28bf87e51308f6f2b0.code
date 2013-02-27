@@ -1,0 +1,21 @@
+<span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> MasterLibrary<span class="br0">&#123;</span>
+&nbsp;
+	<span class="kw2">private</span> <span class="re0">$dependent</span><span class="sy0">;</span>
+&nbsp;
+	<span class="co1">//this MasterLibrary needs a WorkerLibrary</span>
+	<span class="kw2">public</span> <span class="kw2">function</span> __construct<span class="br0">&#40;</span><span class="re0">$object</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+		<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dependent</span> <span class="sy0">=</span> <span class="re0">$object</span><span class="sy0">;</span>
+&nbsp;
+	<span class="br0">&#125;</span>
+&nbsp;
+	<span class="co1">//call this to do something</span>
+	<span class="kw2">public</span> <span class="kw2">function</span> do_something<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+		<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">dependent</span><span class="sy0">-&gt;</span><span class="me1">do_something</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+	<span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>

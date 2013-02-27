@@ -1,0 +1,25 @@
+====== Lesson 17 - WAP ======
+
+**Expected Work**
+
+  - Continue working through and practicing PHP syntax
+  - Play with Codeigniter using their user guide
+  - Read the PSR standards
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Go through OOP
+  - Talk about MVC
+  - 39 days left!
+
+**Practice**
+
+  - Start implementing the MVC pattern, create first controller, model and view file
+  - Connect to database using database config file (make sure to load the database)
+  - Read to Templating

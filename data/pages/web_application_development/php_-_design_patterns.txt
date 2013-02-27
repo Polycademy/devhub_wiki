@@ -337,10 +337,175 @@ Remember how child classes cannot extend multiple parent classes? Well there's a
 Instead programming languages have designed mixins to be alternatives to multiple extensions. PHP calls them [[http://phpmaster.com/using-traits-in-php-5-4/|"traits"]]. These are only available on PHP 5.4. However don't use traits too much, you'll start to violate OOP principles because of how easy it seems at first, but eventually run into maintenance problems.
 ==== Dependency Management ====
 
-Dependency Injection + Inversion of Control IOC => http://net.tutsplus.com/tutorials/php/dependency-injection-huh/ And Type hinting
+Managing dependencies is a core activity to developing in an object orientated manner. Simply put it's how you structure your object loading system because all objects depend on other objects.
+
+Codeigniter by default uses a custom loader in which you simply call ''$this->load()''. This is useful for Codeigniter's system libraries, but eventually becomes unmaintainable and untestable. It's unmaintainable because all the dependencies are hard coded into the objects themselves. So if you ever need to change the dependencies to another object, you'll have to find each line of code in which you load that dependency and change the name to another dependency. This becomes very difficult when you project is large and the dependency you're loading is commonly shared. It's untestable because each unit of code cannot be isolated, their dependencies cannot be mocked. This is necessary in test driven development because we isolate each class and test their functions, if the class is dependent on other classes, then we'll need to mock those dependencies, essentially creating a dummy class that acts like the dependent class but doesn't do anything permanent. By hardcoding the dependencies into the code, it becomes impossible to provide those mocks.
+
+So eventually we arrive at a practice called dependency injection. Instead of hardcoding the dependencies into our classes, we establish dependent parameters to the class and inject those during run time. There are two ways to do this, through constructor injection or setter injection. This example shows these two methods. Polycademy recommends you to use the constructor injection method.
+
+<code php>
+//constructor injection (use it for long lived dependencies that will be persistent)
+class RandomClass{
+    private $dependent_class;
+    //it's best practice to set up interfaces or abstract typehints as this will make sure the dependencies are actually the ones we need and so we don't pass the wrong dependencies
+    //we have here default null, which means we allow the user to pass null and bypass the dependency so we can do a setter injection instead
+    public function __construct(iInterface $object = null){
+        $this->dependent_class = $object;
+    }
+    
+    //setter injection (use it for dependencies that change often, like dependencies that you don't know about until runtime)
+    public set_dependency(iInterface $object){
+        $this->dependent_class = $object;
+    }
+}
+
+//using the constructor
+$class = new RandomClass(new OtherClass);
+//using the setter
+$class = new RandomClass(null);
+$class->set_dependency(new OtherClass);
+</code>
+
+Dependency injection becomes far more useful when we combine it with autoloading, that way we can simply specify the class name and not worry about ''require'' or ''include'' functions to actually load the dependent classes into context. However because Codeigniter is not a PSR-0 compliant framework, it doesn't have a built in autoloader, so this kind of dependent injection may not work well with Codeigniter's system libraries. That's why we'll still use ''$this->load'' in our models and controllers. However there may be a possibility to keep hardcoded dependencies out of our models, and use our controllers to not only load all dependencies but then inject them all into the model constructor.
+
+=== Inversion of Control ===
+
+Once we have our dependency injection and autoloading setup, we can actually take a step further by completely abstracting our dependency management, so that all dependencies get managed in one place. We're still using constructor and setter injection, it's just we're no longer setting up all the dependencies in every place we're calling the necessary libraries, we're abstracting it to a single place called an "Inversion of Control Container" (IoC). You should all of the below information before using this technique, but for future reference just go to Polycademy's CiIoC:
+
+  * [[https://github.com/Polycademy/CiIoC|CiIoC]] - Inversion of Control Container using Pimple for Codeigniter
+
+We only really start doing this when the our dependency requirements starts getting very complex. This is often called the "object graph". If a particular class in a library requires 5 to 6 dependent constructor injected classes, every time we need this class, we'd have to repeat the 5 to 6 ''new ClassName;'' initialisations every time we wanted to use that class. This violates the "Don't Repeat Yourself" (DRY) principle in software development. However this shouldn't be used for all classes, it should only be used for often shared or "global" libraries. So it shouldn't be used for our controllers or models. It actually can't because the Codeigniter framework wasn't built to do this. Some newer development frameworks such as Laravel is actually completely built from an IoC, so their controllers and models can managed from an IoC. However this isn't always necessary because putting everything into IoC can result in too much abstraction.
+
+Now IoC containers can be thought of as HR manager who recruits all the necessary works and brings them together to work, instead of having each individual worker find their dependent workers. Now let's take this principle to the extreme, if our workers with dependencies are leaving the recruitment of their dependent workers to a manager, then shouldn't all managers pass their dependency management work to their managers? At some point, the CEO will be the one left with all the work. In the context of web applications, this would be the front controller. Now we don't want to pollute our front controller with all of this dependency work, this is because the front controller (CEO) should be bootstrapping everything, and HR management is only one thing a CEO (front controller) should be doing. At any case, the front controller will outsource the dependency management to an IoC container.
+
+IoC is also often called the Hollywood principle "Don't call us, we'll call you". Your dependent objects should not be calling the container to setup their dependencies. If you were to call the container to setup the dependencies while you were in the scope of your dependencies then you're not actually using inversion of control, you're using a different pattern called the [[http://blog.astrumfutura.com/tag/service-locator/|Service Locator]]. This is an anti-pattern because you're trading hard coded object dependencies to a hard coded service locator dependency. Consider what would happen if you shared your library and the user did not have your kind of service locator, then the code wouldn't work.
+
+Therefore in order to truly have your control inverted, you don't change the way you write your classes or libraries, they should be agnostic to any IoC containers, that means the code can still work even if you didn't have an inversion of control container.
+
+Okay, so we've established that there will be an IoC container that will be either in the front controller, or somewhere really close the front controller. We've also established, that the IoC in the context of using Codeigniter will only be managing libraries, models or controllers. The next thing we have to establish is where we're going to actually going to call the IoC containers so it will manage all of our dependencies. Well this part is called the "Composition Root". For our purposes, we're going to use the page controllers or page models as our composition root, so that's where the container will be called when we need to wire up many dependencies. Now let's get onto actually implementing this.
+
+Firstly we need an IoC container. We could write up our own IoC container, and this has been explained in the [[http://net.tutsplus.com/tutorials/php/dependency-injection-huh/|Dependency Injection tutorial in Nettuts]]. But we shouldn't be reinventing the wheel, so let's bring in a third party library to the containing. The [[http://pimple.sensiolabs.org/|Pimple DI library]] will be out IoC container.
+
+First install it through Composer. It should be autoloaded through [[https://github.com/Polycademy/CiAutoloading|CiAutoloading]] and you'll be able to access Pimple anywhere in your application by simply calling ''new Pimple();''.
+
+<code>
+"pimple/pimple": "*"
+</code>
+
+Now we need to setup the dependency object graph somewhere near the front controller. We could do it in the front controller, but since we hooked up composer as a pre-system hook, we should be doing in the ''application/config'' files. This makes more semantic sense. So let's create an ''ioc.php'' config file place it in ''application/config''. But before that we need to make sure this file gets autoloaded using [[http://ellislab.com/codeigniter/user-guide/general/autoloader.html|Codeigniter's config autoloader]]. So go into the autoloader and add ''ioc.php'' into:
+
+<code php>
+$autoload['config'] = array('ioc');
+</code>
+
+In terms of the Codeigniter stack, the autoloader will be called in the [[http://ellislab.com/codeigniter/user-guide/libraries/loader.html|native Loader class]]. This is called in the constructor of the native Controller class, which is just before the initialisation of the [[http://ellislab.com/codeigniter/user-guide/general/controllers.html|page controllers]] in your ''application/controllers'' directory. You can find all those classes in the ''system/core'' directory.
+
+Now we're going to create the ''ioc.php'' container config file, and we're going to wire up our first library that will be initialised via a container. We're going assume that the libraries are already created right now, and create those libraries straight afterwards. Refer to the [[https://github.com/fabpot/Pimple|Pimple documentation]] and this [[http://phpmaster.com/dependency-injection-with-pimple/|PHP Master tutorial]] to see the syntax required for Pimple.
+
+<file php ioc.php>
+<?php
+
+//Pimple uses anonymous functions (lambdas) so it can "lazy load" the classes
+//the functions will not be processed when the PHP interpreter goes through this file
+//they will be kept inside the function waiting to be called as part of the container array
+//once you call the functions, then the objects will be created! Thus "lazy loading", not "eager loading". Saves memory too!
+//note Pimple is an object that acts like an array, see the actual Pimple code to see how this works
+
+$ioc = new Pimple;
+
+//this creates the Worker Library, not necessary since the WorkerLibrary has no dependencies, but demonstrates self-reference of $c
+//when Pimple runs your anonymous function, it will pass in the Pimple object into $c making it self-referential, kind of like using $this
+$ioc['WorkerLibrary'] = function($c){
+    //no mention of $c, so we're not using it, but Pimple will pass it in regardless, so we need to accept
+    return new WorkerLibrary;
+};
+
+//this creates the MasterLibrary and uses the self-referential $c to call upon WorkerLibrary and pass it as a dependency to MasterLibrary
+$ioc['MasterLibrary'] = function($c){
+    return new MasterLibrary($c['WorkerLibrary']);
+};
+
+//Pimple can also create random parameters...
+$ioc['randomparameter'] = 'This is some random parameter';
+
+//we need to pass the $ioc into the global $config variable, so now it can be accessed by Codeigniter
+$config['ioc'] = $ioc;
+</file>
+
+Now we have to create the ''MasterLibrary.php'' and ''WorkerLibrary.php''. They can be just some random class, it does not matter. Just make sure ''MasterLibrary'' actually accepts ''WorkerLibrary'' as a constructor injected dependency. Take note of how we placed the ''$ioc'' back into the global ''$config'' value. This way it can be accessed from the [[http://ellislab.com/codeigniter/user-guide/libraries/config.html|Config class in Codeigniter]].
+
+In our page controller, we can just call this:
+
+<code php>
+    //imagine this was a method of any controller
+    public function test_ioc(){
+        
+        //this line can actually be placed in either the constructor, or a custom MY_Controller so you don't have to keep referring to the $config value.
+        $ioc = $this->config->item('ioc');
+		
+        $masterlibrary = $ioc['MasterLibrary'];
+		
+        $masterlibrary->do_something();
+	
+    }
+</code>
+
+The two libraries of MasterLibrary and WorkerLibrary were just simple classes placed in the ''application/libraries'' directory. These were of course autoloaded from the PSR-0 autoloader in [[https://github.com/Polycademy/CiAutoloading|CiAutoloading]].
+
+<file php MasterLibrary.php>
+<?php
+
+class MasterLibrary{
+
+	private $dependent;
+	
+	//this MasterLibrary needs a WorkerLibrary
+	public function __construct($object){
+	
+		$this->dependent = $object;
+	
+	}
+	
+	//call this to do something
+	public function do_something(){
+	
+		$this->dependent->do_something();
+	
+	}
+
+}
+</file>
+
+<file php WorkerLibrary.php>
+<?php
+
+class WorkerLibrary{
+	
+	public function do_something(){
+	
+		echo 'The Worker Did Something';
+	
+	}
+
+}
+</file>
+
+There we go, you have not only created classes which is based on dependency injection, but they are also IoC agnostic. I could still call these classes normally if had to, but we've abstracted to an IoC container.
+
+This is only one method of IoC containers, there are other ones too, but this is most simplistic! Remember don't bother using this with your controllers or models, just libraries and third party packages. Also refer to the Pimple documentation on [[https://github.com/fabpot/Pimple#defining-shared-services|shared services]] or [[https://github.com/fabpot/Pimple#modifying-services-after-creation|extension]] for advanced usage of Pimple!
+
+Check out Fabien's sliders on Dependency Injection, the guy who created Pimple:
+
+{{url>http://www.slideshare.net/slideshow/embed_code/3028051 427px,356px noscroll noborder}}
 ===== Functional Programming =====
 
-Closures, anonymous functions, function currying
+Anonymous functions
+
+Closures (early binding + late binding via references)
+
+Function currying returning functions
+
+http://jburrows.wordpress.com/2011/06/24/the-state-of-functional-programming-in-php-5-3-x/
 
 <code>
 $closureWithArgs = function ($arg1, $arg2) {

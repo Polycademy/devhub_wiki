@@ -131,7 +131,9 @@ The Wampserver is the easiest way to install WAMP on your own computer. Download
 
 The installation is an executable, locate your wamp folder at the root of your drive. This is so that it easily accessible. This is not a program files kind of application.
 
-Note that if you find yourself unable to use Composer on the local stack with Wampserver, that's because the Curl extension hasn't been activated in the php.ini. Use ''php -m'' to see all the extensions. If curl isn't there, you need to use ''php -r "echo php_ini_loaded_file();"'' and navigate to that file. Find the the line which mentions "curl", and uncomment the line by removing the semicolon. Try ''php -m'' again. If it doesn't work and comes up with an error about side by side. Then you the curl extension is corrupt. You need to follow the instructions posted here on [[http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit|Stackoverflow regarding PHP Curl and WAMP]]. It's a simple matter of downloading the correct curl extension and replacing the default one in the ''ext'' folder.
+**Composer Issues**
+
+Note that if you find yourself unable to use Composer on the local stack with Wampserver, that's because the Curl extension hasn't been activated in the php.ini. Use ''php -m'' to see all the extensions. If curl isn't there, you need to use ''php -r "echo php_ini_loaded_file();"'' and navigate to that file. Find the line which mentions "curl", and also find another line which mentions "openssl", and uncomment both of the lines by removing the semicolon. One of them may already be uncommented. Try ''php -m'' again. If it doesn't work and comes up with an error about side by side. Then your the curl extension is corrupt. You need to follow the instructions posted here on [[http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit|Stackoverflow regarding PHP Curl and WAMP]]. It's a simple matter of downloading the correct curl extension and replacing the default one in the ''ext'' folder.
 
 === LAMP ===
 

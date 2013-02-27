@@ -369,7 +369,7 @@ CRUD refers to [[wp>Create, read, update and delete|Create Read Update and Delet
 class User_model extends CI_Model{
 
     public function __construct(){
-    
+        parent::__construct();
         //this will become available as $this->db..etc
         $this->load->database();
     

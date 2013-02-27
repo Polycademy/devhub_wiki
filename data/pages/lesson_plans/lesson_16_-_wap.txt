@@ -23,4 +23,5 @@
 
   - Start reading about the PHP Syntax
   - Play with PHPBounce
+  - Codeigniter Userguide
   - Read about the PSR standards

@@ -1,0 +1,27 @@
+<span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co1">//Pimple uses anonymous functions (lambdas) so it can &quot;lazy load&quot; the classes</span>
+<span class="co1">//the functions will not be processed when the PHP interpreter goes through this file</span>
+<span class="co1">//they will be kept inside the function waiting to be called as part of the container array</span>
+<span class="co1">//once you call the functions, then the objects will be created! Thus &quot;lazy loading&quot;, not &quot;eager loading&quot;. Saves memory too!</span>
+<span class="co1">//note Pimple is an object that acts like an array, see the actual Pimple code to see how this works</span>
+&nbsp;
+<span class="re0">$ioc</span> <span class="sy0">=</span> <span class="kw2">new</span> Pimple<span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this creates the Worker Library, not necessary since the WorkerLibrary has no dependencies, but demonstrates self-reference of $c</span>
+<span class="co1">//when Pimple runs your anonymous function, it will pass in the Pimple object into $c making it self-referential, kind of like using $this</span>
+<span class="re0">$ioc</span><span class="br0">&#91;</span><span class="st_h">'WorkerLibrary'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//no mention of $c, so we're not using it, but Pimple will pass it in regardless, so we need to accept</span>
+    <span class="kw1">return</span> <span class="kw2">new</span> WorkerLibrary<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this creates the MasterLibrary and uses the self-referential $c to call upon WorkerLibrary and pass it as a dependency to MasterLibrary</span>
+<span class="re0">$ioc</span><span class="br0">&#91;</span><span class="st_h">'MasterLibrary'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="kw2">new</span> MasterLibrary<span class="br0">&#40;</span><span class="re0">$c</span><span class="br0">&#91;</span><span class="st_h">'WorkerLibrary'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Pimple can also create random parameters...</span>
+<span class="re0">$ioc</span><span class="br0">&#91;</span><span class="st_h">'randomparameter'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'This is some random parameter'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//we need to pass the $ioc into the global $config variable, so now it can be accessed by Codeigniter</span>
+<span class="re0">$config</span><span class="br0">&#91;</span><span class="st_h">'ioc'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="re0">$ioc</span><span class="sy0">;</span>

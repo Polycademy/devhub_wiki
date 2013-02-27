@@ -334,7 +334,11 @@ The installation is an executable, locate your wamp folder at the root of your d
 </p>
 
 <p>
-Note that if you find yourself unable to use Composer on the local stack with Wampserver, that&#039;s because the Curl extension hasn&#039;t been activated in the php.ini. Use <code>php -m</code> to see all the extensions. If curl isn&#039;t there, you need to use <code>php -r “echo php_ini_loaded_file();”</code> and navigate to that file. Find the the line which mentions “curl”, and uncomment the line by removing the semicolon. Try <code>php -m</code> again. If it doesn&#039;t work and comes up with an error about side by side. Then you the curl extension is corrupt. You need to follow the instructions posted here on <a href="http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit" class="urlextern" title="http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit"  rel="nofollow">Stackoverflow regarding PHP Curl and WAMP</a>. It&#039;s a simple matter of downloading the correct curl extension and replacing the default one in the <code>ext</code> folder.
+<strong>Composer Issues</strong>
+</p>
+
+<p>
+Note that if you find yourself unable to use Composer on the local stack with Wampserver, that&#039;s because the Curl extension hasn&#039;t been activated in the php.ini. Use <code>php -m</code> to see all the extensions. If curl isn&#039;t there, you need to use <code>php -r “echo php_ini_loaded_file();”</code> and navigate to that file. Find the line which mentions “curl”, and also find another line which mentions “openssl”, and uncomment both of the lines by removing the semicolon. One of them may already be uncommented. Try <code>php -m</code> again. If it doesn&#039;t work and comes up with an error about side by side. Then your the curl extension is corrupt. You need to follow the instructions posted here on <a href="http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit" class="urlextern" title="http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit"  rel="nofollow">Stackoverflow regarding PHP Curl and WAMP</a>. It&#039;s a simple matter of downloading the correct curl extension and replacing the default one in the <code>ext</code> folder.
 </p>
 
 </div>
@@ -381,7 +385,7 @@ This AMP stack is only one stack of out many. When you become a polyglot develop
 </p>
 
 </div>
-<!-- EDIT7 SECTION "Apache MySQL PHP (AMP)" [17222-20638] -->
+<!-- EDIT7 SECTION "Apache MySQL PHP (AMP)" [17222-20758] -->
 <h3 class="sectionedit8" id="phpmyadmin">PHPMyAdmin</h3>
 <div class="level3">
 
@@ -394,7 +398,7 @@ PHPMyAdmin comes with the standard WAMP and MAMP stacks. PHPMyAdmin is essential
 </p>
 
 </div>
-<!-- EDIT8 SECTION "PHPMyAdmin" [20639-21151] -->
+<!-- EDIT8 SECTION "PHPMyAdmin" [20759-21271] -->
 <h3 class="sectionedit9" id="text_editor">Text Editor</h3>
 <div class="level3">
 
@@ -456,7 +460,7 @@ Sublime is a superb editor for web development. It has many features beyond Note
 </p>
 
 </div>
-<!-- EDIT9 SECTION "Text Editor" [21152-25112] -->
+<!-- EDIT9 SECTION "Text Editor" [21272-25232] -->
 <h3 class="sectionedit10" id="console_or_terminal">Console or Terminal</h3>
 <div class="level3">
 
@@ -490,7 +494,7 @@ Adjust the appearance options to suit yourself. Try enlarging the font and makin
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Console or Terminal" [25113-27623] -->
+<!-- EDIT10 SECTION "Console or Terminal" [25233-27743] -->
 <h3 class="sectionedit11" id="connection_tools">Connection Tools</h3>
 <div class="level3">
 
@@ -563,7 +567,7 @@ Most cloud hosts provide their own command line utility to connect and tunnel in
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Connection Tools" [27624-30555] -->
+<!-- EDIT11 SECTION "Connection Tools" [27744-30675] -->
 <h3 class="sectionedit12" id="git_source_code_version_control">Git Source Code Version Control</h3>
 <div class="level3">
 
@@ -586,7 +590,7 @@ The easiest way to use Git on a local stack is to download the Github&#039;s cli
 </ul>
 
 </div>
-<!-- EDIT12 SECTION "Git Source Code Version Control" [30556-31379] -->
+<!-- EDIT12 SECTION "Git Source Code Version Control" [30676-31499] -->
 <h3 class="sectionedit13" id="package_management">Package Management</h3>
 <div class="level3">
 
@@ -633,7 +637,7 @@ Sparks is a Codeigniter specific package manager, when installing Sparks locally
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Package Management" [31380-34513] -->
+<!-- EDIT13 SECTION "Package Management" [31500-34633] -->
 <h3 class="sectionedit14" id="path_variable_editing">PATH Variable Editing</h3>
 <div class="level3">
 
@@ -670,7 +674,7 @@ Please note that editing the <code>.bashrc</code> is semi-permanent in Cloud9. T
 </p>
 
 </div>
-<!-- EDIT14 SECTION "PATH Variable Editing" [34514-36910] -->
+<!-- EDIT14 SECTION "PATH Variable Editing" [34634-37030] -->
 <h3 class="sectionedit15" id="front_end_tools">Front End Tools</h3>
 <div class="level3">
 
@@ -722,7 +726,7 @@ Here are some other Firefox extensions that are helpful when developing:
 </ul>
 
 </div>
-<!-- EDIT15 SECTION "Front End Tools" [36911-38896] -->
+<!-- EDIT15 SECTION "Front End Tools" [37031-39016] -->
 <h3 class="sectionedit16" id="productivity_tools">Productivity Tools</h3>
 <div class="level3">
 
@@ -745,7 +749,7 @@ Here are some productivity apps that Polycademy recommends. These are useful for
 </ul>
 
 </div>
-<!-- EDIT16 SECTION "Productivity Tools" [38897-39495] -->
+<!-- EDIT16 SECTION "Productivity Tools" [39017-39615] -->
 <h2 class="sectionedit17" id="media_stack">Media Stack</h2>
 <div class="level2">
 
@@ -781,12 +785,12 @@ Video editing is best done with 4 tools. They are <a href="http://www.videolan.o
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Media Stack" [39496-40724] -->
+<!-- EDIT17 SECTION "Media Stack" [39616-40844] -->
 <h2 class="sectionedit18" id="testing_stack">Testing Stack</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT18 SECTION "Testing Stack" [40725-40751] -->
+<!-- EDIT18 SECTION "Testing Stack" [40845-40871] -->
 <h3 class="sectionedit19" id="backend_debugging">Backend Debugging</h3>
 <div class="level3">
 
@@ -811,7 +815,7 @@ Of course the holy grail of debugging is <a href="http://xdebug.org/" class="url
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Backend Debugging" [40752-43223] -->
+<!-- EDIT19 SECTION "Backend Debugging" [40872-43343] -->
 <h3 class="sectionedit20" id="browser_testing">Browser Testing</h3>
 <div class="level3">
 
@@ -832,7 +836,7 @@ If you are using Mac or Linux, try <a href="http://browsershots.org/" class="url
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Browser Testing" [43224-44532] -->
+<!-- EDIT20 SECTION "Browser Testing" [43344-44652] -->
 <h3 class="sectionedit21" id="unit_testing">Unit Testing</h3>
 <div class="level3">
 
@@ -938,12 +942,12 @@ Back end javascript involving Node.js should instead use <a href="http://net.tut
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Unit Testing" [44533-51184] -->
+<!-- EDIT21 SECTION "Unit Testing" [44653-51304] -->
 <h2 class="sectionedit22" id="build_stack">Build Stack</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT22 SECTION "Build Stack" [51185-51209] -->
+<!-- EDIT22 SECTION "Build Stack" [51305-51329] -->
 <h3 class="sectionedit23" id="code_quality">Code Quality</h3>
 <div class="level3">
 
@@ -960,7 +964,7 @@ Although <abbr title="Hypertext Preprocessor">PHP</abbr> has <a href="http://pea
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Code Quality" [51210-52180] -->
+<!-- EDIT23 SECTION "Code Quality" [51330-52300] -->
 <h3 class="sectionedit24" id="css_preprocessors">CSS Preprocessors</h3>
 <div class="level3">
 
@@ -985,7 +989,7 @@ When we get to <a href="/doku.php?id=web_application_development:web_design" cla
 </p>
 
 </div>
-<!-- EDIT24 SECTION "CSS Preprocessors" [52181-53802] -->
+<!-- EDIT24 SECTION "CSS Preprocessors" [52301-53922] -->
 <h3 class="sectionedit25" id="phing_php_build_system">Phing PHP Build System</h3>
 <div class="level3">
 
@@ -1041,7 +1045,7 @@ Phing has a <a href="http://www.phing.info/docs/guide/stable/" class="urlextern"
 </p>
 
 </div>
-<!-- EDIT25 SECTION "Phing PHP Build System" [53803-55640] -->
+<!-- EDIT25 SECTION "Phing PHP Build System" [53923-55760] -->
 <h3 class="sectionedit26" id="js_build_system">JS Build System</h3>
 <div class="level3">
 
@@ -1050,7 +1054,7 @@ There are three build systems for Javascript. <a href="http://gruntjs.com/" clas
 </p>
 
 </div>
-<!-- EDIT26 SECTION "JS Build System" [55641-56080] -->
+<!-- EDIT26 SECTION "JS Build System" [55761-56200] -->
 <h2 class="sectionedit27" id="production_stack">Production Stack</h2>
 <div class="level2">
 
@@ -1063,7 +1067,7 @@ To start using Appfog, create an account on Appfog, setup an app, and then insta
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Production Stack" [56081-] --><div class="footnotes">
+<!-- EDIT27 SECTION "Production Stack" [56201-] --><div class="footnotes">
 <div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
 By Arturo muthuvel (Own Work) [CC-BY-SA-3.0 (<a href="http://creativecommons.org/licenses/by-sa/3.0" class="urlextern" title="http://creativecommons.org/licenses/by-sa/3.0"  rel="nofollow">http://creativecommons.org/licenses/by-sa/3.0</a>)], via Wikimedia Commons</div>
 <div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 

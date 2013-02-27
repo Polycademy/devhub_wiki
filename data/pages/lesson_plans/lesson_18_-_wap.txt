@@ -1,0 +1,28 @@
+====== Lesson 18 - WAP ======
+
+**Expected Work**
+
+  - Created your first MVC
+  - Practice more MVC structures
+  - Connect to database and retrieve contents from the database
+  - Finish the PSR standards
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Templating
+  - Commonprogramming Examples
+  - Using Composer and Libraries
+  - Implementing Autoloading
+  - 38 days left!
+
+**Practice**
+
+  - Start browsing for interesting libraries and autoload them
+  - Use namespaces for an example library
+  - Start breaking HTML to those templates
