@@ -707,83 +707,378 @@ Check out Fabien&#039;s sliders on Dependency Injection, the guy who created Pim
 <div class="level2">
 
 <p>
-Anonymous functions
+<a href="http://en.wikipedia.org/wiki/Functional programming" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Functional programming">Functional programming</a> refers to a computation style that emphasises evaluation through mathematical functions instead of having mutable state. It is a subset of the <a href="http://en.wikipedia.org/wiki/Declarative programming" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Declarative programming">declarative programming style</a>. This style is about specifying what the computation should achieve without telling how it should do it. The “how” is left to the compiler or interpreter about the best way to achieve what you want, sometimes the “how” is also implemented by the programmer, but it would be abstracted from the flow of execution. An example would <abbr title="Structured Query Language">SQL</abbr> where you simply ask for data back, but you don&#039;t actually program how to get the data back. In contrast would be OOP which is an <a href="http://en.wikipedia.org/wiki/Imperative programming" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Imperative programming">imperative programming style</a>, because the “how” is specifically dictated by the programmer. Declarative style or functional programming also emphasises stateless computation, that is mutating state and tracking is not important. Functional programming also doesn&#039;t care too much about the flow of execution or the order of execution.
 </p>
 
 <p>
-Closures (early binding + late binding via references)
+Functional programming is mainly composed of mathematical functions called “expressions”. These functions should not have side effects unlike the “statements” from the imperative style. Side effects refer to manipulating the state outside of the scope of the functions. By eliminating these side effects, the expressions can have referential transparency. This means that no matter how many times you execute the same expression, the end result will be the same. Imagine a function <em>f</em> with argument <em>x</em>, then each time the result will be <em>f(x)</em>, state outside of the function is not affected. Eliminating side effects can make it much easier to understand and predict the behavior of a program, which is one of the key motivations for the development of functional programming. Functional programming is also easier use when doing concurrent programming. Functional programming is often more difficult to grasp for beginners, as it is closer to mathematical notation. You&#039;re often defining formulas and then arranging them in order to achieve an end result, this may result in code that is succinct but with little “working out” to demonstrate the steps required to do the task. On the other hand functional programming also is more natural to our own <a href="http://blog.lcf.name/2011/12/functional-programming-in-php.html" class="urlextern" title="http://blog.lcf.name/2011/12/functional-programming-in-php.html"  rel="nofollow">mental model of how real life works</a>. When reading functional code, we can see the end reason behind what we&#039;re doing, not just the steps taken to achieve some end of which we won&#039;t understand until we get to the end of the code.
 </p>
 
 <p>
-Function currying returning functions
+There are languages which are purely functional and some which are hybrid. <abbr title="Hypertext Preprocessor">PHP</abbr> is not a functional language, but it has taken useful constructs and practices from functional languages, and made it available to programmers. This section will go through some of the functional constructs that will be of most practical use.
 </p>
-
-<p>
-<a href="http://jburrows.wordpress.com/2011/06/24/the-state-of-functional-programming-in-php-5-3-x/" class="urlextern" title="http://jburrows.wordpress.com/2011/06/24/the-state-of-functional-programming-in-php-5-3-x/"  rel="nofollow">http://jburrows.wordpress.com/2011/06/24/the-state-of-functional-programming-in-php-5-3-x/</a>
-</p>
-<pre class="code">$closureWithArgs = function ($arg1, $arg2) {
-    // body
-};
-
-$closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
-    // body
-};</pre>
 
 </div>
-<!-- EDIT11 SECTION "Functional Programming" [38136-38541] -->
-<h2 class="sectionedit12" id="exception_error_handling">Exception/Error Handling</h2>
+<!-- EDIT11 SECTION "Functional Programming" [38136-41137] -->
+<h3 class="sectionedit12" id="anonymous_functions">Anonymous Functions</h3>
+<div class="level3">
+
+<p>
+Anonymous functions are simply functions that do not have a name. We would usually define function this way:
+</p>
+<pre class="code php"><span class="co1">//called &quot;Function Declaration&quot;</span>
+<span class="co1">//this becomes accessible globally</span>
+<span class="kw2">function</span> do_something<span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$x</span> <span class="sy0">+</span> <span class="nu0">1</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">echo</span> do_something<span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//resolves to 3</span></pre>
+
+<p>
+Anonymous functions are instead declared without a name and <a href="http://php.net/manual/en/functions.variable-functions.php" class="urlextern" title="http://php.net/manual/en/functions.variable-functions.php"  rel="nofollow">assigned to a variable</a>. This essentially turns something that was a stand alone construct into some sort of data that could be passed around and used in callbacks. Do note the ending semicolon ”;” since we&#039;re assigning the function expression to a variable, and not just setting up a function scope.
+</p>
+<pre class="code php"><span class="co1">//called &quot;Function Expression&quot;</span>
+<span class="co1">//this is only accessible within its current scope</span>
+<span class="re0">$square</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$x</span> <span class="sy0">*</span> <span class="re0">$x</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$square</span><span class="br0">&#40;</span><span class="nu0">2</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//resolves to 4</span></pre>
+
+<p>
+The ability to use function expressions makes functions <a href="http://en.wikipedia.org/wiki/First-class function" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/First-class function">&quot;first class citizens&quot;</a>. This basically means that the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures. In <abbr title="Hypertext Preprocessor">PHP</abbr> we&#039;ll often use these anonymous functions as callbacks that are passed into other “higher order” functions as parameters. This allows you to share your functions while still respecting the scope because anonymous functions won&#039;t pollute the global scope.
+</p>
+
+<p>
+Anonymous functions can also be defined inside the parameter, they don&#039;t need to be assigned to a variable. This makes them a throw away function.
+</p>
+<pre class="code php"><span class="co1">//the array_filter function accepts a function as a 2nd parameter</span>
+<span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/array_filter"><span class="kw3">array_filter</span></a><span class="br0">&#40;</span><span class="re0">$input</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$item</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="br0">&#40;</span><span class="re0">$item</span> <span class="sy0">%</span> <span class="nu0">2</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Anonymous functions are necessary for the next following functions or else functional programming would not work.
+</p>
+
+</div>
+<!-- EDIT12 SECTION "Anonymous Functions" [41138-43073] -->
+<h3 class="sectionedit13" id="closures">Closures</h3>
+<div class="level3">
+
+<p>
+A closure is an anonymous function that can access variables from the outside it&#039;s scope without using any global variables. Furthermore the variables that are defined within the closure will only be accessible inside the closure. Closures make anonymous functions far more powerful and opens up opportunities for functions to return augmented functions.
+</p>
+
+<p>
+In <abbr title="Hypertext Preprocessor">PHP</abbr>, closures access external variables through two methods. Early binding and late binding.
+</p>
+<pre class="code php"><span class="co1">//closure early binding</span>
+<span class="re0">$closurewithargs</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$arg1</span><span class="sy0">,</span> <span class="re0">$arg2</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$var1</span><span class="sy0">,</span> <span class="re0">$var2</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//body of the function</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//closure late binding (using reference variables)</span>
+<span class="re0">$closurewithargs</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$arg1</span><span class="sy0">,</span> <span class="re0">$arg2</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="sy0">&amp;</span><span class="re0">$var1</span><span class="sy0">,</span> <span class="sy0">&amp;</span><span class="re0">$var2</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//body of the function</span>
+<span class="br0">&#125;</span><span class="sy0">;</span></pre>
+
+<p>
+The <code>$arg1</code> and <code>$arg2</code> are parameters to the function, you still have to manually pass it in whenever calling the function. However <code>$var1</code> and <code>$var2</code> are the bound variables, these variables would have been defined outside the scope of the function. If closures were not possible, then <code>$var1</code> and <code>$var2</code> would not be accessible inside the function. By using the <code>use</code> operator, you can bind the variables to the function, so they can be accessed.
+</p>
+
+<p>
+The difference between early binding and late binding is that in early binding, the variables are bound when at the point at which the function is defined. Any changes to the state of the variable after the definition of the function does not affect the bounded variable. Late binding makes sure that the variable that you bound is actually a reference point not a copied value. This means any changes to the state of the variable after the definition does affect the bounded variable.
+</p>
+<pre class="code php"><span class="re0">$greeting</span> <span class="sy0">=</span> <span class="st0">&quot;Hello!&quot;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//$greeting has been late binded</span>
+<span class="re0">$f</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span><span class="br0">&#40;</span><span class="sy0">&amp;</span><span class="re0">$greeting</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">echo</span> <span class="re0">$greeting</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this will output Hello!</span>
+<span class="re0">$f</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the state has been changed</span>
+<span class="re0">$greeting</span> <span class="sy0">=</span> <span class="st0">&quot;Hi!&quot;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//since the bounded variable is a reference, then this outputs Hi!</span>
+<span class="re0">$f</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Late binding can be useful when your closure needs to maintain tracking of external state and return output based on the state of the external variable. This may seem to violate the concept of pure functional programming in that functions shouldn&#039;t have side effects, however you&#039;re not meant to use them to track global state, instead you&#039;re meant to use them inside <a href="http://en.wikipedia.org/wiki/Higher-order function" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Higher-order function">higher order functions</a>.
+</p>
+
+</div>
+<!-- EDIT13 SECTION "Closures" [43074-45491] -->
+<h3 class="sectionedit14" id="higher_order_functions">Higher Order Functions</h3>
+<div class="level3">
+
+<p>
+The most common use of closures is having a higher order function return closures as output. These closures need access to the variables defined in the higher order function. This is similar to in OOP where you associate an object property with an object method that mutates that object property. These returned closures can then be passed into other functions as callbacks.
+</p>
+<pre class="code php"><span class="co1">//Defining a higher order function that creates a &quot;partial application&quot;</span>
+<span class="re0">$criteria_greater_than</span> <span class="sy0">=</span> <span class="kw2">function</span> <span class="br0">&#40;</span><span class="re0">$min</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//early binded closure using the $min as a parameter, but allowing the programmer to further to pass in an extra parameter to change the operation</span>
+    <span class="kw1">return</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$item</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="re0">$min</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+        <span class="co1">//this closure will return any $item that is greater than the $min</span>
+        <span class="kw1">return</span> <span class="re0">$item</span> <span class="sy0">&gt;</span> <span class="re0">$min</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$input</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="sy0">,</span> <span class="nu0">4</span><span class="sy0">,</span> <span class="nu0">5</span><span class="sy0">,</span> <span class="nu0">6</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the array_filter function accepts a callback function to be called on each array element</span>
+<span class="co1">//it will pass in each array element as the first parameter to the callback function</span>
+<span class="co1">//we use a higher order function to set our parameter which returns a function to accept array_filter's parameter</span>
+<span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/array_filter"><span class="kw3">array_filter</span></a><span class="br0">&#40;</span><span class="re0">$input</span><span class="sy0">,</span> <span class="re0">$criteria_greater_than</span><span class="br0">&#40;</span><span class="nu0">3</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this will output all items greater than 3</span>
+<a href="http://www.php.net/print_r"><span class="kw3">print_r</span></a><span class="br0">&#40;</span><span class="re0">$output</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+The above example demonstrates partial application of a function. This basically means you&#039;re partially applying parameters to a function so that you can complete the function later on.
+</p>
+
+<p>
+Higher order functions can also accept functions as parameters. The below example demonstrates functions as parameters otherwise known as “first class functions”. The below code is actually a 3d saddle graph into a 2d parabola graph. The first graph is <a href="http://www.wolframalpha.com/input/?i=plot+x^2-y^2" class="urlextern" title="http://www.wolframalpha.com/input/?i=plot+x^2-y^2"  rel="nofollow">z = x^2 - y^2</a>. The second is <a href="http://www.wolframalpha.com/input/?i=plot+x^2-5^2" class="urlextern" title="http://www.wolframalpha.com/input/?i=plot+x^2-5^2"  rel="nofollow">z = x^2 - 5^2</a>. You may recognise it as a parabola “y = x^2 - 25”.
+</p>
+<pre class="code php"><span class="re0">$general_function</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$x</span><span class="sy0">,</span> <span class="re0">$y</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$x</span> <span class="sy0">*</span> <span class="re0">$x</span> <span class="sy0">-</span> <span class="re0">$y</span> <span class="sy0">*</span> <span class="re0">$y</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this is a higher order function using $general_function as a parameter</span>
+<span class="co1">//and returning a partial application of the general_function</span>
+<span class="co1">//it's partially applied the $y parameter as 5, in order to &quot;fix&quot; the $y parameter</span>
+<span class="re0">$partial_function</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span> <span class="kw2">use</span><span class="br0">&#40;</span><span class="re0">$general_function</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="re0">$general_function</span><span class="br0">&#40;</span><span class="re0">$x</span><span class="sy0">,</span> <span class="nu0">5</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the outputted partial function can now accept 1 parameter instead of 2</span>
+<span class="re0">$partial_function</span><span class="br0">&#40;</span><span class="nu0">3</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//this resolves to 3*3 - 5*5 =&gt; -16 (therefore the z point on the saddle graph is -16 when x = 3 and y = 5)</span></pre>
+
+<p>
+Note that <a href="http://www.php.net/manual/en/language.types.callable.php" class="urlextern" title="http://www.php.net/manual/en/language.types.callable.php"  rel="nofollow">first class functions can also be typehinted</a>, if you need to make sure the callback can actually be called.
+</p>
+
+<p>
+One of the tenets of functional programming is that we don&#039;t specify how something should be done, we simply describe the formula and result. One thing that the imperative style often needs is looping control structure to demonstrate the steps needed to reach the end result. The declarative style however argues that we should use recursion instead of loops. Do note that <a href="http://stackoverflow.com/a/2651200/582917" class="urlextern" title="http://stackoverflow.com/a/2651200/582917"  rel="nofollow">different languages optimise recursion and looping differently</a>. In the end use which ever comes naturally.
+</p>
+<pre class="code php"><span class="co1">//here are three styles that do the same thing counting down from 100 to 90</span>
+&nbsp;
+<span class="co1">//imperative looping style</span>
+<span class="kw2">function</span> countdown<span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">while</span><span class="br0">&#40;</span><span class="re0">$x</span> <span class="sy0">&gt;</span> <span class="nu0">90</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$x</span><span class="sy0">--;</span>
+        <span class="kw1">echo</span> <span class="re0">$x</span> <span class="sy0">.</span> <span class="st_h">'&lt;br /&gt;'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+countdown<span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//recursion using function declaration</span>
+<span class="kw2">function</span> re_countdown<span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$x</span> <span class="sy0">&gt;</span> <span class="nu0">90</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$x</span><span class="sy0">--;</span>
+        <span class="kw1">echo</span> <span class="re0">$x</span> <span class="sy0">.</span> <span class="st_h">'&lt;br /&gt;'</span><span class="sy0">;</span>
+        re_countdown<span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//you can do this instead: call_user_func(__FUNCTION__, $x);</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+re_countdown<span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//declarative style using closure and function expression</span>
+<span class="co1">//it has to use late binding because $anon_countdown doesn't exist as a variable until it has been set</span>
+<span class="re0">$anon_countdown</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span> <span class="kw2">use</span> <span class="br0">&#40;</span><span class="sy0">&amp;</span><span class="re0">$anon_countdown</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$x</span> <span class="sy0">&gt;</span> <span class="nu0">90</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$x</span><span class="sy0">--;</span>
+        <span class="kw1">echo</span> <span class="re0">$x</span> <span class="sy0">.</span> <span class="st_h">'&lt;br /&gt;'</span><span class="sy0">;</span>
+        <span class="re0">$anon_countdown</span><span class="br0">&#40;</span><span class="re0">$x</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//not possible to use __FUNCTION__ as this function is nameless</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$anon_countdown</span><span class="br0">&#40;</span><span class="nu0">100</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+In <abbr title="Hypertext Preprocessor">PHP</abbr> 5.4 or higher, the <code>$this</code> variable is made available in closures. This allows you to integrate higher order functions and closures into OOP more tightly. The <code>$this</code> variable originally could be used if you constructed your objects in a certain way, but it was brittle and could fail in strange ways.
+</p>
+<pre class="code php"><span class="co1">//Original way</span>
+<span class="kw2">class</span> Dog<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> yap<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'yap!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> close<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//you cannot use $this directly as a lexical variable, so we need to reassign it</span>
+        <span class="re0">$self</span> <span class="sy0">=</span> <span class="re0">$this</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="kw2">use</span><span class="br0">&#40;</span><span class="sy0">&amp;</span><span class="re0">$self</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$self</span><span class="sy0">-&gt;</span><span class="me1">yap</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$dog</span> <span class="sy0">=</span> <span class="kw2">new</span> Dog<span class="sy0">;</span>
+<span class="re0">$func</span> <span class="sy0">=</span> <span class="re0">$dog</span><span class="sy0">-&gt;</span><span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//in the future maybe $dog-&gt;close()();</span>
+<span class="re0">$func</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/call_user_func"><span class="kw3">call_user_func</span></a><span class="br0">&#40;</span><span class="re0">$dog</span><span class="sy0">-&gt;</span><span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//does the same thing but more succinct</span></pre>
+
+<p>
+You can check if the 5.4 code works <a href="http://codepad.viper-7.com/" class="urlextern" title="http://codepad.viper-7.com/"  rel="nofollow">Viper 7&#039;s Codepad</a>.
+</p>
+<pre class="code php"><span class="co1">//new 5.4 and above way</span>
+<span class="kw2">class</span> Dog<span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> yap<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">echo</span> <span class="st_h">'yap!'</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="kw2">public</span> <span class="kw2">function</span> close<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="re0">$closure</span> <span class="sy0">=</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">yap</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span><span class="sy0">;</span>
+        <span class="re0">$closure</span> <span class="sy0">=</span> <span class="re0">$closure</span><span class="sy0">-&gt;</span><span class="me1">bindTo</span><span class="br0">&#40;</span><span class="re0">$this</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="re0">$closure</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$dog</span> <span class="sy0">=</span> <span class="kw2">new</span> Dog<span class="sy0">;</span>
+<span class="re0">$func</span> <span class="sy0">=</span> <span class="re0">$dog</span><span class="sy0">-&gt;</span><span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="re0">$func</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<a href="http://www.php.net/call_user_func"><span class="kw3">call_user_func</span></a><span class="br0">&#40;</span><span class="re0">$dog</span><span class="sy0">-&gt;</span><span class="me1">close</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT14 SECTION "Higher Order Functions" [45492-50892] -->
+<h3 class="sectionedit15" id="function_currying">Function Currying</h3>
+<div class="level3">
+
+<p>
+Function currying is very similar to partial application. In function currying, instead of partially applying some parameters to a function to create a new function with fewer parameters, you&#039;re breaking down a multi-parameter function into a number of individual functions that accept only one argument, and then later composing all of the individual functions together back into the original multi-parameter function. The number of individual functions would correspond to the number of parameters. The uses of currying is similar to partial application, but may give you more flexibility when you know that the parameters are of a function are revealed to you one by one.
+</p>
+
+<p>
+Function currying is not supported by <abbr title="Hypertext Preprocessor">PHP</abbr> natively, however there are some hacks you can use to curry your own multi-parameter functions.
+</p>
+
+<p>
+You can refer to these two implementations:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://blog.uraniborg.net/post/currying-with-php-5-dot-3/" class="urlextern" title="http://blog.uraniborg.net/post/currying-with-php-5-dot-3/"  rel="nofollow">Function Currying with a Class</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://blog.ianty.com/php/currying-with-php-5-3/" class="urlextern" title="http://blog.ianty.com/php/currying-with-php-5-3/"  rel="nofollow">Function Currying with another Function</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT15 SECTION "Function Currying" [50893-51975] -->
+<h2 class="sectionedit16" id="exception_error_handling">Exception/Error Handling</h2>
 <div class="level2">
 
 <p>
-Custom Exceptions:
+<a href="http://php.net/manual/en/language.exceptions.php" class="urlextern" title="http://php.net/manual/en/language.exceptions.php"  rel="nofollow">Exceptions</a> are special conditions, usually errors, that can occur or be explicitly made by a program. They connote that something entirely different from what was expected has occurred. In most cases, the situation requires that a special instruction set be done in order to mitigate a catastrophic system failure. 
 </p>
-<pre class="code">try {
-    // try body
-} catch (FirstExceptionType $e) {
-    // catch body
-} catch (OtherExceptionType $e) {
-    // catch body
-}</pre>
 
 <p>
-Conditional declaration:
+You may confuse them with just using if/else pattern. But you need to think of exceptions as real errors, not just branch logic. Exceptions are also not the same thing as when you get a <abbr title="Hypertext Preprocessor">PHP</abbr> error, that&#039;s usually because you have a syntax error of some sort. Exceptions are only used when you as the programmer explicitly setup an exception system for your application. <abbr title="Hypertext Preprocessor">PHP</abbr> by itself will never emit exceptions. Therefore exceptions are like your application&#039;s custom errors, not <abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s system errors. Here&#039;s some slides that explain how exceptions work.
 </p>
-<pre class="code">// conditional declaration is *not* a side effect
-if (! function_exists(&#039;bar&#039;)) {
-    function bar()
-    {
-        // function body
-    }
-}</pre>
 
 <p>
-What&#039;s the difference between throwing an error or try → catch, vs if else. Exceptions are real exceptions. If/else is branching logic.
+<iframe title="" src="http://www.slideshare.net/slideshow/embed_code/618199" style="width:427px; height:356px" frameborder="0" scrolling="no"></iframe>
+</p>
+
+<p>
+You should also refer to these sources to get a better understanding using exceptions:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://programmers.stackexchange.com/questions/133335/handling-errors-in-php-when-using-mvc" class="urlextern" title="http://programmers.stackexchange.com/questions/133335/handling-errors-in-php-when-using-mvc"  rel="nofollow">http://programmers.stackexchange.com/questions/133335/handling-errors-in-php-when-using-mvc</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://net.tutsplus.com/tutorials/php/the-ins-and-outs-of-php-exceptions/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/the-ins-and-outs-of-php-exceptions/"  rel="nofollow">http://net.tutsplus.com/tutorials/php/the-ins-and-outs-of-php-exceptions/</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://stackoverflow.com/questions/5868733/what-do-we-need-exception-code-for-any-use-case-scenario" class="urlextern" title="http://stackoverflow.com/questions/5868733/what-do-we-need-exception-code-for-any-use-case-scenario"  rel="nofollow">http://stackoverflow.com/questions/5868733/what-do-we-need-exception-code-for-any-use-case-scenario</a></div>
+</li>
+</ul>
+
+<p>
+<abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s exception handling works through the <em>try, throw, catch, finally</em> cycle. The <em>finally</em> operator will be available in <abbr title="Hypertext Preprocessor">PHP</abbr> 5.5 and above.
+</p>
+
+<p>
+The first thing to understand is the try catch block.
+</p>
+<pre class="code php"><span class="co1">//php tries to do something, and if an exception is &quot;thrown&quot; then it will catch it</span>
+try <span class="br0">&#123;</span>
+    <span class="co1">// try body</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$something_bad_happened</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">throw</span> <span class="kw2">new</span> Exception<span class="sy0">;</span> <span class="co1">//exceptions are objects!</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span> catch <span class="br0">&#40;</span>Exception <span class="re0">$e</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="co1">//the catch parameter is being typehinted to the Exception object, we can also use custom typehints later</span>
+    <span class="co1">//$e is the exception object, we can access its methods</span>
+    <span class="kw1">echo</span> <span class="re0">$e</span><span class="sy0">-&gt;</span><span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="kw1">echo</span> <span class="re0">$e</span><span class="sy0">-&gt;</span><span class="me1">getCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="co1">// there are more methods you can use, refer to the exception documentation</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+<abbr title="Hypertext Preprocessor">PHP</abbr> has a number of exceptions you can use. There&#039;s the default <code>Exception</code> object. There are also the <a href="http://www.php.net/manual/en/spl.exceptions.php" class="urlextern" title="http://www.php.net/manual/en/spl.exceptions.php"  rel="nofollow">SPL exceptions</a>. When designing an exception system, try to use the default or SPL exceptions first. When you need more kinds of exceptions, that&#039;s when you need to extend the <code>Exception</code> class. 
+</p>
+
+<p>
+In order to extend the Exception class, first refer to the <a href="http://www.php.net/manual/en/language.exceptions.extending.php" class="urlextern" title="http://www.php.net/manual/en/language.exceptions.extending.php"  rel="nofollow">PHP documentation on extending exceptions</a>. Codeigniter by itself does not currently support exceptions, but it&#039;s a simple matter of integrating exceptions. There are three ways you can do this. Either you put your exceptions as classes in a <code>application/config/exceptions.php</code> file, or you put it in as a pre-system hook, or you can <em>replace</em> the core CI_Exceptions class (beware you may need the CI_Exceptions class), or through creating your own libraries.
+</p>
+
+<p>
+Exceptions are just classes, so you can put each into its own file and PSR-0 autoload it, or you can have all the classes in one file and just require/include it during your bootstrapping process.
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Exception/Error Handling" [38542-39062] -->
-<h2 class="sectionedit13" id="communication_patterns">Communication Patterns</h2>
+<!-- EDIT16 SECTION "Exception/Error Handling" [51976-55288] -->
+<h2 class="sectionedit17" id="event_driven_programming">Event Driven Programming</h2>
 <div class="level2">
 
 <p>
-Pub/sub
+Event driven programming (or signal driven development) is a style of code in which the flow of execution is triggered by events. Therefore your code will have two parts. The first part would register an event by selecting or detecting it. The second part handles the event and executes the triggered code. Event driven programming is often used in <abbr title="Graphical User Interface">GUI</abbr> applications. In fact all of javascript is based on event driven programming. However event driven is also useful for long running processes that wait for some event before reacting. These processes aren&#039;t launched to run a process and finish, but to sit like a watch dog and do prescripted actions according to random events. Therefore making your application non-linear.
 </p>
 
 <p>
-Socket Programming
+Event driven programming is often subclassed under the <a href="http://en.wikipedia.org/wiki/Observer pattern" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Observer pattern">observer pattern</a>. Subjects maintain a list of observers and publish their events or messages to those observers, the observer then receives the event and handles it correspondingly. When this pattern is scaled up, it often is then called the publish and subscribe pattern. The subjects publish and the observers subscribe. When this is done in a distributed manner, programmers often need to get acquainted with socket programming or job managers or message queues such as Gearman and ZMQ.
 </p>
 
 <p>
-Event driven programming, event emitting and dispatch
+Event driven programming is often confused with asynchronous programming or I/O. This is not the same thing. Events when handled can still be executed in a synchronous manner, that is one by one as those events come in. Kind of like a queue of events. However they can also be used in an asynchronous manner. You may run the event handlers concurrently by using multi-threaded or worker processes.
 </p>
 
 <p>
-Using CURL and web scraping (Goutte)
+<iframe title="" src="http://www.slideshare.net/slideshow/embed_code/13257632" style="width:427px; height:356px" frameborder="0" scrolling="no"></iframe>
 </p>
+
+<p>
+Implementing event driven programs is out of the scope of the course, however there&#039;s a number of libraries and resources you can refer to:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/prggmr/XPSPL" class="urlextern" title="https://github.com/prggmr/XPSPL"  rel="nofollow">High Performance Signal Processor</a> - Event driven library. You could drop this in as Composer library and begin event driven programming from the controller or a long running process. Also see this <a href="http://www.youtube.com/watch?v=4rRa-bB5kTA" class="urlextern" title="http://www.youtube.com/watch?v=4rRa-bB5kTA"  rel="nofollow">introductory video on event driven architecture</a> by the same developer.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/BaylorRae/PubSub-PHP" class="urlextern" title="https://github.com/BaylorRae/PubSub-PHP"  rel="nofollow">Publish and Subscribe Library</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://onlamp.com/pub/a/php/2001/03/29/socket_intro.html" class="urlextern" title="http://onlamp.com/pub/a/php/2001/03/29/socket_intro.html"  rel="nofollow">Socket Programming Introduction</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://christophh.net/2012/07/24/php-socket-programming/" class="urlextern" title="http://christophh.net/2012/07/24/php-socket-programming/"  rel="nofollow">Using PHP&#039;s Socket Library</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/igorw/evenement" class="urlextern" title="https://github.com/igorw/evenement"  rel="nofollow">Evenement library</a> - For the event emitter pattern which applies to the observer pattern.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://blog.jmoz.co.uk/websockets-ratchet-react-redis" class="urlextern" title="http://blog.jmoz.co.uk/websockets-ratchet-react-redis"  rel="nofollow">Web Sockets, Ratchet, React and Redis integration</a> - See this for inspiration of what you can do by bringing everything together.</div>
+</li>
+</ul>
 
 </div>
-<!-- EDIT13 SECTION "Communication Patterns" [39063-39220] -->
-<h2 class="sectionedit14" id="input_output">Input/Output</h2>
+<!-- EDIT17 SECTION "Event Driven Programming" [55289-58203] -->
+<h2 class="sectionedit18" id="input_output">Input/Output</h2>
 <div class="level2">
 
 <p>
@@ -815,8 +1110,8 @@ Also mention Amazon S3 for file storage CDNs (most hosts dont allow to be a file
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Input/Output" [39221-39548] -->
-<h2 class="sectionedit15" id="shell_operations">Shell Operations</h2>
+<!-- EDIT18 SECTION "Input/Output" [58204-58531] -->
+<h2 class="sectionedit19" id="shell_operations">Shell Operations</h2>
 <div class="level2">
 
 <p>
@@ -832,8 +1127,8 @@ Shell commands and passthru
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Shell Operations" [39549-39635] -->
-<h2 class="sectionedit16" id="parsing_operations">Parsing Operations</h2>
+<!-- EDIT19 SECTION "Shell Operations" [58532-58618] -->
+<h2 class="sectionedit20" id="parsing_operations">Parsing Operations</h2>
 <div class="level2">
 
 <p>
@@ -857,8 +1152,8 @@ Also the area of study in language parsing and regex is huge. See Nikita&#039;s 
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Parsing Operations" [39636-40001] -->
-<h2 class="sectionedit17" id="structural_patterns">Structural Patterns</h2>
+<!-- EDIT20 SECTION "Parsing Operations" [58619-58984] -->
+<h2 class="sectionedit21" id="structural_patterns">Structural Patterns</h2>
 <div class="level2">
 
 <p>
@@ -870,8 +1165,8 @@ Decorator
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Structural Patterns" [40002-40053] -->
-<h2 class="sectionedit18" id="creational_patterns">Creational Patterns</h2>
+<!-- EDIT21 SECTION "Structural Patterns" [58985-59036] -->
+<h2 class="sectionedit22" id="creational_patterns">Creational Patterns</h2>
 <div class="level2">
 
 <p>
@@ -879,8 +1174,8 @@ Factory… etc
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Creational Patterns" [40054-40102] -->
-<h2 class="sectionedit19" id="behavioural_patterns">Behavioural Patterns</h2>
+<!-- EDIT22 SECTION "Creational Patterns" [59037-59085] -->
+<h2 class="sectionedit23" id="behavioural_patterns">Behavioural Patterns</h2>
 <div class="level2">
 
 <p>
@@ -888,8 +1183,8 @@ Observor
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Behavioural Patterns" [40103-40146] -->
-<h2 class="sectionedit20" id="artificial_intelligence">Artificial Intelligence</h2>
+<!-- EDIT23 SECTION "Behavioural Patterns" [59086-59129] -->
+<h2 class="sectionedit24" id="artificial_intelligence">Artificial Intelligence</h2>
 <div class="level2">
 
 <p>
@@ -909,4 +1204,4 @@ Natural Language Processing
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Artificial Intelligence" [40147-] -->
+<!-- EDIT24 SECTION "Artificial Intelligence" [59130-] -->

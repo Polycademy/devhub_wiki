@@ -355,8 +355,21 @@ For Chrome users you have the [[http://code.google.com/p/php-console/|PHP-Consol
 
 If you cannot use Firefox or Chrome. There's a new option using the third party service [[http://phpconsole.com/|PHPConsole]]. When you use their library, it logs everything to their service. It is currently in invitation beta only. The advantages of using PHPConsole is that it can work in teams, so everyone can see the error logs, and your logs become persistent and synchronised over the internet.
 
+=== Xdebug ===
+
 Of course the holy grail of debugging is [[http://xdebug.org/|Xdebug]]. However this would already installed by default if you use Wampserver. It offers a much more detailed trace of any errors your programming caused.
 
+There is however some settings for Xdebug you may want to change for purposes of development. According to the [[http://xdebug.org/docs/display|Xdebug documentation on the "var_dump()" function]], they limit the amount of children and depth you can see. During development we may need to extract the full depth and coverage of a multidimensional array, so we should change the settings to reflect this.
+
+The three settings need to be placed in the ''php.ini''. If you're using the Wampserver package, Xdebug will already be installed and there will be an Xdebug section in your ''php.ini'' file. Add the below three lines just under the ''[xdebug]'' delimiter.
+
+<code>
+xdebug.var_display_max_depth = -1
+xdebug.var_display_max_children = -1
+xdebug.var_display_max_data = -1 
+</code>
+
+If you're not using Wampserver, you may need to check the [[http://wiki.netbeans.org/HowToConfigureXDebug#Overview|Netbeans wiki on configuring Xdebug]].
 ==== Browser Testing ====
 
 In a perfect world, we could just develop our application for one modern browser, and it would work for all browsers. Unfortunately this isn't true. We need to manually test the layout and front end dynamic functionality through all available browsers.

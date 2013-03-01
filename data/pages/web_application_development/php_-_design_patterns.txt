@@ -499,60 +499,298 @@ Check out Fabien's sliders on Dependency Injection, the guy who created Pimple:
 {{url>http://www.slideshare.net/slideshow/embed_code/3028051 427px,356px noscroll noborder}}
 ===== Functional Programming =====
 
-Anonymous functions
+[[wp>Functional programming|Functional programming]] refers to a computation style that emphasises evaluation through mathematical functions instead of having mutable state. It is a subset of the [[wp>Declarative programming|declarative programming style]]. This style is about specifying what the computation should achieve without telling how it should do it. The "how" is left to the compiler or interpreter about the best way to achieve what you want, sometimes the "how" is also implemented by the programmer, but it would be abstracted from the flow of execution. An example would SQL where you simply ask for data back, but you don't actually program how to get the data back. In contrast would be OOP which is an [[wp>Imperative programming|imperative programming style]], because the "how" is specifically dictated by the programmer. Declarative style or functional programming also emphasises stateless computation, that is mutating state and tracking is not important. Functional programming also doesn't care too much about the flow of execution or the order of execution.
 
-Closures (early binding + late binding via references)
+Functional programming is mainly composed of mathematical functions called "expressions". These functions should not have side effects unlike the "statements" from the imperative style. Side effects refer to manipulating the state outside of the scope of the functions. By eliminating these side effects, the expressions can have referential transparency. This means that no matter how many times you execute the same expression, the end result will be the same. Imagine a function //f// with argument //x//, then each time the result will be //f(x)//, state outside of the function is not affected. Eliminating side effects can make it much easier to understand and predict the behavior of a program, which is one of the key motivations for the development of functional programming. Functional programming is also easier use when doing concurrent programming. Functional programming is often more difficult to grasp for beginners, as it is closer to mathematical notation. You're often defining formulas and then arranging them in order to achieve an end result, this may result in code that is succinct but with little "working out" to demonstrate the steps required to do the task. On the other hand functional programming also is more natural to our own [[http://blog.lcf.name/2011/12/functional-programming-in-php.html|mental model of how real life works]]. When reading functional code, we can see the end reason behind what we're doing, not just the steps taken to achieve some end of which we won't understand until we get to the end of the code.
 
-Function currying returning functions
+There are languages which are purely functional and some which are hybrid. PHP is not a functional language, but it has taken useful constructs and practices from functional languages, and made it available to programmers. This section will go through some of the functional constructs that will be of most practical use.
 
-http://jburrows.wordpress.com/2011/06/24/the-state-of-functional-programming-in-php-5-3-x/
+==== Anonymous Functions ====
 
-<code>
-$closureWithArgs = function ($arg1, $arg2) {
-    // body
-};
+Anonymous functions are simply functions that do not have a name. We would usually define function this way:
 
-$closureWithArgsAndVars = function ($arg1, $arg2) use ($var1, $var2) {
-    // body
-};
-</code>
-===== Exception/Error Handling =====
-
-Custom Exceptions:
-
-<code>
-try {
-    // try body
-} catch (FirstExceptionType $e) {
-    // catch body
-} catch (OtherExceptionType $e) {
-    // catch body
+<code php>
+//called "Function Declaration"
+//this becomes accessible globally
+function do_something($x){
+    return $x + 1;
 }
+
+echo do_something(2); //resolves to 3
 </code>
 
-Conditional declaration:
+Anonymous functions are instead declared without a name and [[http://php.net/manual/en/functions.variable-functions.php|assigned to a variable]]. This essentially turns something that was a stand alone construct into some sort of data that could be passed around and used in callbacks. Do note the ending semicolon ";" since we're assigning the function expression to a variable, and not just setting up a function scope.
 
-<code>
-// conditional declaration is *not* a side effect
-if (! function_exists('bar')) {
-    function bar()
-    {
-        // function body
+<code php>
+//called "Function Expression"
+//this is only accessible within its current scope
+$square = function($x){
+    return $x * $x;
+};
+
+$square(2); //resolves to 4
+</code>
+
+The ability to use function expressions makes functions [[wp>First-class function|"first class citizens"]]. This basically means that the language supports passing functions as arguments to other functions, returning them as the values from other functions, and assigning them to variables or storing them in data structures. In PHP we'll often use these anonymous functions as callbacks that are passed into other "higher order" functions as parameters. This allows you to share your functions while still respecting the scope because anonymous functions won't pollute the global scope.
+
+Anonymous functions can also be defined inside the parameter, they don't need to be assigned to a variable. This makes them a throw away function.
+
+<code php>
+//the array_filter function accepts a function as a 2nd parameter
+$output = array_filter($input, function($item) {
+    return ($item % 2) == 0;
+});
+</code>
+
+Anonymous functions are necessary for the next following functions or else functional programming would not work.
+
+==== Closures ====
+
+A closure is an anonymous function that can access variables from the outside it's scope without using any global variables. Furthermore the variables that are defined within the closure will only be accessible inside the closure. Closures make anonymous functions far more powerful and opens up opportunities for functions to return augmented functions.
+
+In PHP, closures access external variables through two methods. Early binding and late binding.
+
+<code php>
+//closure early binding
+$closurewithargs = function($arg1, $arg2) use ($var1, $var2){
+    //body of the function
+};
+
+//closure late binding (using reference variables)
+$closurewithargs = function($arg1, $arg2) use (&$var1, &$var2){
+    //body of the function
+};
+</code>
+
+The ''$arg1'' and ''$arg2'' are parameters to the function, you still have to manually pass it in whenever calling the function. However ''$var1'' and ''$var2'' are the bound variables, these variables would have been defined outside the scope of the function. If closures were not possible, then ''$var1'' and ''$var2'' would not be accessible inside the function. By using the ''use'' operator, you can bind the variables to the function, so they can be accessed.
+
+The difference between early binding and late binding is that in early binding, the variables are bound when at the point at which the function is defined. Any changes to the state of the variable after the definition of the function does not affect the bounded variable. Late binding makes sure that the variable that you bound is actually a reference point not a copied value. This means any changes to the state of the variable after the definition does affect the bounded variable.
+
+<code php>
+$greeting = "Hello!";
+
+//$greeting has been late binded
+$f = function() use(&$greeting){
+    echo $greeting;
+};
+
+//this will output Hello!
+$f();
+
+//the state has been changed
+$greeting = "Hi!";
+
+//since the bounded variable is a reference, then this outputs Hi!
+$f();
+</code>
+
+Late binding can be useful when your closure needs to maintain tracking of external state and return output based on the state of the external variable. This may seem to violate the concept of pure functional programming in that functions shouldn't have side effects, however you're not meant to use them to track global state, instead you're meant to use them inside [[wp>Higher-order function|higher order functions]].
+==== Higher Order Functions ====
+
+The most common use of closures is having a higher order function return closures as output. These closures need access to the variables defined in the higher order function. This is similar to in OOP where you associate an object property with an object method that mutates that object property. These returned closures can then be passed into other functions as callbacks.
+
+<code php>
+//Defining a higher order function that creates a "partial application"
+$criteria_greater_than = function ($min){
+    //early binded closure using the $min as a parameter, but allowing the programmer to further to pass in an extra parameter to change the operation
+    return function($item) use ($min) {
+        //this closure will return any $item that is greater than the $min
+        return $item > $min;
+    };
+};
+
+$input = array(1, 2, 3, 4, 5, 6);
+
+//the array_filter function accepts a callback function to be called on each array element
+//it will pass in each array element as the first parameter to the callback function
+//we use a higher order function to set our parameter which returns a function to accept array_filter's parameter
+$output = array_filter($input, $criteria_greater_than(3));
+
+//this will output all items greater than 3
+print_r($output);
+</code>
+
+The above example demonstrates partial application of a function. This basically means you're partially applying parameters to a function so that you can complete the function later on.
+
+Higher order functions can also accept functions as parameters. The below example demonstrates functions as parameters otherwise known as "first class functions". The below code is actually a 3d saddle graph into a 2d parabola graph. The first graph is [[http://www.wolframalpha.com/input/?i=plot+x^2-y^2|z = x^2 - y^2]]. The second is [[http://www.wolframalpha.com/input/?i=plot+x^2-5^2|z = x^2 - 5^2]]. You may recognise it as a parabola "y = x^2 - 25".
+
+<code php>
+$general_function = function($x, $y) {
+    return $x * $x - $y * $y;
+};
+
+//this is a higher order function using $general_function as a parameter
+//and returning a partial application of the general_function
+//it's partially applied the $y parameter as 5, in order to "fix" the $y parameter
+$partial_function = function($x) use($general_function) {
+    return $general_function($x, 5);
+};
+
+//the outputted partial function can now accept 1 parameter instead of 2
+$partial_function(3);
+//this resolves to 3*3 - 5*5 => -16 (therefore the z point on the saddle graph is -16 when x = 3 and y = 5)
+</code>
+
+Note that [[http://www.php.net/manual/en/language.types.callable.php|first class functions can also be typehinted]], if you need to make sure the callback can actually be called.
+
+One of the tenets of functional programming is that we don't specify how something should be done, we simply describe the formula and result. One thing that the imperative style often needs is looping control structure to demonstrate the steps needed to reach the end result. The declarative style however argues that we should use recursion instead of loops. Do note that [[http://stackoverflow.com/a/2651200/582917|different languages optimise recursion and looping differently]]. In the end use which ever comes naturally.
+
+<code php>
+//here are three styles that do the same thing counting down from 100 to 90
+
+//imperative looping style
+function countdown($x){
+    while($x > 90){
+        $x--;
+        echo $x . '<br />';
     }
 }
+
+countdown(100);
+
+//recursion using function declaration
+function re_countdown($x){
+    if($x > 90){
+        $x--;
+        echo $x . '<br />';
+        re_countdown($x); //you can do this instead: call_user_func(__FUNCTION__, $x);
+    }
+}
+
+re_countdown(100);
+
+//declarative style using closure and function expression
+//it has to use late binding because $anon_countdown doesn't exist as a variable until it has been set
+$anon_countdown = function($x) use (&$anon_countdown){
+    if($x > 90){
+        $x--;
+        echo $x . '<br />';
+        $anon_countdown($x); //not possible to use __FUNCTION__ as this function is nameless
+    }
+};
+
+$anon_countdown(100);
 </code>
 
-What's the difference between throwing an error or try -> catch, vs if else. Exceptions are real exceptions. If/else is branching logic.
-===== Communication Patterns =====
+In PHP 5.4 or higher, the ''$this'' variable is made available in closures. This allows you to integrate higher order functions and closures into OOP more tightly. The ''$this'' variable originally could be used if you constructed your objects in a certain way, but it was brittle and could fail in strange ways.
 
-Pub/sub
+<code php>
+//Original way
+class Dog{
 
-Socket Programming
+    public function yap(){
+        echo 'yap!';
+    }
+    
+    public function close(){
+        //you cannot use $this directly as a lexical variable, so we need to reassign it
+        $self = $this;
+        return function() use(&$self){
+            $self->yap();
+        };
+    }
 
-Event driven programming, event emitting and dispatch
+}
 
-Using CURL and web scraping (Goutte)
+$dog = new Dog;
+$func = $dog->close(); //in the future maybe $dog->close()();
+$func();
 
+call_user_func($dog->close()); //does the same thing but more succinct
+</code>
+
+You can check if the 5.4 code works [[http://codepad.viper-7.com/|Viper 7's Codepad]].
+
+<code php>
+//new 5.4 and above way
+class Dog{
+
+    public function yap(){
+        echo 'yap!';
+    }
+
+    public function close(){
+        $closure = function(){
+            $this->yap();
+        };
+        $closure = $closure->bindTo($this);
+        return $closure;
+    }
+    
+}
+
+$dog = new Dog;
+$func = $dog->close();
+$func();
+call_user_func($dog->close());
+</code>
+==== Function Currying ====
+
+Function currying is very similar to partial application. In function currying, instead of partially applying some parameters to a function to create a new function with fewer parameters, you're breaking down a multi-parameter function into a number of individual functions that accept only one argument, and then later composing all of the individual functions together back into the original multi-parameter function. The number of individual functions would correspond to the number of parameters. The uses of currying is similar to partial application, but may give you more flexibility when you know that the parameters are of a function are revealed to you one by one.
+
+Function currying is not supported by PHP natively, however there are some hacks you can use to curry your own multi-parameter functions.
+
+You can refer to these two implementations:
+
+  * [[http://blog.uraniborg.net/post/currying-with-php-5-dot-3/|Function Currying with a Class]]
+  * [[http://blog.ianty.com/php/currying-with-php-5-3/|Function Currying with another Function]]
+===== Exception/Error Handling =====
+
+[[http://php.net/manual/en/language.exceptions.php|Exceptions]] are special conditions, usually errors, that can occur or be explicitly made by a program. They connote that something entirely different from what was expected has occurred. In most cases, the situation requires that a special instruction set be done in order to mitigate a catastrophic system failure. 
+
+You may confuse them with just using if/else pattern. But you need to think of exceptions as real errors, not just branch logic. Exceptions are also not the same thing as when you get a PHP error, that's usually because you have a syntax error of some sort. Exceptions are only used when you as the programmer explicitly setup an exception system for your application. PHP by itself will never emit exceptions. Therefore exceptions are like your application's custom errors, not PHP's system errors. Here's some slides that explain how exceptions work.
+
+{{url>http://www.slideshare.net/slideshow/embed_code/618199 427px,356px noscroll noborder}}
+
+You should also refer to these sources to get a better understanding using exceptions:
+
+  * http://programmers.stackexchange.com/questions/133335/handling-errors-in-php-when-using-mvc
+  * http://net.tutsplus.com/tutorials/php/the-ins-and-outs-of-php-exceptions/
+  * http://stackoverflow.com/questions/5868733/what-do-we-need-exception-code-for-any-use-case-scenario
+
+PHP's exception handling works through the //try, throw, catch, finally// cycle. The //finally// operator will be available in PHP 5.5 and above.
+
+The first thing to understand is the try catch block.
+
+<code php>
+//php tries to do something, and if an exception is "thrown" then it will catch it
+try {
+    // try body
+    if($something_bad_happened){
+        throw new Exception; //exceptions are objects!
+    }
+} catch (Exception $e) {
+    //the catch parameter is being typehinted to the Exception object, we can also use custom typehints later
+    //$e is the exception object, we can access its methods
+    echo $e->getMessage();
+    echo $e->getCode();
+    // there are more methods you can use, refer to the exception documentation
+}
+</code>
+
+PHP has a number of exceptions you can use. There's the default ''Exception'' object. There are also the [[http://www.php.net/manual/en/spl.exceptions.php|SPL exceptions]]. When designing an exception system, try to use the default or SPL exceptions first. When you need more kinds of exceptions, that's when you need to extend the ''Exception'' class. 
+
+In order to extend the Exception class, first refer to the [[http://www.php.net/manual/en/language.exceptions.extending.php|PHP documentation on extending exceptions]]. Codeigniter by itself does not currently support exceptions, but it's a simple matter of integrating exceptions. There are three ways you can do this. Either you put your exceptions as classes in a ''application/config/exceptions.php'' file, or you put it in as a pre-system hook, or you can //replace// the core CI_Exceptions class (beware you may need the CI_Exceptions class), or through creating your own libraries.
+
+Exceptions are just classes, so you can put each into its own file and PSR-0 autoload it, or you can have all the classes in one file and just require/include it during your bootstrapping process.
+===== Event Driven Programming =====
+
+Event driven programming (or signal driven development) is a style of code in which the flow of execution is triggered by events. Therefore your code will have two parts. The first part would register an event by selecting or detecting it. The second part handles the event and executes the triggered code. Event driven programming is often used in GUI applications. In fact all of javascript is based on event driven programming. However event driven is also useful for long running processes that wait for some event before reacting. These processes aren't launched to run a process and finish, but to sit like a watch dog and do prescripted actions according to random events. Therefore making your application non-linear.
+
+Event driven programming is often subclassed under the [[wp>Observer pattern|observer pattern]]. Subjects maintain a list of observers and publish their events or messages to those observers, the observer then receives the event and handles it correspondingly. When this pattern is scaled up, it often is then called the publish and subscribe pattern. The subjects publish and the observers subscribe. When this is done in a distributed manner, programmers often need to get acquainted with socket programming or job managers or message queues such as Gearman and ZMQ.
+
+Event driven programming is often confused with asynchronous programming or I/O. This is not the same thing. Events when handled can still be executed in a synchronous manner, that is one by one as those events come in. Kind of like a queue of events. However they can also be used in an asynchronous manner. You may run the event handlers concurrently by using multi-threaded or worker processes.
+
+{{url>http://www.slideshare.net/slideshow/embed_code/13257632 427px,356px noscroll noborder}}
+
+Implementing event driven programs is out of the scope of the course, however there's a number of libraries and resources you can refer to:
+
+  * [[https://github.com/prggmr/XPSPL|High Performance Signal Processor]] - Event driven library. You could drop this in as Composer library and begin event driven programming from the controller or a long running process. Also see this [[http://www.youtube.com/watch?v=4rRa-bB5kTA|introductory video on event driven architecture]] by the same developer.
+  * [[https://github.com/BaylorRae/PubSub-PHP|Publish and Subscribe Library]]
+  * [[http://onlamp.com/pub/a/php/2001/03/29/socket_intro.html|Socket Programming Introduction]]
+  * [[http://christophh.net/2012/07/24/php-socket-programming/|Using PHP's Socket Library]]
+  * [[https://github.com/igorw/evenement|Evenement library]] - For the event emitter pattern which applies to the observer pattern.
+  * [[http://blog.jmoz.co.uk/websockets-ratchet-react-redis|Web Sockets, Ratchet, React and Redis integration]] - See this for inspiration of what you can do by bringing everything together.
 ===== Input/Output =====
 
 Teach binary

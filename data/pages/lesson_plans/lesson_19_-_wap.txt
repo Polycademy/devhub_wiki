@@ -1,0 +1,22 @@
+====== Lesson 19 - WAP ======
+
+**Expected Work**
+
+  - Create more MVC triads
+  - Began breaking down your template into layouts and partials
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Detailed Templating
+  - Review of OOP and Classes
+  - 37 days left!
+
+**Practice**
+
+  - Working through the MVC triad and templating

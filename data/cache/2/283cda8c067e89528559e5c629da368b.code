@@ -1,0 +1,4 @@
+<span class="co1">//the array_filter function accepts a function as a 2nd parameter</span>
+<span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/array_filter"><span class="kw3">array_filter</span></a><span class="br0">&#40;</span><span class="re0">$input</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$item</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="br0">&#40;</span><span class="re0">$item</span> <span class="sy0">%</span> <span class="nu0">2</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>

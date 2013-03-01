@@ -504,7 +504,7 @@ Example Codeigniter View:
 </code>
 ==== Controller ====
 
-The controller is the manager of the model and view. In Codeigniter the name of the controller corresponds to the first URL segment. The second URL segment is executed as a corresponding method. Any further URL segments are passed the methods as parameters. Controllers are meant to be thin and simply call upon models and pass in parameters, afterwards it binds the returned data to the view and at the same time responds back to the client with the finished data. The only business logic that controllers should have is any input filtering, HTTP routing tasks, and view binding.
+The controller is the manager of the model and view. In Codeigniter the name of the controller corresponds to the first URL segment. The second URL segment is executed as a corresponding method. Any further URL segments are passed to the methods as parameters. Controllers are meant to be thin and simply call upon models and pass in parameters, afterwards it binds the returned data to the view and at the same time responds back to the client with the finished data. The only business logic that controllers should have is any input filtering, HTTP routing tasks, and view binding.
 
 Example Codeigniter Controller:
 
@@ -735,7 +735,11 @@ You can also replace and extend system libraries. You will need to either put th
 
 If you're replacing a native library. You would use the same name of the class you're trying to replace. But inside the class, you would call it CI_CLASSNAME. For example to replace the Email class. You would name it ''Email.php'' and have it run as ''class CI_Email{}''.
 
-If you're extending a native library just declare your class as MY_CLASSNAME extending CI_CLASSNAME. Furthermore if you're using a constructor, make sure to call the parent constructor with ''parent::constructor();''.
+If you're extending a native library just declare your class as MY_CLASSNAME extending CI_CLASSNAME. Furthermore if you're using a constructor, make sure to call the parent constructor with:
+
+<code php>
+parent::__construct();
+</code>
 
 Note that if you're trying use Codeigniter's native libraries or database class inside your own custom library, you need to call the function ''get_instance()''. This is a global function defined by Codeigniter. When you load in your library, that function points to creating an instance to Codeigniter's super object. It's actually a good demonstration of the [[http://en.wikipedia.org/wiki/Singleton_pattern|singleton pattern]]. Every time you call ''get_instance'' you don't actually initialise a whole new superobject. The function checks if the object has already been initialised, and if it has been, it will simply return that object. In the [[http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html|documentation]], it recommends that you assign it to a object member property in your constructor, and then use the variable as if you were calling ''$this'' in your controllers and models.
 
@@ -1745,6 +1749,29 @@ Please note, that due to your host environments, you may not able to use daemons
 {{url>http://www.slideshare.net/slideshow/embed_code/2340418?rel=0 427px,356px noscroll noborder}}
 
 An important concept to understand is that using long running daemons instead of Apache's spin up a PHP instance for each request, can be beneficial for different scenarios. A lot of the excitement about Node.js is attributed to its event driven asynchronous non-blocking IO architecture, allowing it to serve many connections. PHP has its own implementations with [[http://reactphp.org/|React]] and [[https://github.com/shaneharter/PHP-Daemon|PHP-Daemon]].
+
+==== Configuration for Daemons ====
+
+The concept of worker daemons can be implemented in two different ways. Either as a true daemon which would be an independent long running process that can be managed with [[http://supervisord.org/|Supervisor]], or as a script that's initiated by the HTTP server which most likely would be Apache.
+
+In order to implement it in the second way, you'll need configure Apache to modify the ''php.ini'' settings so that the PHP script can be executed for a longer time. Apache by default closes the PHP execution if it runs for too long. The most flexible way of configuring Apache is through the ''.htaccess'' file. This can be done through [[http://davidwalsh.name/php-values-htaccess|setting PHP values]]. Another way is directly in the script through the [[http://davidwalsh.name/increase-php-script-execution-time-limit-ini_set|ini_set() function]].
+
+Here's an example of different PHP settings set through the ''.htaccess''.
+
+<code>
+#changes the maximum file size that can be uploaded
+php_value upload_max_filesize 2M
+#changes in seconds the length of execution
+php_value max_execution_time 300
+#the time in seconds of how long PHP is allowed to parse GET and POST data
+php_value max_input_time 5
+#the memory limit that PHP is allowed to occupy (takes up RAM), this can be for one script or the entire PHP application
+php_value memory_limit 10M
+#the maximum filesize that the POST payload can occupy
+php_value post_max_size 2M
+</code>
+
+You can also investigate more [[http://www.php.net/manual/en/info.configuration.php|configuration settings in the PHP documentation]].
 ===== Sockets & RTC =====
 
 You've heard of the real time web right? The rise of single page applications? Well these rely on web sockets and occasionally RTC. Before you go ahead with this, you need to understand network programming, the underlying protocols that the internet is built upon. [[http://gafferongames.com/networking-for-game-programmers/|Glenn Fiedler has provided an excellent series of blogs articles talking about network programming geared towards game developers]]. Read that before you proceed.

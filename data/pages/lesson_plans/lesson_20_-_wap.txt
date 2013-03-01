@@ -1,0 +1,27 @@
+====== Lesson 20 - WAP ======
+
+**Expected Work**
+
+  - Practice the CRUD model
+  - Create more MVC triads
+  - Progress through templating
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Using libraries from Sparks
+  - Using namespaces
+  - Using static classes
+  - Understanding the database
+  - 36 days left!
+
+**Practice**
+
+  - Start browsing for interesting libraries and autoload them
+  - Use namespaces for an example library
+  - Construct a database schema for your application

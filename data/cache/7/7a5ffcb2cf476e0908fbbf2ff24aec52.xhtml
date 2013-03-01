@@ -810,12 +810,32 @@ For Chrome users you have the <a href="http://code.google.com/p/php-console/" cl
 If you cannot use Firefox or Chrome. There&#039;s a new option using the third party service <a href="http://phpconsole.com/" class="urlextern" title="http://phpconsole.com/"  rel="nofollow">PHPConsole</a>. When you use their library, it logs everything to their service. It is currently in invitation beta only. The advantages of using PHPConsole is that it can work in teams, so everyone can see the error logs, and your logs become persistent and synchronised over the internet.
 </p>
 
+</div>
+
+<h4 id="xdebug">Xdebug</h4>
+<div class="level4">
+
 <p>
 Of course the holy grail of debugging is <a href="http://xdebug.org/" class="urlextern" title="http://xdebug.org/"  rel="nofollow">Xdebug</a>. However this would already installed by default if you use Wampserver. It offers a much more detailed trace of any errors your programming caused.
 </p>
 
+<p>
+There is however some settings for Xdebug you may want to change for purposes of development. According to the <a href="http://xdebug.org/docs/display" class="urlextern" title="http://xdebug.org/docs/display"  rel="nofollow">Xdebug documentation on the &quot;var_dump()&quot; function</a>, they limit the amount of children and depth you can see. During development we may need to extract the full depth and coverage of a multidimensional array, so we should change the settings to reflect this.
+</p>
+
+<p>
+The three settings need to be placed in the <code>php.ini</code>. If you&#039;re using the Wampserver package, Xdebug will already be installed and there will be an Xdebug section in your <code>php.ini</code> file. Add the below three lines just under the <code>[xdebug]</code> delimiter.
+</p>
+<pre class="code">xdebug.var_display_max_depth = -1
+xdebug.var_display_max_children = -1
+xdebug.var_display_max_data = -1 </pre>
+
+<p>
+If you&#039;re not using Wampserver, you may need to check the <a href="http://wiki.netbeans.org/HowToConfigureXDebug#Overview" class="urlextern" title="http://wiki.netbeans.org/HowToConfigureXDebug#Overview"  rel="nofollow">Netbeans wiki on configuring Xdebug</a>.
+</p>
+
 </div>
-<!-- EDIT19 SECTION "Backend Debugging" [40872-43343] -->
+<!-- EDIT19 SECTION "Backend Debugging" [40872-44296] -->
 <h3 class="sectionedit20" id="browser_testing">Browser Testing</h3>
 <div class="level3">
 
@@ -836,7 +856,7 @@ If you are using Mac or Linux, try <a href="http://browsershots.org/" class="url
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Browser Testing" [43344-44652] -->
+<!-- EDIT20 SECTION "Browser Testing" [44297-45605] -->
 <h3 class="sectionedit21" id="unit_testing">Unit Testing</h3>
 <div class="level3">
 
@@ -942,12 +962,12 @@ Back end javascript involving Node.js should instead use <a href="http://net.tut
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Unit Testing" [44653-51304] -->
+<!-- EDIT21 SECTION "Unit Testing" [45606-52257] -->
 <h2 class="sectionedit22" id="build_stack">Build Stack</h2>
 <div class="level2">
 
 </div>
-<!-- EDIT22 SECTION "Build Stack" [51305-51329] -->
+<!-- EDIT22 SECTION "Build Stack" [52258-52282] -->
 <h3 class="sectionedit23" id="code_quality">Code Quality</h3>
 <div class="level3">
 
@@ -964,7 +984,7 @@ Although <abbr title="Hypertext Preprocessor">PHP</abbr> has <a href="http://pea
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Code Quality" [51330-52300] -->
+<!-- EDIT23 SECTION "Code Quality" [52283-53253] -->
 <h3 class="sectionedit24" id="css_preprocessors">CSS Preprocessors</h3>
 <div class="level3">
 
@@ -989,7 +1009,7 @@ When we get to <a href="/doku.php?id=web_application_development:web_design" cla
 </p>
 
 </div>
-<!-- EDIT24 SECTION "CSS Preprocessors" [52301-53922] -->
+<!-- EDIT24 SECTION "CSS Preprocessors" [53254-54875] -->
 <h3 class="sectionedit25" id="phing_php_build_system">Phing PHP Build System</h3>
 <div class="level3">
 
@@ -1045,7 +1065,7 @@ Phing has a <a href="http://www.phing.info/docs/guide/stable/" class="urlextern"
 </p>
 
 </div>
-<!-- EDIT25 SECTION "Phing PHP Build System" [53923-55760] -->
+<!-- EDIT25 SECTION "Phing PHP Build System" [54876-56713] -->
 <h3 class="sectionedit26" id="js_build_system">JS Build System</h3>
 <div class="level3">
 
@@ -1054,7 +1074,7 @@ There are three build systems for Javascript. <a href="http://gruntjs.com/" clas
 </p>
 
 </div>
-<!-- EDIT26 SECTION "JS Build System" [55761-56200] -->
+<!-- EDIT26 SECTION "JS Build System" [56714-57153] -->
 <h2 class="sectionedit27" id="production_stack">Production Stack</h2>
 <div class="level2">
 
@@ -1067,7 +1087,7 @@ To start using Appfog, create an account on Appfog, setup an app, and then insta
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Production Stack" [56201-] --><div class="footnotes">
+<!-- EDIT27 SECTION "Production Stack" [57154-] --><div class="footnotes">
 <div class="fn"><sup><a href="#fnt__1" id="fn__1" class="fn_bot">1)</a></sup> 
 By Arturo muthuvel (Own Work) [CC-BY-SA-3.0 (<a href="http://creativecommons.org/licenses/by-sa/3.0" class="urlextern" title="http://creativecommons.org/licenses/by-sa/3.0"  rel="nofollow">http://creativecommons.org/licenses/by-sa/3.0</a>)], via Wikimedia Commons</div>
 <div class="fn"><sup><a href="#fnt__2" id="fn__2" class="fn_bot">2)</a></sup> 

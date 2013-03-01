@@ -616,7 +616,7 @@ Example Codeigniter View:
 <div class="level3">
 
 <p>
-The controller is the manager of the model and view. In Codeigniter the name of the controller corresponds to the first <abbr title="Uniform Resource Locator">URL</abbr> segment. The second <abbr title="Uniform Resource Locator">URL</abbr> segment is executed as a corresponding method. Any further <abbr title="Uniform Resource Locator">URL</abbr> segments are passed the methods as parameters. Controllers are meant to be thin and simply call upon models and pass in parameters, afterwards it binds the returned data to the view and at the same time responds back to the client with the finished data. The only business logic that controllers should have is any input filtering, <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> routing tasks, and view binding.
+The controller is the manager of the model and view. In Codeigniter the name of the controller corresponds to the first <abbr title="Uniform Resource Locator">URL</abbr> segment. The second <abbr title="Uniform Resource Locator">URL</abbr> segment is executed as a corresponding method. Any further <abbr title="Uniform Resource Locator">URL</abbr> segments are passed to the methods as parameters. Controllers are meant to be thin and simply call upon models and pass in parameters, afterwards it binds the returned data to the view and at the same time responds back to the client with the finished data. The only business logic that controllers should have is any input filtering, <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> routing tasks, and view binding.
 </p>
 
 <p>
@@ -663,7 +663,7 @@ There&#039;ll be many developers who argue that your form inputs should be valid
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Controller" [28385-31301] -->
+<!-- EDIT11 SECTION "Controller" [28385-31304] -->
 <h2 class="sectionedit12" id="templating">Templating</h2>
 <div class="level2">
 
@@ -733,7 +733,7 @@ Your views directory can start to look like this:
           |----articles_view.php</pre>
 
 </div>
-<!-- EDIT12 SECTION "Templating" [31302-34571] -->
+<!-- EDIT12 SECTION "Templating" [31305-34574] -->
 <h3 class="sectionedit13" id="layouts">Layouts</h3>
 <div class="level3">
 
@@ -790,7 +790,7 @@ To understand how the compose method works, look into the source code of <code>T
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Layouts" [34572-37066] -->
+<!-- EDIT13 SECTION "Layouts" [34575-37069] -->
 <h3 class="sectionedit14" id="partials">Partials</h3>
 <div class="level3">
 
@@ -881,7 +881,7 @@ By default they automatically echo their data as soon as they are called. Howeve
 <pre class="code php"><span class="re0">$partial_compiled</span> <span class="sy0">=</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'row'</span><span class="sy0">,</span> <span class="re0">$data</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT14 SECTION "Partials" [37067-40084] -->
+<!-- EDIT14 SECTION "Partials" [37070-40087] -->
 <h2 class="sectionedit15" id="using_libraries">Using Libraries</h2>
 <div class="level2">
 
@@ -894,7 +894,7 @@ There are different ways of structuring library classes, most of the ways are de
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Using Libraries" [40085-41260] -->
+<!-- EDIT15 SECTION "Using Libraries" [40088-41263] -->
 <h3 class="sectionedit16" id="codeigniter_libraries">Codeigniter Libraries</h3>
 <div class="level3">
 
@@ -915,8 +915,9 @@ If you&#039;re replacing a native library. You would use the same name of the cl
 </p>
 
 <p>
-If you&#039;re extending a native library just declare your class as MY_CLASSNAME extending CI_CLASSNAME. Furthermore if you&#039;re using a constructor, make sure to call the parent constructor with <code>parent::constructor();</code>.
+If you&#039;re extending a native library just declare your class as MY_CLASSNAME extending CI_CLASSNAME. Furthermore if you&#039;re using a constructor, make sure to call the parent constructor with:
 </p>
+<pre class="code php">parent<span class="sy0">::</span>__construct<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 <p>
 Note that if you&#039;re trying use Codeigniter&#039;s native libraries or database class inside your own custom library, you need to call the function <code>get_instance()</code>. This is a global function defined by Codeigniter. When you load in your library, that function points to creating an instance to Codeigniter&#039;s super object. It&#039;s actually a good demonstration of the <a href="http://en.wikipedia.org/wiki/Singleton_pattern" class="urlextern" title="http://en.wikipedia.org/wiki/Singleton_pattern"  rel="nofollow">singleton pattern</a>. Every time you call <code>get_instance</code> you don&#039;t actually initialise a whole new superobject. The function checks if the object has already been initialised, and if it has been, it will simply return that object. In the <a href="http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/general/creating_libraries.html"  rel="nofollow">documentation</a>, it recommends that you assign it to a object member property in your constructor, and then use the variable as if you were calling <code>$this</code> in your controllers and models.
@@ -942,7 +943,7 @@ You would have spark packages located at project root, and with the augmented <c
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Codeigniter Libraries" [41261-45396] -->
+<!-- EDIT16 SECTION "Codeigniter Libraries" [41264-45415] -->
 <h3 class="sectionedit17" id="composer_libraries">Composer Libraries</h3>
 <div class="level3">
 
@@ -963,7 +964,7 @@ However there is a better way, and in fact this “Polycademy” way actually gi
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Composer Libraries" [45397-47610] -->
+<!-- EDIT17 SECTION "Composer Libraries" [45416-47629] -->
 <h3 class="sectionedit18" id="autoloading">Autoloading</h3>
 <div class="level3">
 
@@ -974,7 +975,7 @@ Codeigniter provides a <a href="http://ellislab.com/codeigniter/user-guide/gener
 <li class="level1"><div class="li"> Enable hooks in <code>config/config.php</code>.</div>
 </li>
 <li class="level1"><div class="li"> In your <code>config/hooks.php</code> define: <dl class="code">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=23" title="Download Snippet" class="mediafile mf_php">hooks.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=24" title="Download Snippet" class="mediafile mf_php">hooks.php</a></dt>
 <dd><pre class="code php"><span class="co1">//pre_system autoloader</span>
 <span class="re0">$hook</span><span class="br0">&#91;</span><span class="st_h">'pre_system'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
     <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader'</span><span class="sy0">,</span>
@@ -1006,7 +1007,7 @@ In order to autoload classes in directories, you&#039;ll have to use namespaces.
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Autoloading" [47611-49528] -->
+<!-- EDIT18 SECTION "Autoloading" [47630-49547] -->
 <h3 class="sectionedit19" id="namespaces">Namespaces</h3>
 <div class="level3">
 
@@ -1022,7 +1023,7 @@ Namespaces in programming operate similarly. Imagine you&#039;re working in a te
 There are two syntax commands in creating and importing namespaces. They should always be used at the top of the code in the file. You cannot use them in blocks or conditionals.
 </p>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=24" title="Download Snippet" class="mediafile mf_php">SomeClass.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=25" title="Download Snippet" class="mediafile mf_php">SomeClass.php</a></dt>
 <dd><pre class="code file php"><span class="co1">//use 'namespace' to define the namespace for the current code</span>
 <span class="kw2">namespace</span> Polycademy\MissonChecker<span class="sy0">;</span>
 &nbsp;
@@ -1034,7 +1035,7 @@ There are two syntax commands in creating and importing namespaces. They should 
 <span class="kw2">class</span> SomeClass <span class="kw2">extends</span> aArmor<span class="br0">&#123;</span><span class="br0">&#125;</span></pre>
 </dd></dl>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=25" title="Download Snippet" class="mediafile mf_php">aArmor.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=26" title="Download Snippet" class="mediafile mf_php">aArmor.php</a></dt>
 <dd><pre class="code file php"><span class="kw2">namespace</span> Polycademy\Abstracts<span class="sy0">;</span>
 &nbsp;
 <span class="kw2">abstract</span> aArmor<span class="br0">&#123;</span><span class="br0">&#125;</span></pre>
@@ -1095,7 +1096,7 @@ As a recommendation when constructing your own libraries, try conforming to “P
 There are couple other important facets of namespacing that may be a bit confusing to a beginner. It&#039;s easier to explain this via code. Also note the <a href="http://www.php.net/manual/en/language.namespaces.nsconstants.php" class="urlextern" title="http://www.php.net/manual/en/language.namespaces.nsconstants.php"  rel="nofollow">namespace constants</a>, which you can use to explicitly refer to the current namespace if importing imports classes of the same name.
 </p>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=26" title="Download Snippet" class="mediafile mf_php">Mapper.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=27" title="Download Snippet" class="mediafile mf_php">Mapper.php</a></dt>
 <dd><pre class="code file php"><span class="co1">//assume autoloading is setup</span>
 &nbsp;
 <span class="co1">//ok so this file is in Guzzle/Url directory</span>
@@ -1183,7 +1184,7 @@ The above code would correspond to this kind of directory structure:
                    |----Parser.php</pre>
 
 </div>
-<!-- EDIT19 SECTION "Namespaces" [49529-58283] -->
+<!-- EDIT19 SECTION "Namespaces" [49548-58302] -->
 <h3 class="sectionedit20" id="static_classes">Static Classes</h3>
 <div class="level3">
 
@@ -1246,7 +1247,7 @@ We would put any static classes into our libraries folder. You won&#039;t need m
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Static Classes" [58284-60610] -->
+<!-- EDIT20 SECTION "Static Classes" [58303-60629] -->
 <h2 class="sectionedit21" id="database">Database</h2>
 <div class="level2">
 
@@ -1289,7 +1290,7 @@ Before we start using the database, we should get acquainted with some of the ar
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Database" [60611-63140] -->
+<!-- EDIT21 SECTION "Database" [60630-63159] -->
 <h3 class="sectionedit22" id="sql_and_nosql">SQL and NoSQL</h3>
 <div class="level3">
 
@@ -1348,7 +1349,7 @@ So when choosing between using MongoDB or MySQL. If you the data you&#039;re try
 </p>
 
 </div>
-<!-- EDIT22 SECTION "SQL and NoSQL" [63141-67567] -->
+<!-- EDIT22 SECTION "SQL and NoSQL" [63160-67586] -->
 <h3 class="sectionedit23" id="database_planning">Database Planning</h3>
 <div class="level3">
 
@@ -1380,7 +1381,7 @@ You should also take care to choose the correct data type for each column. Use <
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Database Planning" [67568-69853] -->
+<!-- EDIT23 SECTION "Database Planning" [67587-69872] -->
 <h3 class="sectionedit24" id="active_records">Active Records</h3>
 <div class="level3">
 
@@ -1429,7 +1430,7 @@ Refer <a href="http://ellislab.com/codeigniter/user-guide/general/errors.html" c
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Active Records" [69854-72670] -->
+<!-- EDIT24 SECTION "Active Records" [69873-72689] -->
 <h3 class="sectionedit25" id="search">Search</h3>
 <div class="level3">
 
@@ -1506,7 +1507,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT25 SECTION "Search" [72671-78863] -->
+<!-- EDIT25 SECTION "Search" [72690-78882] -->
 <h3 class="sectionedit26" id="redis">Redis</h3>
 <div class="level3">
 
@@ -1537,7 +1538,7 @@ We can switch to using Redis for session data if you require that kind of perfor
 </ul>
 
 </div>
-<!-- EDIT26 SECTION "Redis" [78864-80298] -->
+<!-- EDIT26 SECTION "Redis" [78883-80317] -->
 <h3 class="sectionedit27" id="migrations">Migrations</h3>
 <div class="level3">
 
@@ -1557,7 +1558,7 @@ Codeigniter offers its own brand of <a href="http://ellislab.com/codeigniter/use
 Next you need to create a <code>migrate.php</code> controller. You&#039;ll have a variation of this code depending on what kind of flexibility you need your migrations to have.
 </p>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=33" title="Download Snippet" class="mediafile mf_php">migrate.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=34" title="Download Snippet" class="mediafile mf_php">migrate.php</a></dt>
 <dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
 <span class="kw2">class</span> Migrate <span class="kw2">extends</span> CI_Controller <span class="br0">&#123;</span>
@@ -1589,7 +1590,7 @@ When you run migrations, you would simply visit that page once. It&#039;ll work,
 Now you have the controller and config set up, you need to create your first schema migration. These files would be stored in the <code>application/migrations</code> folder. Each of these classes would extend <code>CI_Migration</code> and they would have at minimum two methods. The <code>up</code> method is called when running the migration. The <code>down</code> method is called when rolling back. You can roll back by specifying more methods in the migrate controller, or setting the <code>migration_version</code>. We&#039;re going to assume that you just want to keep moving forward and not rollback. The names of each migration is prefixed with three numbers. The first schema will always be <code>001</code>. The name of the class will be the same as the filename but without the three numbers.
 </p>
 <dl class="file">
-<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=34" title="Download Snippet" class="mediafile mf_php">001_add_missions.php</a></dt>
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=35" title="Download Snippet" class="mediafile mf_php">001_add_missions.php</a></dt>
 <dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
 <span class="co1">//notice that the name of the class will be Migration_add_missions whereas the file name is 001_add_missions</span>
@@ -1642,7 +1643,7 @@ Make sure to refer to the <a href="http://ellislab.com/codeigniter/user-guide/da
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Migrations" [80299-86219] -->
+<!-- EDIT27 SECTION "Migrations" [80318-86238] -->
 <h2 class="sectionedit28" id="security">Security</h2>
 <div class="level2">
 
@@ -1651,7 +1652,7 @@ Security of web applications is important whenever you&#039;re handling user inp
 </p>
 
 </div>
-<!-- EDIT28 SECTION "Security" [86220-86720] -->
+<!-- EDIT28 SECTION "Security" [86239-86739] -->
 <h3 class="sectionedit29" id="input_validation">Input Validation</h3>
 <div class="level3">
 
@@ -1778,7 +1779,7 @@ The third problem is the newer RESTful <abbr title="Hyper Text Transfer Protocol
 </p>
 
 </div>
-<!-- EDIT29 SECTION "Input Validation" [86721-99626] -->
+<!-- EDIT29 SECTION "Input Validation" [86740-99645] -->
 <h3 class="sectionedit30" id="handling_passwords">Handling Passwords</h3>
 <div class="level3">
 
@@ -1799,7 +1800,7 @@ However there is a new native password hashing function that is on <abbr title="
 </p>
 
 </div>
-<!-- EDIT30 SECTION "Handling Passwords" [99627-102237] -->
+<!-- EDIT30 SECTION "Handling Passwords" [99646-102256] -->
 <h3 class="sectionedit31" id="ssl">SSL</h3>
 <div class="level3">
 
@@ -1828,7 +1829,7 @@ When you&#039;re developing on localhost, you won&#039;t need to implement <abbr
 </p>
 
 </div>
-<!-- EDIT31 SECTION "SSL" [102238-105241] -->
+<!-- EDIT31 SECTION "SSL" [102257-105260] -->
 <h3 class="sectionedit32" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
 <div class="level3">
 
@@ -1837,7 +1838,7 @@ In short don&#039;t bother. Leave it to the experts. Have a third party process 
 </p>
 
 </div>
-<!-- EDIT32 SECTION "Payments & Credit Cards" [105242-105612] -->
+<!-- EDIT32 SECTION "Payments & Credit Cards" [105261-105631] -->
 <h2 class="sectionedit33" id="sessions_authentication">Sessions &amp; Authentication</h2>
 <div class="level2">
 
@@ -1846,7 +1847,7 @@ For there to be users to your web application, you need user accounts. To have u
 </p>
 
 </div>
-<!-- EDIT33 SECTION "Sessions & Authentication" [105613-106467] -->
+<!-- EDIT33 SECTION "Sessions & Authentication" [105632-106486] -->
 <h3 class="sectionedit34" id="sessions">Sessions</h3>
 <div class="level3">
 
@@ -1867,7 +1868,7 @@ There&#039;s a caveat to all of the above information. In the RESTful standard, 
 </p>
 
 </div>
-<!-- EDIT34 SECTION "Sessions" [106468-108656] -->
+<!-- EDIT34 SECTION "Sessions" [106487-108675] -->
 <h3 class="sectionedit35" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
@@ -1899,7 +1900,7 @@ We won&#039;t actually be using Codeigniter&#039;s session database store sessio
 </p>
 
 </div>
-<!-- EDIT35 SECTION "Authentication System" [108657-110392] -->
+<!-- EDIT35 SECTION "Authentication System" [108676-110411] -->
 <h3 class="sectionedit36" id="access_control_list">Access Control List</h3>
 <div class="level3">
 
@@ -1938,7 +1939,7 @@ Refer to these resources to use Zend <abbr title="Access Control List">ACL</abbr
 </ul>
 
 </div>
-<!-- EDIT36 SECTION "Access Control List" [110393-112005] -->
+<!-- EDIT36 SECTION "Access Control List" [110412-112024] -->
 <h2 class="sectionedit37" id="htaccess">.htaccess</h2>
 <div class="level2">
 
@@ -1947,7 +1948,7 @@ The <a href="http://en.wikipedia.org/wiki/.htaccess" class="interwiki iw_wp" tit
 </p>
 
 </div>
-<!-- EDIT37 SECTION ".htaccess" [112006-113028] -->
+<!-- EDIT37 SECTION ".htaccess" [112025-113047] -->
 <h3 class="sectionedit38" id="url_rewriting">URL Rewriting</h3>
 <div class="level3">
 
@@ -2001,7 +2002,7 @@ To learn more about rewriting, check out this <a href="http://net.tutsplus.com/t
 </p>
 
 </div>
-<!-- EDIT38 SECTION "URL Rewriting" [113029-117682] -->
+<!-- EDIT38 SECTION "URL Rewriting" [113048-117701] -->
 <h3 class="sectionedit39" id="compression">Compression</h3>
 <div class="level3">
 
@@ -2068,7 +2069,7 @@ Notice that the content-encoding has a value of gzip. If we use H5BP&#039;s defl
 </p>
 
 </div>
-<!-- EDIT39 SECTION "Compression" [117683-121707] -->
+<!-- EDIT39 SECTION "Compression" [117702-121726] -->
 <h3 class="sectionedit40" id="controlling_browser_cache">Controlling Browser Cache</h3>
 <div class="level3">
 
@@ -2138,7 +2139,7 @@ This way instead of using query parameters, you can cache bust javascript, css, 
 </p>
 
 </div>
-<!-- EDIT40 SECTION "Controlling Browser Cache" [121708-125927] -->
+<!-- EDIT40 SECTION "Controlling Browser Cache" [121727-125946] -->
 <h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
@@ -2147,7 +2148,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT41 SECTION "Caching" [125928-126495] -->
+<!-- EDIT41 SECTION "Caching" [125947-126514] -->
 <h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
@@ -2156,7 +2157,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Opcode Caching" [126496-126890] -->
+<!-- EDIT42 SECTION "Opcode Caching" [126515-126909] -->
 <h3 class="sectionedit43" id="file_caching">File Caching</h3>
 <div class="level3">
 
@@ -2179,7 +2180,7 @@ Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-cac
 </p>
 
 </div>
-<!-- EDIT43 SECTION "File Caching" [126891-128347] -->
+<!-- EDIT43 SECTION "File Caching" [126910-128366] -->
 <h3 class="sectionedit44" id="memory_caching">Memory Caching</h3>
 <div class="level3">
 
@@ -2200,7 +2201,7 @@ Be wary of <a href="http://en.wikipedia.org/wiki/Race_condition#Software" class=
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Memory Caching" [128348-129944] -->
+<!-- EDIT44 SECTION "Memory Caching" [128367-129963] -->
 <h2 class="sectionedit45" id="restful_routing">RESTful Routing</h2>
 <div class="level2">
 
@@ -2230,7 +2231,7 @@ One question that was often asked by beginning developers is, how best to rout y
 </p>
 
 </div>
-<!-- EDIT45 SECTION "RESTful Routing" [129945-131963] -->
+<!-- EDIT45 SECTION "RESTful Routing" [129964-131982] -->
 <h3 class="sectionedit46" id="rest">REST</h3>
 <div class="level3">
 
@@ -2317,7 +2318,7 @@ Now you understand the RESTful standard. The first thing to implement RESTful st
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131964-143179] -->
+<!-- EDIT46 SECTION "REST" [131983-143198] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
@@ -2338,7 +2339,7 @@ Of course if the data doesn&#039;t change much, remember to cache the JSON outpu
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [143180-145664] -->
+<!-- EDIT47 SECTION "Handling Output" [143199-145683] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
@@ -2369,7 +2370,7 @@ You&#039;ll notice that almost all APIs requiring any kind of authentication wil
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [145665-148309] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [145684-148328] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
@@ -2428,7 +2429,7 @@ We have a number of libraries available to abstract all of these authentication 
 </ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [148310-154867] -->
+<!-- EDIT49 SECTION "Third Party Login" [148329-154886] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
@@ -2449,7 +2450,7 @@ Most of these implementations are outside the scope of this course, but a lot of
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [154868-157091] -->
+<!-- EDIT50 SECTION "Providing Web Services APIs" [154887-157110] -->
 <h3 class="sectionedit51" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
@@ -2498,7 +2499,7 @@ Regardless of the authentication scheme, if writing state management in javascri
 </p>
 
 </div>
-<!-- EDIT51 SECTION "RESTful Authentication & Stateless State" [157092-161854] -->
+<!-- EDIT51 SECTION "RESTful Authentication & Stateless State" [157111-161873] -->
 <h3 class="sectionedit52" id="restful_server">RESTful Server</h3>
 <div class="level3">
 
@@ -2521,7 +2522,7 @@ There are also frameworks designed to be used as an <abbr title="Application Pro
 </p>
 
 </div>
-<!-- EDIT52 SECTION "RESTful Server" [161855-162755] -->
+<!-- EDIT52 SECTION "RESTful Server" [161874-162774] -->
 <h3 class="sectionedit53" id="debugging_apis">Debugging APIs</h3>
 <div class="level3">
 
@@ -2530,7 +2531,7 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 </p>
 
 </div>
-<!-- EDIT53 SECTION "Debugging APIs" [162756-162926] -->
+<!-- EDIT53 SECTION "Debugging APIs" [162775-162945] -->
 <h2 class="sectionedit54" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
@@ -2583,8 +2584,39 @@ An important concept to understand is that using long running daemons instead of
 </p>
 
 </div>
-<!-- EDIT54 SECTION "Concurrent Processing" [162927-166216] -->
-<h2 class="sectionedit55" id="sockets_rtc">Sockets &amp; RTC</h2>
+<!-- EDIT54 SECTION "Concurrent Processing" [162946-166236] -->
+<h3 class="sectionedit55" id="configuration_for_daemons">Configuration for Daemons</h3>
+<div class="level3">
+
+<p>
+The concept of worker daemons can be implemented in two different ways. Either as a true daemon which would be an independent long running process that can be managed with <a href="http://supervisord.org/" class="urlextern" title="http://supervisord.org/"  rel="nofollow">Supervisor</a>, or as a script that&#039;s initiated by the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server which most likely would be Apache.
+</p>
+
+<p>
+In order to implement it in the second way, you&#039;ll need configure Apache to modify the <code>php.ini</code> settings so that the <abbr title="Hypertext Preprocessor">PHP</abbr> script can be executed for a longer time. Apache by default closes the <abbr title="Hypertext Preprocessor">PHP</abbr> execution if it runs for too long. The most flexible way of configuring Apache is through the <code>.htaccess</code> file. This can be done through <a href="http://davidwalsh.name/php-values-htaccess" class="urlextern" title="http://davidwalsh.name/php-values-htaccess"  rel="nofollow">setting PHP values</a>. Another way is directly in the script through the <a href="http://davidwalsh.name/increase-php-script-execution-time-limit-ini_set" class="urlextern" title="http://davidwalsh.name/increase-php-script-execution-time-limit-ini_set"  rel="nofollow">ini_set() function</a>.
+</p>
+
+<p>
+Here&#039;s an example of different <abbr title="Hypertext Preprocessor">PHP</abbr> settings set through the <code>.htaccess</code>.
+</p>
+<pre class="code">#changes the maximum file size that can be uploaded
+php_value upload_max_filesize 2M
+#changes in seconds the length of execution
+php_value max_execution_time 300
+#the time in seconds of how long PHP is allowed to parse GET and POST data
+php_value max_input_time 5
+#the memory limit that PHP is allowed to occupy (takes up RAM), this can be for one script or the entire PHP application
+php_value memory_limit 10M
+#the maximum filesize that the POST payload can occupy
+php_value post_max_size 2M</pre>
+
+<p>
+You can also investigate more <a href="http://www.php.net/manual/en/info.configuration.php" class="urlextern" title="http://www.php.net/manual/en/info.configuration.php"  rel="nofollow">configuration settings in the PHP documentation</a>.
+</p>
+
+</div>
+<!-- EDIT55 SECTION "Configuration for Daemons" [166237-167845] -->
+<h2 class="sectionedit56" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
 <p>
@@ -2608,4 +2640,4 @@ There will be no free web hosts that will support a Ratchet configuration, you&#
 </p>
 
 </div>
-<!-- EDIT55 SECTION "Sockets & RTC" [166217-] -->
+<!-- EDIT56 SECTION "Sockets & RTC" [167846-] -->

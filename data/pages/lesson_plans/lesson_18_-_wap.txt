@@ -23,6 +23,4 @@
 
 **Practice**
 
-  - Start browsing for interesting libraries and autoload them
-  - Use namespaces for an example library
   - Start breaking HTML to those templates
