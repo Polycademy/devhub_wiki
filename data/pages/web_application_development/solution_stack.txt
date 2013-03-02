@@ -135,6 +135,18 @@ The installation is an executable, locate your wamp folder at the root of your d
 
 Note that if you find yourself unable to use Composer on the local stack with Wampserver, that's because the Curl extension hasn't been activated in the php.ini. Use ''php -m'' to see all the extensions. If curl isn't there, you need to use ''php -r "echo php_ini_loaded_file();"'' and navigate to that file. Find the line which mentions "curl", and also find another line which mentions "openssl", and uncomment both of the lines by removing the semicolon. One of them may already be uncommented. Try ''php -m'' again. If it doesn't work and comes up with an error about side by side. Then your the curl extension is corrupt. You need to follow the instructions posted here on [[http://stackoverflow.com/questions/10939248/php-curl-not-working-wamp-on-windows-7-64-bit|Stackoverflow regarding PHP Curl and WAMP]]. It's a simple matter of downloading the correct curl extension and replacing the default one in the ''ext'' folder.
 
+**Short Open Tag Issues**
+
+When we open up a PHP script, we have to prefix it with ''<?php'' and sometimes end it with ''?>''. However there's also the short open tag that is like:
+
+<code php>
+<?
+//php here
+?>
+</code>
+
+It is quite useful when injecting variables straight into templates. In some AMP stacks, the short open tag has not been activated. You'll need to check if it was activated. Go into your PHP settings, which should be in the WAMP icon and activate the short open tag option.
+
 === LAMP ===
 
 There are many different Linux distros, so here are links to official documentation regarding the installation of LAMP.

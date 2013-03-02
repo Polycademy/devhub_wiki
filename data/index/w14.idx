@@ -51,3 +51,4 @@ asynchronously
 initialisation
 interpretation
 unmaintainable
+clearstatcache

@@ -1013,16 +1013,21 @@ The first thing to understand is the try catch block.
 </p>
 <pre class="code php"><span class="co1">//php tries to do something, and if an exception is &quot;thrown&quot; then it will catch it</span>
 try <span class="br0">&#123;</span>
+&nbsp;
     <span class="co1">// try body</span>
     <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$something_bad_happened</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
         <span class="kw1">throw</span> <span class="kw2">new</span> Exception<span class="sy0">;</span> <span class="co1">//exceptions are objects!</span>
     <span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//note that if you're using namespaces, Exception is a class requiring a namespace root such as &quot;\Exception&quot;</span>
 <span class="br0">&#125;</span> catch <span class="br0">&#40;</span>Exception <span class="re0">$e</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
     <span class="co1">//the catch parameter is being typehinted to the Exception object, we can also use custom typehints later</span>
     <span class="co1">//$e is the exception object, we can access its methods</span>
     <span class="kw1">echo</span> <span class="re0">$e</span><span class="sy0">-&gt;</span><span class="me1">getMessage</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
     <span class="kw1">echo</span> <span class="re0">$e</span><span class="sy0">-&gt;</span><span class="me1">getCode</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
     <span class="co1">// there are more methods you can use, refer to the exception documentation</span>
+&nbsp;
 <span class="br0">&#125;</span></pre>
 
 <p>
@@ -1038,7 +1043,7 @@ Exceptions are just classes, so you can put each into its own file and PSR-0 aut
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Exception/Error Handling" [51976-55288] -->
+<!-- EDIT16 SECTION "Exception/Error Handling" [51976-55417] -->
 <h2 class="sectionedit17" id="event_driven_programming">Event Driven Programming</h2>
 <div class="level2">
 
@@ -1077,41 +1082,157 @@ Implementing event driven programs is out of the scope of the course, however th
 </ul>
 
 </div>
-<!-- EDIT17 SECTION "Event Driven Programming" [55289-58203] -->
-<h2 class="sectionedit18" id="input_output">Input/Output</h2>
+<!-- EDIT17 SECTION "Event Driven Programming" [55418-58332] -->
+<h2 class="sectionedit18" id="filesystem_input_output">Filesystem Input/Output</h2>
 <div class="level2">
 
 <p>
-Teach binary
+Input/Output (IO) in programming refers to the communication between an internal system and external system. The entire internet itself is an input/output system. Each computer program and script also performs input and output. So the term is pretty generic. This section however refers specifically to manipulating the filesystem IO. The filesystem in our case refers to the abstraction of data storage and management on the harddisk. The low level mechanics of these constructs are performed by the operating system and data storage device. As web developers we simply have to understand their <abbr title="Application Programming Interface">API</abbr> and perform IO on it.
 </p>
 
 <p>
-File manipulation operations
-</p>
-
-<p>
-Non blocking IO
-</p>
-
-<p>
-Asynchronous programming (<a href="http://en.wikipedia.org/wiki/Asynchronous_I/O" class="urlextern" title="http://en.wikipedia.org/wiki/Asynchronous_I/O"  rel="nofollow">http://en.wikipedia.org/wiki/Asynchronous_I/O</a>)
-</p>
-
-<p>
-Compression
-</p>
-
-<p>
-File streaming by binary chunks (due to memory limits)
-</p>
-
-<p>
-Also mention Amazon S3 for file storage CDNs (most hosts dont allow to be a file hosting service)
+File manipulation for web development mostly revolves around file uploading, file downloading and authentication of uploaded files. Further processing of the files may take place such as video/audio encoding, compression and manipulation of directories. Before we start, your host must have writable directories. Many cloud hosts that I&#039;ve recommended do not currently support writable directories, however Pagodabox does. On your local stack this won&#039;t matter since you have directories writable by default. If you cannot use writable directories or the amount of uploaded files will exceed your budget, you can instead use a cloud based file system CDN such as Amazon S3.
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Input/Output" [58204-58531] -->
-<h2 class="sectionedit19" id="shell_operations">Shell Operations</h2>
+<!-- EDIT18 SECTION "Filesystem Input/Output" [58333-59667] -->
+<h3 class="sectionedit19" id="codeigniter_file_management">Codeigniter File Management</h3>
+<div class="level3">
+
+<p>
+Codeigniter provides three tools for file management, you should open up CI&#039;s source code to see how they work:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://ellislab.com/codeigniter/user-guide/libraries/file_uploading.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/file_uploading.html"  rel="nofollow">File Upload class</a> - for uploading files.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ellislab.com/codeigniter/user-guide/libraries/zip.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/zip.html"  rel="nofollow">Zip Encoding class</a> - for compressing files with zip encoding.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ellislab.com/codeigniter/user-guide/helpers/download_helper.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/helpers/download_helper.html"  rel="nofollow">Download helper</a> - for forcing a download.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://ellislab.com/codeigniter/user-guide/helpers/file_helper.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/helpers/file_helper.html"  rel="nofollow">File Helper</a> - for basic file manipulation.</div>
+</li>
+</ul>
+
+<p>
+The file upload class relies on form based uploads. You need to have an encoding type of <code>multipart/form-data</code>. You can also use Codeigniter&#039;s <a href="http://ellislab.com/codeigniter/user-guide/helpers/form_helper.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/helpers/form_helper.html"  rel="nofollow">form helper</a> to open up the form with <code>form_open_multipart();</code>.
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/form.html"><span class="kw2">form</span></a> <span class="kw3">method</span><span class="sy0">=</span><span class="st0">&quot;post&quot;</span> <span class="kw3">action</span><span class="sy0">=</span><span class="st0">&quot;controller/method&quot;</span> <span class="kw3">enctype</span><span class="sy0">=</span><span class="st0">&quot;multipart/form-data&quot;</span> <span class="sy0">/</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/form.html"><span class="kw2">form</span></a>&gt;</span></pre>
+
+<p>
+It also expects that the file input field will have a name of “userfile”. You can change it by passing in a different parameter to the <code>do_upload()</code> method. However this also means that Codeigniter&#039;s File Upload class can only upload one file at a time. According to <a href="http://www.php.net/manual/en/features.file-upload.multiple.php" class="urlextern" title="http://www.php.net/manual/en/features.file-upload.multiple.php"  rel="nofollow">official PHP documentation</a>, multiple file upload fields in a form should be specified in array style naming. Such as for example:
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/form.html"><span class="kw2">form</span></a> <span class="kw3">method</span><span class="sy0">=</span><span class="st0">&quot;post&quot;</span> <span class="kw3">action</span><span class="sy0">=</span><span class="st0">&quot;controller/method&quot;</span> <span class="kw3">enctype</span><span class="sy0">=</span><span class="st0">&quot;multipart/form-data&quot;</span> <span class="sy0">/</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/input.html"><span class="kw2">input</span></a> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;userfile[]&quot;</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;file&quot;</span> <span class="sy0">/</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/input.html"><span class="kw2">input</span></a> <span class="kw3">name</span><span class="sy0">=</span><span class="st0">&quot;userfile[]&quot;</span> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;file&quot;</span> <span class="sy0">/</span>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/form.html"><span class="kw2">form</span></a>&gt;</span></pre>
+
+<p>
+This would make the files available in the <a href="http://www.php.net/manual/en/reserved.variables.files.php" class="urlextern" title="http://www.php.net/manual/en/reserved.variables.files.php"  rel="nofollow">global PHP array variable &quot;$_FILES&quot;</a>. Each file would be available as <code>$_FILES[&#039;userfile&#039;][&#039;name&#039;][i]</code> where <code>i</code> is the index of the input field. You&#039;ll see that the file properties (“name”) actually come before the file index, this is slightly counter intuitive. Therefore in order to make this library actually upload multiple files, you&#039;ll need to loop through each file and call <code>do_upload()</code> on each index. See this <a href="http://stackoverflow.com/questions/1908247/codeigniter-multiple-file-upload" class="urlextern" title="http://stackoverflow.com/questions/1908247/codeigniter-multiple-file-upload"  rel="nofollow">stack overflow post for inspiration</a>. Also remember to switch on <code>encrypt_name</code> or randomise “file_name” to avoid file naming conflicts, however in that case remember to keep a track of those file names and their location paths in your database. A common use case would files that a user uploads and those files would be tied to that user.
+</p>
+
+<p>
+The upload class also has file authentication. Files are checked for their <a href="http://en.wikipedia.org/wiki/Internet media type" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Internet media type">mimetype</a> and then matched to the allowed mimetypes. You specify the allowed files through the file extensions, but those file extensions correspond to mimetypes in the <code>application/config/mimes.php</code>. This is quite a useful part of the library and if you intend to use other libraries you may still wish to validate the files using this Upload class by extending the library.
+</p>
+
+<p>
+This Upload class does not chunk or stream the upload. This means that the files you upload will be put into memory before being put to disk. This is when you will face problems due to your <abbr title="Hypertext Preprocessor">PHP</abbr>.ini settings that limit certain aspects of file uploading. If the files are large, you may either time out due to execution time limits, max out your memory due to RAM limits, or exceed your POST or upload size, or even exceed the limit on simultaneous file uploads. All of these are explained in the <a href="http://www.php.net/manual/en/features.file-upload.common-pitfalls.php" class="urlextern" title="http://www.php.net/manual/en/features.file-upload.common-pitfalls.php"  rel="nofollow">common pitfalls page regarding file uploading</a> in the <abbr title="Hypertext Preprocessor">PHP</abbr> documentation. If you need to change these settings, check the .htaccess section in the Server Side Architecture article. But be aware that your host may set hard limits on the <abbr title="Hypertext Preprocessor">PHP</abbr> settings, and many hosts don&#039;t expect your web application to be a file hosting site, and their terms of service may prohibit such practices.
+</p>
+
+<p>
+This class has another disadvantage, it isn&#039;t flexible due to being hard coupled to <abbr title="HyperText Markup Language">HTML</abbr> forms. You probably want a <a href="http://www.php.net/manual/en/features.file-upload.put-method.php" class="urlextern" title="http://www.php.net/manual/en/features.file-upload.put-method.php"  rel="nofollow">REST compliant</a> <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> file uploader that can take advantage of <a href="https://github.com/blueimp/jQuery-File-Upload/wiki/Chunked-file-uploads" class="urlextern" title="https://github.com/blueimp/jQuery-File-Upload/wiki/Chunked-file-uploads"  rel="nofollow">chunked uploads</a>, <a href="https://github.com/23/resumable.js" class="urlextern" title="https://github.com/23/resumable.js"  rel="nofollow">pause and resume functionality</a>, and <a href="http://www.sitepoint.com/html5-ajax-file-upload/" class="urlextern" title="http://www.sitepoint.com/html5-ajax-file-upload/"  rel="nofollow">asynchronous IO</a> so you don&#039;t have to wait for the upload to finish to keep working with the web application. All of these functionalities rely more on the client side and all have quite specialised problems to solve. So I suggest reading the linked articles, but use a library like <a href="http://www.plupload.com/" class="urlextern" title="http://www.plupload.com/"  rel="nofollow">Plupload</a> or <a href="http://fineuploader.com/" class="urlextern" title="http://fineuploader.com/"  rel="nofollow">Fine Uploader</a> or <a href="http://blueimp.github.com/jQuery-File-Upload/" class="urlextern" title="http://blueimp.github.com/jQuery-File-Upload/"  rel="nofollow">jQuery File Uploader</a>.
+</p>
+
+<p>
+When you have your files uploaded, sometimes those files need to be downloaded. Now if those files are just images, you can use a direct link, or if you wish to be fancy and secure you would need a REST compliant controller that handles image downloads that can also be embedded if necessary. By creating a controller that handles the request and then pipes the message, you can execute all sorts of analytics and processing while that request takes place. For example you may wish throttle the number of image downloads, perhaps you will want to prevent third party sites <a href="http://en.wikipedia.org/wiki/Inline linking" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Inline linking">hotlinking</a> to your images so you can reduce bandwidth cost, or maybe you need authentication of which users are allowed to view which image. All of this is only possible with having a “download” controller. That&#039;s when Codeigniter&#039;s <a href="http://ellislab.com/codeigniter/user-guide/libraries/zip.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/zip.html"  rel="nofollow">zip encoding class</a> and <a href="http://ellislab.com/codeigniter/user-guide/helpers/download_helper.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/helpers/download_helper.html"  rel="nofollow">download helper</a> become useful.
+</p>
+
+<p>
+For individual images or files there&#039;s no need to zip archive them. Images need to be accessible raw and they already have been compressed by their encoding. Individual files are usually required in their raw format too. In that case you can just use the download helper to pass through the binary files straight to the client. 
+</p>
+
+<p>
+If in the case of a client needing to download multiple images or multiple files, then you need the zip encoding class. Consider a use case like Github when someone needs to download a project, Github zips up the project and then you can download all the files at once. This also reduces your bandwidth cost since your overall transfer size is lower.
+</p>
+
+<p>
+The zip encoding class allows you to dynamically add data or read existing data to a buffer before writing the archive to disk or combining it into a download package. Think of a buffer as a bucket that you fill up before you do anything to the contents of that bucket. The ability to write the archive may be useful if you need to make backup copies of your web application and database contents, and the ability to combine into a download package is useful for clients downloading multiple files.
+</p>
+<pre class="code php"><span class="co1">//Here we're &quot;adding&quot; data to zip archive, this zip archive is being &quot;buffered&quot;</span>
+<span class="re0">$data</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+    <span class="st_h">'mydata1.txt'</span> <span class="sy0">=&gt;</span> <span class="st_h">'A Data String!'</span><span class="sy0">,</span>
+    <span class="st_h">'mydata2.txt'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Another Data String!'</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//we're first adding two files to the archive</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">zip</span><span class="sy0">-&gt;</span><span class="me1">add_data</span><span class="br0">&#40;</span><span class="re0">$data</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//it's possible to stack up the data, and also add directories inside the zip file directly</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">zip</span><span class="sy0">-&gt;</span><span class="me1">add_data</span><span class="br0">&#40;</span><span class="st_h">'I was born in an elevator...'</span><span class="sy0">,</span> <span class="st_h">'personal/my_bio.txt'</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+&nbsp;
+<span class="co1">//now we're reading data that exists already</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">zip</span><span class="sy0">-&gt;</span><span class="me1">read_file</span><span class="br0">&#40;</span><span class="st_h">'/path/to/photo.jpg'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//finally we're flushing the buffer to the hard disk</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">zip</span><span class="sy0">-&gt;</span><span class="me1">archive</span><span class="br0">&#40;</span><span class="st_h">'/path/to/folder/on/server/myarchive.zip'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//at the same time we can package the archive for download!</span>
+<span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">zip</span><span class="sy0">-&gt;</span><span class="me1">download</span><span class="br0">&#40;</span><span class="st_h">'for_the_client.zip'</span><span class="br0">&#41;</span><span class="sy0">;</span> </pre>
+
+<p>
+Finally Codeigniter provides you a simple <a href="http://ellislab.com/codeigniter/user-guide/helpers/file_helper.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/helpers/file_helper.html"  rel="nofollow">File helper</a> that can do read, write, delete and get information on files. It&#039;s <abbr title="Application Programming Interface">API</abbr> is simple so there&#039;s no need for much explanation.
+</p>
+
+</div>
+<!-- EDIT19 SECTION "Codeigniter File Management" [59668-67882] -->
+<h3 class="sectionedit20" id="advanced_file_manipulation">Advanced File Manipulation</h3>
+<div class="level3">
+
+<p>
+To begin advanced file manipulation, it&#039;s good to have a cursory understanding of how binary works:
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="425" height="350" type="application/x-shockwave-flash" data="http://www.youtube.com/v/ETsfylK7kzM%26list%3DPLwwh-11EOGvPlNx-92BgRkrIJxsmFnCk7?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="425" height="350" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/ETsfylK7kzM%26list%3DPLwwh-11EOGvPlNx-92BgRkrIJxsmFnCk7?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+<p>
+Now if you want to do file manipulation, you need to stop using libraries for a while and get granular. <a href="http://davidhancock.co/2012/11/useful-php-functions-for-dealing-with-the-file-system/" class="urlextern" title="http://davidhancock.co/2012/11/useful-php-functions-for-dealing-with-the-file-system/"  rel="nofollow">This blog article by David Hancock on useful file manipulation functions</a> will be useful. Make sure to read the code and try to understand the flow of execution. The next thing to do is to go through the <a href="http://www.php.net/manual/en/ref.filesystem.php" class="urlextern" title="http://www.php.net/manual/en/ref.filesystem.php"  rel="nofollow">PHP documentation on filesystem functions</a>. Use this as a reference for whenever you&#039;re looking at file manipulation code. Also check out these <a href="http://www.devshed.com/c/a/PHP/File-And-Directory-Manipulation-In-PHP-part-1/" class="urlextern" title="http://www.devshed.com/c/a/PHP/File-And-Directory-Manipulation-In-PHP-part-1/"  rel="nofollow">Devshed tutorials on file and directory manipulation</a>. The <code>pack()</code> and <code>unpack()</code> binary functions are also useful for <a href="http://www.codediesel.com/php/unpacking-binary-data/" class="urlextern" title="http://www.codediesel.com/php/unpacking-binary-data/"  rel="nofollow">constructing your own binary files</a>.
+</p>
+
+<p>
+If you&#039;re performing a lot of filesystem functions that check whether files exist or on file information, <abbr title="Hypertext Preprocessor">PHP</abbr> will cache the information from those filesystem functions for faster results. You&#039;ll eventually need to clear your stat cache with the <a href="http://php.net/manual/en/function.clearstatcache.php" class="urlextern" title="http://php.net/manual/en/function.clearstatcache.php"  rel="nofollow">&quot;clearstatcache&quot; function</a>.
+</p>
+
+<p>
+Another factor of interest is <a href="http://php.net/manual/en/features.commandline.io-streams.php" class="urlextern" title="http://php.net/manual/en/features.commandline.io-streams.php"  rel="nofollow">IO streams</a>. The same filesystem functions can can access IO sockets from command line programs.
+</p>
+
+<p>
+Note that for any asynchronous operations, you&#039;ll need to fork your process or use a worker thread. See server side architecture for more information on concurrent processing.
+</p>
+
+<p>
+For chunked file uploads, the <a href="https://github.com/moxiecode/plupload/blob/master/examples/upload.php" class="urlextern" title="https://github.com/moxiecode/plupload/blob/master/examples/upload.php"  rel="nofollow">Plupload library demonstrates an upload example in their Github repository</a>. It is around line 75 - 85. Essentially it&#039;s matter of retrieving chunks from the client side, and writing it to the temporary file as it comes. The writing process will be a loop that keeps checking for chunks from an input, puts those chunks into a buffer, and writes those buffer into the temporary file. Once the filesize of the temporary file matches the total file size of the client request, then that means the file has been completely uploaded, and it can simply move that temporary file into persistent directory and keep it on the harddisk.
+</p>
+
+<p>
+Finally if you need a super powerful filesystem abstraction system that can provide APIs to local storage, <abbr title="File Transfer Protocol">FTP</abbr>, Amazon S3, Dropbox and more, you can use the <a href="https://github.com/KnpLabs/Gaufrette" class="urlextern" title="https://github.com/KnpLabs/Gaufrette"  rel="nofollow">Gaufrette library</a>. It&#039;s documentation is a bit weak, but you can go straight into the code to see all the available adapters. Also make sure to checkout <a href="http://aws.amazon.com/sdkforphp/" class="urlextern" title="http://aws.amazon.com/sdkforphp/"  rel="nofollow">Amazon S3&#039;s PHP SDK</a>.
+</p>
+
+</div>
+<!-- EDIT20 SECTION "Advanced File Manipulation" [67883-70827] -->
+<h2 class="sectionedit21" id="shell_operations">Shell Operations</h2>
 <div class="level2">
 
 <p>
@@ -1127,8 +1248,8 @@ Shell commands and passthru
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Shell Operations" [58532-58618] -->
-<h2 class="sectionedit20" id="parsing_operations">Parsing Operations</h2>
+<!-- EDIT21 SECTION "Shell Operations" [70828-70914] -->
+<h2 class="sectionedit22" id="parsing_operations">Parsing Operations</h2>
 <div class="level2">
 
 <p>
@@ -1152,8 +1273,8 @@ Also the area of study in language parsing and regex is huge. See Nikita&#039;s 
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Parsing Operations" [58619-58984] -->
-<h2 class="sectionedit21" id="structural_patterns">Structural Patterns</h2>
+<!-- EDIT22 SECTION "Parsing Operations" [70915-71280] -->
+<h2 class="sectionedit23" id="other_patterns">Other Patterns</h2>
 <div class="level2">
 
 <p>
@@ -1165,43 +1286,45 @@ Decorator
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Structural Patterns" [58985-59036] -->
-<h2 class="sectionedit22" id="creational_patterns">Creational Patterns</h2>
+<!-- EDIT23 SECTION "Other Patterns" [71281-71329] -->
+<h2 class="sectionedit24" id="artificial_intelligence_machine_learning_and_statistics">Artificial Intelligence, Machine Learning and Statistics</h2>
 <div class="level2">
 
 <p>
-Factory… etc
+Artificial Intelligence is really composed of data mining (involving statistics), then machine learning (involving statistics). It&#039;s about making a computer think like a person, the ability to discover new data and process data and learn things from the data without human intervention. These can then be used in computer vision, natural language processing, decision trees, games… etc.
+</p>
+
+<p>
+Machine Learning:
+</p>
+
+<p>
+<a href="http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/" class="urlextern" title="http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/"  rel="nofollow">http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/</a>
+</p>
+
+<p>
+<a href="https://github.com/gburtini/Learning-Library-for-PHP" class="urlextern" title="https://github.com/gburtini/Learning-Library-for-PHP"  rel="nofollow">https://github.com/gburtini/Learning-Library-for-PHP</a>
+</p>
+
+<p>
+<a href="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning" class="urlextern" title="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning"  rel="nofollow">http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning</a>
+</p>
+
+<p>
+<a href="http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms" class="urlextern" title="http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms"  rel="nofollow">http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms</a>
+</p>
+
+<p>
+Neural Networks - <a href="http://www.developer.com/lang/php/training-a-neural-network-in-php.html" class="urlextern" title="http://www.developer.com/lang/php/training-a-neural-network-in-php.html"  rel="nofollow">http://www.developer.com/lang/php/training-a-neural-network-in-php.html</a>
+</p>
+
+<p>
+<a href="http://www.tremani.nl/open-source/neural-network/?p=docs" class="urlextern" title="http://www.tremani.nl/open-source/neural-network/?p=docs"  rel="nofollow">http://www.tremani.nl/open-source/neural-network/?p=docs</a>
+</p>
+
+<p>
+Data Mining
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Creational Patterns" [59037-59085] -->
-<h2 class="sectionedit23" id="behavioural_patterns">Behavioural Patterns</h2>
-<div class="level2">
-
-<p>
-Observor
-</p>
-
-</div>
-<!-- EDIT23 SECTION "Behavioural Patterns" [59086-59129] -->
-<h2 class="sectionedit24" id="artificial_intelligence">Artificial Intelligence</h2>
-<div class="level2">
-
-<p>
-Artificial Intelligence
-</p>
-
-<p>
-machine learning…
-</p>
-
-<p>
-Operational Transformation
-</p>
-
-<p>
-Natural Language Processing
-</p>
-
-</div>
-<!-- EDIT24 SECTION "Artificial Intelligence" [59130-] -->
+<!-- EDIT24 SECTION "Artificial Intelligence, Machine Learning and Statistics" [71330-] -->

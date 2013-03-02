@@ -1,0 +1,5 @@
+<span class="kw2">&lt;?php</span>
+&nbsp;
+<a href="http://www.php.net/header"><span class="kw3">header</span></a><span class="br0">&#40;</span><span class="st_h">'Content-type: application/json'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">echo</span> <a href="http://www.php.net/json_encode"><span class="kw3">json_encode</span></a><span class="br0">&#40;</span><span class="re0">$yield</span><span class="sy0">,</span> JSON_NUMERIC_CHECK <span class="sy0">|</span> JSON_FORCE_OBJECT<span class="br0">&#41;</span><span class="sy0">;</span>

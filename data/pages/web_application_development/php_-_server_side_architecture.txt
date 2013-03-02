@@ -489,16 +489,15 @@ Your view is where your user interface code lies. Remember that HTML and CSS mar
 
 By convention we suffix views files with _view. So any file names would like ''home_view.php''.
 
-Example Codeigniter View:
+Example Codeigniter View with embedded PHP:
 
-<code html>
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+<code php>
 <html>
     <head>
         <title>Example Page!</title>
     </head>
     <body>
-        <p>Hello!</p>
+        <p>Hello! <? echo 'World!'; ?></p>
     </body>
 </html>
 </code>
@@ -574,8 +573,7 @@ Your views directory can start to look like this:
     |
     |----layouts
     |       |
-    |       |----main_layout.php
-    |       |----admin_layout.php
+    |       |----default_layout.php
     |       |----json_layout.php
     |
     |----partials
@@ -594,7 +592,6 @@ Your views directory can start to look like this:
 The CiTemplate static class provide a static ''compose'' method allowing you to define both views and their corresponding layouts. All layouts should inject a ''$yield'' variable. When you run ''Template::compose()'', it will first sent any view data to the specified view, and return the compiled template, before dynamically adding it to the view data array and injecting it into the layout. For example, you should have a ''default_layout.php'' that is like this
 
 <file php default_layout.php>
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
 <? Template::partial('header', $header) ?>
 <?= $yield ?>
 <? Template::partial('footer', $footer) ?>
@@ -619,7 +616,7 @@ The compose method also has a third parameter that specifies the layout file to 
 A cool thing you can do with this method is to specify a JSON layout like so:
 
 <file php json_layout.php>
-<?php defined('BASEPATH') OR exit('No direct script access allowed');
+<?php
 
 header('Content-type: application/json');
 

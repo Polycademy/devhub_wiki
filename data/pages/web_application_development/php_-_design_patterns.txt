@@ -755,16 +755,21 @@ The first thing to understand is the try catch block.
 <code php>
 //php tries to do something, and if an exception is "thrown" then it will catch it
 try {
+    
     // try body
     if($something_bad_happened){
         throw new Exception; //exceptions are objects!
     }
+    
+//note that if you're using namespaces, Exception is a class requiring a namespace root such as "\Exception"
 } catch (Exception $e) {
+    
     //the catch parameter is being typehinted to the Exception object, we can also use custom typehints later
     //$e is the exception object, we can access its methods
     echo $e->getMessage();
     echo $e->getCode();
     // there are more methods you can use, refer to the exception documentation
+    
 }
 </code>
 
@@ -791,21 +796,95 @@ Implementing event driven programs is out of the scope of the course, however th
   * [[http://christophh.net/2012/07/24/php-socket-programming/|Using PHP's Socket Library]]
   * [[https://github.com/igorw/evenement|Evenement library]] - For the event emitter pattern which applies to the observer pattern.
   * [[http://blog.jmoz.co.uk/websockets-ratchet-react-redis|Web Sockets, Ratchet, React and Redis integration]] - See this for inspiration of what you can do by bringing everything together.
-===== Input/Output =====
+===== Filesystem Input/Output =====
 
-Teach binary
+Input/Output (IO) in programming refers to the communication between an internal system and external system. The entire internet itself is an input/output system. Each computer program and script also performs input and output. So the term is pretty generic. This section however refers specifically to manipulating the filesystem IO. The filesystem in our case refers to the abstraction of data storage and management on the harddisk. The low level mechanics of these constructs are performed by the operating system and data storage device. As web developers we simply have to understand their API and perform IO on it.
 
-File manipulation operations
+File manipulation for web development mostly revolves around file uploading, file downloading and authentication of uploaded files. Further processing of the files may take place such as video/audio encoding, compression and manipulation of directories. Before we start, your host must have writable directories. Many cloud hosts that I've recommended do not currently support writable directories, however Pagodabox does. On your local stack this won't matter since you have directories writable by default. If you cannot use writable directories or the amount of uploaded files will exceed your budget, you can instead use a cloud based file system CDN such as Amazon S3.
 
-Non blocking IO
+==== Codeigniter File Management ====
 
-Asynchronous programming (http://en.wikipedia.org/wiki/Asynchronous_I/O)
+Codeigniter provides three tools for file management, you should open up CI's source code to see how they work:
 
-Compression
+  * [[http://ellislab.com/codeigniter/user-guide/libraries/file_uploading.html|File Upload class]] - for uploading files.
+  * [[http://ellislab.com/codeigniter/user-guide/libraries/zip.html|Zip Encoding class]] - for compressing files with zip encoding.
+  * [[http://ellislab.com/codeigniter/user-guide/helpers/download_helper.html|Download helper]] - for forcing a download.
+  * [[http://ellislab.com/codeigniter/user-guide/helpers/file_helper.html|File Helper]] - for basic file manipulation.
 
-File streaming by binary chunks (due to memory limits)
+The file upload class relies on form based uploads. You need to have an encoding type of ''multipart/form-data''. You can also use Codeigniter's [[http://ellislab.com/codeigniter/user-guide/helpers/form_helper.html|form helper]] to open up the form with ''form_open_multipart();''.
 
-Also mention Amazon S3 for file storage CDNs (most hosts dont allow to be a file hosting service)
+<code html>
+<form method="post" action="controller/method" enctype="multipart/form-data" />
+</form>
+</code>
+
+It also expects that the file input field will have a name of "userfile". You can change it by passing in a different parameter to the ''do_upload()'' method. However this also means that Codeigniter's File Upload class can only upload one file at a time. According to [[http://www.php.net/manual/en/features.file-upload.multiple.php|official PHP documentation]], multiple file upload fields in a form should be specified in array style naming. Such as for example:
+
+<code html>
+<form method="post" action="controller/method" enctype="multipart/form-data" />
+    <input name="userfile[]" type="file" />
+    <input name="userfile[]" type="file" />
+</form>
+</code>
+
+This would make the files available in the [[http://www.php.net/manual/en/reserved.variables.files.php|global PHP array variable "$_FILES"]]. Each file would be available as ''$_FILES['userfile']['name'][i]'' where ''i'' is the index of the input field. You'll see that the file properties ("name") actually come before the file index, this is slightly counter intuitive. Therefore in order to make this library actually upload multiple files, you'll need to loop through each file and call ''do_upload()'' on each index. See this [[http://stackoverflow.com/questions/1908247/codeigniter-multiple-file-upload|stack overflow post for inspiration]]. Also remember to switch on ''encrypt_name'' or randomise "file_name" to avoid file naming conflicts, however in that case remember to keep a track of those file names and their location paths in your database. A common use case would files that a user uploads and those files would be tied to that user.
+
+The upload class also has file authentication. Files are checked for their [[wp>Internet media type|mimetype]] and then matched to the allowed mimetypes. You specify the allowed files through the file extensions, but those file extensions correspond to mimetypes in the ''application/config/mimes.php''. This is quite a useful part of the library and if you intend to use other libraries you may still wish to validate the files using this Upload class by extending the library.
+
+This Upload class does not chunk or stream the upload. This means that the files you upload will be put into memory before being put to disk. This is when you will face problems due to your PHP.ini settings that limit certain aspects of file uploading. If the files are large, you may either time out due to execution time limits, max out your memory due to RAM limits, or exceed your POST or upload size, or even exceed the limit on simultaneous file uploads. All of these are explained in the [[http://www.php.net/manual/en/features.file-upload.common-pitfalls.php|common pitfalls page regarding file uploading]] in the PHP documentation. If you need to change these settings, check the .htaccess section in the Server Side Architecture article. But be aware that your host may set hard limits on the PHP settings, and many hosts don't expect your web application to be a file hosting site, and their terms of service may prohibit such practices.
+
+This class has another disadvantage, it isn't flexible due to being hard coupled to HTML forms. You probably want a [[http://www.php.net/manual/en/features.file-upload.put-method.php|REST compliant]] AJAX file uploader that can take advantage of [[https://github.com/blueimp/jQuery-File-Upload/wiki/Chunked-file-uploads|chunked uploads]], [[https://github.com/23/resumable.js|pause and resume functionality]], and [[http://www.sitepoint.com/html5-ajax-file-upload/|asynchronous IO]] so you don't have to wait for the upload to finish to keep working with the web application. All of these functionalities rely more on the client side and all have quite specialised problems to solve. So I suggest reading the linked articles, but use a library like [[http://www.plupload.com/|Plupload]] or [[http://fineuploader.com/|Fine Uploader]] or [[http://blueimp.github.com/jQuery-File-Upload/|jQuery File Uploader]].
+
+When you have your files uploaded, sometimes those files need to be downloaded. Now if those files are just images, you can use a direct link, or if you wish to be fancy and secure you would need a REST compliant controller that handles image downloads that can also be embedded if necessary. By creating a controller that handles the request and then pipes the message, you can execute all sorts of analytics and processing while that request takes place. For example you may wish throttle the number of image downloads, perhaps you will want to prevent third party sites [[wp>Inline linking|hotlinking]] to your images so you can reduce bandwidth cost, or maybe you need authentication of which users are allowed to view which image. All of this is only possible with having a "download" controller. That's when Codeigniter's [[http://ellislab.com/codeigniter/user-guide/libraries/zip.html|zip encoding class]] and [[http://ellislab.com/codeigniter/user-guide/helpers/download_helper.html|download helper]] become useful.
+
+For individual images or files there's no need to zip archive them. Images need to be accessible raw and they already have been compressed by their encoding. Individual files are usually required in their raw format too. In that case you can just use the download helper to pass through the binary files straight to the client. 
+
+If in the case of a client needing to download multiple images or multiple files, then you need the zip encoding class. Consider a use case like Github when someone needs to download a project, Github zips up the project and then you can download all the files at once. This also reduces your bandwidth cost since your overall transfer size is lower.
+
+The zip encoding class allows you to dynamically add data or read existing data to a buffer before writing the archive to disk or combining it into a download package. Think of a buffer as a bucket that you fill up before you do anything to the contents of that bucket. The ability to write the archive may be useful if you need to make backup copies of your web application and database contents, and the ability to combine into a download package is useful for clients downloading multiple files.
+
+<code php>
+//Here we're "adding" data to zip archive, this zip archive is being "buffered"
+$data = array(
+    'mydata1.txt' => 'A Data String!',
+    'mydata2.txt' => 'Another Data String!'
+);
+
+//we're first adding two files to the archive
+$this->zip->add_data($data);
+
+//it's possible to stack up the data, and also add directories inside the zip file directly
+$this->zip->add_data('I was born in an elevator...', 'personal/my_bio.txt'); 
+
+//now we're reading data that exists already
+$this->zip->read_file('/path/to/photo.jpg');
+
+//finally we're flushing the buffer to the hard disk
+$this->zip->archive('/path/to/folder/on/server/myarchive.zip');
+
+//at the same time we can package the archive for download!
+$this->zip->download('for_the_client.zip'); 
+</code>
+
+Finally Codeigniter provides you a simple [[http://ellislab.com/codeigniter/user-guide/helpers/file_helper.html|File helper]] that can do read, write, delete and get information on files. It's API is simple so there's no need for much explanation.
+
+==== Advanced File Manipulation ====
+
+To begin advanced file manipulation, it's good to have a cursory understanding of how binary works:
+
+{{ youtube>ETsfylK7kzM&list=PLwwh-11EOGvPlNx-92BgRkrIJxsmFnCk7?medium }}
+
+Now if you want to do file manipulation, you need to stop using libraries for a while and get granular. [[http://davidhancock.co/2012/11/useful-php-functions-for-dealing-with-the-file-system/|This blog article by David Hancock on useful file manipulation functions]] will be useful. Make sure to read the code and try to understand the flow of execution. The next thing to do is to go through the [[http://www.php.net/manual/en/ref.filesystem.php|PHP documentation on filesystem functions]]. Use this as a reference for whenever you're looking at file manipulation code. Also check out these [[http://www.devshed.com/c/a/PHP/File-And-Directory-Manipulation-In-PHP-part-1/|Devshed tutorials on file and directory manipulation]]. The ''pack()'' and ''unpack()'' binary functions are also useful for [[http://www.codediesel.com/php/unpacking-binary-data/|constructing your own binary files]].
+
+If you're performing a lot of filesystem functions that check whether files exist or on file information, PHP will cache the information from those filesystem functions for faster results. You'll eventually need to clear your stat cache with the [[http://php.net/manual/en/function.clearstatcache.php|"clearstatcache" function]].
+
+Another factor of interest is [[http://php.net/manual/en/features.commandline.io-streams.php|IO streams]]. The same filesystem functions can can access IO sockets from command line programs.
+
+Note that for any asynchronous operations, you'll need to fork your process or use a worker thread. See server side architecture for more information on concurrent processing.
+
+For chunked file uploads, the [[https://github.com/moxiecode/plupload/blob/master/examples/upload.php|Plupload library demonstrates an upload example in their Github repository]]. It is around line 75 - 85. Essentially it's matter of retrieving chunks from the client side, and writing it to the temporary file as it comes. The writing process will be a loop that keeps checking for chunks from an input, puts those chunks into a buffer, and writes those buffer into the temporary file. Once the filesize of the temporary file matches the total file size of the client request, then that means the file has been completely uploaded, and it can simply move that temporary file into persistent directory and keep it on the harddisk.
+
+Finally if you need a super powerful filesystem abstraction system that can provide APIs to local storage, FTP, Amazon S3, Dropbox and more, you can use the [[https://github.com/KnpLabs/Gaufrette|Gaufrette library]]. It's documentation is a bit weak, but you can go straight into the code to see all the available adapters. Also make sure to checkout [[http://aws.amazon.com/sdkforphp/|Amazon S3's PHP SDK]].
 ===== Shell Operations =====
 
 Proc open
@@ -825,26 +904,30 @@ HTML filtering -> http://htmlpurifier.org/
 XML library and Xpath
 
 Also the area of study in language parsing and regex is huge. See Nikita's article: http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html
-===== Structural Patterns =====
+===== Other Patterns =====
 
 Facade
 
 Decorator
 
-===== Creational Patterns =====
 
-Factory... etc
 
-===== Behavioural Patterns =====
+===== Artificial Intelligence, Machine Learning and Statistics =====
 
-Observor
+Artificial Intelligence is really composed of data mining (involving statistics), then machine learning (involving statistics). It's about making a computer think like a person, the ability to discover new data and process data and learn things from the data without human intervention. These can then be used in computer vision, natural language processing, decision trees, games... etc.
 
-===== Artificial Intelligence =====
+Machine Learning:
 
-Artificial Intelligence
+http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/
 
-machine learning...
+https://github.com/gburtini/Learning-Library-for-PHP
 
-Operational Transformation
+http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning
 
-Natural Language Processing
+http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms
+
+Neural Networks - http://www.developer.com/lang/php/training-a-neural-network-in-php.html
+
+http://www.tremani.nl/open-source/neural-network/?p=docs
+
+Data Mining
