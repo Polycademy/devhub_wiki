@@ -1215,7 +1215,7 @@ If you&#039;re performing a lot of filesystem functions that check whether files
 </p>
 
 <p>
-Another factor of interest is <a href="http://php.net/manual/en/features.commandline.io-streams.php" class="urlextern" title="http://php.net/manual/en/features.commandline.io-streams.php"  rel="nofollow">IO streams</a>. The same filesystem functions can can access IO sockets from command line programs.
+Another factor of interest is <a href="http://php.net/manual/en/features.commandline.io-streams.php" class="urlextern" title="http://php.net/manual/en/features.commandline.io-streams.php"  rel="nofollow">IO streams</a>. The same filesystem functions can can access IO sockets from command line programs. Check out this <a href="http://www.sk89q.com/2010/04/introduction-to-php-streams/" class="urlextern" title="http://www.sk89q.com/2010/04/introduction-to-php-streams/"  rel="nofollow">introduction to PHP streams</a>.
 </p>
 
 <p>
@@ -1231,25 +1231,248 @@ Finally if you need a super powerful filesystem abstraction system that can prov
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Advanced File Manipulation" [67883-70827] -->
+<!-- EDIT20 SECTION "Advanced File Manipulation" [67883-70933] -->
 <h2 class="sectionedit21" id="shell_operations">Shell Operations</h2>
 <div class="level2">
 
 <p>
-Proc open
+<abbr title="Hypertext Preprocessor">PHP</abbr> allows you to interface with the <a href="http://en.wikipedia.org/wiki/Shell (computing)" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Shell (computing)">shell</a> otherwise known as the command line. All those commands that you executed as part of your introduction to Cloud9 can also be executed by <abbr title="Hypertext Preprocessor">PHP</abbr> directly. This allows you to open up other scripts and run them as part of the <abbr title="Hypertext Preprocessor">PHP</abbr> binary separate to the request response cycle, it also allows you to launch other programs and pass in data and retrieve output from those programs. For example you may wish to pass an uploaded video a video encoder program like FFmpeg that is written in C. The <a href="http://ffmpeg.org/trac/ffmpeg/wiki/Using%20FFmpeg%20from%20PHP%20scripts" class="urlextern" title="http://ffmpeg.org/trac/ffmpeg/wiki/Using%20FFmpeg%20from%20PHP%20scripts"  rel="nofollow">FFmpeg documentation in fact tells you how to run its program from a PHP script</a>.
 </p>
 
 <p>
-Process forking
+<abbr title="Hypertext Preprocessor">PHP</abbr> has a number of <a href="http://www.php.net/manual/en/ref.exec.php" class="urlextern" title="http://www.php.net/manual/en/ref.exec.php"  rel="nofollow">native program execution functions</a> that do slightly different things, but you can understand them as simply passing a constructed command to the command line. Using them is quite easy, it simply requires an understanding IO stream pipes, and the particular program you&#039;re trying to execute. The more difficult part comes when you need asynchronous program execution where your script doesn&#039;t wait for the program execution to finish before completing the rest of its commands. This asynchronous processing can also lead to more complicated concurrent process forking of your own <abbr title="Hypertext Preprocessor">PHP</abbr> scripts. But first let&#039;s get acquainted with simply executing external programs.
 </p>
 
 <p>
-Shell commands and passthru
+If you want to get deeper into this particular area, check out <a href="http://www.tuxradar.com/practicalphp/16/1/0" class="urlextern" title="http://www.tuxradar.com/practicalphp/16/1/0"  rel="nofollow">TuxRadar&#039;s comprehensive tutorial PHP process control</a>.
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Shell Operations" [70828-70914] -->
-<h2 class="sectionedit22" id="parsing_operations">Parsing Operations</h2>
+<!-- EDIT21 SECTION "Shell Operations" [70934-72574] -->
+<h3 class="sectionedit22" id="program_execution">Program Execution</h3>
+<div class="level3">
+
+<p>
+The commands that are most used are the simple <a href="http://www.php.net/manual/en/function.exec.php" class="urlextern" title="http://www.php.net/manual/en/function.exec.php"  rel="nofollow">&quot;exec()&quot;</a>, and the more powerful but complex <a href="http://www.php.net/manual/en/function.proc-open.php" class="urlextern" title="http://www.php.net/manual/en/function.proc-open.php"  rel="nofollow">&quot;proc_open()&quot;</a>. 
+</p>
+
+<p>
+The <code>exec()</code> function has three parameters and returns a single value. The first parameter is a string of the shell command you want executed. The second parameter is a value that is passed by reference, the command will inject the complete returned output of the command by line as an array to the second parameter. The third parameter is also passed by reference, the function will inject the exit code of the command. This means the return value could be quite arbitrary. However if the return code is 0, it generally means the command worked. You can check the common list of exit codes for Linux at <a href="http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html" class="urlextern" title="http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html"  rel="nofollow">Linuxtopia</a> and for <a href="http://www.hiteksoftware.com/knowledge/articles/049.htm" class="urlextern" title="http://www.hiteksoftware.com/knowledge/articles/049.htm"  rel="nofollow">Windows at HiTekSoftware</a>.
+</p>
+<pre class="code php"><span class="co1">//this particular shell command is pretty simple, in production you'll probably run some program such as a PHP script, bash script, or command line application. Remember if you're using an executable alias, you need to add them to your PATH variables, otherwise you need to absolute path.</span>
+&nbsp;
+<span class="co1">//determines if the string &quot;Windows&quot; exists in php_uname() function</span>
+<span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/stripos"><span class="kw3">stripos</span></a><span class="br0">&#40;</span><a href="http://www.php.net/php_uname"><span class="kw3">php_uname</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'windows'</span><span class="br0">&#41;</span> <span class="sy0">!==</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//we use the windows dir command</span>
+    <span class="re0">$cmd</span> <span class="sy0">=</span> <span class="st_h">'dir'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+    <span class="co1">//we use the unix ls command (for Linux and Mac)</span>
+    <span class="re0">$cmd</span> <span class="sy0">=</span> <span class="st_h">'ls'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//empty array (exec will append to the array, not overwrite it)</span>
+<span class="re0">$return_value</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span> <span class="co1">//empty string</span>
+&nbsp;
+<span class="co1">//this would echo out the LAST LINE of the output that would exist if you did this in the command line</span>
+<span class="kw1">echo</span> <a href="http://www.php.net/exec"><span class="kw3">exec</span></a><span class="br0">&#40;</span><span class="re0">$cmd</span><span class="sy0">,</span> <span class="re0">$output</span><span class="sy0">,</span> <span class="re0">$return_value</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this would dump all of output lines as an array</span>
+<a href="http://www.php.net/var_dump"><span class="kw3">var_dump</span></a><span class="br0">&#40;</span><span class="re0">$output</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this should dump out the integer 0, or else there'd be an error!</span>
+<a href="http://www.php.net/var_dump"><span class="kw3">var_dump</span></a><span class="br0">&#40;</span><span class="re0">$return_value</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+The <code>exec()</code> command is a simple command but it does its job. You don&#039;t have much control over the piping of the data, and by itself it is not asynchronous, <abbr title="Hypertext Preprocessor">PHP</abbr> will wait for the command to finish executing before completing the rest of its own script. This means long operations will make the client wait at the browser. For example check out this trace route command. You&#039;ll wait a couple seconds before getting any output.
+</p>
+<pre class="code php"><span class="co1">//in windows</span>
+<a href="http://www.php.net/exec"><span class="kw3">exec</span></a><span class="br0">&#40;</span><span class="st_h">'tracert -h 15 polycademy.com'</span><span class="sy0">,</span> <span class="re0">$output</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//in unix</span>
+<a href="http://www.php.net/exec"><span class="kw3">exec</span></a><span class="br0">&#40;</span><span class="st_h">'traceroute -h 15 polycademy.com'</span><span class="sy0">,</span> <span class="re0">$output</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<a href="http://www.php.net/var_dump"><span class="kw3">var_dump</span></a><span class="br0">&#40;</span><span class="re0">$output</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+The <code>proc_open()</code> function is far more powerful than the <code>exec()</code> function. Primarily it allows you to manipulate the IO pipe streams to the command or program that you&#039;re executing. All programs have three basic IO streams. They are STDIN, STDOUT and STDERR. These three are called the <a href="http://en.wikipedia.org/wiki/Standard streams" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Standard streams">standard streams</a>. They are then abstracted into <a href="http://en.wikipedia.org/wiki/File descriptor" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/File descriptor">file descriptors</a>, which are simply integers. 0 for STDIN, 1 for STDOUT and 2 for STDERR.
+</p>
+<pre class="code php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="co1">//the first thing to do is to setup your file descriptor specification</span>
+<span class="co1">//the spec is the file descriptor integer corresponding to an array of the method of passing data and the access mode</span>
+<span class="co1">//instead of a pipe you can also use a file or socket connection</span>
+<span class="re0">$descriptor_spec</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+    <span class="nu0">0</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'r'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDIN read mode</span>
+    <span class="nu0">1</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'w'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDOUT write mode</span>
+    <span class="nu0">2</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'w'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDERR write mode</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//any command line options to the binary would be appended to the $cmd variable, not piped to STDIN</span>
+<span class="re0">$cmd</span> <span class="sy0">=</span> <span class="st_h">'php'</span><span class="sy0">;</span> <span class="co1">//we're going to dynamically execute a PHP script, make sure php is in your PATH variables</span>
+&nbsp;
+<span class="co1">//proc_open also has the third parameter of current working directory</span>
+<span class="co1">//the default would be the working directory of your the php process</span>
+<span class="co1">//this may be apache's binary directory because PHP is being executed as a module to PHP</span>
+<span class="co1">//the best way to be sure is to simply pass 'cd' or 'ls' to the command in proc_open, note it'll be different to exec()</span>
+<span class="co1">//pipes is passed by reference, we'll be using it to inject data into the IO streams</span>
+<span class="re0">$process</span> <span class="sy0">=</span> <a href="http://www.php.net/proc_open"><span class="kw3">proc_open</span></a><span class="br0">&#40;</span><span class="re0">$cmd</span><span class="sy0">,</span> <span class="re0">$descriptor_spec</span><span class="sy0">,</span> <span class="re0">$pipes</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/is_resource"><span class="kw3">is_resource</span></a><span class="br0">&#40;</span><span class="re0">$process</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//pass data into the STDIN stream, the php binary will accept this as input, it will be expecting php code</span>
+    <a href="http://www.php.net/fwrite"><span class="kw3">fwrite</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="st_h">'&lt;?php echo \'I am a php script that has been executed directly by the binary!\' ?&gt;'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">0</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//we need to close the connection or else the script cannot end</span>
+&nbsp;
+    <span class="co1">//extract the data out of STDOUT</span>
+    <span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/stream_get_contents"><span class="kw3">stream_get_contents</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//extract data out of STDERR (php binary will pass any php errors to STDERR and STDOUT)</span>
+    <span class="re0">$errors</span> <span class="sy0">=</span> <a href="http://www.php.net/stream_get_contents"><span class="kw3">stream_get_contents</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//same as the return_value from exec(), if it's 0, that means the command worked (note that STDERR is errors recorded from the program itself, whereas exit_code would be the command line giving you back an error)</span>
+    <span class="re0">$exit_code</span> <span class="sy0">=</span> <a href="http://www.php.net/proc_close"><span class="kw3">proc_close</span></a><span class="br0">&#40;</span><span class="re0">$process</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$exit_code</span> <span class="sy0">==</span> <span class="nu0">0</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//command worked</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/empty"><span class="kw3">empty</span></a><span class="br0">&#40;</span><span class="re0">$errors</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//means the php binary did not spit out php errors</span>
+        <a href="http://www.php.net/var_dump"><span class="kw3">var_dump</span></a><span class="br0">&#40;</span><span class="re0">$output</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+        <a href="http://www.php.net/var_dump"><span class="kw3">var_dump</span></a><span class="br0">&#40;</span><span class="re0">$errors</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+    <a href="http://www.php.net/var_dump"><span class="kw3">var_dump</span></a><span class="br0">&#40;</span><span class="re0">$exit_code</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+You can also pass in a file into STDIN pipe.
+</p>
+<pre class="code php"><span class="re0">$descriptor_spec</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+    <span class="nu0">0</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'file'</span><span class="sy0">,</span> <span class="st_h">'test.php'</span><span class="sy0">,</span> <span class="st_h">'r'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDIN read mode from file (assuming that test.php exists at getcwd)</span>
+    <span class="nu0">1</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'w'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDOUT write mode</span>
+    <span class="nu0">2</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'w'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDERR write mode</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$cmd</span> <span class="sy0">=</span> <span class="st_h">'php'</span><span class="sy0">;</span>
+<span class="re0">$cwd</span> <span class="sy0">=</span> <a href="http://www.php.net/getcwd"><span class="kw3">getcwd</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//this directory needs to have a test.php</span>
+&nbsp;
+<span class="re0">$process</span> <span class="sy0">=</span> <a href="http://www.php.net/proc_open"><span class="kw3">proc_open</span></a><span class="br0">&#40;</span><span class="re0">$cmd</span><span class="sy0">,</span> <span class="re0">$descriptor_spec</span><span class="sy0">,</span> <span class="re0">$pipes</span><span class="sy0">,</span> <span class="re0">$cwd</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/is_resource"><span class="kw3">is_resource</span></a><span class="br0">&#40;</span><span class="re0">$process</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//notice we don't touch $pipes[0] because it's being handled as a file, it's not a stream IO to this parent script</span>
+&nbsp;
+    <span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/stream_get_contents"><span class="kw3">stream_get_contents</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$errors</span> <span class="sy0">=</span> <a href="http://www.php.net/stream_get_contents"><span class="kw3">stream_get_contents</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$exit_code</span> <span class="sy0">=</span> <a href="http://www.php.net/proc_close"><span class="kw3">proc_close</span></a><span class="br0">&#40;</span><span class="re0">$process</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+
+<p>
+Using <code>proc_open()</code> style we can actually solve our previous problem of having the client hanging before a long operation completes and returns the output. We&#039;ll buffer the output as it comes instead of waiting for the command to finish. This can be useful for <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> based output that needs to be synchronous but can return output little by little. The server would be holding the connection. The reason I didn&#039;t have to start output buffering through <code>ob_start()</code> is because <abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s ini settings may have left it on by default. You can check this by using <a href="http://www.php.net/manual/en/function.ob-get-level.php#109001" class="urlextern" title="http://www.php.net/manual/en/function.ob-get-level.php#109001"  rel="nofollow">&quot;ob_get_level()&quot;</a>.
+</p>
+<pre class="code php"><span class="co1">//we don't need to specify STDIN, because we're just reading from this command</span>
+<span class="re0">$descriptor_spec</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
+    <span class="nu0">1</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'w'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDOUT write mode</span>
+    <span class="nu0">2</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'pipe'</span><span class="sy0">,</span> <span class="st_h">'w'</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="co1">//STDERR write mode</span>
+<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//works on windows</span>
+<span class="re0">$cmd</span> <span class="sy0">=</span> <span class="st_h">'tracert -w 10 accettura.com'</span><span class="sy0">;</span>
+<span class="co1">//$cmd_on_linux = 'traceroute -w 10 accettura.com';</span>
+&nbsp;
+<span class="re0">$process</span> <span class="sy0">=</span> <a href="http://www.php.net/proc_open"><span class="kw3">proc_open</span></a><span class="br0">&#40;</span><span class="re0">$cmd</span><span class="sy0">,</span> <span class="re0">$descriptor_spec</span><span class="sy0">,</span> <span class="re0">$pipes</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/is_resource"><span class="kw3">is_resource</span></a><span class="br0">&#40;</span><span class="re0">$process</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//there are two ways to do this, but both uses output buffering (use one or the other, delete one of them)</span>
+&nbsp;
+    <span class="co1">//first way</span>
+    <span class="co1">//test for the end of output and loop through this block whenever it hasn't reached the end</span>
+    <span class="kw1">while</span><span class="br0">&#40;</span><span class="sy0">!</span><a href="http://www.php.net/feof"><span class="kw3">feof</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//get output line by line</span>
+        <span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/fgets"><span class="kw3">fgets</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">echo</span> <span class="re0">$output</span><span class="sy0">;</span>
+        <span class="co1">//flush the output buffer and destroy the buffer</span>
+        <span class="co1">//these basically passes the content to the client even though the script hasn't finished</span>
+        <a href="http://www.php.net/ob_flush"><span class="kw3">ob_flush</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <a href="http://www.php.net/flush"><span class="kw3">flush</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <span class="co1">//second way</span>
+    <span class="co1">//extract a line equivalent to 4096 bytes (4kb) - 1 byte (due to fgets), this 4095 bytes is a limit on string literals (each character takes a byte), and do this continuously</span>
+    <span class="co1">//until fgets can no longer get any more output and equates to false</span>
+    <span class="kw1">while</span><span class="br0">&#40;</span><span class="br0">&#40;</span><span class="re0">$output</span> <span class="sy0">=</span> <a href="http://www.php.net/fgets"><span class="kw3">fgets</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="nu0">4096</span><span class="br0">&#41;</span><span class="br0">&#41;</span> <span class="sy0">!==</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//flush the output buffer</span>
+        <span class="kw1">echo</span> <span class="re0">$output</span><span class="sy0">;</span>
+        <a href="http://www.php.net/ob_flush"><span class="kw3">ob_flush</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <a href="http://www.php.net/flush"><span class="kw3">flush</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span>
+&nbsp;
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">1</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$errors</span> <span class="sy0">=</span> <a href="http://www.php.net/stream_get_contents"><span class="kw3">stream_get_contents</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <a href="http://www.php.net/fclose"><span class="kw3">fclose</span></a><span class="br0">&#40;</span><span class="re0">$pipes</span><span class="br0">&#91;</span><span class="nu0">2</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="re0">$exit_code</span> <span class="sy0">=</span> <a href="http://www.php.net/proc_close"><span class="kw3">proc_close</span></a><span class="br0">&#40;</span><span class="re0">$process</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+
+<p>
+Remember to never execute user submitted code to the shell, they could pass <code>rm-rf</code> and your entire server would be wiped. You must always sanitise the user input if you must let them do so. See <a href="http://www.php.net/manual/en/function.escapeshellarg.php" class="urlextern" title="http://www.php.net/manual/en/function.escapeshellarg.php"  rel="nofollow">&quot;escapeshellarg()&quot;</a> and <a href="http://www.php.net/manual/en/function.escapeshellcmd.php" class="urlextern" title="http://www.php.net/manual/en/function.escapeshellcmd.php"  rel="nofollow">&quot;escapeshellcmd()&quot;</a> for more information.
+</p>
+
+<p>
+Finally you may want to redirect your IO streams to different connections. The <code>proc_open()</code> function already allows quite granular control over your IO streams, but sometimes you need to do through the command itself. Look into these three resources to find out more:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://linuxcommand.org/lts0060.php" class="urlextern" title="http://linuxcommand.org/lts0060.php"  rel="nofollow">Leaning IO Redirection</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.tutorialspoint.com/unix/unix-io-redirections.htm" class="urlextern" title="http://www.tutorialspoint.com/unix/unix-io-redirections.htm"  rel="nofollow">Shell IO</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://tldp.org/LDP/abs/html/io-redirection.html" class="urlextern" title="http://tldp.org/LDP/abs/html/io-redirection.html"  rel="nofollow">IO Redirection Examples</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT22 SECTION "Program Execution" [72575-81745] -->
+<h3 class="sectionedit23" id="asynchronous_processing">Asynchronous Processing</h3>
+<div class="level3">
+
+<p>
+Asynchronous processing is the method of running shell operations without waiting for any returned output. Doing this in a cross platform manner is quite finicky, and it is very difficult to test because you don&#039;t know if what you did actually worked. However the below code works between Windows and Unix systems. Make sure to read up on IO redirection to understand the commands below.
+</p>
+<pre class="code php"><span class="co1">//taking the command we've been using</span>
+<span class="re0">$cmd</span> <span class="sy0">=</span> <span class="st_h">'tracert -w 10 accettura.com'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/stripos"><span class="kw3">stripos</span></a><span class="br0">&#40;</span><a href="http://www.php.net/php_uname"><span class="kw3">php_uname</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="st_h">'windows'</span><span class="br0">&#41;</span> <span class="sy0">!===</span> <span class="kw4">false</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//popen and pclose are simpler versions to proc_open and proc_close</span>
+    <span class="co1">//the trick is to use &quot;start /B&quot; start the process in background mode</span>
+    <a href="http://www.php.net/pclose"><span class="kw3">pclose</span></a><span class="br0">&#40;</span><a href="http://www.php.net/popen"><span class="kw3">popen</span></a><span class="br0">&#40;</span><span class="st0">&quot;start /B &quot;</span><span class="sy0">.</span> <span class="re0">$cmd</span> <span class="sy0">.</span> <span class="st_h">' &gt; log.txt'</span><span class="sy0">,</span> <span class="st0">&quot;r&quot;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//the &gt; log.txt is optional, it's just so we can see if it can work, this is based on STDOUT redirection, this will be stored in the cwd of the php script, you can also use an absolute path if you wish</span>
+    <span class="kw1">echo</span> <span class="st_h">'If you see me pop up immediately this means it worked asynchronously!'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="kw1">else</span><span class="br0">&#123;</span>
+    <span class="co1">//on linux systems its far easier</span>
+    <span class="co1">//redirect STDOUT to /dev/null (to be discarded) or to a log file</span>
+    <span class="co1">//the &amp; sign indicates that the process is in the background</span>
+    <span class="co1">//we're also redirecting STDERR into dev/null too</span>
+    <a href="http://www.php.net/exec"><span class="kw3">exec</span></a><span class="br0">&#40;</span><span class="re0">$cmd</span> <span class="sy0">.</span> <span class="st0">&quot; &gt;/dev/null 2&gt;/dev/null &amp;&quot;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+The above code is asynchronous launching of new processes, however it isn&#039;t the same as forking a child process. Forking a child process requires the use of <a href="http://www.php.net/manual/en/intro.pcntl.php" class="urlextern" title="http://www.php.net/manual/en/intro.pcntl.php"  rel="nofollow">PNCTL functions</a>. Those functions are not available to be used on Windows operating systems, and it can only be used in the <a href="http://www.shapeshifter.se/2008/08/04/asynchronous-background-execution-with-php/" class="urlextern" title="http://www.shapeshifter.se/2008/08/04/asynchronous-background-execution-with-php/"  rel="nofollow">context of command line scripts</a> (need to be executed directly from the <abbr title="Hypertext Preprocessor">PHP</abbr> binary). Therefore it is recommended that you use a job manager instead like Gearman discussed in the server side architecture. Gearman also helps with interprocess communication, whereas <code>pnctl_fork()</code> would require nasty hacks to get it working.
+</p>
+
+</div>
+<!-- EDIT23 SECTION "Asynchronous Processing" [81746-83824] -->
+<h2 class="sectionedit24" id="parsing_operations">Parsing Operations</h2>
 <div class="level2">
 
 <p>
@@ -1273,21 +1496,8 @@ Also the area of study in language parsing and regex is huge. See Nikita&#039;s 
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Parsing Operations" [70915-71280] -->
-<h2 class="sectionedit23" id="other_patterns">Other Patterns</h2>
-<div class="level2">
-
-<p>
-Facade
-</p>
-
-<p>
-Decorator
-</p>
-
-</div>
-<!-- EDIT23 SECTION "Other Patterns" [71281-71329] -->
-<h2 class="sectionedit24" id="artificial_intelligence_machine_learning_and_statistics">Artificial Intelligence, Machine Learning and Statistics</h2>
+<!-- EDIT24 SECTION "Parsing Operations" [83825-84191] -->
+<h2 class="sectionedit25" id="artificial_intelligence_machine_learning_and_statistics">Artificial Intelligence, Machine Learning and Statistics</h2>
 <div class="level2">
 
 <p>
@@ -1327,4 +1537,4 @@ Data Mining
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Artificial Intelligence, Machine Learning and Statistics" [71330-] -->
+<!-- EDIT25 SECTION "Artificial Intelligence, Machine Learning and Statistics" [84192-] -->

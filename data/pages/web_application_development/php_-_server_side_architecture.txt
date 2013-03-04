@@ -1723,13 +1723,20 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 
 ===== Concurrent Processing =====
 
-PHP is not a multithreaded language. That means it wasn't designed to be easily multithreaded into separate processes and have concurrent or parallel processing. Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating PHP in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
+Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating PHP in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
 
-It's important to understand that while PHP isn't multithreaded, it's also not a long running processes. So that means while long running processes may block execution and response to a single user, other users will not experience this blocking effect because Apache spawns a new PHP process for each request response cycle. This is unlike Node, which only has one process for the entire application. 
+Before we go any further, let's examine what is concurrent processing. Concurrent processing refers to the techniques in making a CPU core multitask across processes. The key point to understand is that there are two kinds of "processes" in computing. There is the proper process that we call "process" and a light-weight process called a "thread". Processes are independent tasks that occupy separate memory space. Threads are processes that share their memory space and are therefore contained within a process. Therefore a single process can have many threads. Single core CPUs implement multitasking by context switching between threads, and have a scheduler that switches between proper processes. This is done at phenomenal speeds, so we get the illusion of multitasking. Multiple core CPUs run multiple processes at the same time, but of course due to thread context switching, we can lots of programs at the same time. We can encode a video, watch Youtube, play music, use Firefox, download torrents, play a 3D game all at the same time. Our computer may slow down eventually, but it all seems to happen at the same time. The creation of extra processes is called "forking" or "multiprocess", whereas the creation of new threads is simply "multithreading". Here are extra resources that you read to understand this in more detail:
 
-However that doesn't mean it's impossible to have concurrent processing. Native PHP functions allow you to fork off a process so it becomes an independent process. While this does spread the workload, it's not very flexible since you can't get any messages or responses back from the forked working process. It's just a blackbox, you won't even know if it succeeded or not. A better way is using job managing queue and long running worker daemons (or short lived worker threads depending on what you need).
+  * [[http://www.geekride.com/fork-forking-vs-threading-thread-linux-kernel/|Forking vs Threading]].
+  * [[wp>Computer multitasking|Computer Multitasking]]
+  * [[wp>Concurrent computing|Concurrent Computing]]
+  * [[http://stackoverflow.com/a/14201579/582917|Multiprocess vs Multithreads in PHP]]
 
-A job managing queue is simply a daemon (a persistent process) that receives messages to manage jobs and then creates jobs by spinning up a worker thread, or passing messages to idle worker threads to start work. It can then manage them by asking about their status and also passing back responses to the main thread.
+The default configuration of PHP makes it difficult to do concurrent processing. There are two reasons, the short lived nature of PHP under the Apache HTTP server and the lack of native multithreading. Firstly when the HTTP server such as Apache executes PHP to handle a response, the PHP does not run for long, Apache or the PHP settings automatically spawns a new process and quickly shuts down the process after a bit of time. This matches the request response cycle of the web, but sometimes you need a long running process to handle large tasks or to act as a kind of "watchdog" that reacts to new tasks without having to be completely initiated each time a task is required to be completed. This can be overcome by using daemons. Secondly the lack of multithreading can be overcome by either implementing a multiprocess architecture instead, or using the new experimental [[http://pthreads.org/|Pthreads extension]]. Multithreading is outside the scope of this course, but do check out the extension if you have special needs. We're going to examine multiprocess architecture and long running daemons.
+
+Native PHP functions allow you to fork off a process so it becomes an independent process. While this does spread the workload, it's not very flexible since you can't get any messages or responses back from the forked working process. It's just a blackbox, you won't even know if it succeeded or not. A better way is using job managing queue and long running worker daemons (or short lived worker processes depending on what you need).
+
+A job managing queue is simply a daemon (a persistent process) that receives messages to manage jobs and then creates jobs by spinning up a worker processes, or passing messages to idle workers to start work. It can then manage them by asking about their status and also passing back responses to the main parent process.
 
 There are two good choices for a job managing queue for PHP:
 
@@ -1741,7 +1748,7 @@ Refer to these blog tutorials for more information on implementation:
   * http://www.lornajane.net/posts/2011/Using-Gearman-from-PHP
   * http://www.mwop.net/blog/240-Writing-Gearman-Workers-in-PHP.html
 
-Please note, that due to your host environments, you may not able to use daemons or worker threads, such as ZMQ or Gearman. dotCloud is one cloud host offering worker threads. Remember to also use [[http://supervisord.org/|Supervisor]] to keep your daemons persistent, it will restart them if they crash.
+Please note, that due to your host environments, you may not able to use daemons or worker processes, such as ZMQ or Gearman. dotCloud is one cloud host offering worker processes. Remember to also use [[http://supervisord.org/|Supervisor]] to keep your daemons persistent, it will restart them if they crash.
 
 {{url>http://www.slideshare.net/slideshow/embed_code/2340418?rel=0 427px,356px noscroll noborder}}
 
@@ -1753,7 +1760,7 @@ The concept of worker daemons can be implemented in two different ways. Either a
 
 In order to implement it in the second way, you'll need configure Apache to modify the ''php.ini'' settings so that the PHP script can be executed for a longer time. Apache by default closes the PHP execution if it runs for too long. The most flexible way of configuring Apache is through the ''.htaccess'' file. This can be done through [[http://davidwalsh.name/php-values-htaccess|setting PHP values]]. Another way is directly in the script through the [[http://davidwalsh.name/increase-php-script-execution-time-limit-ini_set|ini_set() function]].
 
-Here's an example of different PHP settings set through the ''.htaccess''.
+Here's an example of different PHP settings set through the ''.htaccess''. Remember this will only apply to applications launched by the Apache HTTP server. If you want it to be a separate long running process, you'll need to use ''ini_set()'' for each individual process, but some of the ini settings wouldn't apply to a command line process.
 
 <code>
 #changes the maximum file size that can be uploaded

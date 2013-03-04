@@ -878,7 +878,7 @@ Now if you want to do file manipulation, you need to stop using libraries for a 
 
 If you're performing a lot of filesystem functions that check whether files exist or on file information, PHP will cache the information from those filesystem functions for faster results. You'll eventually need to clear your stat cache with the [[http://php.net/manual/en/function.clearstatcache.php|"clearstatcache" function]].
 
-Another factor of interest is [[http://php.net/manual/en/features.commandline.io-streams.php|IO streams]]. The same filesystem functions can can access IO sockets from command line programs.
+Another factor of interest is [[http://php.net/manual/en/features.commandline.io-streams.php|IO streams]]. The same filesystem functions can can access IO sockets from command line programs. Check out this [[http://www.sk89q.com/2010/04/introduction-to-php-streams/|introduction to PHP streams]].
 
 Note that for any asynchronous operations, you'll need to fork your process or use a worker thread. See server side architecture for more information on concurrent processing.
 
@@ -887,12 +887,221 @@ For chunked file uploads, the [[https://github.com/moxiecode/plupload/blob/maste
 Finally if you need a super powerful filesystem abstraction system that can provide APIs to local storage, FTP, Amazon S3, Dropbox and more, you can use the [[https://github.com/KnpLabs/Gaufrette|Gaufrette library]]. It's documentation is a bit weak, but you can go straight into the code to see all the available adapters. Also make sure to checkout [[http://aws.amazon.com/sdkforphp/|Amazon S3's PHP SDK]].
 ===== Shell Operations =====
 
-Proc open
+PHP allows you to interface with the [[wp>Shell (computing)|shell]] otherwise known as the command line. All those commands that you executed as part of your introduction to Cloud9 can also be executed by PHP directly. This allows you to open up other scripts and run them as part of the PHP binary separate to the request response cycle, it also allows you to launch other programs and pass in data and retrieve output from those programs. For example you may wish to pass an uploaded video a video encoder program like FFmpeg that is written in C. The [[http://ffmpeg.org/trac/ffmpeg/wiki/Using%20FFmpeg%20from%20PHP%20scripts|FFmpeg documentation in fact tells you how to run its program from a PHP script]].
 
-Process forking
+PHP has a number of [[http://www.php.net/manual/en/ref.exec.php|native program execution functions]] that do slightly different things, but you can understand them as simply passing a constructed command to the command line. Using them is quite easy, it simply requires an understanding IO stream pipes, and the particular program you're trying to execute. The more difficult part comes when you need asynchronous program execution where your script doesn't wait for the program execution to finish before completing the rest of its commands. This asynchronous processing can also lead to more complicated concurrent process forking of your own PHP scripts. But first let's get acquainted with simply executing external programs.
 
-Shell commands and passthru
+If you want to get deeper into this particular area, check out [[http://www.tuxradar.com/practicalphp/16/1/0|TuxRadar's comprehensive tutorial PHP process control]].
 
+==== Program Execution ====
+
+The commands that are most used are the simple [[http://www.php.net/manual/en/function.exec.php|"exec()"]], and the more powerful but complex [[http://www.php.net/manual/en/function.proc-open.php|"proc_open()"]]. 
+
+The ''exec()'' function has three parameters and returns a single value. The first parameter is a string of the shell command you want executed. The second parameter is a value that is passed by reference, the command will inject the complete returned output of the command by line as an array to the second parameter. The third parameter is also passed by reference, the function will inject the exit code of the command. This means the return value could be quite arbitrary. However if the return code is 0, it generally means the command worked. You can check the common list of exit codes for Linux at [[http://www.linuxtopia.org/online_books/advanced_bash_scripting_guide/exitcodes.html|Linuxtopia]] and for [[http://www.hiteksoftware.com/knowledge/articles/049.htm|Windows at HiTekSoftware]].
+
+<code php>
+//this particular shell command is pretty simple, in production you'll probably run some program such as a PHP script, bash script, or command line application. Remember if you're using an executable alias, you need to add them to your PATH variables, otherwise you need to absolute path.
+
+//determines if the string "Windows" exists in php_uname() function
+if(stripos(php_uname(), 'windows') !== false){
+    //we use the windows dir command
+    $cmd = 'dir';
+}else{
+    //we use the unix ls command (for Linux and Mac)
+    $cmd = 'ls';
+}
+
+$output = array(); //empty array (exec will append to the array, not overwrite it)
+$return_value = ''; //empty string
+
+//this would echo out the LAST LINE of the output that would exist if you did this in the command line
+echo exec($cmd, $output, $return_value);
+
+//this would dump all of output lines as an array
+var_dump($output);
+
+//this should dump out the integer 0, or else there'd be an error!
+var_dump($return_value);
+</code>
+
+The ''exec()'' command is a simple command but it does its job. You don't have much control over the piping of the data, and by itself it is not asynchronous, PHP will wait for the command to finish executing before completing the rest of its own script. This means long operations will make the client wait at the browser. For example check out this trace route command. You'll wait a couple seconds before getting any output.
+
+<code php>
+//in windows
+exec('tracert -h 15 polycademy.com', $output);
+
+//in unix
+exec('traceroute -h 15 polycademy.com', $output);
+
+var_dump($output);
+</code>
+
+The ''proc_open()'' function is far more powerful than the ''exec()'' function. Primarily it allows you to manipulate the IO pipe streams to the command or program that you're executing. All programs have three basic IO streams. They are STDIN, STDOUT and STDERR. These three are called the [[wp>Standard streams|standard streams]]. They are then abstracted into [[wp>File descriptor|file descriptors]], which are simply integers. 0 for STDIN, 1 for STDOUT and 2 for STDERR.
+
+<code php>
+<?php
+
+//the first thing to do is to setup your file descriptor specification
+//the spec is the file descriptor integer corresponding to an array of the method of passing data and the access mode
+//instead of a pipe you can also use a file or socket connection
+$descriptor_spec = array(
+    0 => array('pipe', 'r'), //STDIN read mode
+    1 => array('pipe', 'w'), //STDOUT write mode
+    2 => array('pipe', 'w'), //STDERR write mode
+);
+
+//any command line options to the binary would be appended to the $cmd variable, not piped to STDIN
+$cmd = 'php'; //we're going to dynamically execute a PHP script, make sure php is in your PATH variables
+
+//proc_open also has the third parameter of current working directory
+//the default would be the working directory of your the php process
+//this may be apache's binary directory because PHP is being executed as a module to PHP
+//the best way to be sure is to simply pass 'cd' or 'ls' to the command in proc_open, note it'll be different to exec()
+//pipes is passed by reference, we'll be using it to inject data into the IO streams
+$process = proc_open($cmd, $descriptor_spec, $pipes);
+
+if(is_resource($process)){
+
+    //pass data into the STDIN stream, the php binary will accept this as input, it will be expecting php code
+    fwrite($pipes[0], '<?php echo \'I am a php script that has been executed directly by the binary!\' ?>');
+    fclose($pipes[0]); //we need to close the connection or else the script cannot end
+
+    //extract the data out of STDOUT
+    $output = stream_get_contents($pipes[1]);
+    fclose($pipes[1]);
+
+    //extract data out of STDERR (php binary will pass any php errors to STDERR and STDOUT)
+    $errors = stream_get_contents($pipes[2]);
+    fclose($pipes[2]);
+
+    //same as the return_value from exec(), if it's 0, that means the command worked (note that STDERR is errors recorded from the program itself, whereas exit_code would be the command line giving you back an error)
+    $exit_code = proc_close($process);
+
+}
+
+if($exit_code == 0){
+    //command worked
+    if(empty($errors)){
+        //means the php binary did not spit out php errors
+        var_dump($output);
+    }else{
+        var_dump($errors);
+    }
+}else{
+    var_dump($exit_code);
+}
+</code>
+
+You can also pass in a file into STDIN pipe.
+
+<code php>
+$descriptor_spec = array(
+    0 => array('file', 'test.php', 'r'), //STDIN read mode from file (assuming that test.php exists at getcwd)
+    1 => array('pipe', 'w'), //STDOUT write mode
+    2 => array('pipe', 'w'), //STDERR write mode
+);
+
+$cmd = 'php';
+$cwd = getcwd(); //this directory needs to have a test.php
+
+$process = proc_open($cmd, $descriptor_spec, $pipes, $cwd);
+
+if(is_resource($process)){
+
+    //notice we don't touch $pipes[0] because it's being handled as a file, it's not a stream IO to this parent script
+
+    $output = stream_get_contents($pipes[1]);
+    fclose($pipes[1]);
+
+    $errors = stream_get_contents($pipes[2]);
+    fclose($pipes[2]);
+
+    $exit_code = proc_close($process);
+
+}
+</code>
+
+Using ''proc_open()'' style we can actually solve our previous problem of having the client hanging before a long operation completes and returns the output. We'll buffer the output as it comes instead of waiting for the command to finish. This can be useful for AJAX based output that needs to be synchronous but can return output little by little. The server would be holding the connection. The reason I didn't have to start output buffering through ''ob_start()'' is because PHP's ini settings may have left it on by default. You can check this by using [[http://www.php.net/manual/en/function.ob-get-level.php#109001|"ob_get_level()"]].
+
+<code php>
+//we don't need to specify STDIN, because we're just reading from this command
+$descriptor_spec = array(
+    1 => array('pipe', 'w'), //STDOUT write mode
+    2 => array('pipe', 'w'), //STDERR write mode
+);
+
+//works on windows
+$cmd = 'tracert -w 10 accettura.com';
+//$cmd_on_linux = 'traceroute -w 10 accettura.com';
+
+$process = proc_open($cmd, $descriptor_spec, $pipes);
+
+if(is_resource($process)){
+
+    //there are two ways to do this, but both uses output buffering (use one or the other, delete one of them)
+    
+    //first way
+    //test for the end of output and loop through this block whenever it hasn't reached the end
+    while(!feof($pipes[1])){
+        //get output line by line
+        $output = fgets($pipes[1]);
+        echo $output;
+        //flush the output buffer and destroy the buffer
+        //these basically passes the content to the client even though the script hasn't finished
+        ob_flush();
+        flush();
+    }
+    
+    //second way
+    //extract a line equivalent to 4096 bytes (4kb) - 1 byte (due to fgets), this 4095 bytes is a limit on string literals (each character takes a byte), and do this continuously
+    //until fgets can no longer get any more output and equates to false
+    while(($output = fgets($pipes[1], 4096)) !== false){
+        //flush the output buffer
+        echo $output;
+        ob_flush();
+        flush();
+    }
+
+    fclose($pipes[1]);
+
+    $errors = stream_get_contents($pipes[2]);
+    fclose($pipes[2]);
+
+    $exit_code = proc_close($process);
+
+}
+</code> 
+
+Remember to never execute user submitted code to the shell, they could pass ''rm-rf'' and your entire server would be wiped. You must always sanitise the user input if you must let them do so. See [[http://www.php.net/manual/en/function.escapeshellarg.php|"escapeshellarg()"]] and [[http://www.php.net/manual/en/function.escapeshellcmd.php|"escapeshellcmd()"]] for more information.
+
+Finally you may want to redirect your IO streams to different connections. The ''proc_open()'' function already allows quite granular control over your IO streams, but sometimes you need to do through the command itself. Look into these three resources to find out more:
+
+  * [[http://linuxcommand.org/lts0060.php|Leaning IO Redirection]]
+  * [[http://www.tutorialspoint.com/unix/unix-io-redirections.htm|Shell IO]]
+  * [[http://tldp.org/LDP/abs/html/io-redirection.html|IO Redirection Examples]]
+==== Asynchronous Processing ====
+
+Asynchronous processing is the method of running shell operations without waiting for any returned output. Doing this in a cross platform manner is quite finicky, and it is very difficult to test because you don't know if what you did actually worked. However the below code works between Windows and Unix systems. Make sure to read up on IO redirection to understand the commands below.
+
+<code php>
+//taking the command we've been using
+$cmd = 'tracert -w 10 accettura.com';
+
+if(stripos(php_uname(), 'windows') !=== false){
+    //popen and pclose are simpler versions to proc_open and proc_close
+    //the trick is to use "start /B" start the process in background mode
+    pclose(popen("start /B ". $cmd . ' > log.txt', "r")); //the > log.txt is optional, it's just so we can see if it can work, this is based on STDOUT redirection, this will be stored in the cwd of the php script, you can also use an absolute path if you wish
+    echo 'If you see me pop up immediately this means it worked asynchronously!';
+}else{
+    //on linux systems its far easier
+    //redirect STDOUT to /dev/null (to be discarded) or to a log file
+    //the & sign indicates that the process is in the background
+    //we're also redirecting STDERR into dev/null too
+    exec($cmd . " >/dev/null 2>/dev/null &");
+}
+</code>
+
+The above code is asynchronous launching of new processes, however it isn't the same as forking a child process. Forking a child process requires the use of [[http://www.php.net/manual/en/intro.pcntl.php|PNCTL functions]]. Those functions are not available to be used on Windows operating systems, and it can only be used in the [[http://www.shapeshifter.se/2008/08/04/asynchronous-background-execution-with-php/|context of command line scripts]] (need to be executed directly from the PHP binary). Therefore it is recommended that you use a job manager instead like Gearman discussed in the server side architecture. Gearman also helps with interprocess communication, whereas ''pnctl_fork()'' would require nasty hacks to get it working.
 ===== Parsing Operations =====
 
 Regular expressions (for extracting information)
@@ -904,13 +1113,6 @@ HTML filtering -> http://htmlpurifier.org/
 XML library and Xpath
 
 Also the area of study in language parsing and regex is huge. See Nikita's article: http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html
-===== Other Patterns =====
-
-Facade
-
-Decorator
-
-
 
 ===== Artificial Intelligence, Machine Learning and Statistics =====
 

@@ -598,20 +598,19 @@ By convention we suffix views files with _view. So any file names would like <co
 </p>
 
 <p>
-Example Codeigniter View:
+Example Codeigniter View with embedded <abbr title="Hypertext Preprocessor">PHP</abbr>:
 </p>
-<pre class="code html4strict"><span class="sc2">&lt;?php defined<span class="br0">&#40;</span><span class="st0">'BASEPATH'</span><span class="br0">&#41;</span> OR exit<span class="br0">&#40;</span><span class="st0">'No direct script access allowed'</span><span class="br0">&#41;</span>; ?&gt;</span>
-<span class="sc2">&lt;<a href="http://december.com/html/4/element/html.html"><span class="kw2">html</span></a>&gt;</span>
-    <span class="sc2">&lt;<a href="http://december.com/html/4/element/head.html"><span class="kw2">head</span></a>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/title.html"><span class="kw2">title</span></a>&gt;</span>Example Page!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/title.html"><span class="kw2">title</span></a>&gt;</span>
-    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/head.html"><span class="kw2">head</span></a>&gt;</span>
-    <span class="sc2">&lt;<a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>Hello!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
-    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>
-<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/html.html"><span class="kw2">html</span></a>&gt;</span></pre>
+<pre class="code php">&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Example Page!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;Hello! <span class="sy1">&lt;?</span> <span class="kw1">echo</span> <span class="st_h">'World!'</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</pre>
 
 </div>
-<!-- EDIT10 SECTION "View" [27371-28384] -->
+<!-- EDIT10 SECTION "View" [27371-28349] -->
 <h3 class="sectionedit11" id="controller">Controller</h3>
 <div class="level3">
 
@@ -663,7 +662,7 @@ There&#039;ll be many developers who argue that your form inputs should be valid
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Controller" [28385-31304] -->
+<!-- EDIT11 SECTION "Controller" [28350-31269] -->
 <h2 class="sectionedit12" id="templating">Templating</h2>
 <div class="level2">
 
@@ -716,8 +715,7 @@ Your views directory can start to look like this:
   |
   |----layouts
   |       |
-  |       |----main_layout.php
-  |       |----admin_layout.php
+  |       |----default_layout.php
   |       |----json_layout.php
   |
   |----partials
@@ -733,7 +731,7 @@ Your views directory can start to look like this:
           |----articles_view.php</pre>
 
 </div>
-<!-- EDIT12 SECTION "Templating" [31305-34574] -->
+<!-- EDIT12 SECTION "Templating" [31270-34508] -->
 <h3 class="sectionedit13" id="layouts">Layouts</h3>
 <div class="level3">
 
@@ -742,8 +740,7 @@ The CiTemplate static class provide a static <code>compose</code> method allowin
 </p>
 <dl class="file">
 <dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=11" title="Download Snippet" class="mediafile mf_php">default_layout.php</a></dt>
-<dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
-<span class="sy1">&lt;?</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'header'</span><span class="sy0">,</span> <span class="re0">$header</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
+<dd><pre class="code file php"><span class="sy1">&lt;?</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'header'</span><span class="sy0">,</span> <span class="re0">$header</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span>
 <span class="sy1">&lt;?=</span> <span class="re0">$yield</span> <span class="sy1">?&gt;</span>
 <span class="sy1">&lt;?</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'footer'</span><span class="sy0">,</span> <span class="re0">$footer</span><span class="br0">&#41;</span> <span class="sy1">?&gt;</span></pre>
 </dd></dl>
@@ -772,7 +769,7 @@ A cool thing you can do with this method is to specify a JSON layout like so:
 </p>
 <dl class="file">
 <dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=13" title="Download Snippet" class="mediafile mf_php">json_layout.php</a></dt>
-<dd><pre class="code file php"><span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
 &nbsp;
 <a href="http://www.php.net/header"><span class="kw3">header</span></a><span class="br0">&#40;</span><span class="st_h">'Content-type: application/json'</span><span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
@@ -790,7 +787,7 @@ To understand how the compose method works, look into the source code of <code>T
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Layouts" [34575-37069] -->
+<!-- EDIT13 SECTION "Layouts" [34509-36866] -->
 <h3 class="sectionedit14" id="partials">Partials</h3>
 <div class="level3">
 
@@ -881,7 +878,7 @@ By default they automatically echo their data as soon as they are called. Howeve
 <pre class="code php"><span class="re0">$partial_compiled</span> <span class="sy0">=</span> Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'row'</span><span class="sy0">,</span> <span class="re0">$data</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT14 SECTION "Partials" [37070-40087] -->
+<!-- EDIT14 SECTION "Partials" [36867-39884] -->
 <h2 class="sectionedit15" id="using_libraries">Using Libraries</h2>
 <div class="level2">
 
@@ -894,7 +891,7 @@ There are different ways of structuring library classes, most of the ways are de
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Using Libraries" [40088-41263] -->
+<!-- EDIT15 SECTION "Using Libraries" [39885-41060] -->
 <h3 class="sectionedit16" id="codeigniter_libraries">Codeigniter Libraries</h3>
 <div class="level3">
 
@@ -943,7 +940,7 @@ You would have spark packages located at project root, and with the augmented <c
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Codeigniter Libraries" [41264-45415] -->
+<!-- EDIT16 SECTION "Codeigniter Libraries" [41061-45212] -->
 <h3 class="sectionedit17" id="composer_libraries">Composer Libraries</h3>
 <div class="level3">
 
@@ -964,7 +961,7 @@ However there is a better way, and in fact this “Polycademy” way actually gi
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Composer Libraries" [45416-47629] -->
+<!-- EDIT17 SECTION "Composer Libraries" [45213-47426] -->
 <h3 class="sectionedit18" id="autoloading">Autoloading</h3>
 <div class="level3">
 
@@ -1007,7 +1004,7 @@ In order to autoload classes in directories, you&#039;ll have to use namespaces.
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Autoloading" [47630-49547] -->
+<!-- EDIT18 SECTION "Autoloading" [47427-49344] -->
 <h3 class="sectionedit19" id="namespaces">Namespaces</h3>
 <div class="level3">
 
@@ -1184,7 +1181,7 @@ The above code would correspond to this kind of directory structure:
                    |----Parser.php</pre>
 
 </div>
-<!-- EDIT19 SECTION "Namespaces" [49548-58302] -->
+<!-- EDIT19 SECTION "Namespaces" [49345-58099] -->
 <h3 class="sectionedit20" id="static_classes">Static Classes</h3>
 <div class="level3">
 
@@ -1247,7 +1244,7 @@ We would put any static classes into our libraries folder. You won&#039;t need m
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Static Classes" [58303-60629] -->
+<!-- EDIT20 SECTION "Static Classes" [58100-60426] -->
 <h2 class="sectionedit21" id="database">Database</h2>
 <div class="level2">
 
@@ -1290,7 +1287,7 @@ Before we start using the database, we should get acquainted with some of the ar
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Database" [60630-63159] -->
+<!-- EDIT21 SECTION "Database" [60427-62956] -->
 <h3 class="sectionedit22" id="sql_and_nosql">SQL and NoSQL</h3>
 <div class="level3">
 
@@ -1349,7 +1346,7 @@ So when choosing between using MongoDB or MySQL. If you the data you&#039;re try
 </p>
 
 </div>
-<!-- EDIT22 SECTION "SQL and NoSQL" [63160-67586] -->
+<!-- EDIT22 SECTION "SQL and NoSQL" [62957-67383] -->
 <h3 class="sectionedit23" id="database_planning">Database Planning</h3>
 <div class="level3">
 
@@ -1381,7 +1378,7 @@ You should also take care to choose the correct data type for each column. Use <
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Database Planning" [67587-69872] -->
+<!-- EDIT23 SECTION "Database Planning" [67384-69669] -->
 <h3 class="sectionedit24" id="active_records">Active Records</h3>
 <div class="level3">
 
@@ -1430,7 +1427,7 @@ Refer <a href="http://ellislab.com/codeigniter/user-guide/general/errors.html" c
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Active Records" [69873-72689] -->
+<!-- EDIT24 SECTION "Active Records" [69670-72486] -->
 <h3 class="sectionedit25" id="search">Search</h3>
 <div class="level3">
 
@@ -1507,7 +1504,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT25 SECTION "Search" [72690-78882] -->
+<!-- EDIT25 SECTION "Search" [72487-78679] -->
 <h3 class="sectionedit26" id="redis">Redis</h3>
 <div class="level3">
 
@@ -1538,7 +1535,7 @@ We can switch to using Redis for session data if you require that kind of perfor
 </ul>
 
 </div>
-<!-- EDIT26 SECTION "Redis" [78883-80317] -->
+<!-- EDIT26 SECTION "Redis" [78680-80114] -->
 <h3 class="sectionedit27" id="migrations">Migrations</h3>
 <div class="level3">
 
@@ -1643,7 +1640,7 @@ Make sure to refer to the <a href="http://ellislab.com/codeigniter/user-guide/da
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Migrations" [80318-86238] -->
+<!-- EDIT27 SECTION "Migrations" [80115-86035] -->
 <h2 class="sectionedit28" id="security">Security</h2>
 <div class="level2">
 
@@ -1652,7 +1649,7 @@ Security of web applications is important whenever you&#039;re handling user inp
 </p>
 
 </div>
-<!-- EDIT28 SECTION "Security" [86239-86739] -->
+<!-- EDIT28 SECTION "Security" [86036-86536] -->
 <h3 class="sectionedit29" id="input_validation">Input Validation</h3>
 <div class="level3">
 
@@ -1779,7 +1776,7 @@ The third problem is the newer RESTful <abbr title="Hyper Text Transfer Protocol
 </p>
 
 </div>
-<!-- EDIT29 SECTION "Input Validation" [86740-99645] -->
+<!-- EDIT29 SECTION "Input Validation" [86537-99442] -->
 <h3 class="sectionedit30" id="handling_passwords">Handling Passwords</h3>
 <div class="level3">
 
@@ -1800,7 +1797,7 @@ However there is a new native password hashing function that is on <abbr title="
 </p>
 
 </div>
-<!-- EDIT30 SECTION "Handling Passwords" [99646-102256] -->
+<!-- EDIT30 SECTION "Handling Passwords" [99443-102053] -->
 <h3 class="sectionedit31" id="ssl">SSL</h3>
 <div class="level3">
 
@@ -1829,7 +1826,7 @@ When you&#039;re developing on localhost, you won&#039;t need to implement <abbr
 </p>
 
 </div>
-<!-- EDIT31 SECTION "SSL" [102257-105260] -->
+<!-- EDIT31 SECTION "SSL" [102054-105057] -->
 <h3 class="sectionedit32" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
 <div class="level3">
 
@@ -1838,7 +1835,7 @@ In short don&#039;t bother. Leave it to the experts. Have a third party process 
 </p>
 
 </div>
-<!-- EDIT32 SECTION "Payments & Credit Cards" [105261-105631] -->
+<!-- EDIT32 SECTION "Payments & Credit Cards" [105058-105428] -->
 <h2 class="sectionedit33" id="sessions_authentication">Sessions &amp; Authentication</h2>
 <div class="level2">
 
@@ -1847,7 +1844,7 @@ For there to be users to your web application, you need user accounts. To have u
 </p>
 
 </div>
-<!-- EDIT33 SECTION "Sessions & Authentication" [105632-106486] -->
+<!-- EDIT33 SECTION "Sessions & Authentication" [105429-106283] -->
 <h3 class="sectionedit34" id="sessions">Sessions</h3>
 <div class="level3">
 
@@ -1868,7 +1865,7 @@ There&#039;s a caveat to all of the above information. In the RESTful standard, 
 </p>
 
 </div>
-<!-- EDIT34 SECTION "Sessions" [106487-108675] -->
+<!-- EDIT34 SECTION "Sessions" [106284-108472] -->
 <h3 class="sectionedit35" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
@@ -1900,7 +1897,7 @@ We won&#039;t actually be using Codeigniter&#039;s session database store sessio
 </p>
 
 </div>
-<!-- EDIT35 SECTION "Authentication System" [108676-110411] -->
+<!-- EDIT35 SECTION "Authentication System" [108473-110208] -->
 <h3 class="sectionedit36" id="access_control_list">Access Control List</h3>
 <div class="level3">
 
@@ -1939,7 +1936,7 @@ Refer to these resources to use Zend <abbr title="Access Control List">ACL</abbr
 </ul>
 
 </div>
-<!-- EDIT36 SECTION "Access Control List" [110412-112024] -->
+<!-- EDIT36 SECTION "Access Control List" [110209-111821] -->
 <h2 class="sectionedit37" id="htaccess">.htaccess</h2>
 <div class="level2">
 
@@ -1948,7 +1945,7 @@ The <a href="http://en.wikipedia.org/wiki/.htaccess" class="interwiki iw_wp" tit
 </p>
 
 </div>
-<!-- EDIT37 SECTION ".htaccess" [112025-113047] -->
+<!-- EDIT37 SECTION ".htaccess" [111822-112844] -->
 <h3 class="sectionedit38" id="url_rewriting">URL Rewriting</h3>
 <div class="level3">
 
@@ -2002,7 +1999,7 @@ To learn more about rewriting, check out this <a href="http://net.tutsplus.com/t
 </p>
 
 </div>
-<!-- EDIT38 SECTION "URL Rewriting" [113048-117701] -->
+<!-- EDIT38 SECTION "URL Rewriting" [112845-117498] -->
 <h3 class="sectionedit39" id="compression">Compression</h3>
 <div class="level3">
 
@@ -2069,7 +2066,7 @@ Notice that the content-encoding has a value of gzip. If we use H5BP&#039;s defl
 </p>
 
 </div>
-<!-- EDIT39 SECTION "Compression" [117702-121726] -->
+<!-- EDIT39 SECTION "Compression" [117499-121523] -->
 <h3 class="sectionedit40" id="controlling_browser_cache">Controlling Browser Cache</h3>
 <div class="level3">
 
@@ -2139,7 +2136,7 @@ This way instead of using query parameters, you can cache bust javascript, css, 
 </p>
 
 </div>
-<!-- EDIT40 SECTION "Controlling Browser Cache" [121727-125946] -->
+<!-- EDIT40 SECTION "Controlling Browser Cache" [121524-125743] -->
 <h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
@@ -2148,7 +2145,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT41 SECTION "Caching" [125947-126514] -->
+<!-- EDIT41 SECTION "Caching" [125744-126311] -->
 <h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
@@ -2157,7 +2154,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Opcode Caching" [126515-126909] -->
+<!-- EDIT42 SECTION "Opcode Caching" [126312-126706] -->
 <h3 class="sectionedit43" id="file_caching">File Caching</h3>
 <div class="level3">
 
@@ -2180,7 +2177,7 @@ Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-cac
 </p>
 
 </div>
-<!-- EDIT43 SECTION "File Caching" [126910-128366] -->
+<!-- EDIT43 SECTION "File Caching" [126707-128163] -->
 <h3 class="sectionedit44" id="memory_caching">Memory Caching</h3>
 <div class="level3">
 
@@ -2201,7 +2198,7 @@ Be wary of <a href="http://en.wikipedia.org/wiki/Race_condition#Software" class=
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Memory Caching" [128367-129963] -->
+<!-- EDIT44 SECTION "Memory Caching" [128164-129760] -->
 <h2 class="sectionedit45" id="restful_routing">RESTful Routing</h2>
 <div class="level2">
 
@@ -2231,7 +2228,7 @@ One question that was often asked by beginning developers is, how best to rout y
 </p>
 
 </div>
-<!-- EDIT45 SECTION "RESTful Routing" [129964-131982] -->
+<!-- EDIT45 SECTION "RESTful Routing" [129761-131779] -->
 <h3 class="sectionedit46" id="rest">REST</h3>
 <div class="level3">
 
@@ -2318,7 +2315,7 @@ Now you understand the RESTful standard. The first thing to implement RESTful st
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131983-143198] -->
+<!-- EDIT46 SECTION "REST" [131780-142995] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
@@ -2339,7 +2336,7 @@ Of course if the data doesn&#039;t change much, remember to cache the JSON outpu
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [143199-145683] -->
+<!-- EDIT47 SECTION "Handling Output" [142996-145480] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
@@ -2370,7 +2367,7 @@ You&#039;ll notice that almost all APIs requiring any kind of authentication wil
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [145684-148328] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [145481-148125] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
@@ -2429,7 +2426,7 @@ We have a number of libraries available to abstract all of these authentication 
 </ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [148329-154886] -->
+<!-- EDIT49 SECTION "Third Party Login" [148126-154683] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
@@ -2450,7 +2447,7 @@ Most of these implementations are outside the scope of this course, but a lot of
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [154887-157110] -->
+<!-- EDIT50 SECTION "Providing Web Services APIs" [154684-156907] -->
 <h3 class="sectionedit51" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
@@ -2499,7 +2496,7 @@ Regardless of the authentication scheme, if writing state management in javascri
 </p>
 
 </div>
-<!-- EDIT51 SECTION "RESTful Authentication & Stateless State" [157111-161873] -->
+<!-- EDIT51 SECTION "RESTful Authentication & Stateless State" [156908-161670] -->
 <h3 class="sectionedit52" id="restful_server">RESTful Server</h3>
 <div class="level3">
 
@@ -2522,7 +2519,7 @@ There are also frameworks designed to be used as an <abbr title="Application Pro
 </p>
 
 </div>
-<!-- EDIT52 SECTION "RESTful Server" [161874-162774] -->
+<!-- EDIT52 SECTION "RESTful Server" [161671-162571] -->
 <h3 class="sectionedit53" id="debugging_apis">Debugging APIs</h3>
 <div class="level3">
 
@@ -2531,24 +2528,38 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 </p>
 
 </div>
-<!-- EDIT53 SECTION "Debugging APIs" [162775-162945] -->
+<!-- EDIT53 SECTION "Debugging APIs" [162572-162742] -->
 <h2 class="sectionedit54" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
 <p>
-<abbr title="Hypertext Preprocessor">PHP</abbr> is not a multithreaded language. That means it wasn&#039;t designed to be easily multithreaded into separate processes and have concurrent or parallel processing. Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating <abbr title="Hypertext Preprocessor">PHP</abbr> in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
+Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating <abbr title="Hypertext Preprocessor">PHP</abbr> in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
 </p>
 
 <p>
-It&#039;s important to understand that while <abbr title="Hypertext Preprocessor">PHP</abbr> isn&#039;t multithreaded, it&#039;s also not a long running processes. So that means while long running processes may block execution and response to a single user, other users will not experience this blocking effect because Apache spawns a new <abbr title="Hypertext Preprocessor">PHP</abbr> process for each request response cycle. This is unlike Node, which only has one process for the entire application. 
+Before we go any further, let&#039;s examine what is concurrent processing. Concurrent processing refers to the techniques in making a CPU core multitask across processes. The key point to understand is that there are two kinds of “processes” in computing. There is the proper process that we call “process” and a light-weight process called a “thread”. Processes are independent tasks that occupy separate memory space. Threads are processes that share their memory space and are therefore contained within a process. Therefore a single process can have many threads. Single core CPUs implement multitasking by context switching between threads, and have a scheduler that switches between proper processes. This is done at phenomenal speeds, so we get the illusion of multitasking. Multiple core CPUs run multiple processes at the same time, but of course due to thread context switching, we can lots of programs at the same time. We can encode a video, watch Youtube, play music, use Firefox, download torrents, play a 3D game all at the same time. Our computer may slow down eventually, but it all seems to happen at the same time. The creation of extra processes is called “forking” or “multiprocess”, whereas the creation of new threads is simply “multithreading”. Here are extra resources that you read to understand this in more detail:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.geekride.com/fork-forking-vs-threading-thread-linux-kernel/" class="urlextern" title="http://www.geekride.com/fork-forking-vs-threading-thread-linux-kernel/"  rel="nofollow">Forking vs Threading</a>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/Computer multitasking" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Computer multitasking">Computer Multitasking</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/Concurrent computing" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Concurrent computing">Concurrent Computing</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://stackoverflow.com/a/14201579/582917" class="urlextern" title="http://stackoverflow.com/a/14201579/582917"  rel="nofollow">Multiprocess vs Multithreads in PHP</a></div>
+</li>
+</ul>
+
+<p>
+The default configuration of <abbr title="Hypertext Preprocessor">PHP</abbr> makes it difficult to do concurrent processing. There are two reasons, the short lived nature of <abbr title="Hypertext Preprocessor">PHP</abbr> under the Apache <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server and the lack of native multithreading. Firstly when the <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server such as Apache executes <abbr title="Hypertext Preprocessor">PHP</abbr> to handle a response, the <abbr title="Hypertext Preprocessor">PHP</abbr> does not run for long, Apache or the <abbr title="Hypertext Preprocessor">PHP</abbr> settings automatically spawns a new process and quickly shuts down the process after a bit of time. This matches the request response cycle of the web, but sometimes you need a long running process to handle large tasks or to act as a kind of “watchdog” that reacts to new tasks without having to be completely initiated each time a task is required to be completed. This can be overcome by using daemons. Secondly the lack of multithreading can be overcome by either implementing a multiprocess architecture instead, or using the new experimental <a href="http://pthreads.org/" class="urlextern" title="http://pthreads.org/"  rel="nofollow">Pthreads extension</a>. Multithreading is outside the scope of this course, but do check out the extension if you have special needs. We&#039;re going to examine multiprocess architecture and long running daemons.
 </p>
 
 <p>
-However that doesn&#039;t mean it&#039;s impossible to have concurrent processing. Native <abbr title="Hypertext Preprocessor">PHP</abbr> functions allow you to fork off a process so it becomes an independent process. While this does spread the workload, it&#039;s not very flexible since you can&#039;t get any messages or responses back from the forked working process. It&#039;s just a blackbox, you won&#039;t even know if it succeeded or not. A better way is using job managing queue and long running worker daemons (or short lived worker threads depending on what you need).
+Native <abbr title="Hypertext Preprocessor">PHP</abbr> functions allow you to fork off a process so it becomes an independent process. While this does spread the workload, it&#039;s not very flexible since you can&#039;t get any messages or responses back from the forked working process. It&#039;s just a blackbox, you won&#039;t even know if it succeeded or not. A better way is using job managing queue and long running worker daemons (or short lived worker processes depending on what you need).
 </p>
 
 <p>
-A job managing queue is simply a daemon (a persistent process) that receives messages to manage jobs and then creates jobs by spinning up a worker thread, or passing messages to idle worker threads to start work. It can then manage them by asking about their status and also passing back responses to the main thread.
+A job managing queue is simply a daemon (a persistent process) that receives messages to manage jobs and then creates jobs by spinning up a worker processes, or passing messages to idle workers to start work. It can then manage them by asking about their status and also passing back responses to the main parent process.
 </p>
 
 <p>
@@ -2572,7 +2583,7 @@ Refer to these blog tutorials for more information on implementation:
 </ul>
 
 <p>
-Please note, that due to your host environments, you may not able to use daemons or worker threads, such as ZMQ or Gearman. dotCloud is one cloud host offering worker threads. Remember to also use <a href="http://supervisord.org/" class="urlextern" title="http://supervisord.org/"  rel="nofollow">Supervisor</a> to keep your daemons persistent, it will restart them if they crash.
+Please note, that due to your host environments, you may not able to use daemons or worker processes, such as ZMQ or Gearman. dotCloud is one cloud host offering worker processes. Remember to also use <a href="http://supervisord.org/" class="urlextern" title="http://supervisord.org/"  rel="nofollow">Supervisor</a> to keep your daemons persistent, it will restart them if they crash.
 </p>
 
 <p>
@@ -2584,7 +2595,7 @@ An important concept to understand is that using long running daemons instead of
 </p>
 
 </div>
-<!-- EDIT54 SECTION "Concurrent Processing" [162946-166236] -->
+<!-- EDIT54 SECTION "Concurrent Processing" [162743-168151] -->
 <h3 class="sectionedit55" id="configuration_for_daemons">Configuration for Daemons</h3>
 <div class="level3">
 
@@ -2597,7 +2608,7 @@ In order to implement it in the second way, you&#039;ll need configure Apache to
 </p>
 
 <p>
-Here&#039;s an example of different <abbr title="Hypertext Preprocessor">PHP</abbr> settings set through the <code>.htaccess</code>.
+Here&#039;s an example of different <abbr title="Hypertext Preprocessor">PHP</abbr> settings set through the <code>.htaccess</code>. Remember this will only apply to applications launched by the Apache <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> server. If you want it to be a separate long running process, you&#039;ll need to use <code>ini_set()</code> for each individual process, but some of the ini settings wouldn&#039;t apply to a command line process.
 </p>
 <pre class="code">#changes the maximum file size that can be uploaded
 php_value upload_max_filesize 2M
@@ -2615,7 +2626,7 @@ You can also investigate more <a href="http://www.php.net/manual/en/info.configu
 </p>
 
 </div>
-<!-- EDIT55 SECTION "Configuration for Daemons" [166237-167845] -->
+<!-- EDIT55 SECTION "Configuration for Daemons" [168152-170029] -->
 <h2 class="sectionedit56" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
@@ -2640,4 +2651,4 @@ There will be no free web hosts that will support a Ratchet configuration, you&#
 </p>
 
 </div>
-<!-- EDIT56 SECTION "Sockets & RTC" [167846-] -->
+<!-- EDIT56 SECTION "Sockets & RTC" [170030-] -->
