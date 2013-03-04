@@ -1,0 +1,28 @@
+====== Lesson 21 - WAP ======
+
+**Expected Work**
+
+  - Done home page templating
+  - Preliminary work on database schema
+  - Preliminary work on the CRUD model for your database schema
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Producing the database schema
+  - Database data types
+  - Database search
+  - NoSQL and Redis
+  - Database Migrations
+  - Starting on security
+  - 35 days left!
+
+**Practice**
+
+  - Construct a database migration based on the planned schema, migrate in your production and development
+  - Constructing the relevant CRUD model based on the database schema

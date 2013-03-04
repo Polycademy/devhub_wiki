@@ -1104,32 +1104,82 @@ if(stripos(php_uname(), 'windows') !=== false){
 The above code is asynchronous launching of new processes, however it isn't the same as forking a child process. Forking a child process requires the use of [[http://www.php.net/manual/en/intro.pcntl.php|PNCTL functions]]. Those functions are not available to be used on Windows operating systems, and it can only be used in the [[http://www.shapeshifter.se/2008/08/04/asynchronous-background-execution-with-php/|context of command line scripts]] (need to be executed directly from the PHP binary). Therefore it is recommended that you use a job manager instead like Gearman discussed in the server side architecture. Gearman also helps with interprocess communication, whereas ''pnctl_fork()'' would require nasty hacks to get it working.
 ===== Parsing Operations =====
 
-Regular expressions (for extracting information)
+There are times when you need to parse information and extract useful data. The ways to parse information depends on how the information is constructed, often referred to as a "language". The [[wp>Chomsky hierarchy|Chomsky hierarchy]] defines four types languages. The most simplest is the "regular language", which is then contained in context-free languages, then context-sensitive languages and finally recursively enumerable languages.
 
-HTML Parsing -> Query Path (for extracting structure)
+{{ :web_application_development:500px-chomsky-hierarchy.svg.png?500 |}}
 
-HTML filtering -> http://htmlpurifier.org/
+The meaning of the four types of languages is still being studied by linguists and computer scientists. It is accepted that programming languages are context-free whereas natural languages are context-sensitive. This area of study is quite vast, and if you're interested you can study up on computational theory or languages or linguistics in your own time.
 
-XML library and Xpath
+For the purposes of web development, when we need to extract data from a simple piece of information then we use [[http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html|regular expressions]]. When the information we're parsing becomes complex such as HTML, then we need to use a full blown parser. When we get into the realm of [[http://cs.haifa.ac.il/~shuly/teaching/08/nlp/complexity.pdf|natural language processing]], then you'll need a PHD in artificial intelligence. So this section will focus on regular expressions and HTML/XML parsing.
 
-Also the area of study in language parsing and regex is huge. See Nikita's article: http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html
+==== Regular Expressions ====
+
+[[wp>Regular expression|Regular expressions]] are basically a special syntax for describing patterns that occur in text. You would be looking for these patterns and you may either wish to extract them out of the text, replace them with something else or manipulate those strings so they change their structure. Regular expressions we designed to match strings in "regular languages", basically simple textual information. If you need to understand the context of a string to understand how to use it, that's when regular expressions become less powerful, but still doable. This is why developers would recommend you to use a HTML parser to parse HTML, because people often need to be able to understand where they are in the HTML document via the nested tags, and that HTML documents can be poorly formed, whereas regular languages cannot be poorly formed.
+
+The invention of regular expressions come from complex formal language theory, but we don't have understand the theory to know how to use regular expressions.
+
+Both PHP and Javascript support regular expressions. In PHP you'll most likely be using it with the [[http://www.php.net/manual/en/ref.pcre.php|PCRE family of functions]] such as ''preg_match()''. [[https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Regular_Expressions|Javascript has a regular expression object]]. Note that PHP's regular expressions are different from javascript's regular expressions, they use different engines, howver there is overlap, but some syntax will be different.
+
+The best way to learn regular expressions is to figure out what you want to match first, then learn the necessary syntax, and test it out.
+
+These two resources explain how to use regular expressions:
+
+  * [[http://www.regular-expressions.info/tutorial.html|Regular-Expressions.info]] - most likely the most comprehensive of regular expression tutorials, it's has depth but it's also easy to understand.
+  * [[http://webcheatsheet.com/php/regular_expressions.php|A quick primer on regular expressions in PHP]] - slightly more practical.
+
+Eventually you'll want to test out these regular expressions. Instead of writing a PHP script to be executed, you can use these online tools to figure out if your regular expression works as expected.
+
+  * [[http://rubular.com/|Rubular]] - Regex tester for Ruby language, works very closely to PHP.
+  * [[http://regexpal.com/|Regexpal]] - Regex tester for Javascript language.
+
+Here's a tool to construct regular expressions for you if you're lazy:
+
+  * [[http://http://txt2re.com/|Txt2Re]] - Constructs regular expressions based on strings. Simply select the elements you want and it will construct an expression for you. You need to select the correct language and make to test it afterwards!
+
+Somethings are actually quite complex to match. Emails is the most common culprit. You can use this for emails instead of rolling your own:
+
+  * [[http://www.regular-expressions.info/email.html|Email Regex]] - It also contains many other examples such as valid dates.
+
+==== HTML Parsing ====
+
+HTML is a context-free language. HTML can also be poorly formed. This means we need an HTML parser that can not only powerfully detect nested tags, but also correct poorly formed HTML.
+
+PHP has native libraries for HTML/XML parsing. These are quite fast, but sometimes it doesn't have a fluent interface. You can use these two libraries which can provide a better interface:
+
+  * [[https://github.com/technosophos/querypath|Querypath]] - jQuery inspired HTML parsing, the documentation is [[http://api.querypath.org/docs/|here]].
+  * [[http://code.google.com/p/html5lib/|HTML5lib]] - PHP's current libxml extension hasn't caught up to HTML5's new structure and tags. It will parse it into a DOMDocument, which will need to be handled by the [[http://php.net/manual/en/class.domdocument.php|DOMDocument native object]], and [[http://php.net/manual/en/class.domxpath.php|DOMXPath object]].
+
+Check this [[http://stackoverflow.com/a/3577662/582917|Stackoverflow post for all the available options regarding HTML parsing]].
+
+If what you need is to filter HTML input such as from user submitted data. This would be useful for forums or when you need to provide people to submit content, you can use the [[http://htmlpurifier.org/|HTML Purifier library]]. It can filter out XSS attacks and also correct poorly formed HTML.
+
+Remember the above information is when you already have the HTML ready. If you need to access third party HTML for web scraping, then you need to use cURL or an HTTP client library.
+
+  * [[http://guzzlephp.org/|Guzzle]] - Restful HTTP Client.
+  * [[http://phphttpclient.com/|HTTPful]] - Simpler HTTP client.
+  * [[https://github.com/fabpot/Goutte|Goutte]] - Web scraper, it's actually a wrapper for a variety of Symfony libraries. So you need to read Symfony's documentation on those libraries to know how to use it.
+
+This tutorial on [[http://www.martinhurford.com/screen-scraping-with-php-querypath.html|Querypath scraping]] can give you a general idea of how to do web scraping.
 
 ===== Artificial Intelligence, Machine Learning and Statistics =====
 
 Artificial Intelligence is really composed of data mining (involving statistics), then machine learning (involving statistics). It's about making a computer think like a person, the ability to discover new data and process data and learn things from the data without human intervention. These can then be used in computer vision, natural language processing, decision trees, games... etc.
 
-Machine Learning:
+The implementation of artificial intelligence is outside the scope of this course, but you can learn about them with these resources:
 
-http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/
+  * [[https://github.com/gburtini/Learning-Library-for-PHP|Machine Learning Library with PHP]]
+  * [[http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning|Open Course on Machine Learning from Stanford]]
+  * [[wp>List of machine learning algorithms|List of Machine Learning Algorithms]]
+  * [[http://www.developer.com/lang/php/training-a-neural-network-in-php.html|Implementing Neural Networks in PHP]]
+  * [[http://www.tremani.nl/open-source/neural-network/?p=intro|Neural Network Library in PHP]]
+  * [[http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/|Machine Learning Tutorial in Javascript]]
 
-https://github.com/gburtini/Learning-Library-for-PHP
+===== Other Patterns =====
 
-http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning
+There are many other software design patterns, however Polycademy believes that you should write code that works and you'll start to see these patterns emerge.
 
-http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms
+However here's a number of good references for interesting patterns:
 
-Neural Networks - http://www.developer.com/lang/php/training-a-neural-network-in-php.html
-
-http://www.tremani.nl/open-source/neural-network/?p=docs
-
-Data Mining
+  * [[http://www.fluffycat.com/PHP-Design-Patterns/|PHP Design Patterns with Examples]]
+  * [[http://roblevintennis.github.com/the-learn-d-developer-design-patterns/|Demonstration of Design Patterns with TDD and multiple languages]]
+  * [[http://net.tutsplus.com/tutorials/php/the-whens-and-whys-for-php-design-patterns/|Overview of the reasons for various design patterns.]]

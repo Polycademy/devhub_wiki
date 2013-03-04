@@ -1,0 +1,30 @@
+====== Lesson 22 - WAP ======
+
+**Expected Work**
+
+  - Finished Database Schema
+  - Create the CRUD models that correspond to your database schema
+  - Link them up to your MVC triads
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Introduction to security
+  - Input Validation
+  - XSS and CSRF
+  - Escaping input
+  - AJAX and CSRF
+  - Handling Passwords
+  - SSL
+  - Sessions & Authentication system
+  - 34 days left!
+
+**Practice**
+
+  - Implement IonAuth authentication system
+  - Continue with your MVC triads and integrate authentication and sessions

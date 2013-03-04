@@ -863,3 +863,8 @@ sanitise
 tuxradar
 integers
 literals
+regexpal
+html5lib
+domxpath
+purifier
+believes

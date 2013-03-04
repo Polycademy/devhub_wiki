@@ -1476,28 +1476,124 @@ The above code is asynchronous launching of new processes, however it isn&#039;t
 <div class="level2">
 
 <p>
-Regular expressions (for extracting information)
+There are times when you need to parse information and extract useful data. The ways to parse information depends on how the information is constructed, often referred to as a “language”. The <a href="http://en.wikipedia.org/wiki/Chomsky hierarchy" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Chomsky hierarchy">Chomsky hierarchy</a> defines four types languages. The most simplest is the “regular language”, which is then contained in context-free languages, then context-sensitive languages and finally recursively enumerable languages.
 </p>
 
 <p>
-<abbr title="HyperText Markup Language">HTML</abbr> Parsing → Query Path (for extracting structure)
+<a href="/lib/exe/detail.php?id=web_application_development%3Aphp_-_design_patterns&amp;media=web_application_development:500px-chomsky-hierarchy.svg.png" class="media" title="web_application_development:500px-chomsky-hierarchy.svg.png"><img src="/lib/exe/fetch.php?w=500&amp;media=web_application_development:500px-chomsky-hierarchy.svg.png" class="mediacenter" alt="" width="500" /></a>
 </p>
 
 <p>
-<abbr title="HyperText Markup Language">HTML</abbr> filtering → <a href="http://htmlpurifier.org/" class="urlextern" title="http://htmlpurifier.org/"  rel="nofollow">http://htmlpurifier.org/</a>
+The meaning of the four types of languages is still being studied by linguists and computer scientists. It is accepted that programming languages are context-free whereas natural languages are context-sensitive. This area of study is quite vast, and if you&#039;re interested you can study up on computational theory or languages or linguistics in your own time.
 </p>
 
 <p>
-<abbr title="Extensible Markup Language">XML</abbr> library and Xpath
-</p>
-
-<p>
-Also the area of study in language parsing and regex is huge. See Nikita&#039;s article: <a href="http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html" class="urlextern" title="http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html"  rel="nofollow">http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html</a>
+For the purposes of web development, when we need to extract data from a simple piece of information then we use <a href="http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html" class="urlextern" title="http://nikic.github.com/2012/06/15/The-true-power-of-regular-expressions.html"  rel="nofollow">regular expressions</a>. When the information we&#039;re parsing becomes complex such as <abbr title="HyperText Markup Language">HTML</abbr>, then we need to use a full blown parser. When we get into the realm of <a href="http://cs.haifa.ac.il/~shuly/teaching/08/nlp/complexity.pdf" class="urlextern" title="http://cs.haifa.ac.il/~shuly/teaching/08/nlp/complexity.pdf"  rel="nofollow">natural language processing</a>, then you&#039;ll need a PHD in artificial intelligence. So this section will focus on regular expressions and <abbr title="HyperText Markup Language">HTML</abbr>/<abbr title="Extensible Markup Language">XML</abbr> parsing.
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Parsing Operations" [83825-84191] -->
-<h2 class="sectionedit25" id="artificial_intelligence_machine_learning_and_statistics">Artificial Intelligence, Machine Learning and Statistics</h2>
+<!-- EDIT24 SECTION "Parsing Operations" [83825-85298] -->
+<h3 class="sectionedit25" id="regular_expressions">Regular Expressions</h3>
+<div class="level3">
+
+<p>
+<a href="http://en.wikipedia.org/wiki/Regular expression" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Regular expression">Regular expressions</a> are basically a special syntax for describing patterns that occur in text. You would be looking for these patterns and you may either wish to extract them out of the text, replace them with something else or manipulate those strings so they change their structure. Regular expressions we designed to match strings in “regular languages”, basically simple textual information. If you need to understand the context of a string to understand how to use it, that&#039;s when regular expressions become less powerful, but still doable. This is why developers would recommend you to use a <abbr title="HyperText Markup Language">HTML</abbr> parser to parse <abbr title="HyperText Markup Language">HTML</abbr>, because people often need to be able to understand where they are in the <abbr title="HyperText Markup Language">HTML</abbr> document via the nested tags, and that <abbr title="HyperText Markup Language">HTML</abbr> documents can be poorly formed, whereas regular languages cannot be poorly formed.
+</p>
+
+<p>
+The invention of regular expressions come from complex formal language theory, but we don&#039;t have understand the theory to know how to use regular expressions.
+</p>
+
+<p>
+Both <abbr title="Hypertext Preprocessor">PHP</abbr> and Javascript support regular expressions. In <abbr title="Hypertext Preprocessor">PHP</abbr> you&#039;ll most likely be using it with the <a href="http://www.php.net/manual/en/ref.pcre.php" class="urlextern" title="http://www.php.net/manual/en/ref.pcre.php"  rel="nofollow">PCRE family of functions</a> such as <code>preg_match()</code>. <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Regular_Expressions" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Regular_Expressions"  rel="nofollow">Javascript has a regular expression object</a>. Note that <abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s regular expressions are different from javascript&#039;s regular expressions, they use different engines, howver there is overlap, but some syntax will be different.
+</p>
+
+<p>
+The best way to learn regular expressions is to figure out what you want to match first, then learn the necessary syntax, and test it out.
+</p>
+
+<p>
+These two resources explain how to use regular expressions:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.regular-expressions.info/tutorial.html" class="urlextern" title="http://www.regular-expressions.info/tutorial.html"  rel="nofollow">Regular-Expressions.info</a> - most likely the most comprehensive of regular expression tutorials, it&#039;s has depth but it&#039;s also easy to understand.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://webcheatsheet.com/php/regular_expressions.php" class="urlextern" title="http://webcheatsheet.com/php/regular_expressions.php"  rel="nofollow">A quick primer on regular expressions in PHP</a> - slightly more practical.</div>
+</li>
+</ul>
+
+<p>
+Eventually you&#039;ll want to test out these regular expressions. Instead of writing a <abbr title="Hypertext Preprocessor">PHP</abbr> script to be executed, you can use these online tools to figure out if your regular expression works as expected.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://rubular.com/" class="urlextern" title="http://rubular.com/"  rel="nofollow">Rubular</a> - Regex tester for Ruby language, works very closely to <abbr title="Hypertext Preprocessor">PHP</abbr>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://regexpal.com/" class="urlextern" title="http://regexpal.com/"  rel="nofollow">Regexpal</a> - Regex tester for Javascript language.</div>
+</li>
+</ul>
+
+<p>
+Here&#039;s a tool to construct regular expressions for you if you&#039;re lazy:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://http://txt2re.com/" class="urlextern" title="http://http://txt2re.com/"  rel="nofollow">Txt2Re</a> - Constructs regular expressions based on strings. Simply select the elements you want and it will construct an expression for you. You need to select the correct language and make to test it afterwards!</div>
+</li>
+</ul>
+
+<p>
+Somethings are actually quite complex to match. Emails is the most common culprit. You can use this for emails instead of rolling your own:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.regular-expressions.info/email.html" class="urlextern" title="http://www.regular-expressions.info/email.html"  rel="nofollow">Email Regex</a> - It also contains many other examples such as valid dates.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT25 SECTION "Regular Expressions" [85299-88350] -->
+<h3 class="sectionedit26" id="html_parsing">HTML Parsing</h3>
+<div class="level3">
+
+<p>
+<abbr title="HyperText Markup Language">HTML</abbr> is a context-free language. <abbr title="HyperText Markup Language">HTML</abbr> can also be poorly formed. This means we need an <abbr title="HyperText Markup Language">HTML</abbr> parser that can not only powerfully detect nested tags, but also correct poorly formed <abbr title="HyperText Markup Language">HTML</abbr>.
+</p>
+
+<p>
+<abbr title="Hypertext Preprocessor">PHP</abbr> has native libraries for <abbr title="HyperText Markup Language">HTML</abbr>/<abbr title="Extensible Markup Language">XML</abbr> parsing. These are quite fast, but sometimes it doesn&#039;t have a fluent interface. You can use these two libraries which can provide a better interface:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/technosophos/querypath" class="urlextern" title="https://github.com/technosophos/querypath"  rel="nofollow">Querypath</a> - jQuery inspired <abbr title="HyperText Markup Language">HTML</abbr> parsing, the documentation is <a href="http://api.querypath.org/docs/" class="urlextern" title="http://api.querypath.org/docs/"  rel="nofollow">here</a>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://code.google.com/p/html5lib/" class="urlextern" title="http://code.google.com/p/html5lib/"  rel="nofollow">HTML5lib</a> - <abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s current libxml extension hasn&#039;t caught up to HTML5&#039;s new structure and tags. It will parse it into a DOMDocument, which will need to be handled by the <a href="http://php.net/manual/en/class.domdocument.php" class="urlextern" title="http://php.net/manual/en/class.domdocument.php"  rel="nofollow">DOMDocument native object</a>, and <a href="http://php.net/manual/en/class.domxpath.php" class="urlextern" title="http://php.net/manual/en/class.domxpath.php"  rel="nofollow">DOMXPath object</a>.</div>
+</li>
+</ul>
+
+<p>
+Check this <a href="http://stackoverflow.com/a/3577662/582917" class="urlextern" title="http://stackoverflow.com/a/3577662/582917"  rel="nofollow">Stackoverflow post for all the available options regarding HTML parsing</a>.
+</p>
+
+<p>
+If what you need is to filter <abbr title="HyperText Markup Language">HTML</abbr> input such as from user submitted data. This would be useful for forums or when you need to provide people to submit content, you can use the <a href="http://htmlpurifier.org/" class="urlextern" title="http://htmlpurifier.org/"  rel="nofollow">HTML Purifier library</a>. It can filter out XSS attacks and also correct poorly formed <abbr title="HyperText Markup Language">HTML</abbr>.
+</p>
+
+<p>
+Remember the above information is when you already have the <abbr title="HyperText Markup Language">HTML</abbr> ready. If you need to access third party <abbr title="HyperText Markup Language">HTML</abbr> for web scraping, then you need to use cURL or an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> client library.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://guzzlephp.org/" class="urlextern" title="http://guzzlephp.org/"  rel="nofollow">Guzzle</a> - Restful <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> Client.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://phphttpclient.com/" class="urlextern" title="http://phphttpclient.com/"  rel="nofollow">HTTPful</a> - Simpler <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> client.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/fabpot/Goutte" class="urlextern" title="https://github.com/fabpot/Goutte"  rel="nofollow">Goutte</a> - Web scraper, it&#039;s actually a wrapper for a variety of Symfony libraries. So you need to read Symfony&#039;s documentation on those libraries to know how to use it.</div>
+</li>
+</ul>
+
+<p>
+This tutorial on <a href="http://www.martinhurford.com/screen-scraping-with-php-querypath.html" class="urlextern" title="http://www.martinhurford.com/screen-scraping-with-php-querypath.html"  rel="nofollow">Querypath scraping</a> can give you a general idea of how to do web scraping.
+</p>
+
+</div>
+<!-- EDIT26 SECTION "HTML Parsing" [88351-90374] -->
+<h2 class="sectionedit27" id="artificial_intelligence_machine_learning_and_statistics">Artificial Intelligence, Machine Learning and Statistics</h2>
 <div class="level2">
 
 <p>
@@ -1505,36 +1601,43 @@ Artificial Intelligence is really composed of data mining (involving statistics)
 </p>
 
 <p>
-Machine Learning:
+The implementation of artificial intelligence is outside the scope of this course, but you can learn about them with these resources:
 </p>
-
-<p>
-<a href="http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/" class="urlextern" title="http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/"  rel="nofollow">http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/</a>
-</p>
-
-<p>
-<a href="https://github.com/gburtini/Learning-Library-for-PHP" class="urlextern" title="https://github.com/gburtini/Learning-Library-for-PHP"  rel="nofollow">https://github.com/gburtini/Learning-Library-for-PHP</a>
-</p>
-
-<p>
-<a href="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning" class="urlextern" title="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning"  rel="nofollow">http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning</a>
-</p>
-
-<p>
-<a href="http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms" class="urlextern" title="http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms"  rel="nofollow">http://en.wikipedia.org/wiki/List_of_machine_learning_algorithms</a>
-</p>
-
-<p>
-Neural Networks - <a href="http://www.developer.com/lang/php/training-a-neural-network-in-php.html" class="urlextern" title="http://www.developer.com/lang/php/training-a-neural-network-in-php.html"  rel="nofollow">http://www.developer.com/lang/php/training-a-neural-network-in-php.html</a>
-</p>
-
-<p>
-<a href="http://www.tremani.nl/open-source/neural-network/?p=docs" class="urlextern" title="http://www.tremani.nl/open-source/neural-network/?p=docs"  rel="nofollow">http://www.tremani.nl/open-source/neural-network/?p=docs</a>
-</p>
-
-<p>
-Data Mining
-</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/gburtini/Learning-Library-for-PHP" class="urlextern" title="https://github.com/gburtini/Learning-Library-for-PHP"  rel="nofollow">Machine Learning Library with PHP</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning" class="urlextern" title="http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=MachineLearning"  rel="nofollow">Open Course on Machine Learning from Stanford</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://en.wikipedia.org/wiki/List of machine learning algorithms" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/List of machine learning algorithms">List of Machine Learning Algorithms</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.developer.com/lang/php/training-a-neural-network-in-php.html" class="urlextern" title="http://www.developer.com/lang/php/training-a-neural-network-in-php.html"  rel="nofollow">Implementing Neural Networks in PHP</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://www.tremani.nl/open-source/neural-network/?p=intro" class="urlextern" title="http://www.tremani.nl/open-source/neural-network/?p=intro"  rel="nofollow">Neural Network Library in PHP</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/" class="urlextern" title="http://burakkanber.com/blog/machine-learning-in-other-languages-introduction/"  rel="nofollow">Machine Learning Tutorial in Javascript</a></div>
+</li>
+</ul>
 
 </div>
-<!-- EDIT25 SECTION "Artificial Intelligence, Machine Learning and Statistics" [84192-] -->
+<!-- EDIT27 SECTION "Artificial Intelligence, Machine Learning and Statistics" [90375-91623] -->
+<h2 class="sectionedit28" id="other_patterns">Other Patterns</h2>
+<div class="level2">
+
+<p>
+There are many other software design patterns, however Polycademy believes that you should write code that works and you&#039;ll start to see these patterns emerge.
+</p>
+
+<p>
+However here&#039;s a number of good references for interesting patterns:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://www.fluffycat.com/PHP-Design-Patterns/" class="urlextern" title="http://www.fluffycat.com/PHP-Design-Patterns/"  rel="nofollow">PHP Design Patterns with Examples</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://roblevintennis.github.com/the-learn-d-developer-design-patterns/" class="urlextern" title="http://roblevintennis.github.com/the-learn-d-developer-design-patterns/"  rel="nofollow">Demonstration of Design Patterns with TDD and multiple languages</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://net.tutsplus.com/tutorials/php/the-whens-and-whys-for-php-design-patterns/" class="urlextern" title="http://net.tutsplus.com/tutorials/php/the-whens-and-whys-for-php-design-patterns/"  rel="nofollow">Overview of the reasons for various design patterns.</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT28 SECTION "Other Patterns" [91624-] -->
