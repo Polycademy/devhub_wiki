@@ -21,10 +21,8 @@
   - AJAX and CSRF
   - Handling Passwords
   - SSL
-  - Sessions & Authentication system
   - 34 days left!
 
 **Practice**
 
-  - Implement IonAuth authentication system
-  - Continue with your MVC triads and integrate authentication and sessions
+  - Continue with your MVC triads and integrate input validation

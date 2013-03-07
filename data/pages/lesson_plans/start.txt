@@ -58,3 +58,4 @@ Here is the list of lesson plans:
   * [[https://www.filepicker.io/api/file/4K5ju4TSACKGlgGa2bRf|CSS3 Cheat Sheet]]
   * [[https://www.filepicker.io/api/file/FGaE8dEhQSiVJJKs8c1Y|PHP Cheat Sheet]]
   * [[https://www.filepicker.io/api/file/iwGItRTlTg2D0aGYLHL4|Node Cheat Sheet]]
+  * [[https://www.filepicker.io/api/file/Zqi5kuNXTKm3fksudbCA|Regex Cheat Sheet]]

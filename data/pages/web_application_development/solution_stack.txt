@@ -73,6 +73,8 @@ You can also create [[wp>PATH (variable)|PATH variables]] in Cloud9. You can che
 
 {{ youtube>6eVeAa77D7U?large }}
 
+The terminal is a very powerful tool, so if you want to understand it more you should check out this [[http://net.tutsplus.com/tutorials/tools-and-tips/the-command-line-is-your-best-friend/|shell tutorial on Nettuts]].
+
 === Cloud Deployment ===
 
 Cloud9 is integrated into Heroku which is a cloud hosting service. However it doesn't play well with PHP based applications. So instead Polycademy recommends using [[https://www.appfog.com/|Appfog]]. The section on the [[Solution Stack#production_stack|Production Stack]] will explain how to setup Appfog. For now we'll use the command line to install Appfog's command line utility. We will be using this to push our application to Appfog's server when we have it setup.
@@ -361,7 +363,15 @@ Video editing is best done with 4 tools. They are [[http://www.videolan.org/|VLC
 
 Front end debugging has been enhanced with the arrival of firebug and related developer tools. However for PHP, backend debugging used to be a matter of either using ''var_dump'' or logging to file in order to see what your code was doing at the time of execution. This was especially difficult when working with AJAX, and the code you were executing was not loading onto a new page, but behind the scenes. Both of these methods aren't very seamless, ''var_dump'' may break your layout and break any cache buffering. Logging to a file was a hassle, and sometimes you couldn't have a writable directory.
 
-However there are some solutions to this. The first that I recommend is using the [[http://www.firephp.org/|FirePHP extension]] to the Firebug extension. This is an addon to firebug that allows you to log any data from PHP straight to the browser, no matter whether it was AJAX or a full page load. Just go ahead and install FirePHP into your Firefox browser which has Firebug. You also need their server side library. The developer who made it is currently upgrading it to FirePHP 1.0. However we'll be using their "FirePHPCore Server Library" version. When you download it, you'll find two files with the extension as ''.php''. We'll be using the one if ''class.php'' inside it. You'll need to rename to ''FirePHP.php'' and copy that library to your libraries folder. Then you can load it normally or using autoloading. The main method you'll be using is ''$firephp->log()''. Refer to their [[http://www.firephp.org/HQ/Use.htm|official documentation on usage]]. You can also choose to use [[https://github.com/Seldaek/monolog|Monolog]] which has a FirePHP handler among many other logging features as your server side library.
+However there are some solutions to this. The first that I recommend is using the [[http://www.firephp.org/|FirePHP extension]] to the Firebug extension. This is an addon to firebug that allows you to log any data from PHP straight to the browser, no matter whether it was AJAX or a full page load. Just go ahead and install FirePHP into your Firefox browser which has Firebug. You also need their server side library. The developer who made it is currently upgrading it to FirePHP 1.0. However we'll be using their [[https://github.com/firephp/firephp-core|"FirePHPCore Server Library" version.]] You can install it through Composer.
+
+<code>
+"firephp/firephp-core": "dev-master"
+</code>
+
+This will be automatically autoloaded using Composer's PSR-0 autoloader. You'll mainly use ''FB::log('Message', 'Label);''. Refer to their [[http://www.firephp.org/HQ/Use.htm|official documentation on usage]].
+
+Another option is to use [[https://github.com/Seldaek/monolog|Monolog]] which has a FirePHP handler among many other logging features as your server side library.
 
 For Chrome users you have the [[http://code.google.com/p/php-console/|PHP-Console]].
 

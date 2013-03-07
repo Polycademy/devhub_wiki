@@ -1,0 +1,25 @@
+====== Lesson 24 - WAP ======
+
+**Expected Work**
+
+  - Continue working on your MVC triads
+  - Incorporate IonAuth and ACL as part of your authentication system, and extend if with groups relevant to your web application
+  - Change all your controllers into "resources" and each method represents an HTTP method to manipulate that resource. So use the Pigeon library.
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Revisit REST
+  - Implement RESTful routing and making IonAuth RESTful
+  - 32 days left!
+
+**Practice**
+
+  - Incorporate RESTful routing for all your controllers
+  - Controllers are resources now, they are not pages or categories of pages
+  - Incorporate IonAuth into your resources too

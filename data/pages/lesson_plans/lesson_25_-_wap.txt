@@ -1,0 +1,29 @@
+====== Lesson 25 - WAP ======
+
+**Expected Work**
+
+  - Continue working on your MVC triads
+  - When producing a new resource, go from the routing to establish the RESTful routes in a "declarative" manner, then go to implement it as a controllers
+  - Test if someone is logged in or in a particular group throughout your controllers
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Content negotiation and handling output in REST
+  - REST client frameworks
+  - Third party login - Oauth 2.0 + Hybridauth
+  - Providing RESTful APIs
+  - Using FirePHP to log code operations
+  - Using conditionals inside your templates
+  - 31 days left!
+
+**Practice**
+
+  - Incorporate REST server API and content negotiation
+  - Attempt third party login or API usage
+  - Keep refactoring your code as you write it

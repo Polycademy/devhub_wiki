@@ -796,6 +796,7 @@ Implementing event driven programs is out of the scope of the course, however th
   * [[http://christophh.net/2012/07/24/php-socket-programming/|Using PHP's Socket Library]]
   * [[https://github.com/igorw/evenement|Evenement library]] - For the event emitter pattern which applies to the observer pattern.
   * [[http://blog.jmoz.co.uk/websockets-ratchet-react-redis|Web Sockets, Ratchet, React and Redis integration]] - See this for inspiration of what you can do by bringing everything together.
+  * [[http://www.photon-project.com/|Photon PHP Framework]] - This is a true event driven framework for PHP, it sits behind the Mongrel 2 server though!
 ===== Filesystem Input/Output =====
 
 Input/Output (IO) in programming refers to the communication between an internal system and external system. The entire internet itself is an input/output system. Each computer program and script also performs input and output. So the term is pretty generic. This section however refers specifically to manipulating the filesystem IO. The filesystem in our case refers to the abstraction of data storage and management on the harddisk. The low level mechanics of these constructs are performed by the operating system and data storage device. As web developers we simply have to understand their API and perform IO on it.
@@ -1102,6 +1103,10 @@ if(stripos(php_uname(), 'windows') !=== false){
 </code>
 
 The above code is asynchronous launching of new processes, however it isn't the same as forking a child process. Forking a child process requires the use of [[http://www.php.net/manual/en/intro.pcntl.php|PNCTL functions]]. Those functions are not available to be used on Windows operating systems, and it can only be used in the [[http://www.shapeshifter.se/2008/08/04/asynchronous-background-execution-with-php/|context of command line scripts]] (need to be executed directly from the PHP binary). Therefore it is recommended that you use a job manager instead like Gearman discussed in the server side architecture. Gearman also helps with interprocess communication, whereas ''pnctl_fork()'' would require nasty hacks to get it working.
+
+==== Creating CLI Programs ====
+
+Codeigniter offers the ability to your [[http://ellislab.com/codeigniter/user-guide/general/cli.html|controllers through the command line]]. However there is more to building CLI applications than just routing the request. I suggest you to use the [[https://github.com/nategood/commando|PHP CLI framework Commando]]. You can learn how to write CLI programs via examples. Phil Sturgeon previously created a library to help CLI programming in Codeigniter, so you can read its [[https://github.com/philsturgeon/codeigniter-cli/blob/master/libraries/Cli.php|source code]].
 ===== Parsing Operations =====
 
 There are times when you need to parse information and extract useful data. The ways to parse information depends on how the information is constructed, often referred to as a "language". The [[wp>Chomsky hierarchy|Chomsky hierarchy]] defines four types languages. The most simplest is the "regular language", which is then contained in context-free languages, then context-sensitive languages and finally recursively enumerable languages.
@@ -1183,3 +1188,20 @@ However here's a number of good references for interesting patterns:
   * [[http://www.fluffycat.com/PHP-Design-Patterns/|PHP Design Patterns with Examples]]
   * [[http://roblevintennis.github.com/the-learn-d-developer-design-patterns/|Demonstration of Design Patterns with TDD and multiple languages]]
   * [[http://net.tutsplus.com/tutorials/php/the-whens-and-whys-for-php-design-patterns/|Overview of the reasons for various design patterns.]]
+
+===== Algorithmic Complexity =====
+
+Algorithmic complexity refers to the management and analysis of how complex a particular algorithm is. You can use this knowledge to optimise the complexity of your algorithms or construct new algorithms. Here are some resources to get you started:
+
+  * [[http://discrete.gr/complexity/|Gentle Introduction to Algorithmic Complexity]]
+  * [[wp>Analysis of algorithms|Analysis of Algorithms]]
+  * [[wp>List of algorithms|List of Algorithms]]
+  * [[wp>Big O notation|Big O notation]]
+
+{{ youtube>zeo6Wh7FR5Y?large }}
+
+{{ youtube>jziw2Wc7tVQ?large }}
+
+{{ youtube>P00xJgWzz2c&list=SP89B61F78B552C1AB?large }}
+
+{{ youtube>IcDS7EjXxpU&list=PL52CFDE9DACB21419?large }}

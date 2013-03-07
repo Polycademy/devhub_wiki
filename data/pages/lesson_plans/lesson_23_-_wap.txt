@@ -1,0 +1,30 @@
+====== Lesson 23 - WAP ======
+
+**Expected Work**
+
+  - Continue working on your MVC triads
+  - Use ''base_url()'' and ''site_url()'' from the Url Helper instead of hardcoding the urls
+  - Incorporate input validation as part of your controllers
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Sessions & Authentication system (stateful authentication)
+  - Using IonAuth library for Authentication, sessions and ACL
+  - Using flashdata in the session library
+  - Revisit .htaccess remove the index.php
+  - Compression
+  - Caching
+  - 33 days left!
+
+**Practice**
+
+  - Implement IonAuth authentication system
+  - Apply migrations system for the IonAuth database
+  - Use .htaccess
+  - Compress and cache your system

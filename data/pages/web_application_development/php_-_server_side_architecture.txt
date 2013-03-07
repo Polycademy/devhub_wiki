@@ -1306,6 +1306,10 @@ When you're developing on localhost, you won't need to implement SSL until you'r
 
 In short don't bother. Leave it to the experts. Have a third party process transactions for you and they will handle any SSL related issues. If you are adamant about implementing this yourself be prepared to shell out a lot of cash and resources, because it's not just about technology, but PCI compliance, legal issues and auditing.
 
+Rather than implementing the merchant processor's own API package you can use the Omnipay package that supports multiple payment gateways:
+
+  * [[https://github.com/adrianmacneil/omnipay|Omnipay]]
+
 
 ===== Sessions & Authentication =====
 
@@ -1371,6 +1375,8 @@ The [[wp>.htaccess|.htaccess]] file is a directory level configuration file used
 ==== URL Rewriting ====
 
 [[http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html|URL rewriting]] means modifying a website's URL so that it looks different. Why would you want to do this? Well one implement is when you're using the front controller method in an MVC web application, then all requests are routed first to the ''index.php'' as the front controller. Any subsequent parameters would be passed in as URL segments to point to any controller and method. This would result into a URL similar to "http://example.com/index.php/controller/method". Having the index.php inside the URL is superfluous, we might as well not have it and have the server expect it by default. We can use URL rewriting to remove the index.php from the URL and preserve the URL's functionality.
+
+Note you need to activate the ''mod_rewrite'' extension to Apache to run this.
 
 <code>
 #this section is already provided by H5BP, but we modified to suit Codeigniter, different frameworks will require different options
