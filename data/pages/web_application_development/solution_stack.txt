@@ -149,6 +149,14 @@ When we open up a PHP script, we have to prefix it with ''<?php'' and sometimes 
 
 It is quite useful when injecting variables straight into templates. In some AMP stacks, the short open tag has not been activated. You'll need to check if it was activated. Go into your PHP settings, which should be in the WAMP icon and activate the short open tag option.
 
+**Other AMP Settings**
+
+You can also activate settings from going into the WAMP icon and navigating to either Apache modules, PHP settings and PHP extensions. Certain libraries and code will be using some of those extensions and modules, so you'll need to activate them.
+
+Common Apache modules include ''rewrite_module''.
+
+Common PHP extensions include ''php_curl''.
+
 === LAMP ===
 
 There are many different Linux distros, so here are links to official documentation regarding the installation of LAMP.
@@ -342,6 +350,12 @@ Here are some productivity apps that Polycademy recommends. These are useful for
   * [[http://http://www.teamviewer.com/|Teamviewer]] - remote desktop and presentations
   * [[http://evernote.com/|Evernote]] - keep track of your ideas
   * [[http://s3browser.com/|S3 Browser]] - graphically browse Amazon S3 storage
+
+==== NodeJS ====
+
+NodeJS is a server side javascript virtual machine. It basically allows javascript to ran from the server. Although this course is not currently teaching NodeJS or server side javascript development, we may need to use NodeJS for client side development as some tools are executed from Node and installed from NPM, (Node's package manager).
+
+You can download and install [[http://nodejs.org/|NodeJS from their official website]].
 ===== Media Stack =====
 
 As a web designer we need a couple multimedia tools to create graphics, video and audio. Web design isn't fine art, most of times we're creating simple gradients. It's the composition of different elements that is important. That being said, professional designers user professional software.
@@ -402,6 +416,23 @@ To test for all browsers you'll need to download all the latest browsers from th
 
 If you are using Mac or Linux, try [[http://browsershots.org/|Browsershots]] or [[https://browserlab.adobe.com/en-us/index.html|Adobe Browser Lab]] or [[https://browserling.com/|Browserling]] 
 
+==== Web Service Testing ====
+
+Eventually you'll need to setup testing for your HTTP routes. Web services often use a variety of HTTP methods and respond accordingly. Using a browser alone is not enough, as by default it always sends a GET request on page load. An option would be to construct javascript code to run requests to your server, but this is tedious and error prone.
+
+Thankfully, there are several options to construct HTTP requests and test web services:
+
+  * For Firefox users, you can install the [[https://addons.mozilla.org/en-us/firefox/addon/restclient/|RESTClient extension]].
+  * For Chrome users, you can install the [[https://chrome.google.com/webstore/detail/xhr-poster/akdbimilobjkfhgamdhneckaifceicen?hl=en|XHR-Poster addon]].
+
+In order to uses these add ons, you need to make sure you understand the importance of [[wp>List of HTTP header fields|HTTP headers]]. You need to add in the needed HTTP headers to successfully run a POST, PUT or DELETE request. To simulate a POST form submission look into these two resources:
+
+  * [[wp>POST (HTTP)|POST HTTP]]
+  * [[wp>Percent-encoding#The application/x-www-form-urlencoded type|Encoding of application/x-www-form-urlencoded]].
+
+The key point is put the ''Content-Type'' header to match ''application/x-www-form-urlencoded'', then in your request body payload, you can form encoded data. If were JSON, then you need ''application/json''.
+
+You can find common HTTP headers by looking at your Firebug and checking out all the HTTP headers that are sent with each request and response.
 ==== Unit Testing ====
 
 === TDD & BDD ===

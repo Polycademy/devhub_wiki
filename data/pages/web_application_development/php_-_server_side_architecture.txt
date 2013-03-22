@@ -1230,7 +1230,7 @@ The first validation is a matter of authentication, that is checking if the clie
 
 === Constraints ===
 
-In the above mentioned second validation, it is a matter of applying constraints onto inputted data. Codeigniter provides us with a [[http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html|validation library]] to simplify the process of constraining form inputs. Remember to setup your validation constraints in an [[http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html#savingtoconfig|external validation config file]] so your controllers can be thinner. You can do this by creating a custom validation config file that is autoloaded, then pass it using ''$this->form_validation->set_rules''.
+In the above mentioned second validation, it is a matter of applying constraints onto inputted data. You should use the [[https://github.com/Polycademy/PHP-Validation|PHP-Validation library]] to validate data coming into your models. Data validation should happen in the model, as that's the final point of entry.
 
 Here's a list of example constraints you may apply on data input:
 
@@ -1240,9 +1240,6 @@ Here's a list of example constraints you may apply on data input:
   * Match - Did the password entry and password confirmation match?
   * Integrity - Was the email passed in a valid email structure?
   * Allowed - Did the input pass in restricted characters? Such as numbers when you only wanted the alphabet.
-  * XSS - Does the input have any scripts inside of it.
-
-The form validation library will allow you to define your own custom callback functions if you need special validation constraints. Codeigniter's form validation library currently works only for forms, and so it is hard coupled to the controller. If you're a MVC purist, you may prefer an ORM or a [[https://github.com/Respect/Validation|data validation library]] which can be used in the model instead.
 
 === XSS & CSRF ===
 
@@ -1309,6 +1306,7 @@ In short don't bother. Leave it to the experts. Have a third party process trans
 Rather than implementing the merchant processor's own API package you can use the Omnipay package that supports multiple payment gateways:
 
   * [[https://github.com/adrianmacneil/omnipay|Omnipay]]
+  * [[https://pin.net.au/|Payment Gateway designed for Developers]]
 
 
 ===== Sessions & Authentication =====
@@ -1689,6 +1687,28 @@ The first thing to note is that you should create your APIs from the REST standa
 
 Most of these implementations are outside the scope of this course, but a lot of that theory has already been covered in previous sections. This section will just focus on provisioning an authorisation scheme and handling RESTful responses. Jamie Rumbelow's book [[https://efendibooks.com/books/codeigniter-handbook/vol-2|CodeIgniter Handbook - Vol. 2 API Design]] is also a good reference if you want to get stuck into this.
 
+==== AJAX JSON Message Protocol ====
+
+When we've established an API for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There's no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages.
+
+<code javascript>
+
+//the content can be whatever we want, simply put in what makes sense, and what the client would need
+//the code can be:
+//success => standard success for any particular request
+//error => standard error, no system failure, expect that content would be a message string, pretty much all of the 400 errors, also includes any errors to update or delete (if those didn't work), these errors are harmless
+//validation_error => validation errors for POST or PUT, expect that content would be an object of validation error messages
+//system_error => real important error, like couldn't communicate to the database, basically any 500 error
+//redirect => force a redirect on the client side, this is necessary for single page apps, since the client side handles the routing
+
+{
+    "content": {}, //this can be an object, array or string
+    "code": "", //this could be "success"/"error"/"validation_error"/"system_error"/"redirect",
+    "redirect": "url/to/redirect/to" //this allows the server to redirect the single page app client
+}
+</code>
+
+Also note that if you are implementing web sockets, they require a more strict message protocol such as STOMP or WAMP.
 ==== RESTful Authentication & Stateless State ====
 
 The first thing to do is to go buy an SSL certificate from a valid CA. All Oauth2 connections must be through HTTPS because we are transmitting sensitive data. SSL connections are designed to authenticate the connection to the server, but also identifies the server as trustworthy. In order to RESTfully authenticate the client, we must first understand an important constrant of REST, and that is REST applications are stateless. That is, the server should be not be managing the application state of the user. This means cookies with corresponding database records are not an option. Application state should be handled by the client, not the server. The server only manages resource states. The difference being that application state are variables that are only relevant to one particular client, and hence are volatile and quickly destroyed when the user leaves. Resource states are sharable and persistent and used by all clients.
@@ -1729,7 +1749,7 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 
 ===== Concurrent Processing =====
 
-Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating PHP in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
+Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating PHP in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services. Note that this isn't the same as "periodic tasks" which is often carried out by [[wp>Cron|Cron]].
 
 Before we go any further, let's examine what is concurrent processing. Concurrent processing refers to the techniques in making a CPU core multitask across processes. The key point to understand is that there are two kinds of "processes" in computing. There is the proper process that we call "process" and a light-weight process called a "thread". Processes are independent tasks that occupy separate memory space. Threads are processes that share their memory space and are therefore contained within a process. Therefore a single process can have many threads. Single core CPUs implement multitasking by context switching between threads, and have a scheduler that switches between proper processes. This is done at phenomenal speeds, so we get the illusion of multitasking. Multiple core CPUs run multiple processes at the same time, but of course due to thread context switching, we can lots of programs at the same time. We can encode a video, watch Youtube, play music, use Firefox, download torrents, play a 3D game all at the same time. Our computer may slow down eventually, but it all seems to happen at the same time. The creation of extra processes is called "forking" or "multiprocess", whereas the creation of new threads is simply "multithreading". Here are extra resources that you read to understand this in more detail:
 
@@ -1782,6 +1802,19 @@ php_value post_max_size 2M
 </code>
 
 You can also investigate more [[http://www.php.net/manual/en/info.configuration.php|configuration settings in the PHP documentation]].
+
+==== Hosting Solutions ====
+
+Not all web hosts will offer concurrent processing features, mainly because running a daemon takes up CPU and resources that cannot be shared across multiple accounts. Here are your options whenever you need to run a daemon or worker processes.
+
+**Free**
+
+  * Use [[https://www.dotcloud.com/|dotCloud]], they offer [[http://docs.dotcloud.com/guides/daemons/|background daemons]] and an job queue alternative to Gearman called [[https://github.com/chrisboulton/php-resque|PHP-Resque]]. They even have a [[http://docs.dotcloud.com/tutorials/php/resque/|guide for setting up PHP-Resque]] on themselves. You can learn more about PHP-Resque [[http://www.kamisama.me/2011/11/07/php-rescue-with-phpredis/|here]]. However do note that their workers cannot communicate TCP or UDP ports (for now) meaning they cannot support Websockets over this configuration.
+  * Use [[http://www.iron.io/|Iron.io]], they offer a cloud hosted [[http://www.iron.io/worker|worker service]] and [[http://www.iron.io/mq|message queue]]. You can host your workers on their worker service and use their framework to communicate, or you can use their message queue to scale your messaging. This way you can entirely outsource your concurrent processing and job queuing tasks to Iron.io. It may even be possible to run worker daemons that listen on UDP and TCP ports, but this has not been confirmed.
+
+**Paid**
+
+  * Buy a [[http://www.linode.com/|Linode]] virtual private server. You'll have access to the whole server and you can run anything you want.
 ===== Sockets & RTC =====
 
 You've heard of the real time web right? The rise of single page applications? Well these rely on web sockets and occasionally RTC. Before you go ahead with this, you need to understand network programming, the underlying protocols that the internet is built upon. [[http://gafferongames.com/networking-for-game-programmers/|Glenn Fiedler has provided an excellent series of blogs articles talking about network programming geared towards game developers]]. Read that before you proceed.

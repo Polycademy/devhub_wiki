@@ -1,0 +1,34 @@
+====== Lesson 32 - WAP ======
+
+**Expected Work**
+
+  - Implement your custom technology stack
+  - Continue working to convert your server side application into an API to be used with an single page application
+    - Route all resources to /api/resource, route everything else to Home. Use ''$this->resources''.
+    - All controllers need Index, Show, Create, Update, Delete that corresponds to the route's Get Post Put and Delete
+    - All controllers composer JSON not HTML
+    - All models need CRUD and possibly "read_all" method.
+    - Change form validation library to Polycademy/Validation
+    - Input is acquired from ''$this->input->json''
+    - All messages need to go through an output and input message mapper in the inflector helper to convert snake_case to camelCase and vice versa.
+    - Implement CSRF by using the modified MY_Security library that does a CSRF verify on all requests except GET and on the HTTP header instead of the POST payload. Also make sure that the cookie name gets passed into javascript.
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - The history of the internet, through the HTTP request and HTTP response model
+  - The history of the browser.
+  - The progression from Web 1.0 to Web 2.0 to RESTful Single Page Applications
+  - Prepare to start on javascript in 2 days!
+  - 24 days left!
+
+**Practice**
+
+  - Finish your API
+  - Integrated custom technology
+  - Prepare to change authentication strategy too

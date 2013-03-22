@@ -1,0 +1,27 @@
+====== Lesson 28 - WAP ======
+
+**Expected Work**
+
+  - Get your models finished, make sure each has a CRUD functionality
+  - Work through your feature list from an API perspective
+  - Continue researching on any custom technology stack
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Finish functional programming
+  - Exception Error Handling
+  - Event driven programming
+  - File Input/Output
+  - Advanced file manipulation
+  - Shell operations
+  - 28 days left!
+
+**Practice**
+
+  - Continue constructing your server API

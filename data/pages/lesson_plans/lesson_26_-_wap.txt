@@ -1,0 +1,28 @@
+====== Lesson 26 - WAP ======
+
+**Expected Work**
+
+  - Continue working on your MVC triads
+  - Finished CRUD models for each one of your tables
+  - Go through your feature list and implement each through an API perspective, don't worry about the presentation, just the data
+  - Incorporated third party login, if necessary
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Concurrent processing
+  - Sockets and RTC - WAMP + Ratchet
+  - SOLID OOP Pattern
+  - 30 days left!
+
+**Practice**
+
+  - Keep refactoring your code as you write it
+  - Be strict and disciplined with your RESTful routing
+  - Think hard about what is a resource and what are the child resources and how you can interact with them
+  - Try to make your application dynamic with full database integration so that you begin polishing

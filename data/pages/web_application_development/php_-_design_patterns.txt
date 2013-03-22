@@ -1077,7 +1077,7 @@ Remember to never execute user submitted code to the shell, they could pass ''rm
 
 Finally you may want to redirect your IO streams to different connections. The ''proc_open()'' function already allows quite granular control over your IO streams, but sometimes you need to do through the command itself. Look into these three resources to find out more:
 
-  * [[http://linuxcommand.org/lts0060.php|Leaning IO Redirection]]
+  * [[http://linuxcommand.org/lts0060.php|Learning IO Redirection]]
   * [[http://www.tutorialspoint.com/unix/unix-io-redirections.htm|Shell IO]]
   * [[http://tldp.org/LDP/abs/html/io-redirection.html|IO Redirection Examples]]
 ==== Asynchronous Processing ====
@@ -1139,7 +1139,7 @@ Eventually you'll want to test out these regular expressions. Instead of writing
 
 Here's a tool to construct regular expressions for you if you're lazy:
 
-  * [[http://http://txt2re.com/|Txt2Re]] - Constructs regular expressions based on strings. Simply select the elements you want and it will construct an expression for you. You need to select the correct language and make to test it afterwards!
+  * [[http://txt2re.com/|Txt2Re]] - Constructs regular expressions based on strings. Simply select the elements you want and it will construct an expression for you. You need to select the correct language and make to test it afterwards!
 
 Somethings are actually quite complex to match. Emails is the most common culprit. You can use this for emails instead of rolling your own:
 

@@ -1,0 +1,25 @@
+====== Lesson 33 - WAP ======
+
+**Expected Work**
+
+  - Implement your custom technology stack
+  - Continue working to convert your server side application into an API to be used with an single page application
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - RESTful debugging, in order to construct requests to test. Using RESTClient for Firefox.
+  - Messaging protocol for your AJAX API, in order to establish a convention for how the SPA will deal with messages from the server.
+  - Prepare to start on javascript tomorrow!
+  - 23 days left!
+
+**Practice**
+
+  - Finish your API
+  - Integrated custom technology
+  - Prepare to change authentication strategy too

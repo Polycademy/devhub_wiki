@@ -38,7 +38,7 @@ Build Tools (minification, concatenation)
 
 Phing
 
-Grunt
+Grunt - http://gruntjs.com/sample-gruntfile & http://net.tutsplus.com/tutorials/javascript-ajax/meeting-grunt-the-build-tool-for-javascript/
 
 Uglifyjs
 

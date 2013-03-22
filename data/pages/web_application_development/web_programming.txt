@@ -39,22 +39,16 @@ Codeigniter
   * [[http://ellislab.com/codeigniter/user-guide/|Codeigniter User Guide]]
   * [[https://github.com/EllisLab/CodeIgniter/|Github Repository]] - You should get Codeigniter by cloning straight from the Github develop branch instead of the normal download. This contains the latest features.
 
-jQuery (for DOM and AJAX) & Require.js (for dependencies) & Duster or doT (for view templating)
+jQuery (for DOM and AJAX)
 
   * [[http://api.jquery.com/|jQuery API Documentation]]
   * [[http://jqfundamentals.com/|jQuery Fundamentals]]
-  * [[http://requirejs.org/|Require JS]]
-  * [[http://linkedin.github.com/dustjs/|Dust JS from LinkedIn]] and [[https://github.com/dmix/dusterjs|DusterJS for Compiling Dust Templates]]
-  * [[http://olado.github.com/doT/|doT.js]]
-
-Require JS can create a modularised dependency architecture separating your javascript code into jQuery Models, templates using Duster/doT/Underscore for Views and a separate folder for libraries. There won't be Controllers in this setup, instead one single main script will control the binding of data between the models and view.
 
 Javascript MVC Frameworks for Single Page Applications (SPAs)
 
-  * [[http://javascriptmvc.com/docs.html|Javascript MVC]]
   * [[http://docs.angularjs.org/guide/|Angular JS]]
 
-A note regarding javascript. Depending on the complexity of your web application, you may either choose to use standalone jQuery with Require.js as the script/plugin loader, or if you're going for the Single Page Application style, you'll need to use javascript MVC frameworks like Javascript MVC or Angular JS. Doing SPAs are quite a bit more complex, they require you structure your application server as an API end point, and you need to apply authentication strategies fit for SPA use such as Oauth server plus client. For the purposes of simplicity we'll focus on standalone jQuery with Require.js, you can investigate Single Page Applications in your own time, and the future there may be a javascript heavy course focusing on SPAs.
+A note regarding javascript. Doing SPAs require you structure your application server as an API end point, and you need to apply authentication strategies fit for SPA use such as Oauth server plus client.
 
 There are other frameworks that have deep specialisations, these are more libraries than frameworks. They are not for general development, but can be used if your web app demands them. For example three.js for WebGL, HTML5 Canvas Game Engines/Frameworks for javascript canvas games, and D3.js/Raphael.js for data visualisation.
 ===== Understanding the Application Stack =====

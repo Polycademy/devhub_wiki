@@ -1,0 +1,13 @@
+<span class="co1">//the content can be whatever we want, simply put in what makes sense, and what the client would need</span>
+<span class="co1">//the code can be:</span>
+<span class="co1">//success =&gt; standard success for any particular request</span>
+<span class="co1">//error =&gt; standard error, no system failure, expect that content would be a message string, pretty much all of the 400 errors, also includes any errors to update or delete (if those didn't work), these errors are harmless</span>
+<span class="co1">//validation_error =&gt; validation errors for POST or PUT, expect that content would be an object of validation error messages</span>
+<span class="co1">//system_error =&gt; real important error, like couldn't communicate to the database, basically any 500 error</span>
+<span class="co1">//redirect =&gt; force a redirect on the client side, this is necessary for single page apps, since the client side handles the routing</span>
+&nbsp;
+<span class="br0">&#123;</span>
+    <span class="st0">&quot;content&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//this can be an object, array or string</span>
+    <span class="st0">&quot;code&quot;</span><span class="sy0">:</span> <span class="st0">&quot;&quot;</span><span class="sy0">,</span> <span class="co1">//this could be &quot;success&quot;/&quot;error&quot;/&quot;validation_error&quot;/&quot;system_error&quot;/&quot;redirect&quot;,</span>
+    <span class="st0">&quot;redirect&quot;</span><span class="sy0">:</span> <span class="st0">&quot;url/to/redirect/to&quot;</span> <span class="co1">//this allows the server to redirect the single page app client</span>
+<span class="br0">&#125;</span>

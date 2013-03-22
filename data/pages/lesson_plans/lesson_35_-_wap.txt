@@ -1,0 +1,26 @@
+====== Lesson 35 - WAP ======
+
+**Expected Work**
+
+  - Reading through MDN
+  - Played Javascript track on Codecademy
+  - Played with object creation
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Finish object creation and prototype pattern
+  - Introduction to jQuery
+  - Play with DOM manipulation in jQuery
+  - 21 days left!
+
+**Practice**
+
+  - Keep reading MDN
+  - Start reading on jQuery fundamentals
+  - Starting watching videos on AngularJS

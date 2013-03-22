@@ -1,63 +1,193 @@
 ====== Javascript - Client Side Architecture ======
 
-==== Client Side ====
+[[wp>JavaScript|Javascript]] is an interpreted programming language. It was designed to be executed on client side web browsers in order to provide dynamic functionality, alter the user interface dynamically, and provide asynchronous communication to the server. However the language has grown in popularity is now available across many platforms including server side development using [[http://nodejs.org/|Node.js]], mobile development using [[http://phonegap.com/|Phonegap]] and other HTML5 technologies, and desktop development using [[https://github.com/appjs/appjs|AppJS]] and [[http://www.appcelerator.com/platform/titanium-sdk/|Titanium SDK]]. Therefore one can see that javascript is probably the only truly ubiquitous programming language, and it is definitely the language of the web.
 
-=== OOP and Functional ===
+Javascript is a multi-paradigm language, that contains all of the features of a dynamically interpreted language such as weak typing. It can be written in an object oriented manner, imperative or in a functional manner. It's object inheritance is [[wp>Prototype-based programming|prototype based]], which means there's no such thing as a class. The syntax was inspired by C just like PHP, however the [[http://javascript.crockford.com/javascript.html|language is much more functional]].
 
-=== HTML5 APIs ===
+In traditional non-threaded environment, [[http://stackoverflow.com/a/748189/582917|code is executed synchronously]]. In a multi-threaded environment, code can be executed in parallel. Javascript is mainly operated inside a browser which offers a single thread of execution, therefore javascript is not multi-threaded ([[http://www.html5rocks.com/en/tutorials/workers/basics/|except for Web Workers]]). This presents a bit of a problem for GUI programming, which is what javascript is mainly used for in browsers. Any complex or long running process in javascript will freeze the GUI making it non responsive. For javascript to be dynamic and good at rendering GUIs, it needs to be asynchronous. But multi-threading is a complex programming paradigm and it is a bit of an overkill for simple GUI applications. Therefore browsers offered event driven asynchronous APIs such as XHR for AJAX requests, and the javascript language itself can be event driven. This means that certain code blocks such as functions are bound to a particular event or signal, so the structure of the written code does not map directly to the flow of execution. The browser also offers an event handler that is running an event loop, this allows javascript to hook into the event loop through asynchronous callbacks. This basically means that the [[http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading|flow of execution can move on to another function or statement without waiting for the previous function to complete]].
+
+===== Javascript Implementations =====
+
+Javascript on the client side actually consists of three parts. The ECMAScript, Document Object Model (DOM) and the Browser Object Model (BOM).
+
+[[wp>ECMAScript|ECMAScript]] is the foundation of the javascript language, but it is independent from the browser environment. Think of it as the agreed upon constitution of how javascript interpreters should work. ECMAScript was created in order to provide interoperability between different browsers, or else every browser would have their own versions of client side scripting languages! At its core it specifies these aspects of javascript:
+
+  * Syntax
+  * Types
+  * Statements
+  * Keywords
+  * Reserved words
+  * Operators
+  * Objects
+
+ECMAScript is released in editions. Most modern browsers support ECMAScript 5th edition. However work is currently being done on the [[http://espadrine.github.com/New-In-A-Spec/es6/|6th edition named Harmony]] which may be released in a year or two.
+
+[{{ :web_application_development:dom-demo.jpg?200|Demostration of DOM}}]
+
+The DOM refers to the W3C specification on an API that allows javascript to manipulate HTML. It was necessary to standardise the DOM across browsers or else the different browsers would have different ways of representing their HTML programmatically. Unfortunately even with the DOM, browsers behave differently, and hence is why we have the jQuery library that abstracts the granular details. Essentially the HTML structure is converted into a hierarchical graph of nodes. These graphs look like upside down trees. You can inspect the [[https://getfirebug.com/dom|DOM in Firebug]] using the DOM panel, or in the HTML side panel, which will give the DOM properties of any HTML node/tag you are inspecting.
+
+The DOM includes everything that would be required to represent the HTML, so if all you was the DOM, it could easily be converted back into the HTML. That means the name, content, attributes and even styles of HTML tags are all computed and encoded and accessible from the DOM API. The DOM specifications have gone through 3 levels. Most modern browsers support DOM level 2. This DOM specification added:
+
+  * DOM Views — Describes interfaces to keep track of the various views of a document (the document before and after CSS styling, for example)
+  * DOM Events — Describes interfaces for events and event handling
+  * DOM Style — Describes interfaces to deal with CSS-based styling of elements
+  * DOM Traversal and Range — Describes interfaces to traverse and manipulate a document tree
+
+The BOM refers to the APIs that the browser vendors expose to developers. Basically anytime you're manipulating or accessing a property of the browser itself would mean you're using the BOM. This could refer to:
+
+  * The window object, allowing the capability to pop up new browser windows, and to move, resize, and close browser windows.
+  * The navigator object, which provides detailed information about the browser
+  * The location object, which gives detailed information about the page loaded in the browser
+  * The screen object, which gives detailed information about the user’s screen resolution
+  * Support for cookies
+  * Custom objects such as XMLHttpRequest and Internet Explorer’s ActiveXObject
+  * And a number of other HTML5 APIs such as local storage
+
+There is no standard for BOM, so each browser may try to out compete other vendors by offering features others don't have.
+
+===== OOP in Javascript =====
+
+In classical OOP languages, software is architected through a structure of classes that have properties and methods. Each class is instantiated and then calls upon classes its dependent on and uses them. Javascript however does have any concept of classes, instead it has prototypes.
+
+Prototype-based programming is a style of object-oriented programming in which classes are not present, and behavior reuse (known as inheritance in class-based languages) is accomplished through a process of decorating existing objects which serve as prototypes. This model is also known as class-less, prototype-oriented, or instance-based programming.
+
+Javascript defines an object as an unordered collection of properties each of which contains a primitive value, object or function. It is the equivalent of an associative array in PHP (javascript actually does not have an associative array concept). Each property is identified by their key. This means objects in javascript is far more flexible than objects in PHP. They can be enumerated and iterated, and have setters and getters at run time. Objects can be used as simple data structures, or as structures that contain methods and functions like PHP's objects. Due to this flexibility, almost everything in javascript is an object, and the creation and manipulation of objects can take many forms.
+
+You refer to these resources on OOP in javascript before continuing:
+
+  * [[http://killdream.github.com/blog/2011/10/understanding-javascript-oop/|Understanding Javascript OOP]]
+  * [[https://developer.mozilla.org/en-US/docs/JavaScript/Introduction_to_Object-Oriented_JavaScript|Introduction to Object Oriented Javascript]]
+  * [[http://net.tutsplus.com/tutorials/javascript-ajax/the-basics-of-object-oriented-javascript/|The Basics of Object Oriented Javascript]]
+  * [[http://stackoverflow.com/questions/9108925/how-is-almost-everything-in-javascript-an-object|Everything in Javascript is an Object]]
+
+==== Object Creation ====
+
+http://www.phpied.com/3-ways-to-define-a-javascript-class/
+
+==== Prototype Inheritance ====
+
+http://en.wikipedia.org/wiki/Prototype-based
+
+==== Understanding "this" ====
+
+http://unschooled.org/2012/03/understanding-javascript-this/
+===== MVC in Javascript =====
+
+Talk about AngularJS also the concept of templating
+
+Installing Node.js
+
+Will need understanding of below concepts before investigating
+
+  * Egghead.io - http://egghead.io/
+  * Simpulton Blog - http://onehungrymind.com/category/angularjs/
+  * Year of Moo - http://www.yearofmoo.com/tags/AngularJS.html
+  * How does Data Binding work in AngularJS - http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933
+  * AngularJS step by step building a simple App tutorial - http://docs.angularjs.org/tutorial
+  * AngularJS Guide - http://docs.angularjs.org/guide/
+
+Video tutorials:
+
+{{ youtube>tKe25THBoF4&list=PLwwh-11EOGvME7nAKOD6zq9I4wAZtsp-a?large }}
+==== Modules ====
+
+AngularJS modules
+
+https://gist.github.com/Mithrandir0x/3639232
+==== Routing ====
+
+AngularJS routing
+
+==== Scoping ====
+
+http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope
+
+http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined
+
+http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh
+
+http://jimhoskins.com/2012/12/17/angularjs-and-apply.html
+
+https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance
+
+http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/
+==== Controllers ====
+
+ANGULARJS page controllers vs partial controllers
+
+==== Directives ====
+
+Isolate scope and stuff
+
+http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs
+
+http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs
+
+http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/
+
+https://groups.google.com/forum/#!msg/angular/AjGgp8parNY/sU8Mi0vioScJ
+
+http://onehungrymind.com/angularjs-directives-basics/
+
+http://onehungrymind.com/angularjs-and-dom-manipulation/
+==== Templating ====
+
+Client side templates vs Serverside templates
+
+Loading from server, or loading from client
+
+==== Services ====
+
+AngularJS services
+
+===== BOM & DOM =====
+
+Using jQuery for DOM manipulation or jQLite
+
+But also talk about BOM
+
+Cookies.. etc
+
+Location object...
+
+===== Events & Asynchronous =====
+
+Asyncrhonous callbacks
+
+Using promises
+
+http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished
+
+http://jsfiddle.net/VxafF/
+===== AJAX =====
+
+Using AngularJS resources and HTTP get
+
+Also HTTP  Interceptors
+
+Long polling, short polling
+
+AJAX authentication and validation
+===== HTML5 APIs =====
 
 Browser level (for other stuff)
 
-DOM level (for jQuery)
+Web Workers
 
-=== Observer Pattern ===
+===== Dependency Management & Script Loaders =====
 
-Event Driven Programming
+Dependency Injection in AngularJS, and structuring in terms of modules.
 
-=== AJAX ===
+AMD
 
-AJAX, Server Push, Long Poll, Sockets, RTC, Pusher API
+Require.js or HeadJS
 
-=== Templating ===
+===== Real Time Web =====
 
-Dust.js or doT.js or otherwise
+Web Sockets using AutobahnJS and WAMP
 
-Precompilation or lazy loading
+Operational Transformation using ShareJS
 
-=== Dependency Management ===
+===== Canvas =====
 
-AMD vs CommonJS
-
-Require.js
-
-=== Web Workers ===
-
-=== MVC Single Page Applications ===
-
-Model being AJAX
-
-View Model Bindings
-
-Controller and Routing
-
-=== File Uploading ===
-
-OH FILE UPLOADING, two options use:
-
-http://blueimp.github.com/jQuery-File-Upload/ (bootstrap integration)
-
-OR
-
-http://www.plupload.com/ (very full featured but not integrated in bootstrap by default, lots of fallbacks for older browsers)
-
-OR 
-
-http://fineuploader.com/ (bootstrap integration)
-
-They both require server side implementations!
-
-Or if it's just front end, then just use File Picker (requires no server side implementation)
-
-About Coffeescript
-
-Operational Transformation
+2D graphics and EaselJS

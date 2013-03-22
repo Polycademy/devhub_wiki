@@ -1,0 +1,26 @@
+====== Lesson 27 - WAP ======
+
+**Expected Work**
+
+  - Continue working on your MVC triads
+  - Try to make sure your CRUD models have consistent naming, follow the polymorphic principle
+  - Work through your feature list from an API perspective
+  - Begin researching on any custom technology stack
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Method manipulation
+  - Dependency injection
+  - Inversion of Control Container
+  - Begin functional programming
+  - 29 days left!
+
+**Practice**
+
+  - Apply your knowledge from functional programming, SOLID, and IOC

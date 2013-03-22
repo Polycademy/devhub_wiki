@@ -1,0 +1,26 @@
+====== Lesson 34 - WAP ======
+
+**Expected Work**
+
+  - Finished most of the API. In case of any left over work, continue that in your free time.
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Introduction to Javascript language, history, host environment, event driven and asynchronous
+  - Javascript OOP
+  - Object creation
+  - Constructor Pattern
+  - Introduction to prototype pattern
+  - 22 days left!
+
+**Practice**
+
+  - Play with Javascript on Codecademy
+  - Read the Mozilla Developer Network on Javascript
+  - Make sure to understand javascript objects

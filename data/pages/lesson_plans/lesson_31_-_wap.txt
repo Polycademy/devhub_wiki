@@ -1,0 +1,23 @@
+====== Lesson 31 - WAP ======
+
+**Expected Work**
+
+  - Work through your feature list from an API perspective
+  - Continue researching on any custom technology stack
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Preparing your server side stack for client side SPA
+  - 25 days left!
+
+**Practice**
+
+  - Continue constructing your server API
+  - Prepare to polish up your API for client side programming
+  - Integrate any custom technology stack

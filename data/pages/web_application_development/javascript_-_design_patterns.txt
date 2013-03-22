@@ -4,6 +4,20 @@ JS Hint and Linting
 
 OOP for Javascript
 
+Using AngularUI, AngularStrap other Angular Modules!
+
+Authentication AngularJS - http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application
+
+Global error handling
+
+CSRF AngularJS
+
+AJAX loader
+
+Coffeescript??
+
+Client side form validation
+
 ==== Dynamic Client Side ====
 
 OOP

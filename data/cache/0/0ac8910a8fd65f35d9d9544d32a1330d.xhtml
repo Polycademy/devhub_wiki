@@ -2,139 +2,429 @@
 <h1 class="sectionedit1" id="javascript_-_client_side_architecture">Javascript - Client Side Architecture</h1>
 <div class="level1">
 
+<p>
+<a href="http://en.wikipedia.org/wiki/JavaScript" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/JavaScript">Javascript</a> is an interpreted programming language. It was designed to be executed on client side web browsers in order to provide dynamic functionality, alter the user interface dynamically, and provide asynchronous communication to the server. However the language has grown in popularity is now available across many platforms including server side development using <a href="http://nodejs.org/" class="urlextern" title="http://nodejs.org/"  rel="nofollow">Node.js</a>, mobile development using <a href="http://phonegap.com/" class="urlextern" title="http://phonegap.com/"  rel="nofollow">Phonegap</a> and other HTML5 technologies, and desktop development using <a href="https://github.com/appjs/appjs" class="urlextern" title="https://github.com/appjs/appjs"  rel="nofollow">AppJS</a> and <a href="http://www.appcelerator.com/platform/titanium-sdk/" class="urlextern" title="http://www.appcelerator.com/platform/titanium-sdk/"  rel="nofollow">Titanium SDK</a>. Therefore one can see that javascript is probably the only truly ubiquitous programming language, and it is definitely the language of the web.
+</p>
+
+<p>
+Javascript is a multi-paradigm language, that contains all of the features of a dynamically interpreted language such as weak typing. It can be written in an object oriented manner, imperative or in a functional manner. It&#039;s object inheritance is <a href="http://en.wikipedia.org/wiki/Prototype-based programming" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Prototype-based programming">prototype based</a>, which means there&#039;s no such thing as a class. The syntax was inspired by C just like <abbr title="Hypertext Preprocessor">PHP</abbr>, however the <a href="http://javascript.crockford.com/javascript.html" class="urlextern" title="http://javascript.crockford.com/javascript.html"  rel="nofollow">language is much more functional</a>.
+</p>
+
+<p>
+In traditional non-threaded environment, <a href="http://stackoverflow.com/a/748189/582917" class="urlextern" title="http://stackoverflow.com/a/748189/582917"  rel="nofollow">code is executed synchronously</a>. In a multi-threaded environment, code can be executed in parallel. Javascript is mainly operated inside a browser which offers a single thread of execution, therefore javascript is not multi-threaded (<a href="http://www.html5rocks.com/en/tutorials/workers/basics/" class="urlextern" title="http://www.html5rocks.com/en/tutorials/workers/basics/"  rel="nofollow">except for Web Workers</a>). This presents a bit of a problem for <abbr title="Graphical User Interface">GUI</abbr> programming, which is what javascript is mainly used for in browsers. Any complex or long running process in javascript will freeze the <abbr title="Graphical User Interface">GUI</abbr> making it non responsive. For javascript to be dynamic and good at rendering GUIs, it needs to be asynchronous. But multi-threading is a complex programming paradigm and it is a bit of an overkill for simple <abbr title="Graphical User Interface">GUI</abbr> applications. Therefore browsers offered event driven asynchronous APIs such as XHR for <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> requests, and the javascript language itself can be event driven. This means that certain code blocks such as functions are bound to a particular event or signal, so the structure of the written code does not map directly to the flow of execution. The browser also offers an event handler that is running an event loop, this allows javascript to hook into the event loop through asynchronous callbacks. This basically means that the <a href="http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading" class="urlextern" title="http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading"  rel="nofollow">flow of execution can move on to another function or statement without waiting for the previous function to complete</a>.
+</p>
+
 </div>
-<!-- EDIT1 SECTION "Javascript - Client Side Architecture" [1-53] -->
-<h3 class="sectionedit2" id="client_side">Client Side</h3>
+<!-- EDIT1 SECTION "Javascript - Client Side Architecture" [1-2871] -->
+<h2 class="sectionedit2" id="javascript_implementations">Javascript Implementations</h2>
+<div class="level2">
+
+<p>
+Javascript on the client side actually consists of three parts. The ECMAScript, Document Object Model (<abbr title="Document Object Model">DOM</abbr>) and the Browser Object Model (BOM).
+</p>
+
+<p>
+<a href="http://en.wikipedia.org/wiki/ECMAScript" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/ECMAScript">ECMAScript</a> is the foundation of the javascript language, but it is independent from the browser environment. Think of it as the agreed upon constitution of how javascript interpreters should work. ECMAScript was created in order to provide interoperability between different browsers, or else every browser would have their own versions of client side scripting languages! At its core it specifies these aspects of javascript:
+</p>
+<ul>
+<li class="level1"><div class="li"> Syntax</div>
+</li>
+<li class="level1"><div class="li"> Types</div>
+</li>
+<li class="level1"><div class="li"> Statements</div>
+</li>
+<li class="level1"><div class="li"> Keywords</div>
+</li>
+<li class="level1"><div class="li"> Reserved words</div>
+</li>
+<li class="level1"><div class="li"> Operators</div>
+</li>
+<li class="level1"><div class="li"> Objects</div>
+</li>
+</ul>
+
+<p>
+ECMAScript is released in editions. Most modern browsers support ECMAScript 5th edition. However work is currently being done on the <a href="http://espadrine.github.com/New-In-A-Spec/es6/" class="urlextern" title="http://espadrine.github.com/New-In-A-Spec/es6/"  rel="nofollow">6th edition named Harmony</a> which may be released in a year or two.
+</p>
+<div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Ajavascript_-_client_side_architecture&amp;media=web_application_development:dom-demo.jpg" class="media" title="web_application_development:dom-demo.jpg"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:dom-demo.jpg" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Ajavascript_-_client_side_architecture&amp;media=web_application_development:dom-demo.jpg"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>Demostration of <abbr title="Document Object Model">DOM</abbr></div></div></div>
+<p>
+The <abbr title="Document Object Model">DOM</abbr> refers to the <abbr title="World Wide Web Consortium">W3C</abbr> specification on an <abbr title="Application Programming Interface">API</abbr> that allows javascript to manipulate <abbr title="HyperText Markup Language">HTML</abbr>. It was necessary to standardise the <abbr title="Document Object Model">DOM</abbr> across browsers or else the different browsers would have different ways of representing their <abbr title="HyperText Markup Language">HTML</abbr> programmatically. Unfortunately even with the <abbr title="Document Object Model">DOM</abbr>, browsers behave differently, and hence is why we have the jQuery library that abstracts the granular details. Essentially the <abbr title="HyperText Markup Language">HTML</abbr> structure is converted into a hierarchical graph of nodes. These graphs look like upside down trees. You can inspect the <a href="https://getfirebug.com/dom" class="urlextern" title="https://getfirebug.com/dom"  rel="nofollow">DOM in Firebug</a> using the <abbr title="Document Object Model">DOM</abbr> panel, or in the <abbr title="HyperText Markup Language">HTML</abbr> side panel, which will give the <abbr title="Document Object Model">DOM</abbr> properties of any <abbr title="HyperText Markup Language">HTML</abbr> node/tag you are inspecting.
+</p>
+
+<p>
+The <abbr title="Document Object Model">DOM</abbr> includes everything that would be required to represent the <abbr title="HyperText Markup Language">HTML</abbr>, so if all you was the <abbr title="Document Object Model">DOM</abbr>, it could easily be converted back into the <abbr title="HyperText Markup Language">HTML</abbr>. That means the name, content, attributes and even styles of <abbr title="HyperText Markup Language">HTML</abbr> tags are all computed and encoded and accessible from the <abbr title="Document Object Model">DOM</abbr> <abbr title="Application Programming Interface">API</abbr>. The <abbr title="Document Object Model">DOM</abbr> specifications have gone through 3 levels. Most modern browsers support <abbr title="Document Object Model">DOM</abbr> level 2. This <abbr title="Document Object Model">DOM</abbr> specification added:
+</p>
+<ul>
+<li class="level1"><div class="li"> <abbr title="Document Object Model">DOM</abbr> Views — Describes interfaces to keep track of the various views of a document (the document before and after <abbr title="Cascading Style Sheets">CSS</abbr> styling, for example)</div>
+</li>
+<li class="level1"><div class="li"> <abbr title="Document Object Model">DOM</abbr> Events — Describes interfaces for events and event handling</div>
+</li>
+<li class="level1"><div class="li"> <abbr title="Document Object Model">DOM</abbr> Style — Describes interfaces to deal with <abbr title="Cascading Style Sheets">CSS</abbr>-based styling of elements</div>
+</li>
+<li class="level1"><div class="li"> <abbr title="Document Object Model">DOM</abbr> Traversal and Range — Describes interfaces to traverse and manipulate a document tree</div>
+</li>
+</ul>
+
+<p>
+The BOM refers to the APIs that the browser vendors expose to developers. Basically anytime you&#039;re manipulating or accessing a property of the browser itself would mean you&#039;re using the BOM. This could refer to:
+</p>
+<ul>
+<li class="level1"><div class="li"> The window object, allowing the capability to pop up new browser windows, and to move, resize, and close browser windows.</div>
+</li>
+<li class="level1"><div class="li"> The navigator object, which provides detailed information about the browser</div>
+</li>
+<li class="level1"><div class="li"> The location object, which gives detailed information about the page loaded in the browser</div>
+</li>
+<li class="level1"><div class="li"> The screen object, which gives detailed information about the user’s screen resolution</div>
+</li>
+<li class="level1"><div class="li"> Support for cookies</div>
+</li>
+<li class="level1"><div class="li"> Custom objects such as XMLHttpRequest and Internet Explorer’s ActiveXObject</div>
+</li>
+<li class="level1"><div class="li"> And a number of other HTML5 APIs such as local storage</div>
+</li>
+</ul>
+
+<p>
+There is no standard for BOM, so each browser may try to out compete other vendors by offering features others don&#039;t have.
+</p>
+
+</div>
+<!-- EDIT2 SECTION "Javascript Implementations" [2872-6326] -->
+<h2 class="sectionedit3" id="oop_in_javascript">OOP in Javascript</h2>
+<div class="level2">
+
+<p>
+In classical OOP languages, software is architected through a structure of classes that have properties and methods. Each class is instantiated and then calls upon classes its dependent on and uses them. Javascript however does have any concept of classes, instead it has prototypes.
+</p>
+
+<p>
+Prototype-based programming is a style of object-oriented programming in which classes are not present, and behavior reuse (known as inheritance in class-based languages) is accomplished through a process of decorating existing objects which serve as prototypes. This model is also known as class-less, prototype-oriented, or instance-based programming.
+</p>
+
+<p>
+Javascript defines an object as an unordered collection of properties each of which contains a primitive value, object or function. It is the equivalent of an associative array in <abbr title="Hypertext Preprocessor">PHP</abbr> (javascript actually does not have an associative array concept). Each property is identified by their key. This means objects in javascript is far more flexible than objects in <abbr title="Hypertext Preprocessor">PHP</abbr>. They can be enumerated and iterated, and have setters and getters at run time. Objects can be used as simple data structures, or as structures that contain methods and functions like <abbr title="Hypertext Preprocessor">PHP</abbr>&#039;s objects. Due to this flexibility, almost everything in javascript is an object, and the creation and manipulation of objects can take many forms.
+</p>
+
+<p>
+You refer to these resources on OOP in javascript before continuing:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://killdream.github.com/blog/2011/10/understanding-javascript-oop/" class="urlextern" title="http://killdream.github.com/blog/2011/10/understanding-javascript-oop/"  rel="nofollow">Understanding Javascript OOP</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Introduction_to_Object-Oriented_JavaScript" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Introduction_to_Object-Oriented_JavaScript"  rel="nofollow">Introduction to Object Oriented Javascript</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://net.tutsplus.com/tutorials/javascript-ajax/the-basics-of-object-oriented-javascript/" class="urlextern" title="http://net.tutsplus.com/tutorials/javascript-ajax/the-basics-of-object-oriented-javascript/"  rel="nofollow">The Basics of Object Oriented Javascript</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://stackoverflow.com/questions/9108925/how-is-almost-everything-in-javascript-an-object" class="urlextern" title="http://stackoverflow.com/questions/9108925/how-is-almost-everything-in-javascript-an-object"  rel="nofollow">Everything in Javascript is an Object</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT3 SECTION "OOP in Javascript" [6327-8304] -->
+<h3 class="sectionedit4" id="object_creation">Object Creation</h3>
 <div class="level3">
 
+<p>
+<a href="http://www.phpied.com/3-ways-to-define-a-javascript-class/" class="urlextern" title="http://www.phpied.com/3-ways-to-define-a-javascript-class/"  rel="nofollow">http://www.phpied.com/3-ways-to-define-a-javascript-class/</a>
+</p>
+
 </div>
+<!-- EDIT4 SECTION "Object Creation" [8305-8391] -->
+<h3 class="sectionedit5" id="prototype_inheritance">Prototype Inheritance</h3>
+<div class="level3">
 
-<h4 id="oop_and_functional">OOP and Functional</h4>
-<div class="level4">
+<p>
+<a href="http://en.wikipedia.org/wiki/Prototype-based" class="urlextern" title="http://en.wikipedia.org/wiki/Prototype-based"  rel="nofollow">http://en.wikipedia.org/wiki/Prototype-based</a>
+</p>
 
 </div>
+<!-- EDIT5 SECTION "Prototype Inheritance" [8392-8470] -->
+<h3 class="sectionedit6" id="understanding_this">Understanding &quot;this&quot;</h3>
+<div class="level3">
 
-<h4 id="html5_apis">HTML5 APIs</h4>
-<div class="level4">
+<p>
+<a href="http://unschooled.org/2012/03/understanding-javascript-this/" class="urlextern" title="http://unschooled.org/2012/03/understanding-javascript-this/"  rel="nofollow">http://unschooled.org/2012/03/understanding-javascript-this/</a>
+</p>
+
+</div>
+<!-- EDIT6 SECTION "Understanding this" [8471-8563] -->
+<h2 class="sectionedit7" id="mvc_in_javascript">MVC in Javascript</h2>
+<div class="level2">
+
+<p>
+Talk about AngularJS also the concept of templating
+</p>
+
+<p>
+Installing Node.js
+</p>
+
+<p>
+Will need understanding of below concepts before investigating
+</p>
+<ul>
+<li class="level1"><div class="li"> Egghead.io - <a href="http://egghead.io/" class="urlextern" title="http://egghead.io/"  rel="nofollow">http://egghead.io/</a></div>
+</li>
+<li class="level1"><div class="li"> Simpulton Blog - <a href="http://onehungrymind.com/category/angularjs/" class="urlextern" title="http://onehungrymind.com/category/angularjs/"  rel="nofollow">http://onehungrymind.com/category/angularjs/</a></div>
+</li>
+<li class="level1"><div class="li"> Year of Moo - <a href="http://www.yearofmoo.com/tags/AngularJS.html" class="urlextern" title="http://www.yearofmoo.com/tags/AngularJS.html"  rel="nofollow">http://www.yearofmoo.com/tags/AngularJS.html</a></div>
+</li>
+<li class="level1"><div class="li"> How does Data Binding work in AngularJS - <a href="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933" class="urlextern" title="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933"  rel="nofollow">http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933</a></div>
+</li>
+<li class="level1"><div class="li"> AngularJS step by step building a simple App tutorial - <a href="http://docs.angularjs.org/tutorial" class="urlextern" title="http://docs.angularjs.org/tutorial"  rel="nofollow">http://docs.angularjs.org/tutorial</a></div>
+</li>
+<li class="level1"><div class="li"> AngularJS Guide - <a href="http://docs.angularjs.org/guide/" class="urlextern" title="http://docs.angularjs.org/guide/"  rel="nofollow">http://docs.angularjs.org/guide/</a></div>
+</li>
+</ul>
+
+<p>
+Video tutorials:
+</p>
+<div class="vshare__center"><!--[if !IE]> -->
+<object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/tKe25THBoF4%26list%3DPLwwh-11EOGvME7nAKOD6zq9I4wAZtsp-a?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
+<!-- <![endif]-->
+<!--[if IE]>
+<object width="520" height="406" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
+    <param name="movie" value="http://www.youtube.com/v/tKe25THBoF4%26list%3DPLwwh-11EOGvME7nAKOD6zq9I4wAZtsp-a?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+<!--><!-- -->
+  <param name="allowFullScreen" value="true" />
+  <param name="allowScriptAccess" value="always" />
+  <param name="fs" value="1" />
+  <param name="FlashVars" value="allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1" />
+The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> is needed to display this content.
+</object>
+<!-- <![endif]-->
+</div>
+</div>
+<!-- EDIT7 SECTION "MVC in Javascript" [8564-9267] -->
+<h3 class="sectionedit8" id="modules">Modules</h3>
+<div class="level3">
+
+<p>
+AngularJS modules
+</p>
+
+<p>
+<a href="https://gist.github.com/Mithrandir0x/3639232" class="urlextern" title="https://gist.github.com/Mithrandir0x/3639232"  rel="nofollow">https://gist.github.com/Mithrandir0x/3639232</a>
+</p>
+
+</div>
+<!-- EDIT8 SECTION "Modules" [9268-9350] -->
+<h3 class="sectionedit9" id="routing">Routing</h3>
+<div class="level3">
+
+<p>
+AngularJS routing
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Routing" [9351-9388] -->
+<h3 class="sectionedit10" id="scoping">Scoping</h3>
+<div class="level3">
+
+<p>
+<a href="http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope" class="urlextern" title="http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope"  rel="nofollow">http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope</a>
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined" class="urlextern" title="http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined"  rel="nofollow">http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined</a>
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh" class="urlextern" title="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh"  rel="nofollow">http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh</a>
+</p>
+
+<p>
+<a href="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html" class="urlextern" title="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html"  rel="nofollow">http://jimhoskins.com/2012/12/17/angularjs-and-apply.html</a>
+</p>
+
+<p>
+<a href="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance" class="urlextern" title="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance"  rel="nofollow">https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance</a>
+</p>
+
+<p>
+<a href="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/" class="urlextern" title="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/"  rel="nofollow">http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/</a>
+</p>
+
+</div>
+<!-- EDIT10 SECTION "Scoping" [9389-9911] -->
+<h3 class="sectionedit11" id="controllers">Controllers</h3>
+<div class="level3">
+
+<p>
+ANGULARJS page controllers vs partial controllers
+</p>
+
+</div>
+<!-- EDIT11 SECTION "Controllers" [9912-9985] -->
+<h3 class="sectionedit12" id="directives">Directives</h3>
+<div class="level3">
+
+<p>
+Isolate scope and stuff
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs" class="urlextern" title="http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs"  rel="nofollow">http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs</a>
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs" class="urlextern" title="http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs"  rel="nofollow">http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs</a>
+</p>
+
+<p>
+<a href="http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/" class="urlextern" title="http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/"  rel="nofollow">http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/</a>
+</p>
+
+<p>
+<a href="https://groups.google.com/forum/#!msg/angular/AjGgp8parNY/sU8Mi0vioScJ" class="urlextern" title="https://groups.google.com/forum/#!msg/angular/AjGgp8parNY/sU8Mi0vioScJ"  rel="nofollow">https://groups.google.com/forum/#!msg/angular/AjGgp8parNY/sU8Mi0vioScJ</a>
+</p>
+
+<p>
+<a href="http://onehungrymind.com/angularjs-directives-basics/" class="urlextern" title="http://onehungrymind.com/angularjs-directives-basics/"  rel="nofollow">http://onehungrymind.com/angularjs-directives-basics/</a>
+</p>
+
+<p>
+<a href="http://onehungrymind.com/angularjs-and-dom-manipulation/" class="urlextern" title="http://onehungrymind.com/angularjs-and-dom-manipulation/"  rel="nofollow">http://onehungrymind.com/angularjs-and-dom-manipulation/</a>
+</p>
+
+</div>
+<!-- EDIT12 SECTION "Directives" [9986-10512] -->
+<h3 class="sectionedit13" id="templating">Templating</h3>
+<div class="level3">
+
+<p>
+Client side templates vs Serverside templates
+</p>
+
+<p>
+Loading from server, or loading from client
+</p>
+
+</div>
+<!-- EDIT13 SECTION "Templating" [10513-10626] -->
+<h3 class="sectionedit14" id="services">Services</h3>
+<div class="level3">
+
+<p>
+AngularJS services
+</p>
+
+</div>
+<!-- EDIT14 SECTION "Services" [10627-10666] -->
+<h2 class="sectionedit15" id="bom_dom">BOM &amp; DOM</h2>
+<div class="level2">
+
+<p>
+Using jQuery for <abbr title="Document Object Model">DOM</abbr> manipulation or jQLite
+</p>
+
+<p>
+But also talk about BOM
+</p>
+
+<p>
+Cookies.. etc
+</p>
+
+<p>
+Location object…
+</p>
+
+</div>
+<!-- EDIT15 SECTION "BOM & DOM" [10667-10794] -->
+<h2 class="sectionedit16" id="events_asynchronous">Events &amp; Asynchronous</h2>
+<div class="level2">
+
+<p>
+Asyncrhonous callbacks
+</p>
+
+<p>
+Using promises
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished" class="urlextern" title="http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished"  rel="nofollow">http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished</a>
+</p>
+
+<p>
+<a href="http://jsfiddle.net/VxafF/" class="urlextern" title="http://jsfiddle.net/VxafF/"  rel="nofollow">http://jsfiddle.net/VxafF/</a>
+</p>
+
+</div>
+<!-- EDIT16 SECTION "Events & Asynchronous" [10795-10988] -->
+<h2 class="sectionedit17" id="ajax">AJAX</h2>
+<div class="level2">
+
+<p>
+Using AngularJS resources and <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> get
+</p>
+
+<p>
+Also <abbr title="Hyper Text Transfer Protocol">HTTP</abbr>  Interceptors
+</p>
+
+<p>
+Long polling, short polling
+</p>
+
+<p>
+<abbr title="Asynchronous JavaScript and XML">AJAX</abbr> authentication and validation
+</p>
+
+</div>
+<!-- EDIT17 SECTION "AJAX" [10989-11135] -->
+<h2 class="sectionedit18" id="html5_apis">HTML5 APIs</h2>
+<div class="level2">
 
 <p>
 Browser level (for other stuff)
 </p>
 
 <p>
-<abbr title="Document Object Model">DOM</abbr> level (for jQuery)
+Web Workers
 </p>
 
 </div>
-
-<h4 id="observer_pattern">Observer Pattern</h4>
-<div class="level4">
+<!-- EDIT18 SECTION "HTML5 APIs" [11136-11205] -->
+<h2 class="sectionedit19" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
+<div class="level2">
 
 <p>
-Event Driven Programming
+Dependency Injection in AngularJS, and structuring in terms of modules.
+</p>
+
+<p>
+AMD
+</p>
+
+<p>
+Require.js or HeadJS
 </p>
 
 </div>
-
-<h4 id="ajax">AJAX</h4>
-<div class="level4">
+<!-- EDIT19 SECTION "Dependency Management & Script Loaders" [11206-11357] -->
+<h2 class="sectionedit20" id="real_time_web">Real Time Web</h2>
+<div class="level2">
 
 <p>
-<abbr title="Asynchronous JavaScript and XML">AJAX</abbr>, Server Push, Long Poll, Sockets, RTC, Pusher <abbr title="Application Programming Interface">API</abbr>
+Web Sockets using AutobahnJS and WAMP
+</p>
+
+<p>
+Operational Transformation using ShareJS
 </p>
 
 </div>
-
-<h4 id="templating">Templating</h4>
-<div class="level4">
-
-<p>
-Dust.js or doT.js or otherwise
-</p>
+<!-- EDIT20 SECTION "Real Time Web" [11358-11465] -->
+<h2 class="sectionedit21" id="canvas">Canvas</h2>
+<div class="level2">
 
 <p>
-Precompilation or lazy loading
+2D graphics and EaselJS
 </p>
 
 </div>
-
-<h4 id="dependency_management">Dependency Management</h4>
-<div class="level4">
-
-<p>
-AMD vs CommonJS
-</p>
-
-<p>
-Require.js
-</p>
-
-</div>
-
-<h4 id="web_workers">Web Workers</h4>
-<div class="level4">
-
-</div>
-
-<h4 id="mvc_single_page_applications">MVC Single Page Applications</h4>
-<div class="level4">
-
-<p>
-Model being <abbr title="Asynchronous JavaScript and XML">AJAX</abbr>
-</p>
-
-<p>
-View Model Bindings
-</p>
-
-<p>
-Controller and Routing
-</p>
-
-</div>
-
-<h4 id="file_uploading">File Uploading</h4>
-<div class="level4">
-
-<p>
-OH FILE UPLOADING, two options use:
-</p>
-
-<p>
-<a href="http://blueimp.github.com/jQuery-File-Upload/" class="urlextern" title="http://blueimp.github.com/jQuery-File-Upload/"  rel="nofollow">http://blueimp.github.com/jQuery-File-Upload/</a> (bootstrap integration)
-</p>
-
-<p>
-OR
-</p>
-
-<p>
-<a href="http://www.plupload.com/" class="urlextern" title="http://www.plupload.com/"  rel="nofollow">http://www.plupload.com/</a> (very full featured but not integrated in bootstrap by default, lots of fallbacks for older browsers)
-</p>
-
-<p>
-OR 
-</p>
-
-<p>
-<a href="http://fineuploader.com/" class="urlextern" title="http://fineuploader.com/"  rel="nofollow">http://fineuploader.com/</a> (bootstrap integration)
-</p>
-
-<p>
-They both require server side implementations!
-</p>
-
-<p>
-Or if it&#039;s just front end, then just use File Picker (requires no server side implementation)
-</p>
-
-<p>
-About Coffeescript
-</p>
-
-<p>
-Operational Transformation
-</p>
-
-</div>
-<!-- EDIT2 SECTION "Client Side" [54-] -->
+<!-- EDIT21 SECTION "Canvas" [11466-] -->
