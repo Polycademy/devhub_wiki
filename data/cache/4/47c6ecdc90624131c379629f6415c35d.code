@@ -1,0 +1,36 @@
+<span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//prototype chaining demonstration</span>
+&nbsp;
+<span class="co1">//parent object</span>
+<span class="kw1">var</span> Animal <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">weight</span> <span class="sy0">=</span> <span class="st0">'100kg'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+Animal.<span class="kw1">prototype</span>.<span class="me1">getWeight</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">weight</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//child object</span>
+<span class="kw1">var</span> Pig <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">colour</span> <span class="sy0">=</span> <span class="st0">'Pink'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Pig now inherits a prototype that is actually the constructor instantiation of Animal</span>
+Pig.<span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw1">new</span> Animal<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//we can add to the prototype in dynamic languages</span>
+Pig.<span class="kw1">prototype</span>.<span class="me1">getColour</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">colour</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">var</span> pig <span class="sy0">=</span> <span class="kw1">new</span> Pig<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//notice how both functions are in prototypes</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getWeight</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//from the parent</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getColour</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//from the child</span>
+&nbsp;
+<span class="co1">//because they are inherited, the prototypes are &quot;combined&quot;, therefore javascript only ever considers two areas when looking up properties, the object's instance, and the object's prototype!</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>Animal.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//has the getWeight</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>Pig.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//has the getWeight and getColour</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//same</span>

@@ -1,0 +1,8 @@
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> key <span class="kw1">in</span> object<span class="br0">&#41;</span><span class="br0">&#123;</span> <span class="co1">//notice the var operator inside the for loop, we want to avoid pollution!</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>object.<span class="kw3">hasOwnProperty</span><span class="br0">&#40;</span>key<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span> <span class="co1">//this will make sure that the iterated values are part of the object instance, not prototype! Unless of course you want it!</span>
+&nbsp;
+        <span class="kw1">var</span> value <span class="sy0">=</span> object<span class="br0">&#91;</span>key<span class="br0">&#93;</span><span class="sy0">;</span> <span class="co1">//object properties can be accessed via array style syntax too!</span>
+        console.<span class="me1">log</span><span class="br0">&#40;</span>value<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span>

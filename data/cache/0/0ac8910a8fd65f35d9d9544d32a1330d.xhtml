@@ -14,8 +14,12 @@ Javascript is a multi-paradigm language, that contains all of the features of a 
 In traditional non-threaded environment, <a href="http://stackoverflow.com/a/748189/582917" class="urlextern" title="http://stackoverflow.com/a/748189/582917"  rel="nofollow">code is executed synchronously</a>. In a multi-threaded environment, code can be executed in parallel. Javascript is mainly operated inside a browser which offers a single thread of execution, therefore javascript is not multi-threaded (<a href="http://www.html5rocks.com/en/tutorials/workers/basics/" class="urlextern" title="http://www.html5rocks.com/en/tutorials/workers/basics/"  rel="nofollow">except for Web Workers</a>). This presents a bit of a problem for <abbr title="Graphical User Interface">GUI</abbr> programming, which is what javascript is mainly used for in browsers. Any complex or long running process in javascript will freeze the <abbr title="Graphical User Interface">GUI</abbr> making it non responsive. For javascript to be dynamic and good at rendering GUIs, it needs to be asynchronous. But multi-threading is a complex programming paradigm and it is a bit of an overkill for simple <abbr title="Graphical User Interface">GUI</abbr> applications. Therefore browsers offered event driven asynchronous APIs such as XHR for <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> requests, and the javascript language itself can be event driven. This means that certain code blocks such as functions are bound to a particular event or signal, so the structure of the written code does not map directly to the flow of execution. The browser also offers an event handler that is running an event loop, this allows javascript to hook into the event loop through asynchronous callbacks. This basically means that the <a href="http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading" class="urlextern" title="http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading"  rel="nofollow">flow of execution can move on to another function or statement without waiting for the previous function to complete</a>.
 </p>
 
+<p>
+It is recommended while working through javascript, to practice them using the real time coding service <a href="http://beta.plnkr.co/" class="urlextern" title="http://beta.plnkr.co/"  rel="nofollow">Plunker</a>. Also make sure to have your Firebug or Chrome web developer tools open to the console tab. You&#039;ll be able to see logs and write javascript directly into your browser.
+</p>
+
 </div>
-<!-- EDIT1 SECTION "Javascript - Client Side Architecture" [1-2871] -->
+<!-- EDIT1 SECTION "Javascript - Client Side Architecture" [1-3178] -->
 <h2 class="sectionedit2" id="javascript_implementations">Javascript Implementations</h2>
 <div class="level2">
 
@@ -44,8 +48,14 @@ Javascript on the client side actually consists of three parts. The ECMAScript, 
 </ul>
 
 <p>
-ECMAScript is released in editions. Most modern browsers support ECMAScript 5th edition. However work is currently being done on the <a href="http://espadrine.github.com/New-In-A-Spec/es6/" class="urlextern" title="http://espadrine.github.com/New-In-A-Spec/es6/"  rel="nofollow">6th edition named Harmony</a> which may be released in a year or two.
+ECMAScript is released in editions. Most modern browsers support ECMAScript 5th edition. However work is currently being done on the <a href="http://espadrine.github.com/New-In-A-Spec/es6/" class="urlextern" title="http://espadrine.github.com/New-In-A-Spec/es6/"  rel="nofollow">6th edition named Harmony</a> which may be fully supported by modern browsers in a year or two. You can find out the compatibility of different browsers for ES5 or ES6 via these two charts:
 </p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://kangax.github.com/es5-compat-table/" class="urlextern" title="http://kangax.github.com/es5-compat-table/"  rel="nofollow">ES5 Compatibility Chart</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://kangax.github.com/es5-compat-table/es6/" class="urlextern" title="http://kangax.github.com/es5-compat-table/es6/"  rel="nofollow">ES6 Compatibility Chart</a></div>
+</li>
+</ul>
 <div class="thumb2 tright" style="width:210px"><div class="thumbinner"><a href="/lib/exe/detail.php?id=web_application_development%3Ajavascript_-_client_side_architecture&amp;media=web_application_development:dom-demo.jpg" class="media" title="web_application_development:dom-demo.jpg"><img src="/lib/exe/fetch.php?w=200&amp;media=web_application_development:dom-demo.jpg" class="mediabox2" alt="" width="200" /></a><div class="thumbcaption"><div class="magnify"><a class="internal" title="Enlarge" href="/lib/exe/detail.php?id=web_application_development%3Ajavascript_-_client_side_architecture&amp;media=web_application_development:dom-demo.jpg"><img width="15" height="11" alt="" src="/lib/plugins/imagebox/magnify-clip.png"/></a></div>Demostration of <abbr title="Document Object Model">DOM</abbr></div></div></div>
 <p>
 The <abbr title="Document Object Model">DOM</abbr> refers to the <abbr title="World Wide Web Consortium">W3C</abbr> specification on an <abbr title="Application Programming Interface">API</abbr> that allows javascript to manipulate <abbr title="HyperText Markup Language">HTML</abbr>. It was necessary to standardise the <abbr title="Document Object Model">DOM</abbr> across browsers or else the different browsers would have different ways of representing their <abbr title="HyperText Markup Language">HTML</abbr> programmatically. Unfortunately even with the <abbr title="Document Object Model">DOM</abbr>, browsers behave differently, and hence is why we have the jQuery library that abstracts the granular details. Essentially the <abbr title="HyperText Markup Language">HTML</abbr> structure is converted into a hierarchical graph of nodes. These graphs look like upside down trees. You can inspect the <a href="https://getfirebug.com/dom" class="urlextern" title="https://getfirebug.com/dom"  rel="nofollow">DOM in Firebug</a> using the <abbr title="Document Object Model">DOM</abbr> panel, or in the <abbr title="HyperText Markup Language">HTML</abbr> side panel, which will give the <abbr title="Document Object Model">DOM</abbr> properties of any <abbr title="HyperText Markup Language">HTML</abbr> node/tag you are inspecting.
@@ -90,12 +100,89 @@ There is no standard for BOM, so each browser may try to out compete other vendo
 </p>
 
 </div>
-<!-- EDIT2 SECTION "Javascript Implementations" [2872-6326] -->
-<h2 class="sectionedit3" id="oop_in_javascript">OOP in Javascript</h2>
+<!-- EDIT2 SECTION "Javascript Implementations" [3179-6908] -->
+<h2 class="sectionedit3" id="working_in_javascript">Working in Javascript</h2>
 <div class="level2">
 
 <p>
-In classical OOP languages, software is architected through a structure of classes that have properties and methods. Each class is instantiated and then calls upon classes its dependent on and uses them. Javascript however does have any concept of classes, instead it has prototypes.
+<strong>Console Logging</strong>
+</p>
+
+<p>
+Before we get started in javascript we have to learn how to debug our javascript code. Because javascript often fails silently it is difficult to debug. By using Firebug or related tools, we can inspect our javascript code and its variables during run time. You should start using these commands to log variables to your console. Check out <a href="https://getfirebug.com/wiki/index.php/Console_API" class="urlextern" title="https://getfirebug.com/wiki/index.php/Console_API"  rel="nofollow">Firebug&#039;s wiki for more console commands</a>.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/iinTwz?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/iinTwz?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="kw1">var</span> object <span class="sy0">=</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//logs the object</span>
+console.<span class="me1">error</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//shows a error symbol</span>
+console.<span class="me1">info</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//shows an info symbol</span>
+console.<span class="me1">warn</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//shows a warning symbol</span>
+console.<span class="me1">debug</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//does the same as log</span>
+console.<span class="me1">dir</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//shows a  list of child objects, good for logging objects</span>
+console.<span class="me1">table</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//shows the object in a tabular format</span></pre>
+
+<p>
+<strong>Use Strict</strong>
+</p>
+
+<p>
+Javascript is a very dynamic and loose language, and since it fails silently, it&#039;s easy to fall into traps of bad code. You can use the use strict mode in order to make your javascript fail more strictly and to keep you writing good code. Just put this at the top of any scripts you write.
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span></pre>
+
+<p>
+Refer to <a href="http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/" class="urlextern" title="http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/"  rel="nofollow">John Resig&#039;s article on the use strict</a> to find out what it does.
+</p>
+
+<p>
+<strong>Other Bad Parts</strong>
+</p>
+
+<p>
+One thing that trips up javascript developers is the binding of “this” in objects. This is considered a confusing part of javascript as it was not developed to be OOP from the beginning. Refer to these slides for an explanation on the bad parts of javascript.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/" class="urlextern" title="http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/"  rel="nofollow">Javascript Bad Parts</a></div>
+</li>
+</ul>
+
+<p>
+<strong>Shims and Polyfills</strong>
+</p>
+
+<p>
+Because the host environment that runs javascript could be different, front end developers often face the problem of adapting code for older browsers, and sometimes we even create polyfills for new features that current browsers don&#039;t support yet. Shims (or shivs) are just a generic name for any kind of interception of <abbr title="Application Programming Interface">API</abbr> calls, polyfills are code that provides a fallback for older browsers, they are usually implemented as shims.
+</p>
+
+<p>
+The two most important shims you&#039;ll need is:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/kriskowal/es5-shim" class="urlextern" title="https://github.com/kriskowal/es5-shim"  rel="nofollow">ES5 Shim</a> - ES5 features are usually missing in <abbr title="Internet Explorer">IE</abbr>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/paulmillr/es6-shim/" class="urlextern" title="https://github.com/paulmillr/es6-shim/"  rel="nofollow">ES6 Shim</a> - ES6 features are almost missing everywhere.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://bestiejs.github.com/json3/" class="urlextern" title="http://bestiejs.github.com/json3/"  rel="nofollow">JSON 3 Shim</a> - JSON3 required for <abbr title="Internet Explorer">IE</abbr>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/angular-ui/angular-ui/tree/master/common/ieshiv" class="urlextern" title="https://github.com/angular-ui/angular-ui/tree/master/common/ieshiv"  rel="nofollow">IE Shiv</a> - For AngularJS, and Angular UI, so you can have custom tag names working as directives.</div>
+</li>
+</ul>
+
+<p>
+The above are just the basics. To work with HTML5 APIs, you&#039;ll need to consider your feature list and the browsers you want to support. The <a href="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills" class="urlextern" title="https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills"  rel="nofollow">Modernizr wiki has a large list of maintained polyfills</a> for all sorts of projects.
+</p>
+
+</div>
+<!-- EDIT3 SECTION "Working in Javascript" [6909-10005] -->
+<h2 class="sectionedit4" id="oop_in_javascript">OOP in Javascript</h2>
+<div class="level2">
+
+<p>
+In classical OOP languages, software is architected through a structure of classes that have properties and methods. Each class is instantiated and then calls upon classes its dependent on and uses them. Javascript however does have any concept of classes, instead it has prototypes. Note that if you want to know why we have to use OOP, refer to the <a href="/doku.php?id=web_application_development:php_-_server_side_architecture#object_oriented_programming_oop" class="wikilink1" title="web_application_development:php_-_server_side_architecture">Server Side Architecture on OOP</a>.
 </p>
 
 <p>
@@ -121,35 +208,615 @@ You refer to these resources on OOP in javascript before continuing:
 </ul>
 
 </div>
-<!-- EDIT3 SECTION "OOP in Javascript" [6327-8304] -->
-<h3 class="sectionedit4" id="object_creation">Object Creation</h3>
+<!-- EDIT4 SECTION "OOP in Javascript" [10006-12150] -->
+<h3 class="sectionedit5" id="object_creation">Object Creation</h3>
 <div class="level3">
 
 <p>
-<a href="http://www.phpied.com/3-ways-to-define-a-javascript-class/" class="urlextern" title="http://www.phpied.com/3-ways-to-define-a-javascript-class/"  rel="nofollow">http://www.phpied.com/3-ways-to-define-a-javascript-class/</a>
+Creating objects in javascript can take many forms. Each has their advantages and disadvantages. You&#039;ll have to choose the one that works the best.
+</p>
+
+<p>
+The simplest way to create an object is the through the object literal style, also known as short hand syntax. This style is not unlike the associative array in <abbr title="Hypertext Preprocessor">PHP</abbr>. You would use this whenever you need to create a container for some data, or a throw away object. Javascript libraries often use objects to configure their settings too, in which you would have experienced in <abbr title="Hypertext Preprocessor">PHP</abbr> with passing in associative arrays. Therefore this style is not intended for creating modularised code.
+</p>
+<pre class="code javascript"><span class="co1">//OBJECT LITERAL STYLE</span>
+&nbsp;
+<span class="kw1">var</span> object <span class="sy0">=</span> <span class="br0">&#123;</span>
+    literalKey<span class="sy0">:</span> <span class="st0">'Blah'</span><span class="sy0">,</span> <span class="co1">//you can use literal keys, without quotes, but they must have no spaces in them</span>
+    <span class="st0">'string key'</span><span class="sy0">:</span> <span class="st0">'Blahblah'</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">typeof</span> object<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//will show that it's an object</span>
+&nbsp;
+&nbsp;
+<span class="co1">//OBJECT CONSTRUCTOR STYLE (equivalent)</span>
+&nbsp;
+<span class="kw1">var</span> differentObject <span class="sy0">=</span> <span class="kw1">new</span> <span class="kw4">Object</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+differentObject.<span class="me1">name</span> <span class="sy0">=</span> <span class="st0">'I am a big object!'</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>differentObject<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+In order to create objects in a classless programming language that is intended for modular code and code reuse, we can&#039;t use the object literal style. Instead we have the Constructor Pattern, Prototype Pattern, and Combination Constructor &amp; Prototype Pattern. There are others such as Parasitic Constructor Pattern and  Durable Constructor Pattern, however they are specialised for particular purposes. Also note that in these examples we are using function expressions, as this is a better practice than function declarations, it prevents the functions from polluting the global scope.
 </p>
 
 </div>
-<!-- EDIT4 SECTION "Object Creation" [8305-8391] -->
-<h3 class="sectionedit5" id="prototype_inheritance">Prototype Inheritance</h3>
+
+<h4 id="constructor_pattern">Constructor Pattern</h4>
+<div class="level4">
+
+<p>
+This constructor pattern allows to create reusable modular units of code.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/QTO6W1?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/QTO6W1?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span> <span class="co1">//everytime you write javascript code, make sure to do this, it forces you to write good javascript</span>
+&nbsp;
+<span class="co1">//Constructor Pattern</span>
+&nbsp;
+<span class="kw1">var</span> Person <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>name<span class="sy0">,</span> age<span class="sy0">,</span> job<span class="br0">&#41;</span><span class="br0">&#123;</span> <span class="co1">//by convention constructors should be capitalised based on StudlyCaps</span>
+    <span class="co1">//this refers to the newly instantiated object</span>
+    <span class="kw1">this</span>.<span class="me1">name</span> <span class="sy0">=</span> name<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">age</span> <span class="sy0">=</span> age<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">job</span> <span class="sy0">=</span> job<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//by &quot;newing&quot; the function, it executes the function, and binds &quot;this&quot; to the new variable, the variable becomes an object construct</span>
+<span class="kw1">var</span> person1 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="st0">'Roger'</span><span class="sy0">,</span> <span class="st0">'21'</span><span class="sy0">,</span> <span class="st0">'Awesome'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> person2 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="st0">'Dave'</span><span class="sy0">,</span> <span class="nu0">43</span><span class="sy0">,</span> <span class="st0">'Yeap'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+person1.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+person2.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">typeof</span> person1<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+
+<h4 id="prototype_pattern">Prototype Pattern</h4>
+<div class="level4">
+
+<p>
+However what happens to inheritance? After all one of the great advantages of OOP is the ability to have concrete classes inherit from abstract parent classes. This way you can share code between similar objects. Well in javascript we have to use <a href="http://en.wikipedia.org/wiki/Prototype-based" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Prototype-based">prototypes</a> instead. Everytime you create a function, it contains a prototype property. By setting properties onto the prototype, and then constructing an object from that function, the properties on that prototype gets shared among all object instances.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/oM8QPa?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/oM8QPa?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Prototype pattern </span>
+&nbsp;
+<span class="kw1">var</span> Person <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//all of these are shared among all object instances</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">name</span> <span class="sy0">=</span> <span class="st0">'Nicholas'</span><span class="sy0">;</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">age</span> <span class="sy0">=</span> <span class="nu0">29</span><span class="sy0">;</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">job</span> <span class="sy0">=</span> <span class="st0">'Software Engineer'</span><span class="sy0">;</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> person1 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> person2 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+person1.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+person2.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//is the two functions the same?</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>person1.<span class="me1">sayName</span> <span class="sy0">===</span> person2.<span class="me1">sayName</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//in js, we use triple equals more often than double equals due to its weird type conversion!</span></pre>
+
+<p>
+<strong>Prototype &amp; Constructor Combination Pattern</strong>
+</p>
+
+<p>
+Understanding prototypes is crucial to understanding OOP in javascript. The below code example combines the unique instantiations of the constructor pattern with the shared methods of the prototype pattern. This pattern of combination is probably the most common form of object creation you&#039;ll see in javascript land.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/ZVo66w?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/ZVo66w?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Prototype &amp; Constructor combination pattern </span>
+&nbsp;
+<span class="kw1">var</span> Person <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>name<span class="sy0">,</span> age<span class="sy0">,</span> job<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="co1">//these properties will be unique to each instance</span>
+    <span class="kw1">this</span>.<span class="me1">name</span> <span class="sy0">=</span> name<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">age</span> <span class="sy0">=</span> age<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">job</span> <span class="sy0">=</span> job<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this is shared among all instances</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> person1 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="st0">'Dave'</span><span class="sy0">,</span> <span class="nu0">21</span><span class="sy0">,</span> <span class="st0">'Super Developer'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+person1.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>person1<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//person1 object instance has a __proto__ property</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>person1.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//it points to the Constructor's prototype</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>person1.<span class="kw3">__proto__</span> <span class="sy0">===</span> Person.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+&nbsp;
+<span class="co1">//the constructor function has a prototype</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>Person.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//the prototype has a constructor property pointing back to the constructor function</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>Person.<span class="kw1">prototype</span>.<span class="me1">constructor</span> <span class="sy0">===</span> Person<span class="br0">&#41;</span><span class="sy0">;</span> </pre>
+
+<p>
+The question you should be asking is how does the <code>sayName()</code> function still work? Where is the <code>this</code> referring to? And how does it get the name of “Dave”? When a property is looked up inside an object, javascript searches on the object instance itself. If it is found, javascript stops searching. If it is not found, the search continues to its prototype, and looks through it to find the property. We can see that the above code demonstrates that there are multiple occurences of where javascript is searching, and finding a property on the instance (produced by the constructor), and sometimes finding the property on the prototype. When <code>person1.sayName();</code> is called, that&#039;s accessing the prototype. When <code>this.name</code> is accessed inside the <code>sayName()</code> function, then it&#039;s accessing the object instance. You can start to see how javascript allows code reuse through the mixing of constructors and prototypes.
+</p>
+
+<p>
+Because the object instances takes priority over the prototype, this allows method overriding. This is as simple as redeclaring a property with the same name onto the object instance. It shadows the property on the prototype. 
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/yW9srh?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/yW9srh?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//demonstrating shadowing or method overriding</span>
+&nbsp;
+<span class="kw1">var</span> Person <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>name<span class="sy0">,</span> age<span class="sy0">,</span> job<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">this</span>.<span class="me1">name</span> <span class="sy0">=</span> name<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">age</span> <span class="sy0">=</span> age<span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">job</span> <span class="sy0">=</span> job<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//fallback method on the prototype</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">age</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//says the age</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> person1 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="st0">'Dave'</span><span class="sy0">,</span> <span class="nu0">21</span><span class="sy0">,</span> <span class="st0">'Super Developer'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//overrides the prototype method</span>
+person1.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="co1">//executes the object instance's method</span>
+person1.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//says the name!</span>
+&nbsp;
+<span class="co1">//now how do we call the prototype method if it's been overwritten?</span>
+<span class="co1">//By calling it via the __proto__ in the object instance or part of the constructor function</span>
+<span class="kw1">var</span> o <span class="sy0">=</span> <span class="br0">&#123;</span> age<span class="sy0">:</span> <span class="nu0">15</span> <span class="br0">&#125;</span><span class="sy0">;</span>
+person1.<span class="kw3">__proto__</span>.<span class="me1">sayName</span>.<span class="me1">call</span><span class="br0">&#40;</span>o<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//these are binding functions (will display 15)</span>
+<span class="co1">//notice how we didn't need to use () to execute the function, the call and apply takes care of that</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span>.<span class="me1">apply</span><span class="br0">&#40;</span>person1<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//another binding function (will display 21)</span>
+&nbsp;
+<span class="co1">//this will show nothing due to lack of binding, more on this in the understanding &quot;this&quot; section</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Note that there is also a shorter way of defining multiple properties onto the prototype. See <a href="http://beta.plnkr.co/edit/lGGH9p?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/lGGH9p?p=preview"  rel="nofollow">Plunker demo of short hand prototype definition</a>. But make sure to be careful when iterating the object in a loop!
+</p>
+
+<p>
+If you need to determine whether a property is part of the object instance or part of the prototype you can use the <code>hasOwnProperty()</code> function. This is often used in <code>for in</code> <a href="http://stackoverflow.com/questions/921789/how-to-loop-through-javascript-object-literal-with-objects-as-members" class="urlextern" title="http://stackoverflow.com/questions/921789/how-to-loop-through-javascript-object-literal-with-objects-as-members"  rel="nofollow">loops that iterate through the object&#039;s properties</a> and you need to avoid the prototype&#039;s properties when iterating.
+</p>
+<pre class="code javascript"><span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> key <span class="kw1">in</span> object<span class="br0">&#41;</span><span class="br0">&#123;</span> <span class="co1">//notice the var operator inside the for loop, we want to avoid pollution!</span>
+    <span class="kw1">if</span><span class="br0">&#40;</span>object.<span class="kw3">hasOwnProperty</span><span class="br0">&#40;</span>key<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span> <span class="co1">//this will make sure that the iterated values are part of the object instance, not prototype! Unless of course you want it!</span>
+&nbsp;
+        <span class="kw1">var</span> value <span class="sy0">=</span> object<span class="br0">&#91;</span>key<span class="br0">&#93;</span><span class="sy0">;</span> <span class="co1">//object properties can be accessed via array style syntax too!</span>
+        console.<span class="me1">log</span><span class="br0">&#40;</span>value<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+<span class="br0">&#125;</span></pre>
+
+</div>
+<!-- EDIT5 SECTION "Object Creation" [12151-20679] -->
+<h3 class="sectionedit6" id="understanding_this_context_and_binding">Understanding &quot;this&quot; Context and Binding</h3>
 <div class="level3">
 
 <p>
-<a href="http://en.wikipedia.org/wiki/Prototype-based" class="urlextern" title="http://en.wikipedia.org/wiki/Prototype-based"  rel="nofollow">http://en.wikipedia.org/wiki/Prototype-based</a>
+A key concept in javascript OOP is that the “this” context changes based on where it&#039;s been invocated (called and executed), not where it&#039;s been declared (where it was written in the code). In classical OOP languages, the binding of “this” to the object context is implicit, it&#039;s always the immediate parent object. However in javascript this isn&#039;t always the case. In javascript, binding loss can occur whenever you&#039;re accessing a function through a reference rather than directly through its object context.
+</p>
+
+<p>
+Consider these examples of binding the “this”:
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/p8m3ai?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/p8m3ai?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="co1">//'use strict'; //this is commented out, as use strict would actually make this demonstration impossible, it tells you when you have binding loss, uncomment it to see it working!</span>
+&nbsp;
+<span class="co1">//demonstration of binding sensitive code, be careful of these!</span>
+&nbsp;
+<span class="kw1">var</span> name <span class="sy0">=</span> <span class="st0">'I am in the window! You should not see me!'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> object <span class="sy0">=</span> <span class="br0">&#123;</span>
+	name<span class="sy0">:</span> <span class="st0">'Hi I am an object!'</span><span class="sy0">,</span>
+	greet<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Message: '</span> <span class="sy0">+</span> <span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="sy0">,</span>
+	timeoutMethod<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		setTimeout<span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+			console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Timeout Method: '</span> <span class="sy0">+</span> <span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+		<span class="br0">&#125;</span><span class="sy0">,</span> <span class="nu0">2000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="sy0">,</span>
+	bindingTimeoutMethod<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		setTimeout<span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">funcToBeTimedOut</span><span class="sy0">,</span> <span class="nu0">3000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="sy0">,</span>
+	funcToBeTimedOut<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Second Timeout Method '</span> <span class="sy0">+</span> <span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+<span class="co1">//&quot;METHOD CALL&quot;</span>
+object.<span class="me1">greet</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//works</span>
+&nbsp;
+<span class="co1">//&quot;BASELESS FUNCTION CALL&quot;</span>
+<span class="co1">//executing the function outside of the object context</span>
+<span class="co1">//the &quot;this&quot; loses its binding, it actually binds to window global!</span>
+<span class="kw1">var</span> funcToBeExecutedOutside <span class="sy0">=</span> object.<span class="me1">greet</span><span class="sy0">;</span>
+funcToBeExecutedOutside<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//does not work</span>
+&nbsp;
+<span class="co1">//&quot;METHOD CALLBACK&quot;</span>
+<span class="co1">//still loses the binding</span>
+<span class="kw1">var</span> anotherObject <span class="sy0">=</span> <span class="br0">&#123;</span>
+	highFunc<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>callback<span class="br0">&#41;</span><span class="br0">&#123;</span>
+		callback<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//executes object.greet();</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+anotherObject.<span class="me1">highFunc</span><span class="br0">&#40;</span>object.<span class="me1">greet</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//&quot;USING TIMEOUT&quot;</span>
+<span class="co1">//also loses its binding</span>
+setTimeout<span class="br0">&#40;</span>object.<span class="me1">greet</span><span class="sy0">,</span> <span class="nu0">1000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//even when it is inside the a method! (think about where this is been invocated, it's not inside the object context, its part of setTimeout!)</span>
+object.<span class="me1">timeoutMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//similar concept, calling a method that calls its own method, still fails</span>
+object.<span class="me1">bindingTimeoutMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this one will still work, because it is still a &quot;METHOD CALL&quot;</span>
+<span class="kw1">var</span> thirdObject <span class="sy0">=</span> <span class="br0">&#123;</span>
+	thirdPartyMethod<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		object.<span class="me1">greet</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+thirdObject.<span class="me1">thirdPartyMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+In order to solve this problem of binding loss, we need to explicitly bind the “this” back to the correct object context. There are several ways of doing this depending on your situation. The most common ways are the closure method, <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply"  rel="nofollow">apply method</a>, and <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/call" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/call"  rel="nofollow">call method</a>. The closure method works when you&#039;re writing a throw away anonymous function, and you have the ability to wrap it in another function while being side the object. The apply and call methods allow you to pass in parameters to the function, however you need to have the right context available. You should use the apply method whenever you don&#039;t know the number of parameters to the function, the parameters can then be dynamically accessed via the <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/arguments" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/arguments"  rel="nofollow">arguments variable</a> inside of the function.
+</p>
+
+<p>
+The <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind"  rel="nofollow">bind method</a> in ES5 is far more flexible as it doesn&#039;t automatically execute your function allowing it to be used in callback situations. However this does not have <a href="http://kangax.github.com/es5-compat-table/" class="urlextern" title="http://kangax.github.com/es5-compat-table/"  rel="nofollow">IE8 support</a>, so you&#039;ll need to use the <a href="https://github.com/kriskowal/es5-shim" class="urlextern" title="https://github.com/kriskowal/es5-shim"  rel="nofollow">ES5 shim</a> in your scripts.
+</p>
+
+<p>
+Note that in ES6 which currently is under development, there will be a new way of declaring functions that have implicit “this” binding. It&#039;s called the <a href="http://css.dzone.com/articles/javascript-fat-city" class="urlextern" title="http://css.dzone.com/articles/javascript-fat-city"  rel="nofollow">fat arrow function</a>.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/WejeTp?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/WejeTp?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span> <span class="co1">//strict works now</span>
+&nbsp;
+<span class="co1">//demonstration binding solutions</span>
+&nbsp;
+<span class="kw1">var</span> name <span class="sy0">=</span> <span class="st0">'I am in the window! You should not see me!'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> object <span class="sy0">=</span> <span class="br0">&#123;</span>
+	name<span class="sy0">:</span> <span class="st0">'Hi I am an object!'</span><span class="sy0">,</span>
+	greet<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>parameter<span class="br0">&#41;</span><span class="br0">&#123;</span>
+		console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Message: '</span> <span class="sy0">+</span> <span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+		<span class="kw1">if</span><span class="br0">&#40;</span><span class="kw1">typeof</span> parameter <span class="sy0">!==</span> <span class="st0">'undefined'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+			console.<span class="me1">log</span><span class="br0">&#40;</span>parameter<span class="br0">&#41;</span><span class="sy0">;</span>
+		<span class="br0">&#125;</span>
+	<span class="br0">&#125;</span><span class="sy0">,</span>
+	timeoutMethod<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		<span class="co1">//closure, fix the &quot;this&quot;</span>
+		<span class="kw1">var</span> self <span class="sy0">=</span> <span class="kw1">this</span><span class="sy0">;</span>
+		setTimeout<span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+			console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Timeout Method: '</span> <span class="sy0">+</span> self.<span class="me1">name</span> <span class="sy0">+</span> <span class="st0">' (FROM CLOSURE)'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+		<span class="br0">&#125;</span><span class="sy0">,</span> <span class="nu0">2000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="sy0">,</span>
+	bindingTimeoutMethod<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		<span class="co1">//the first this works (implicit binding)</span>
+		<span class="co1">//the second this is explicitly binded to the funcToBeTimedOut</span>
+		setTimeout<span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">funcToBeTimedOut</span>.<span class="me1">bind</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">3000</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="sy0">,</span>
+	funcToBeTimedOut<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Second Timeout Method '</span> <span class="sy0">+</span> <span class="kw1">this</span>.<span class="me1">name</span> <span class="sy0">+</span> <span class="st0">' (BIND WITHIN METHOD)'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> funcToBeExecutedOutside <span class="sy0">=</span> object.<span class="me1">greet</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//&quot;APPLY METHOD&quot;</span>
+<span class="co1">//apply actually executes the function</span>
+funcToBeExecutedOutside.<span class="me1">apply</span><span class="br0">&#40;</span>object<span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">'FROM APPLY'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//&quot;CALL METHOD&quot;</span>
+<span class="co1">//call actually executes the function</span>
+funcToBeExecutedOutside.<span class="me1">call</span><span class="br0">&#40;</span>object<span class="sy0">,</span> <span class="st0">'FROM CALL'</span><span class="br0">&#41;</span>
+&nbsp;
+<span class="co1">//&quot;BIND METHOD&quot; (ES5 syntax, no IE8 support, requires shim!)</span>
+<span class="co1">//bind does not execute the function, allowing its use in callbacks</span>
+<span class="co1">//notice the extra parantheses to execute and pass in parameters!</span>
+funcToBeExecutedOutside.<span class="me1">bind</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="br0">&#40;</span><span class="st0">'FROM BIND'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//&quot;BIND WITH CALLBACK&quot;</span>
+<span class="kw1">var</span> anotherObject <span class="sy0">=</span> <span class="br0">&#123;</span>
+	highFunc<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>callback<span class="br0">&#41;</span><span class="br0">&#123;</span>
+		callback<span class="br0">&#40;</span><span class="st0">'FROM CALLBACK BIND'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+anotherObject.<span class="me1">highFunc</span><span class="br0">&#40;</span>object.<span class="me1">greet</span>.<span class="me1">bind</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//this requires bind! No extra parantheses, since we're passing it in as a callback</span>
+&nbsp;
+<span class="co1">//&quot;USING TIMEOUT&quot;</span>
+<span class="co1">//setTimeout cannot be used with call or apply! It needs bind</span>
+setTimeout<span class="br0">&#40;</span>object.<span class="me1">greet</span>.<span class="me1">bind</span><span class="br0">&#40;</span>object<span class="br0">&#41;</span><span class="sy0">,</span> <span class="nu0">1000</span><span class="sy0">,</span> <span class="st0">'FROM TIMEOUT BIND'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//timeout has a third parameter available in modern browsers</span>
+&nbsp;
+<span class="co1">//&quot;CLOSURE METHOD&quot; (see the function)</span>
+object.<span class="me1">timeoutMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this is another bind, but inside the method call</span>
+object.<span class="me1">bindingTimeoutMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Remember that if you are using frameworks or libraries, sometimes they will explicitly bind the “this” to what they consider to be the most appropriate construct. This is especially true when it comes to events and <abbr title="Document Object Model">DOM</abbr> manipulation. Certain frameworks also offer a binding construct that you can use to abstract from browser differences. One example would be <a href="http://api.jquery.com/jQuery.proxy/" class="urlextern" title="http://api.jquery.com/jQuery.proxy/"  rel="nofollow">jQuery&#039;s proxy method</a>. This is no longer required with the introduction of ES5&#039;s bind method. However you may still see it out there in the wild.
 </p>
 
 </div>
-<!-- EDIT5 SECTION "Prototype Inheritance" [8392-8470] -->
-<h3 class="sectionedit6" id="understanding_this">Understanding &quot;this&quot;</h3>
+<!-- EDIT6 SECTION "Understanding this Context and Binding" [20680-27326] -->
+<h3 class="sectionedit7" id="inheritance">Inheritance</h3>
 <div class="level3">
 
 <p>
-<a href="http://unschooled.org/2012/03/understanding-javascript-this/" class="urlextern" title="http://unschooled.org/2012/03/understanding-javascript-this/"  rel="nofollow">http://unschooled.org/2012/03/understanding-javascript-this/</a>
+While we have learned how to create objects via the combination of constructor and prototype pattern. However that only works for one object linked to one prototype. In large applications, the inheritance chain could be much longer and wider. Therefore we have to understand the concept of inheritance a bit more.
 </p>
 
 </div>
-<!-- EDIT6 SECTION "Understanding this" [8471-8563] -->
-<h2 class="sectionedit7" id="mvc_in_javascript">MVC in Javascript</h2>
+
+<h4 id="prototype_chaining">Prototype Chaining</h4>
+<div class="level4">
+
+<p>
+Prototype chaining is defined as the primary method of inheritance in ECMAScript. It is possible to assign the prototype of a constructor to an instance of another constructor, which could have it&#039;s own prototype. Think of <a href="http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/#/11" class="urlextern" title="http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/#/11"  rel="nofollow">prototypes as omnipresent shadows that follow all the instantiations around</a>.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/hY0TiP?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/hY0TiP?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//prototype chaining demonstration</span>
+&nbsp;
+<span class="co1">//parent object</span>
+<span class="kw1">var</span> Animal <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">weight</span> <span class="sy0">=</span> <span class="st0">'100kg'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+Animal.<span class="kw1">prototype</span>.<span class="me1">getWeight</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">weight</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//child object</span>
+<span class="kw1">var</span> Pig <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">colour</span> <span class="sy0">=</span> <span class="st0">'Pink'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Pig now inherits a prototype that is actually the constructor instantiation of Animal</span>
+Pig.<span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw1">new</span> Animal<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//we can add to the prototype in dynamic languages</span>
+Pig.<span class="kw1">prototype</span>.<span class="me1">getColour</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">colour</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">var</span> pig <span class="sy0">=</span> <span class="kw1">new</span> Pig<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//notice how both functions are in prototypes</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getWeight</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//from the parent</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getColour</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//from the child</span>
+&nbsp;
+<span class="co1">//because they are inherited, the prototypes are &quot;combined&quot;, therefore javascript only ever considers two areas when looking up properties, the object's instance, and the object's prototype!</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>Animal.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//has the getWeight</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>Pig.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//has the getWeight and getColour</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//same</span>
+&nbsp;
+<span class="co1">//protoypes can be overwritten</span>
+Pig.<span class="kw1">prototype</span>.<span class="me1">getWeight</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">return</span> <span class="st0">'1000 kg'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> heavierPig <span class="sy0">=</span> <span class="kw1">new</span> Pig<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>heavierPig.<span class="me1">getWeight</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Remember that all objects in javascript inherit from the native <code>Object.prototype</code>. That&#039;s how you can get access to the native <abbr title="Application Programming Interface">API</abbr> methods such as <code>hasOwnProperty</code>, <code>toString</code> and <code>valueOf</code>. You can find out more about the <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/prototype" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/prototype"  rel="nofollow">native object prototype methods on MDN</a> &amp; <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object"  rel="nofollow">native object methods on MDN</a>. Similarly functions descend from the <code>Function.prototype</code>. Check out the <a href="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/prototype" class="urlextern" title="https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/prototype"  rel="nofollow">native function API on MDN</a>.
+</p>
+
+<p>
+Because prototypes are “shadows” that are shared across all instances, if you need a unique instance property to be on the parent object, this becomes impossible, as it will affect all instances. Consider this example:
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/Nq8f16?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/Nq8f16?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="kw1">var</span> SuperType <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">colors</span> <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'red'</span><span class="sy0">,</span> <span class="st0">'blue'</span><span class="sy0">,</span> <span class="st0">'green'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> SubType <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+SubType.<span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw1">new</span> SuperType<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> instance1 <span class="sy0">=</span> <span class="kw1">new</span> SubType<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//this will be shared among all instances!</span>
+instance1.<span class="me1">colors</span>.<span class="me1">push</span><span class="br0">&#40;</span><span class="st0">'black'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>instance1.<span class="me1">colors</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//'red,blue,green,black'</span>
+&nbsp;
+<span class="kw1">var</span> instance2 <span class="sy0">=</span> <span class="kw1">new</span> SubType<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>instance2.<span class="me1">colors</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//'red,blue,green,black'</span></pre>
+
+</div>
+
+<h4 id="parasitic_combination_inheritance">Parasitic Combination Inheritance</h4>
+<div class="level4">
+
+<p>
+In order to have unique parent instances, and to have the ability to call the constructor of the parent (as we do in <abbr title="Hypertext Preprocessor">PHP</abbr>), we need to separate the inheritance chain, so that constructors inherit from constructors, and prototypes inherit from prototypes. This means a child constructor could call the parent&#039;s constructor and apply unique values to the parent. Furthermore since the prototype is chained, we can still have sharable functions across instances. If we stop at this point, we&#039;d essentially be doing “Constructor Stealing”, which is similar to calling parent constructor in <abbr title="Hypertext Preprocessor">PHP</abbr>. However in order to link up prototypes, we would have to make the child prototype equal to the instantiation of the parent constructor. This is somewhat inefficient, as that leads us to executing the parent constructor twice, once when we steal the constructor, and a second time when we link up the prototype. We can employ a method called “Parasitic Combination Inheritance”, in order to assign the parent prototype directly to the child&#039;s prototype. The below code example also demonstrates an augmentation of native object <abbr title="Application Programming Interface">API</abbr> in javascript, and also uses ES5 syntax.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/bpuD9W?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/bpuD9W?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//parasitic combination inheritance</span>
+<span class="co1">//this style most closely models the classical OOP inheritance style, and therefore has all the same power! Also needs ES5</span>
+<span class="co1">//also perserves instanceof and isPrototypeOf chains</span>
+&nbsp;
+<span class="co1">//adding an inherit method to the native Object (javascript is dynamic and flexible)</span>
+<span class="co1">//Essentially it assigns the superType's prototype to the subType's prototype</span>
+<span class="kw4">Object</span>.<span class="me1">inherit</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>subType<span class="sy0">,</span> superType<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="co1">//creates a new empty object with the superType's prototype</span>
+	<span class="kw1">var</span> <span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw4">Object</span>.<span class="me1">create</span><span class="br0">&#40;</span>superType.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="co1">//preserving the reverse chain from the prototype back to the constructor, in this case subType</span>
+	<span class="kw1">prototype</span>.<span class="me1">constructor</span> <span class="sy0">=</span> subType<span class="sy0">;</span>
+	<span class="co1">//finally assigns the prototype to subType</span>
+	subType.<span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw1">prototype</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> Animal <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>weight <span class="sy0">=</span> <span class="st0">'100 kg'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">weight</span> <span class="sy0">=</span> weight<span class="sy0">;</span> <span class="co1">//this is going to be added to the child instance</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+Animal.<span class="kw1">prototype</span>.<span class="me1">getWeight</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">weight</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> Pig <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>colour <span class="sy0">=</span> <span class="st0">'Pink'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="co1">//executes the Animal constructor function, bringing in it's unique instance variables to the Pig's scope</span>
+	Animal.<span class="me1">apply</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">'1000 kg'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="kw1">this</span>.<span class="me1">colour</span> <span class="sy0">=</span> colour<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//assigns Animal's prototype to Pig's prototype</span>
+<span class="kw4">Object</span>.<span class="me1">inherit</span><span class="br0">&#40;</span>Pig<span class="sy0">,</span> Animal<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//augment the prototype for Pig, but not for other animals (if any)</span>
+Pig.<span class="kw1">prototype</span>.<span class="me1">getColour</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">colour</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> pig <span class="sy0">=</span> <span class="kw1">new</span> Pig<span class="br0">&#40;</span><span class="st0">'Yellow'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getColour</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getWeight</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+
+<h4 id="true_prototype_inheritance">True Prototype Inheritance</h4>
+<div class="level4">
+
+<p>
+All of the above styles are quite common to object and inheritance creation in javascript land. However all of them are essentially trying to provide classical class based OOP capability to a prototype based language. So that way developers from a classical OOP background can quickly grasp large scale application development in javascript. However all of that is unnecessary if we embrace true prototype based inheritance programming. This requires a shift in the way we think (and philosophise) about <a href="http://en.wikipedia.org/wiki/Prototype-based_programming" class="urlextern" title="http://en.wikipedia.org/wiki/Prototype-based_programming"  rel="nofollow">objects in programming</a> and <a href="http://en.wikipedia.org/wiki/Prototype_theory" class="urlextern" title="http://en.wikipedia.org/wiki/Prototype_theory"  rel="nofollow">real life</a>. <a href="http://javascript.crockford.com/prototypal.html" class="urlextern" title="http://javascript.crockford.com/prototypal.html"  rel="nofollow">This style in javascript was popularised by Douglas Crockford</a>, but it is also commonly used in less popular prototype languages. The <a href="http://stackoverflow.com/questions/879061/what-are-the-advantages-that-prototype-based-oo-has-over-class-based-oo" class="urlextern" title="http://stackoverflow.com/questions/879061/what-are-the-advantages-that-prototype-based-oo-has-over-class-based-oo"  rel="nofollow">advantages of this method</a> is that it&#039;s actually closer to how humans cognitively think about objects, possibly easier to learn if never exposed to class based OOP, and incredibly expressive. Oh and it&#039;s ridiculously simple.
+</p>
+
+<p>
+We first need a object creator function that assigns a prototype and gives us back an empty object.
+</p>
+<pre class="code javascript"><span class="co1">//takes an object, returns a new object but with a prototype assigned to the inserted object</span>
+<span class="kw1">function</span> object<span class="br0">&#40;</span>o<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    <span class="kw1">function</span> F<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+    F.<span class="kw1">prototype</span> <span class="sy0">=</span> o<span class="sy0">;</span>
+    <span class="kw1">return</span> <span class="kw1">new</span> F<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+With the proliferation of ES5, you don&#039;t have to create your own helper function. You can simply use <code>Object.create()</code>, the first parameter being the object you want to be a prototype. You&#039;ll have noticed that we actually did use this method in the “Combination Parasitic Inheritance” pattern.
+</p>
+
+<p>
+In class based languages, you often had to carefully plan out your taxonomy and relationships between abstract concepts. This often results in a plethora of interesting nouns that essentially lay downs contractual agreements in their relationships. Prototype supporters think that the practice is unnecessary, and instead you should start creating objects with behaviours as soon as possible, and then then later think about classification of similar objects. This is because prototype theory in cognitive science argues that categories of objects are not strictly concrete all the time, but instead there is a graded categorisation of objects which may have one or more focal points. See <a href="http://en.wikipedia.org/wiki/Prototype theory" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Prototype theory">prototype theory for more interesting discussions</a>. The point is, in programming, objects can simply inherit from other objects, not because those objects are hierarchical parents, but simply because they are related in some way, and these relationships aren&#039;t strictly inherited, some disappear and new ones appear when they need to.
+</p>
+
+<p>
+You can see this happening in javascript. All objects have a prototype pointing back the native Object.prototype. This makes sense because they are all related semantically to “object”. If you need a new object to contain modular code or conceptualise some sort of state or actor, you can either create ex-nihilo via the object literal syntax, or create extend it from a previous related object. The practice is bottom-up, there&#039;s no need to categorise everything from an abstraction down to concrete, just write concrete examples, and when you see relationships form between concrete examples, then depending on the concrete object you&#039;re writing, you can then inherit one from the other. When you need a wider generalisation, then just create higher abstract object and make both prototypes inherit it.
+</p>
+
+<p>
+<iframe title="" src="http://www.docstoc.com/docs/document-preview.aspx?doc_id=27581648" style="width:427px; height:356px" frameborder="0" scrolling="no"></iframe>
+</p>
+
+<p>
+Here&#039;s an example of using prototypical inheritance.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/QCUYSV?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/QCUYSV?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//animal prototype! (no need to use StudlyCaps since it's not a constructor function)</span>
+<span class="kw1">var</span> animal <span class="sy0">=</span> <span class="br0">&#123;</span>
+	weight<span class="sy0">:</span> <span class="st0">'100 kg'</span><span class="sy0">,</span>
+	getWeight<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">weight</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//pig is a prototype of animal</span>
+<span class="kw1">var</span> pig1 <span class="sy0">=</span> <span class="kw4">Object</span>.<span class="me1">create</span><span class="br0">&#40;</span>animal<span class="br0">&#41;</span><span class="sy0">;</span>
+pig1.<span class="me1">colour</span> <span class="sy0">=</span> <span class="st0">'Pink'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> pig2 <span class="sy0">=</span> <span class="kw4">Object</span>.<span class="me1">create</span><span class="br0">&#40;</span>animal<span class="br0">&#41;</span><span class="sy0">;</span>
+pig2.<span class="me1">colour</span> <span class="sy0">=</span> <span class="st0">'Brown'</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> wildPig <span class="sy0">=</span> <span class="kw4">Object</span>.<span class="me1">create</span><span class="br0">&#40;</span>pig2<span class="br0">&#41;</span><span class="sy0">;</span>
+wildPig.<span class="me1">tusks</span> <span class="sy0">=</span> <span class="kw2">true</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the proto chain is being preserved, and it's overlapping!</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig<span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig.<span class="kw3">__proto__</span>.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT7 SECTION "Inheritance" [27327-37923] -->
+<h2 class="sectionedit8" id="functional_programming_in_javascript">Functional Programming in Javascript</h2>
+<div class="level2">
+
+<p>
+Talk about true closures
+</p>
+
+<p>
+Higher order functions.
+</p>
+
+<p>
+Anonymous function declaration and immediate execution.
+</p>
+<pre class="code javascript"><span class="co1">//self-executing anonymous function enclosure</span>
+<span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>parameter<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'I was declared and executed immediately! Here is my '</span> <span class="sy0">+</span> parameter<span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="br0">&#40;</span><span class="st0">'parameter'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//second set of parantheses can have parameters, or have actual commands</span></pre>
+
+</div>
+<!-- EDIT8 SECTION "Functional Programming in Javascript" [37924-38349] -->
+<h2 class="sectionedit9" id="mvc_in_javascript">MVC in Javascript</h2>
 <div class="level2">
 
 <p>
@@ -197,8 +864,8 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT7 SECTION "MVC in Javascript" [8564-9267] -->
-<h3 class="sectionedit8" id="modules">Modules</h3>
+<!-- EDIT9 SECTION "MVC in Javascript" [38350-39053] -->
+<h3 class="sectionedit10" id="modules">Modules</h3>
 <div class="level3">
 
 <p>
@@ -210,8 +877,8 @@ AngularJS modules
 </p>
 
 </div>
-<!-- EDIT8 SECTION "Modules" [9268-9350] -->
-<h3 class="sectionedit9" id="routing">Routing</h3>
+<!-- EDIT10 SECTION "Modules" [39054-39136] -->
+<h3 class="sectionedit11" id="routing">Routing</h3>
 <div class="level3">
 
 <p>
@@ -219,8 +886,8 @@ AngularJS routing
 </p>
 
 </div>
-<!-- EDIT9 SECTION "Routing" [9351-9388] -->
-<h3 class="sectionedit10" id="scoping">Scoping</h3>
+<!-- EDIT11 SECTION "Routing" [39137-39174] -->
+<h3 class="sectionedit12" id="scoping">Scoping</h3>
 <div class="level3">
 
 <p>
@@ -248,8 +915,8 @@ AngularJS routing
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Scoping" [9389-9911] -->
-<h3 class="sectionedit11" id="controllers">Controllers</h3>
+<!-- EDIT12 SECTION "Scoping" [39175-39697] -->
+<h3 class="sectionedit13" id="controllers">Controllers</h3>
 <div class="level3">
 
 <p>
@@ -257,8 +924,8 @@ ANGULARJS page controllers vs partial controllers
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Controllers" [9912-9985] -->
-<h3 class="sectionedit12" id="directives">Directives</h3>
+<!-- EDIT13 SECTION "Controllers" [39698-39771] -->
+<h3 class="sectionedit14" id="directives">Directives</h3>
 <div class="level3">
 
 <p>
@@ -290,8 +957,8 @@ Isolate scope and stuff
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Directives" [9986-10512] -->
-<h3 class="sectionedit13" id="templating">Templating</h3>
+<!-- EDIT14 SECTION "Directives" [39772-40298] -->
+<h3 class="sectionedit15" id="templating">Templating</h3>
 <div class="level3">
 
 <p>
@@ -303,8 +970,8 @@ Loading from server, or loading from client
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Templating" [10513-10626] -->
-<h3 class="sectionedit14" id="services">Services</h3>
+<!-- EDIT15 SECTION "Templating" [40299-40412] -->
+<h3 class="sectionedit16" id="services">Services</h3>
 <div class="level3">
 
 <p>
@@ -312,8 +979,8 @@ AngularJS services
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Services" [10627-10666] -->
-<h2 class="sectionedit15" id="bom_dom">BOM &amp; DOM</h2>
+<!-- EDIT16 SECTION "Services" [40413-40452] -->
+<h2 class="sectionedit17" id="bom_dom">BOM &amp; DOM</h2>
 <div class="level2">
 
 <p>
@@ -333,8 +1000,8 @@ Location object…
 </p>
 
 </div>
-<!-- EDIT15 SECTION "BOM & DOM" [10667-10794] -->
-<h2 class="sectionedit16" id="events_asynchronous">Events &amp; Asynchronous</h2>
+<!-- EDIT17 SECTION "BOM & DOM" [40453-40580] -->
+<h2 class="sectionedit18" id="events_asynchronous">Events &amp; Asynchronous</h2>
 <div class="level2">
 
 <p>
@@ -354,8 +1021,8 @@ Using promises
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Events & Asynchronous" [10795-10988] -->
-<h2 class="sectionedit17" id="ajax">AJAX</h2>
+<!-- EDIT18 SECTION "Events & Asynchronous" [40581-40774] -->
+<h2 class="sectionedit19" id="ajax">AJAX</h2>
 <div class="level2">
 
 <p>
@@ -375,8 +1042,8 @@ Long polling, short polling
 </p>
 
 </div>
-<!-- EDIT17 SECTION "AJAX" [10989-11135] -->
-<h2 class="sectionedit18" id="html5_apis">HTML5 APIs</h2>
+<!-- EDIT19 SECTION "AJAX" [40775-40921] -->
+<h2 class="sectionedit20" id="html5_apis">HTML5 APIs</h2>
 <div class="level2">
 
 <p>
@@ -388,8 +1055,8 @@ Web Workers
 </p>
 
 </div>
-<!-- EDIT18 SECTION "HTML5 APIs" [11136-11205] -->
-<h2 class="sectionedit19" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
+<!-- EDIT20 SECTION "HTML5 APIs" [40922-40991] -->
+<h2 class="sectionedit21" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
 <div class="level2">
 
 <p>
@@ -405,8 +1072,8 @@ Require.js or HeadJS
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Dependency Management & Script Loaders" [11206-11357] -->
-<h2 class="sectionedit20" id="real_time_web">Real Time Web</h2>
+<!-- EDIT21 SECTION "Dependency Management & Script Loaders" [40992-41143] -->
+<h2 class="sectionedit22" id="real_time_web">Real Time Web</h2>
 <div class="level2">
 
 <p>
@@ -418,8 +1085,8 @@ Operational Transformation using ShareJS
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Real Time Web" [11358-11465] -->
-<h2 class="sectionedit21" id="canvas">Canvas</h2>
+<!-- EDIT22 SECTION "Real Time Web" [41144-41251] -->
+<h2 class="sectionedit23" id="canvas">Canvas</h2>
 <div class="level2">
 
 <p>
@@ -427,4 +1094,4 @@ Operational Transformation using ShareJS
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Canvas" [11466-] -->
+<!-- EDIT23 SECTION "Canvas" [41252-] -->

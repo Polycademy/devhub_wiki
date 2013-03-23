@@ -43,10 +43,11 @@ jQuery (for DOM and AJAX)
 
   * [[http://api.jquery.com/|jQuery API Documentation]]
   * [[http://jqfundamentals.com/|jQuery Fundamentals]]
+  * [[https://tutsplus.com/course/30-days-to-learn-jquery/|30 Days to Learn jQuery]]
 
 Javascript MVC Frameworks for Single Page Applications (SPAs)
 
-  * [[http://docs.angularjs.org/guide/|Angular JS]]
+  * [[http://angularjs.org/|Angular JS]]
 
 A note regarding javascript. Doing SPAs require you structure your application server as an API end point, and you need to apply authentication strategies fit for SPA use such as Oauth server plus client.
 

@@ -1675,7 +1675,7 @@ The first validation is a matter of authentication, that is checking if the clie
 <div class="level4">
 
 <p>
-In the above mentioned second validation, it is a matter of applying constraints onto inputted data. Codeigniter provides us with a <a href="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html"  rel="nofollow">validation library</a> to simplify the process of constraining form inputs. Remember to setup your validation constraints in an <a href="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html#savingtoconfig" class="urlextern" title="http://ellislab.com/codeigniter/user-guide/libraries/form_validation.html#savingtoconfig"  rel="nofollow">external validation config file</a> so your controllers can be thinner. You can do this by creating a custom validation config file that is autoloaded, then pass it using <code>$this→form_validation→set_rules</code>.
+In the above mentioned second validation, it is a matter of applying constraints onto inputted data. You should use the <a href="https://github.com/Polycademy/PHP-Validation" class="urlextern" title="https://github.com/Polycademy/PHP-Validation"  rel="nofollow">PHP-Validation library</a> to validate data coming into your models. Data validation should happen in the model, as that&#039;s the final point of entry.
 </p>
 
 <p>
@@ -1694,13 +1694,7 @@ Here&#039;s a list of example constraints you may apply on data input:
 </li>
 <li class="level1"><div class="li"> Allowed - Did the input pass in restricted characters? Such as numbers when you only wanted the alphabet.</div>
 </li>
-<li class="level1"><div class="li"> XSS - Does the input have any scripts inside of it.</div>
-</li>
 </ul>
-
-<p>
-The form validation library will allow you to define your own custom callback functions if you need special validation constraints. Codeigniter&#039;s form validation library currently works only for forms, and so it is hard coupled to the controller. If you&#039;re a MVC purist, you may prefer an ORM or a <a href="https://github.com/Respect/Validation" class="urlextern" title="https://github.com/Respect/Validation"  rel="nofollow">data validation library</a> which can be used in the model instead.
-</p>
 
 </div>
 
@@ -1776,7 +1770,7 @@ The third problem is the newer RESTful <abbr title="Hyper Text Transfer Protocol
 </p>
 
 </div>
-<!-- EDIT29 SECTION "Input Validation" [86537-99442] -->
+<!-- EDIT29 SECTION "Input Validation" [86537-98662] -->
 <h3 class="sectionedit30" id="handling_passwords">Handling Passwords</h3>
 <div class="level3">
 
@@ -1797,7 +1791,7 @@ However there is a new native password hashing function that is on <abbr title="
 </p>
 
 </div>
-<!-- EDIT30 SECTION "Handling Passwords" [99443-102053] -->
+<!-- EDIT30 SECTION "Handling Passwords" [98663-101273] -->
 <h3 class="sectionedit31" id="ssl">SSL</h3>
 <div class="level3">
 
@@ -1826,7 +1820,7 @@ When you&#039;re developing on localhost, you won&#039;t need to implement <abbr
 </p>
 
 </div>
-<!-- EDIT31 SECTION "SSL" [102054-105057] -->
+<!-- EDIT31 SECTION "SSL" [101274-104277] -->
 <h3 class="sectionedit32" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
 <div class="level3">
 
@@ -1834,8 +1828,18 @@ When you&#039;re developing on localhost, you won&#039;t need to implement <abbr
 In short don&#039;t bother. Leave it to the experts. Have a third party process transactions for you and they will handle any <abbr title="Secure Sockets Layer">SSL</abbr> related issues. If you are adamant about implementing this yourself be prepared to shell out a lot of cash and resources, because it&#039;s not just about technology, but PCI compliance, legal issues and auditing.
 </p>
 
+<p>
+Rather than implementing the merchant processor&#039;s own <abbr title="Application Programming Interface">API</abbr> package you can use the Omnipay package that supports multiple payment gateways:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/adrianmacneil/omnipay" class="urlextern" title="https://github.com/adrianmacneil/omnipay"  rel="nofollow">Omnipay</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://pin.net.au/" class="urlextern" title="https://pin.net.au/"  rel="nofollow">Payment Gateway designed for Developers</a></div>
+</li>
+</ul>
+
 </div>
-<!-- EDIT32 SECTION "Payments & Credit Cards" [105058-105428] -->
+<!-- EDIT32 SECTION "Payments & Credit Cards" [104278-104914] -->
 <h2 class="sectionedit33" id="sessions_authentication">Sessions &amp; Authentication</h2>
 <div class="level2">
 
@@ -1844,7 +1848,7 @@ For there to be users to your web application, you need user accounts. To have u
 </p>
 
 </div>
-<!-- EDIT33 SECTION "Sessions & Authentication" [105429-106283] -->
+<!-- EDIT33 SECTION "Sessions & Authentication" [104915-105769] -->
 <h3 class="sectionedit34" id="sessions">Sessions</h3>
 <div class="level3">
 
@@ -1865,7 +1869,7 @@ There&#039;s a caveat to all of the above information. In the RESTful standard, 
 </p>
 
 </div>
-<!-- EDIT34 SECTION "Sessions" [106284-108472] -->
+<!-- EDIT34 SECTION "Sessions" [105770-107958] -->
 <h3 class="sectionedit35" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
@@ -1897,7 +1901,7 @@ We won&#039;t actually be using Codeigniter&#039;s session database store sessio
 </p>
 
 </div>
-<!-- EDIT35 SECTION "Authentication System" [108473-110208] -->
+<!-- EDIT35 SECTION "Authentication System" [107959-109694] -->
 <h3 class="sectionedit36" id="access_control_list">Access Control List</h3>
 <div class="level3">
 
@@ -1936,7 +1940,7 @@ Refer to these resources to use Zend <abbr title="Access Control List">ACL</abbr
 </ul>
 
 </div>
-<!-- EDIT36 SECTION "Access Control List" [110209-111821] -->
+<!-- EDIT36 SECTION "Access Control List" [109695-111307] -->
 <h2 class="sectionedit37" id="htaccess">.htaccess</h2>
 <div class="level2">
 
@@ -1945,12 +1949,16 @@ The <a href="http://en.wikipedia.org/wiki/.htaccess" class="interwiki iw_wp" tit
 </p>
 
 </div>
-<!-- EDIT37 SECTION ".htaccess" [111822-112844] -->
+<!-- EDIT37 SECTION ".htaccess" [111308-112330] -->
 <h3 class="sectionedit38" id="url_rewriting">URL Rewriting</h3>
 <div class="level3">
 
 <p>
 <a href="http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html" class="urlextern" title="http://httpd.apache.org/docs/2.0/mod/mod_rewrite.html"  rel="nofollow">URL rewriting</a> means modifying a website&#039;s <abbr title="Uniform Resource Locator">URL</abbr> so that it looks different. Why would you want to do this? Well one implement is when you&#039;re using the front controller method in an MVC web application, then all requests are routed first to the <code>index.php</code> as the front controller. Any subsequent parameters would be passed in as <abbr title="Uniform Resource Locator">URL</abbr> segments to point to any controller and method. This would result into a <abbr title="Uniform Resource Locator">URL</abbr> similar to “<a href="http://example.com/index.php/controller/method" class="urlextern" title="http://example.com/index.php/controller/method"  rel="nofollow">http://example.com/index.php/controller/method</a>”. Having the index.php inside the <abbr title="Uniform Resource Locator">URL</abbr> is superfluous, we might as well not have it and have the server expect it by default. We can use <abbr title="Uniform Resource Locator">URL</abbr> rewriting to remove the index.php from the <abbr title="Uniform Resource Locator">URL</abbr> and preserve the <abbr title="Uniform Resource Locator">URL</abbr>&#039;s functionality.
+</p>
+
+<p>
+Note you need to activate the <code>mod_rewrite</code> extension to Apache to run this.
 </p>
 <pre class="code">#this section is already provided by H5BP, but we modified to suit Codeigniter, different frameworks will require different options
 #this is condtion to check if the module was loaded by apache, most hosts support it automatically
@@ -1999,7 +2007,7 @@ To learn more about rewriting, check out this <a href="http://net.tutsplus.com/t
 </p>
 
 </div>
-<!-- EDIT38 SECTION "URL Rewriting" [112845-117498] -->
+<!-- EDIT38 SECTION "URL Rewriting" [112331-117064] -->
 <h3 class="sectionedit39" id="compression">Compression</h3>
 <div class="level3">
 
@@ -2066,7 +2074,7 @@ Notice that the content-encoding has a value of gzip. If we use H5BP&#039;s defl
 </p>
 
 </div>
-<!-- EDIT39 SECTION "Compression" [117499-121523] -->
+<!-- EDIT39 SECTION "Compression" [117065-121089] -->
 <h3 class="sectionedit40" id="controlling_browser_cache">Controlling Browser Cache</h3>
 <div class="level3">
 
@@ -2136,7 +2144,7 @@ This way instead of using query parameters, you can cache bust javascript, css, 
 </p>
 
 </div>
-<!-- EDIT40 SECTION "Controlling Browser Cache" [121524-125743] -->
+<!-- EDIT40 SECTION "Controlling Browser Cache" [121090-125309] -->
 <h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
@@ -2145,7 +2153,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT41 SECTION "Caching" [125744-126311] -->
+<!-- EDIT41 SECTION "Caching" [125310-125877] -->
 <h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
@@ -2154,7 +2162,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Opcode Caching" [126312-126706] -->
+<!-- EDIT42 SECTION "Opcode Caching" [125878-126272] -->
 <h3 class="sectionedit43" id="file_caching">File Caching</h3>
 <div class="level3">
 
@@ -2177,7 +2185,7 @@ Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-cac
 </p>
 
 </div>
-<!-- EDIT43 SECTION "File Caching" [126707-128163] -->
+<!-- EDIT43 SECTION "File Caching" [126273-127729] -->
 <h3 class="sectionedit44" id="memory_caching">Memory Caching</h3>
 <div class="level3">
 
@@ -2198,7 +2206,7 @@ Be wary of <a href="http://en.wikipedia.org/wiki/Race_condition#Software" class=
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Memory Caching" [128164-129760] -->
+<!-- EDIT44 SECTION "Memory Caching" [127730-129326] -->
 <h2 class="sectionedit45" id="restful_routing">RESTful Routing</h2>
 <div class="level2">
 
@@ -2228,7 +2236,7 @@ One question that was often asked by beginning developers is, how best to rout y
 </p>
 
 </div>
-<!-- EDIT45 SECTION "RESTful Routing" [129761-131779] -->
+<!-- EDIT45 SECTION "RESTful Routing" [129327-131345] -->
 <h3 class="sectionedit46" id="rest">REST</h3>
 <div class="level3">
 
@@ -2315,7 +2323,7 @@ Now you understand the RESTful standard. The first thing to implement RESTful st
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131780-142995] -->
+<!-- EDIT46 SECTION "REST" [131346-142561] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
@@ -2336,7 +2344,7 @@ Of course if the data doesn&#039;t change much, remember to cache the JSON outpu
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [142996-145480] -->
+<!-- EDIT47 SECTION "Handling Output" [142562-145046] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
@@ -2367,7 +2375,7 @@ You&#039;ll notice that almost all APIs requiring any kind of authentication wil
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [145481-148125] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [145047-147691] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
@@ -2426,7 +2434,7 @@ We have a number of libraries available to abstract all of these authentication 
 </ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [148126-154683] -->
+<!-- EDIT49 SECTION "Third Party Login" [147692-154249] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
@@ -2447,8 +2455,34 @@ Most of these implementations are outside the scope of this course, but a lot of
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [154684-156907] -->
-<h3 class="sectionedit51" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
+<!-- EDIT50 SECTION "Providing Web Services APIs" [154250-156473] -->
+<h3 class="sectionedit51" id="ajax_json_message_protocol">AJAX JSON Message Protocol</h3>
+<div class="level3">
+
+<p>
+When we&#039;ve established an <abbr title="Application Programming Interface">API</abbr> for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There&#039;s no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages.
+</p>
+<pre class="code javascript"><span class="co1">//the content can be whatever we want, simply put in what makes sense, and what the client would need</span>
+<span class="co1">//the code can be:</span>
+<span class="co1">//success =&gt; standard success for any particular request</span>
+<span class="co1">//error =&gt; standard error, no system failure, expect that content would be a message string, pretty much all of the 400 errors, also includes any errors to update or delete (if those didn't work), these errors are harmless</span>
+<span class="co1">//validation_error =&gt; validation errors for POST or PUT, expect that content would be an object of validation error messages</span>
+<span class="co1">//system_error =&gt; real important error, like couldn't communicate to the database, basically any 500 error</span>
+<span class="co1">//redirect =&gt; force a redirect on the client side, this is necessary for single page apps, since the client side handles the routing</span>
+&nbsp;
+<span class="br0">&#123;</span>
+    <span class="st0">&quot;content&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//this can be an object, array or string</span>
+    <span class="st0">&quot;code&quot;</span><span class="sy0">:</span> <span class="st0">&quot;&quot;</span><span class="sy0">,</span> <span class="co1">//this could be &quot;success&quot;/&quot;error&quot;/&quot;validation_error&quot;/&quot;system_error&quot;/&quot;redirect&quot;,</span>
+    <span class="st0">&quot;redirect&quot;</span><span class="sy0">:</span> <span class="st0">&quot;url/to/redirect/to&quot;</span> <span class="co1">//this allows the server to redirect the single page app client</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+Also note that if you are implementing web sockets, they require a more strict message protocol such as STOMP or WAMP.
+</p>
+
+</div>
+<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [156474-157988] -->
+<h3 class="sectionedit52" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
 <p>
@@ -2496,8 +2530,8 @@ Regardless of the authentication scheme, if writing state management in javascri
 </p>
 
 </div>
-<!-- EDIT51 SECTION "RESTful Authentication & Stateless State" [156908-161670] -->
-<h3 class="sectionedit52" id="restful_server">RESTful Server</h3>
+<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [157989-162751] -->
+<h3 class="sectionedit53" id="restful_server">RESTful Server</h3>
 <div class="level3">
 
 <p>
@@ -2519,8 +2553,8 @@ There are also frameworks designed to be used as an <abbr title="Application Pro
 </p>
 
 </div>
-<!-- EDIT52 SECTION "RESTful Server" [161671-162571] -->
-<h3 class="sectionedit53" id="debugging_apis">Debugging APIs</h3>
+<!-- EDIT53 SECTION "RESTful Server" [162752-163652] -->
+<h3 class="sectionedit54" id="debugging_apis">Debugging APIs</h3>
 <div class="level3">
 
 <p>
@@ -2528,12 +2562,12 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 </p>
 
 </div>
-<!-- EDIT53 SECTION "Debugging APIs" [162572-162742] -->
-<h2 class="sectionedit54" id="concurrent_processing">Concurrent Processing</h2>
+<!-- EDIT54 SECTION "Debugging APIs" [163653-163823] -->
+<h2 class="sectionedit55" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
 <p>
-Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating <abbr title="Hypertext Preprocessor">PHP</abbr> in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services.
+Concurrent processing is sometimes necessary when the processing work that is needed to be done will take a longer time than what is acceptable. Operating <abbr title="Hypertext Preprocessor">PHP</abbr> in a single thread would mean that the user would get no response and could not interact with the user interface until that processing finished. This is not very good for user experience. Common applications involve processing images thumbnails, uploading and encoding video, compiling code, simultaneously sending thousands of emails, producing PDFs and asynchronously querying multiple third party services. Note that this isn&#039;t the same as “periodic tasks” which is often carried out by <a href="http://en.wikipedia.org/wiki/Cron" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Cron">Cron</a>.
 </p>
 
 <p>
@@ -2595,8 +2629,8 @@ An important concept to understand is that using long running daemons instead of
 </p>
 
 </div>
-<!-- EDIT54 SECTION "Concurrent Processing" [162743-168151] -->
-<h3 class="sectionedit55" id="configuration_for_daemons">Configuration for Daemons</h3>
+<!-- EDIT55 SECTION "Concurrent Processing" [163824-169330] -->
+<h3 class="sectionedit56" id="configuration_for_daemons">Configuration for Daemons</h3>
 <div class="level3">
 
 <p>
@@ -2626,8 +2660,35 @@ You can also investigate more <a href="http://www.php.net/manual/en/info.configu
 </p>
 
 </div>
-<!-- EDIT55 SECTION "Configuration for Daemons" [168152-170029] -->
-<h2 class="sectionedit56" id="sockets_rtc">Sockets &amp; RTC</h2>
+<!-- EDIT56 SECTION "Configuration for Daemons" [169331-171209] -->
+<h3 class="sectionedit57" id="hosting_solutions">Hosting Solutions</h3>
+<div class="level3">
+
+<p>
+Not all web hosts will offer concurrent processing features, mainly because running a daemon takes up CPU and resources that cannot be shared across multiple accounts. Here are your options whenever you need to run a daemon or worker processes.
+</p>
+
+<p>
+<strong>Free</strong>
+</p>
+<ul>
+<li class="level1"><div class="li"> Use <a href="https://www.dotcloud.com/" class="urlextern" title="https://www.dotcloud.com/"  rel="nofollow">dotCloud</a>, they offer <a href="http://docs.dotcloud.com/guides/daemons/" class="urlextern" title="http://docs.dotcloud.com/guides/daemons/"  rel="nofollow">background daemons</a> and an job queue alternative to Gearman called <a href="https://github.com/chrisboulton/php-resque" class="urlextern" title="https://github.com/chrisboulton/php-resque"  rel="nofollow">PHP-Resque</a>. They even have a <a href="http://docs.dotcloud.com/tutorials/php/resque/" class="urlextern" title="http://docs.dotcloud.com/tutorials/php/resque/"  rel="nofollow">guide for setting up PHP-Resque</a> on themselves. You can learn more about <abbr title="Hypertext Preprocessor">PHP</abbr>-Resque <a href="http://www.kamisama.me/2011/11/07/php-rescue-with-phpredis/" class="urlextern" title="http://www.kamisama.me/2011/11/07/php-rescue-with-phpredis/"  rel="nofollow">here</a>. However do note that their workers cannot communicate TCP or UDP ports (for now) meaning they cannot support Websockets over this configuration.</div>
+</li>
+<li class="level1"><div class="li"> Use <a href="http://www.iron.io/" class="urlextern" title="http://www.iron.io/"  rel="nofollow">Iron.io</a>, they offer a cloud hosted <a href="http://www.iron.io/worker" class="urlextern" title="http://www.iron.io/worker"  rel="nofollow">worker service</a> and <a href="http://www.iron.io/mq" class="urlextern" title="http://www.iron.io/mq"  rel="nofollow">message queue</a>. You can host your workers on their worker service and use their framework to communicate, or you can use their message queue to scale your messaging. This way you can entirely outsource your concurrent processing and job queuing tasks to Iron.io. It may even be possible to run worker daemons that listen on UDP and TCP ports, but this has not been confirmed.</div>
+</li>
+</ul>
+
+<p>
+<strong>Paid</strong>
+</p>
+<ul>
+<li class="level1"><div class="li"> Buy a <a href="http://www.linode.com/" class="urlextern" title="http://www.linode.com/"  rel="nofollow">Linode</a> virtual private server. You&#039;ll have access to the whole server and you can run anything you want.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT57 SECTION "Hosting Solutions" [171210-172759] -->
+<h2 class="sectionedit58" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
 <p>
@@ -2651,4 +2712,4 @@ There will be no free web hosts that will support a Ratchet configuration, you&#
 </p>
 
 </div>
-<!-- EDIT56 SECTION "Sockets & RTC" [170030-] -->
+<!-- EDIT58 SECTION "Sockets & RTC" [172760-] -->

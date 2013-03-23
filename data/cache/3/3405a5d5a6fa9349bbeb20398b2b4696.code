@@ -1,0 +1,22 @@
+<span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Prototype pattern </span>
+&nbsp;
+<span class="kw1">var</span> Person <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//all of these are shared among all object instances</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">name</span> <span class="sy0">=</span> <span class="st0">'Nicholas'</span><span class="sy0">;</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">age</span> <span class="sy0">=</span> <span class="nu0">29</span><span class="sy0">;</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">job</span> <span class="sy0">=</span> <span class="st0">'Software Engineer'</span><span class="sy0">;</span>
+Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> person1 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="kw1">var</span> person2 <span class="sy0">=</span> <span class="kw1">new</span> Person<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+person1.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+person2.<span class="me1">sayName</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//is the two functions the same?</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>person1.<span class="me1">sayName</span> <span class="sy0">===</span> person2.<span class="me1">sayName</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//in js, we use triple equals more often than double equals due to its weird type conversion!</span>

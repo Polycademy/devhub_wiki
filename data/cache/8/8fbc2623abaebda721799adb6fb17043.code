@@ -1,0 +1,43 @@
+<span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//parasitic combination inheritance</span>
+<span class="co1">//this style most closely models the classical OOP inheritance style, and therefore has all the same power! Also needs ES5</span>
+<span class="co1">//also perserves instanceof and isPrototypeOf chains</span>
+&nbsp;
+<span class="co1">//adding an inherit method to the native Object (javascript is dynamic and flexible)</span>
+<span class="co1">//Essentially it assigns the superType's prototype to the subType's prototype</span>
+<span class="kw4">Object</span>.<span class="me1">inherit</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>subType<span class="sy0">,</span> superType<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="co1">//creates a new empty object with the superType's prototype</span>
+	<span class="kw1">var</span> <span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw4">Object</span>.<span class="me1">create</span><span class="br0">&#40;</span>superType.<span class="kw1">prototype</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="co1">//preserving the reverse chain from the prototype back to the constructor, in this case subType</span>
+	<span class="kw1">prototype</span>.<span class="me1">constructor</span> <span class="sy0">=</span> subType<span class="sy0">;</span>
+	<span class="co1">//finally assigns the prototype to subType</span>
+	subType.<span class="kw1">prototype</span> <span class="sy0">=</span> <span class="kw1">prototype</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> Animal <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>weight <span class="sy0">=</span> <span class="st0">'100 kg'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">this</span>.<span class="me1">weight</span> <span class="sy0">=</span> weight<span class="sy0">;</span> <span class="co1">//this is going to be added to the child instance</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+Animal.<span class="kw1">prototype</span>.<span class="me1">getWeight</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">weight</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> Pig <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>colour <span class="sy0">=</span> <span class="st0">'Pink'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="co1">//executes the Animal constructor function, bringing in it's unique instance variables to the Pig's scope</span>
+	Animal.<span class="me1">apply</span><span class="br0">&#40;</span><span class="kw1">this</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">'1000 kg'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="kw1">this</span>.<span class="me1">colour</span> <span class="sy0">=</span> colour<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//assigns Animal's prototype to Pig's prototype</span>
+<span class="kw4">Object</span>.<span class="me1">inherit</span><span class="br0">&#40;</span>Pig<span class="sy0">,</span> Animal<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//augment the prototype for Pig, but not for other animals (if any)</span>
+Pig.<span class="kw1">prototype</span>.<span class="me1">getColour</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">return</span> <span class="kw1">this</span>.<span class="me1">colour</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">var</span> pig <span class="sy0">=</span> <span class="kw1">new</span> Pig<span class="br0">&#40;</span><span class="st0">'Yellow'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getColour</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>pig.<span class="me1">getWeight</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>

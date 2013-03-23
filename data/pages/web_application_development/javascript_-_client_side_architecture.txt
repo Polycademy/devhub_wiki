@@ -6,6 +6,8 @@ Javascript is a multi-paradigm language, that contains all of the features of a 
 
 In traditional non-threaded environment, [[http://stackoverflow.com/a/748189/582917|code is executed synchronously]]. In a multi-threaded environment, code can be executed in parallel. Javascript is mainly operated inside a browser which offers a single thread of execution, therefore javascript is not multi-threaded ([[http://www.html5rocks.com/en/tutorials/workers/basics/|except for Web Workers]]). This presents a bit of a problem for GUI programming, which is what javascript is mainly used for in browsers. Any complex or long running process in javascript will freeze the GUI making it non responsive. For javascript to be dynamic and good at rendering GUIs, it needs to be asynchronous. But multi-threading is a complex programming paradigm and it is a bit of an overkill for simple GUI applications. Therefore browsers offered event driven asynchronous APIs such as XHR for AJAX requests, and the javascript language itself can be event driven. This means that certain code blocks such as functions are bound to a particular event or signal, so the structure of the written code does not map directly to the flow of execution. The browser also offers an event handler that is running an event loop, this allows javascript to hook into the event loop through asynchronous callbacks. This basically means that the [[http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading|flow of execution can move on to another function or statement without waiting for the previous function to complete]].
 
+It is recommended while working through javascript, to practice them using the real time coding service [[http://beta.plnkr.co/|Plunker]]. Also make sure to have your Firebug or Chrome web developer tools open to the console tab. You'll be able to see logs and write javascript directly into your browser.
+
 ===== Javascript Implementations =====
 
 Javascript on the client side actually consists of three parts. The ECMAScript, Document Object Model (DOM) and the Browser Object Model (BOM).
@@ -20,7 +22,10 @@ Javascript on the client side actually consists of three parts. The ECMAScript, 
   * Operators
   * Objects
 
-ECMAScript is released in editions. Most modern browsers support ECMAScript 5th edition. However work is currently being done on the [[http://espadrine.github.com/New-In-A-Spec/es6/|6th edition named Harmony]] which may be released in a year or two.
+ECMAScript is released in editions. Most modern browsers support ECMAScript 5th edition. However work is currently being done on the [[http://espadrine.github.com/New-In-A-Spec/es6/|6th edition named Harmony]] which may be fully supported by modern browsers in a year or two. You can find out the compatibility of different browsers for ES5 or ES6 via these two charts:
+
+  * [[http://kangax.github.com/es5-compat-table/|ES5 Compatibility Chart]]
+  * [[http://kangax.github.com/es5-compat-table/es6/|ES6 Compatibility Chart]]
 
 [{{ :web_application_development:dom-demo.jpg?200|Demostration of DOM}}]
 
@@ -45,9 +50,57 @@ The BOM refers to the APIs that the browser vendors expose to developers. Basica
 
 There is no standard for BOM, so each browser may try to out compete other vendors by offering features others don't have.
 
+===== Working in Javascript =====
+
+**Console Logging**
+
+Before we get started in javascript we have to learn how to debug our javascript code. Because javascript often fails silently it is difficult to debug. By using Firebug or related tools, we can inspect our javascript code and its variables during run time. You should start using these commands to log variables to your console. Check out [[https://getfirebug.com/wiki/index.php/Console_API|Firebug's wiki for more console commands]].
+
+[[http://beta.plnkr.co/edit/iinTwz?p=preview|Plunker Demo]]
+
+<code javascript>
+var object = {};
+
+console.log(object); //logs the object
+console.error(object); //shows a error symbol
+console.info(object); //shows an info symbol
+console.warn(object); //shows a warning symbol
+console.debug(object); //does the same as log
+console.dir(object); //shows a  list of child objects, good for logging objects
+console.table(object); //shows the object in a tabular format
+</code>
+
+**Use Strict**
+
+Javascript is a very dynamic and loose language, and since it fails silently, it's easy to fall into traps of bad code. You can use the use strict mode in order to make your javascript fail more strictly and to keep you writing good code. Just put this at the top of any scripts you write.
+
+<code javascript>
+'use strict';
+</code>
+
+Refer to [[http://ejohn.org/blog/ecmascript-5-strict-mode-json-and-more/|John Resig's article on the use strict]] to find out what it does.
+
+**Other Bad Parts**
+
+One thing that trips up javascript developers is the binding of "this" in objects. This is considered a confusing part of javascript as it was not developed to be OOP from the beginning. Refer to these slides for an explanation on the bad parts of javascript.
+
+  * [[http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/|Javascript Bad Parts]]
+
+**Shims and Polyfills**
+
+Because the host environment that runs javascript could be different, front end developers often face the problem of adapting code for older browsers, and sometimes we even create polyfills for new features that current browsers don't support yet. Shims (or shivs) are just a generic name for any kind of interception of API calls, polyfills are code that provides a fallback for older browsers, they are usually implemented as shims.
+
+The two most important shims you'll need is:
+
+  * [[https://github.com/kriskowal/es5-shim|ES5 Shim]] - ES5 features are usually missing in IE.
+  * [[https://github.com/paulmillr/es6-shim/|ES6 Shim]] - ES6 features are almost missing everywhere.
+  * [[http://bestiejs.github.com/json3/|JSON 3 Shim]] - JSON3 required for IE.
+  * [[https://github.com/angular-ui/angular-ui/tree/master/common/ieshiv|IE Shiv]] - For AngularJS, and Angular UI, so you can have custom tag names working as directives.
+
+The above are just the basics. To work with HTML5 APIs, you'll need to consider your feature list and the browsers you want to support. The [[https://github.com/Modernizr/Modernizr/wiki/HTML5-Cross-browser-Polyfills|Modernizr wiki has a large list of maintained polyfills]] for all sorts of projects.
 ===== OOP in Javascript =====
 
-In classical OOP languages, software is architected through a structure of classes that have properties and methods. Each class is instantiated and then calls upon classes its dependent on and uses them. Javascript however does have any concept of classes, instead it has prototypes.
+In classical OOP languages, software is architected through a structure of classes that have properties and methods. Each class is instantiated and then calls upon classes its dependent on and uses them. Javascript however does have any concept of classes, instead it has prototypes. Note that if you want to know why we have to use OOP, refer to the [[PHP - Server Side Architecture#object_oriented_programming_oop|Server Side Architecture on OOP]].
 
 Prototype-based programming is a style of object-oriented programming in which classes are not present, and behavior reuse (known as inheritance in class-based languages) is accomplished through a process of decorating existing objects which serve as prototypes. This model is also known as class-less, prototype-oriented, or instance-based programming.
 
@@ -62,15 +115,538 @@ You refer to these resources on OOP in javascript before continuing:
 
 ==== Object Creation ====
 
-http://www.phpied.com/3-ways-to-define-a-javascript-class/
+Creating objects in javascript can take many forms. Each has their advantages and disadvantages. You'll have to choose the one that works the best.
 
-==== Prototype Inheritance ====
+The simplest way to create an object is the through the object literal style, also known as short hand syntax. This style is not unlike the associative array in PHP. You would use this whenever you need to create a container for some data, or a throw away object. Javascript libraries often use objects to configure their settings too, in which you would have experienced in PHP with passing in associative arrays. Therefore this style is not intended for creating modularised code.
 
-http://en.wikipedia.org/wiki/Prototype-based
+<code javascript>
+//OBJECT LITERAL STYLE
 
-==== Understanding "this" ====
+var object = {
+    literalKey: 'Blah', //you can use literal keys, without quotes, but they must have no spaces in them
+    'string key': 'Blahblah'
+};
 
-http://unschooled.org/2012/03/understanding-javascript-this/
+console.log(typeof object); //will show that it's an object
+
+
+//OBJECT CONSTRUCTOR STYLE (equivalent)
+
+var differentObject = new Object();
+
+differentObject.name = 'I am a big object!';
+
+console.log(differentObject);
+</code>
+
+In order to create objects in a classless programming language that is intended for modular code and code reuse, we can't use the object literal style. Instead we have the Constructor Pattern, Prototype Pattern, and Combination Constructor & Prototype Pattern. There are others such as Parasitic Constructor Pattern and  Durable Constructor Pattern, however they are specialised for particular purposes. Also note that in these examples we are using function expressions, as this is a better practice than function declarations, it prevents the functions from polluting the global scope.
+
+=== Constructor Pattern ===
+
+This constructor pattern allows to create reusable modular units of code.
+
+[[http://beta.plnkr.co/edit/QTO6W1?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict'; //everytime you write javascript code, make sure to do this, it forces you to write good javascript
+
+//Constructor Pattern
+
+var Person = function(name, age, job){ //by convention constructors should be capitalised based on StudlyCaps
+    //this refers to the newly instantiated object
+    this.name = name;
+    this.age = age;
+    this.job = job;
+    this.sayName = function(){
+        console.log(this.name);
+    };
+}
+
+//by "newing" the function, it executes the function, and binds "this" to the new variable, the variable becomes an object construct
+var person1 = new Person('Roger', '21', 'Awesome');
+var person2 = new Person('Dave', 43, 'Yeap');
+
+person1.sayName();
+person2.sayName();
+
+console.log(typeof person1);
+</code>
+
+=== Prototype Pattern ===
+
+However what happens to inheritance? After all one of the great advantages of OOP is the ability to have concrete classes inherit from abstract parent classes. This way you can share code between similar objects. Well in javascript we have to use [[wp>Prototype-based|prototypes]] instead. Everytime you create a function, it contains a prototype property. By setting properties onto the prototype, and then constructing an object from that function, the properties on that prototype gets shared among all object instances.
+
+[[http://beta.plnkr.co/edit/oM8QPa?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//Prototype pattern 
+
+var Person = function(){};
+
+//all of these are shared among all object instances
+Person.prototype.name = 'Nicholas';
+Person.prototype.age = 29;
+Person.prototype.job = 'Software Engineer';
+Person.prototype.sayName = function(){
+    console.log(this.name);
+};
+
+var person1 = new Person();
+var person2 = new Person();
+
+person1.sayName();
+person2.sayName();
+
+//is the two functions the same?
+console.log(person1.sayName === person2.sayName); //in js, we use triple equals more often than double equals due to its weird type conversion!
+</code>
+
+**Prototype & Constructor Combination Pattern**
+
+Understanding prototypes is crucial to understanding OOP in javascript. The below code example combines the unique instantiations of the constructor pattern with the shared methods of the prototype pattern. This pattern of combination is probably the most common form of object creation you'll see in javascript land.
+
+[[http://beta.plnkr.co/edit/ZVo66w?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//Prototype & Constructor combination pattern 
+
+var Person = function(name, age, job){
+    //these properties will be unique to each instance
+    this.name = name;
+    this.age = age;
+    this.job = job;
+};
+
+//this is shared among all instances
+Person.prototype.sayName = function(){
+    console.log(this.name);
+};
+
+var person1 = new Person('Dave', 21, 'Super Developer');
+
+person1.sayName();
+
+console.log(person1);
+//person1 object instance has a __proto__ property
+console.log(person1.__proto__);
+//it points to the Constructor's prototype
+console.log(person1.__proto__ === Person.prototype); 
+
+//the constructor function has a prototype
+console.log(Person.prototype);
+//the prototype has a constructor property pointing back to the constructor function
+console.log(Person.prototype.constructor === Person); 
+</code>
+
+The question you should be asking is how does the ''sayName()'' function still work? Where is the ''this'' referring to? And how does it get the name of "Dave"? When a property is looked up inside an object, javascript searches on the object instance itself. If it is found, javascript stops searching. If it is not found, the search continues to its prototype, and looks through it to find the property. We can see that the above code demonstrates that there are multiple occurences of where javascript is searching, and finding a property on the instance (produced by the constructor), and sometimes finding the property on the prototype. When ''person1.sayName();'' is called, that's accessing the prototype. When ''this.name'' is accessed inside the ''sayName()'' function, then it's accessing the object instance. You can start to see how javascript allows code reuse through the mixing of constructors and prototypes.
+
+Because the object instances takes priority over the prototype, this allows method overriding. This is as simple as redeclaring a property with the same name onto the object instance. It shadows the property on the prototype. 
+
+[[http://beta.plnkr.co/edit/yW9srh?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//demonstrating shadowing or method overriding
+
+var Person = function(name, age, job){
+    this.name = name;
+    this.age = age;
+    this.job = job;
+};
+
+//fallback method on the prototype
+Person.prototype.sayName = function(){
+    console.log(this.age); //says the age
+};
+
+var person1 = new Person('Dave', 21, 'Super Developer');
+
+//overrides the prototype method
+person1.sayName = function(){
+    console.log(this.name);
+}
+
+//executes the object instance's method
+person1.sayName(); //says the name!
+
+//now how do we call the prototype method if it's been overwritten?
+//By calling it via the __proto__ in the object instance or part of the constructor function
+var o = { age: 15 };
+person1.__proto__.sayName.call(o); //these are binding functions (will display 15)
+//notice how we didn't need to use () to execute the function, the call and apply takes care of that
+Person.prototype.sayName.apply(person1); //another binding function (will display 21)
+
+//this will show nothing due to lack of binding, more on this in the understanding "this" section
+Person.prototype.sayName();
+</code>
+
+Note that there is also a shorter way of defining multiple properties onto the prototype. See [[http://beta.plnkr.co/edit/lGGH9p?p=preview|Plunker demo of short hand prototype definition]]. But make sure to be careful when iterating the object in a loop!
+
+If you need to determine whether a property is part of the object instance or part of the prototype you can use the ''hasOwnProperty()'' function. This is often used in ''for in'' [[http://stackoverflow.com/questions/921789/how-to-loop-through-javascript-object-literal-with-objects-as-members|loops that iterate through the object's properties]] and you need to avoid the prototype's properties when iterating.
+
+<code javascript>
+for(var key in object){ //notice the var operator inside the for loop, we want to avoid pollution!
+    if(object.hasOwnProperty(key)){ //this will make sure that the iterated values are part of the object instance, not prototype! Unless of course you want it!
+        
+        var value = object[key]; //object properties can be accessed via array style syntax too!
+        console.log(value);
+        
+    }
+}
+</code>
+==== Understanding "this" Context and Binding ====
+
+A key concept in javascript OOP is that the "this" context changes based on where it's been invocated (called and executed), not where it's been declared (where it was written in the code). In classical OOP languages, the binding of "this" to the object context is implicit, it's always the immediate parent object. However in javascript this isn't always the case. In javascript, binding loss can occur whenever you're accessing a function through a reference rather than directly through its object context.
+
+Consider these examples of binding the "this":
+
+[[http://beta.plnkr.co/edit/p8m3ai?p=preview|Plunker Demo]]
+
+<code javascript>
+//'use strict'; //this is commented out, as use strict would actually make this demonstration impossible, it tells you when you have binding loss, uncomment it to see it working!
+
+//demonstration of binding sensitive code, be careful of these!
+
+var name = 'I am in the window! You should not see me!';
+
+var object = {
+	name: 'Hi I am an object!',
+	greet: function(){
+		console.log('Message: ' + this.name);
+	},
+	timeoutMethod: function(){
+		setTimeout(function(){
+			console.log('Timeout Method: ' + this.name);
+		}, 2000);
+	},
+	bindingTimeoutMethod: function(){
+		setTimeout(this.funcToBeTimedOut, 3000);
+	},
+	funcToBeTimedOut: function(){
+		console.log('Second Timeout Method ' + this.name);
+	}
+};
+//"METHOD CALL"
+object.greet(); //works
+
+//"BASELESS FUNCTION CALL"
+//executing the function outside of the object context
+//the "this" loses its binding, it actually binds to window global!
+var funcToBeExecutedOutside = object.greet;
+funcToBeExecutedOutside(); //does not work
+
+//"METHOD CALLBACK"
+//still loses the binding
+var anotherObject = {
+	highFunc: function(callback){
+		callback(); //executes object.greet();
+	}
+};
+anotherObject.highFunc(object.greet);
+
+//"USING TIMEOUT"
+//also loses its binding
+setTimeout(object.greet, 1000);
+//even when it is inside the a method! (think about where this is been invocated, it's not inside the object context, its part of setTimeout!)
+object.timeoutMethod();
+//similar concept, calling a method that calls its own method, still fails
+object.bindingTimeoutMethod();
+
+//this one will still work, because it is still a "METHOD CALL"
+var thirdObject = {
+	thirdPartyMethod: function(){
+		object.greet();
+	}
+};
+
+thirdObject.thirdPartyMethod();
+</code>
+
+In order to solve this problem of binding loss, we need to explicitly bind the "this" back to the correct object context. There are several ways of doing this depending on your situation. The most common ways are the closure method, [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/apply|apply method]], and [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/call|call method]]. The closure method works when you're writing a throw away anonymous function, and you have the ability to wrap it in another function while being side the object. The apply and call methods allow you to pass in parameters to the function, however you need to have the right context available. You should use the apply method whenever you don't know the number of parameters to the function, the parameters can then be dynamically accessed via the [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Functions_and_function_scope/arguments|arguments variable]] inside of the function.
+
+The [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/bind|bind method]] in ES5 is far more flexible as it doesn't automatically execute your function allowing it to be used in callback situations. However this does not have [[http://kangax.github.com/es5-compat-table/|IE8 support]], so you'll need to use the [[https://github.com/kriskowal/es5-shim|ES5 shim]] in your scripts.
+
+Note that in ES6 which currently is under development, there will be a new way of declaring functions that have implicit "this" binding. It's called the [[http://css.dzone.com/articles/javascript-fat-city|fat arrow function]].
+
+[[http://beta.plnkr.co/edit/WejeTp?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict'; //strict works now
+
+//demonstration binding solutions
+
+var name = 'I am in the window! You should not see me!';
+
+var object = {
+	name: 'Hi I am an object!',
+	greet: function(parameter){
+		console.log('Message: ' + this.name);
+		if(typeof parameter !== 'undefined'){
+			console.log(parameter);
+		}
+	},
+	timeoutMethod: function(){
+		//closure, fix the "this"
+		var self = this;
+		setTimeout(function(){
+			console.log('Timeout Method: ' + self.name + ' (FROM CLOSURE)');
+		}, 2000);
+	},
+	bindingTimeoutMethod: function(){
+		//the first this works (implicit binding)
+		//the second this is explicitly binded to the funcToBeTimedOut
+		setTimeout(this.funcToBeTimedOut.bind(this), 3000);
+	},
+	funcToBeTimedOut: function(){
+		console.log('Second Timeout Method ' + this.name + ' (BIND WITHIN METHOD)');
+	}
+};
+
+var funcToBeExecutedOutside = object.greet;
+
+//"APPLY METHOD"
+//apply actually executes the function
+funcToBeExecutedOutside.apply(object, ['FROM APPLY']);
+
+//"CALL METHOD"
+//call actually executes the function
+funcToBeExecutedOutside.call(object, 'FROM CALL')
+
+//"BIND METHOD" (ES5 syntax, no IE8 support, requires shim!)
+//bind does not execute the function, allowing its use in callbacks
+//notice the extra parantheses to execute and pass in parameters!
+funcToBeExecutedOutside.bind(object)('FROM BIND');
+
+//"BIND WITH CALLBACK"
+var anotherObject = {
+	highFunc: function(callback){
+		callback('FROM CALLBACK BIND');
+	}
+};
+anotherObject.highFunc(object.greet.bind(object)); //this requires bind! No extra parantheses, since we're passing it in as a callback
+
+//"USING TIMEOUT"
+//setTimeout cannot be used with call or apply! It needs bind
+setTimeout(object.greet.bind(object), 1000, 'FROM TIMEOUT BIND');
+//timeout has a third parameter available in modern browsers
+
+//"CLOSURE METHOD" (see the function)
+object.timeoutMethod();
+
+//this is another bind, but inside the method call
+object.bindingTimeoutMethod();
+</code>
+
+Remember that if you are using frameworks or libraries, sometimes they will explicitly bind the "this" to what they consider to be the most appropriate construct. This is especially true when it comes to events and DOM manipulation. Certain frameworks also offer a binding construct that you can use to abstract from browser differences. One example would be [[http://api.jquery.com/jQuery.proxy/|jQuery's proxy method]]. This is no longer required with the introduction of ES5's bind method. However you may still see it out there in the wild.
+
+==== Inheritance ====
+
+While we have learned how to create objects via the combination of constructor and prototype pattern. However that only works for one object linked to one prototype. In large applications, the inheritance chain could be much longer and wider. Therefore we have to understand the concept of inheritance a bit more.
+
+=== Prototype Chaining ===
+
+Prototype chaining is defined as the primary method of inheritance in ECMAScript. It is possible to assign the prototype of a constructor to an instance of another constructor, which could have it's own prototype. Think of [[http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/#/11|prototypes as omnipresent shadows that follow all the instantiations around]].
+
+[[http://beta.plnkr.co/edit/hY0TiP?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//prototype chaining demonstration
+
+//parent object
+var Animal = function(){
+	this.weight = '100kg';
+};
+
+Animal.prototype.getWeight = function(){
+	return this.weight;
+};
+
+//child object
+var Pig = function(){
+	this.colour = 'Pink';
+};
+
+//Pig now inherits a prototype that is actually the constructor instantiation of Animal
+Pig.prototype = new Animal();
+
+//we can add to the prototype in dynamic languages
+Pig.prototype.getColour = function(){
+	return this.colour;
+}
+
+var pig = new Pig();
+
+//notice how both functions are in prototypes
+console.log(pig.getWeight()); //from the parent
+console.log(pig.getColour()); //from the child
+
+//because they are inherited, the prototypes are "combined", therefore javascript only ever considers two areas when looking up properties, the object's instance, and the object's prototype!
+console.log(Animal.prototype); //has the getWeight
+console.log(Pig.prototype); //has the getWeight and getColour
+console.log(pig.__proto__); //same
+
+//protoypes can be overwritten
+Pig.prototype.getWeight = function(){
+    return '1000 kg';
+};
+    
+var heavierPig = new Pig();
+    
+console.log(heavierPig.getWeight());
+</code>
+
+Remember that all objects in javascript inherit from the native ''Object.prototype''. That's how you can get access to the native API methods such as ''hasOwnProperty'', ''toString'' and ''valueOf''. You can find out more about the [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object/prototype|native object prototype methods on MDN]] & [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Object|native object methods on MDN]]. Similarly functions descend from the ''Function.prototype''. Check out the [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objects/Function/prototype|native function API on MDN]].
+
+Because prototypes are "shadows" that are shared across all instances, if you need a unique instance property to be on the parent object, this becomes impossible, as it will affect all instances. Consider this example:
+
+[[http://beta.plnkr.co/edit/Nq8f16?p=preview|Plunker Demo]]
+
+<code javascript>
+var SuperType = function(){
+	this.colors = ['red', 'blue', 'green'];
+};
+
+var SubType = function(){};
+
+SubType.prototype = new SuperType();
+
+var instance1 = new SubType();
+
+//this will be shared among all instances!
+instance1.colors.push('black');
+
+console.log(instance1.colors); //'red,blue,green,black'
+
+var instance2 = new SubType();
+
+console.log(instance2.colors); //'red,blue,green,black'
+</code>
+
+=== Parasitic Combination Inheritance ===
+
+In order to have unique parent instances, and to have the ability to call the constructor of the parent (as we do in PHP), we need to separate the inheritance chain, so that constructors inherit from constructors, and prototypes inherit from prototypes. This means a child constructor could call the parent's constructor and apply unique values to the parent. Furthermore since the prototype is chained, we can still have sharable functions across instances. If we stop at this point, we'd essentially be doing "Constructor Stealing", which is similar to calling parent constructor in PHP. However in order to link up prototypes, we would have to make the child prototype equal to the instantiation of the parent constructor. This is somewhat inefficient, as that leads us to executing the parent constructor twice, once when we steal the constructor, and a second time when we link up the prototype. We can employ a method called "Parasitic Combination Inheritance", in order to assign the parent prototype directly to the child's prototype. The below code example also demonstrates an augmentation of native object API in javascript, and also uses ES5 syntax.
+
+[[http://beta.plnkr.co/edit/bpuD9W?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//parasitic combination inheritance
+//this style most closely models the classical OOP inheritance style, and therefore has all the same power! Also needs ES5
+//also perserves instanceof and isPrototypeOf chains
+
+//adding an inherit method to the native Object (javascript is dynamic and flexible)
+//Essentially it assigns the superType's prototype to the subType's prototype
+Object.inherit = function(subType, superType){
+	//creates a new empty object with the superType's prototype
+	var prototype = Object.create(superType.prototype);
+	//preserving the reverse chain from the prototype back to the constructor, in this case subType
+	prototype.constructor = subType;
+	//finally assigns the prototype to subType
+	subType.prototype = prototype;
+};
+
+var Animal = function(weight = '100 kg'){
+	this.weight = weight; //this is going to be added to the child instance
+};
+
+Animal.prototype.getWeight = function(){
+	return this.weight;
+};
+
+var Pig = function(colour = 'Pink'){
+	//executes the Animal constructor function, bringing in it's unique instance variables to the Pig's scope
+	Animal.apply(this, ['1000 kg']);
+	this.colour = colour;
+};
+
+//assigns Animal's prototype to Pig's prototype
+Object.inherit(Pig, Animal);
+
+//augment the prototype for Pig, but not for other animals (if any)
+Pig.prototype.getColour = function(){
+	return this.colour;
+};
+
+var pig = new Pig('Yellow');
+
+console.log(pig.getColour());
+console.log(pig.getWeight());
+</code>
+
+=== True Prototype Inheritance ===
+
+All of the above styles are quite common to object and inheritance creation in javascript land. However all of them are essentially trying to provide classical class based OOP capability to a prototype based language. So that way developers from a classical OOP background can quickly grasp large scale application development in javascript. However all of that is unnecessary if we embrace true prototype based inheritance programming. This requires a shift in the way we think (and philosophise) about [[http://en.wikipedia.org/wiki/Prototype-based_programming|objects in programming]] and [[http://en.wikipedia.org/wiki/Prototype_theory|real life]]. [[http://javascript.crockford.com/prototypal.html|This style in javascript was popularised by Douglas Crockford]], but it is also commonly used in less popular prototype languages. The [[http://stackoverflow.com/questions/879061/what-are-the-advantages-that-prototype-based-oo-has-over-class-based-oo|advantages of this method]] is that it's actually closer to how humans cognitively think about objects, possibly easier to learn if never exposed to class based OOP, and incredibly expressive. Oh and it's ridiculously simple.
+
+We first need a object creator function that assigns a prototype and gives us back an empty object.
+
+<code javascript>
+//takes an object, returns a new object but with a prototype assigned to the inserted object
+function object(o){
+    function F(){};
+    F.prototype = o;
+    return new F();
+}
+</code>
+
+With the proliferation of ES5, you don't have to create your own helper function. You can simply use ''Object.create()'', the first parameter being the object you want to be a prototype. You'll have noticed that we actually did use this method in the "Combination Parasitic Inheritance" pattern.
+
+In class based languages, you often had to carefully plan out your taxonomy and relationships between abstract concepts. This often results in a plethora of interesting nouns that essentially lay downs contractual agreements in their relationships. Prototype supporters think that the practice is unnecessary, and instead you should start creating objects with behaviours as soon as possible, and then then later think about classification of similar objects. This is because prototype theory in cognitive science argues that categories of objects are not strictly concrete all the time, but instead there is a graded categorisation of objects which may have one or more focal points. See [[wp>Prototype theory|prototype theory for more interesting discussions]]. The point is, in programming, objects can simply inherit from other objects, not because those objects are hierarchical parents, but simply because they are related in some way, and these relationships aren't strictly inherited, some disappear and new ones appear when they need to.
+
+You can see this happening in javascript. All objects have a prototype pointing back the native Object.prototype. This makes sense because they are all related semantically to "object". If you need a new object to contain modular code or conceptualise some sort of state or actor, you can either create ex-nihilo via the object literal syntax, or create extend it from a previous related object. The practice is bottom-up, there's no need to categorise everything from an abstraction down to concrete, just write concrete examples, and when you see relationships form between concrete examples, then depending on the concrete object you're writing, you can then inherit one from the other. When you need a wider generalisation, then just create higher abstract object and make both prototypes inherit it.
+
+{{url>http://www.docstoc.com/docs/document-preview.aspx?doc_id=27581648 427px,356px noscroll noborder}}
+
+Here's an example of using prototypical inheritance.
+
+[[http://beta.plnkr.co/edit/QCUYSV?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//animal prototype! (no need to use StudlyCaps since it's not a constructor function)
+var animal = {
+	weight: '100 kg',
+	getWeight: function(){
+		return this.weight;
+	}
+};
+
+//pig is a prototype of animal
+var pig1 = Object.create(animal);
+pig1.colour = 'Pink';
+
+var pig2 = Object.create(animal);
+pig2.colour = 'Brown';
+
+var wildPig = Object.create(pig2);
+wildPig.tusks = true;
+
+//the proto chain is being preserved, and it's overlapping!
+console.log(wildPig);
+console.log(wildPig.__proto__);
+console.log(wildPig.__proto__.__proto__);
+</code>
+===== Functional Programming in Javascript =====
+
+Talk about true closures
+
+Higher order functions.
+
+Anonymous function declaration and immediate execution.
+<code javascript>
+//self-executing anonymous function enclosure
+(function(parameter){
+    console.log('I was declared and executed immediately! Here is my ' + parameter);
+})('parameter'); //second set of parantheses can have parameters, or have actual commands
+</code>
 ===== MVC in Javascript =====
 
 Talk about AngularJS also the concept of templating
