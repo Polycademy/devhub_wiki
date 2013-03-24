@@ -251,12 +251,16 @@ Because the object instances takes priority over the prototype, this allows meth
 <code javascript>
 'use strict';
 
-//demonstrating shadowing or method overriding
+//demonstrating shadowing or method overriding with "private" variables
 
 var Person = function(name, age, job){
     this.name = name;
     this.age = age;
     this.job = job;
+    var privateVariable = 'I am the equivalent of private variables';
+    this.privelegedMethod = function(){
+        return privateVariable;
+    }
 };
 
 //fallback method on the prototype
@@ -269,6 +273,7 @@ var person1 = new Person('Dave', 21, 'Super Developer');
 //overrides the prototype method
 person1.sayName = function(){
     console.log(this.name);
+    console.log(this.privelegedMethod());
 }
 
 //executes the object instance's method
@@ -636,17 +641,189 @@ console.log(wildPig.__proto__.__proto__);
 </code>
 ===== Functional Programming in Javascript =====
 
-Talk about true closures
+Javascript is a very [[http://eloquentjavascript.net/chapter6.html|functional language]], its functions are very flexible, and because it's architecture is often event driven and asynchronous, it often uses callbacks. You've also seen how it uses functions to create objects. All functions in javascript are naturally closures, they access variables outside of its own scope. I usually refer to this as "functions can access things upwards, but cannot access things downwards". So a high level function can access variables inside of its functions. Another recommended practice is to always use functional expressions rather than function declarations. This is because using the ''var'' operator keeps the function within the local scope, that way you don't pollute the global scope. This section will discuss several important aspects of functions in javascript.
 
-Higher order functions.
+==== Anonymous Self-Executing Function Enclosure ====
 
-Anonymous function declaration and immediate execution.
+Sometimes you'll need to create a functional scope and execute it immediately. This mainly because only functions create an explicit scope in a javascript. By creating a function, you can scope all of your variable names so they won't conflict with other people's code. While this is useful, sometimes the code needs to execute, so instead of creating a functional expression and then executing it, we can just execute it as it was created.
+
 <code javascript>
 //self-executing anonymous function enclosure
+
+//you need to wrap the anonymous function with two parantheses, then add another two parantheses!
 (function(parameter){
+
+    var nameThatCannotConflict = 'Blah!';
     console.log('I was declared and executed immediately! Here is my ' + parameter);
-})('parameter'); //second set of parantheses can have parameters, or have actual commands
+    
+})('parameter');
+//second set of parantheses can have parameters, or have actual commands
 </code>
+
+The above style is often used in jQuery plugins, since many different authors would be using similar names for their variables!
+
+==== Functional Scope and Block Scoping ====
+
+The block expressions in javascript such as ''for'' and ''if'' do not create scopes. However sometimes we'll need block scopes when each iteration of the block expression has something unique. We can also use self-executing anonymous function enclosures to simulate block expression scope. The below code shows how block expressions can confuse novice developers.
+
+[[http://beta.plnkr.co/edit/AFBt5e?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//Demonstration of function scoping vs the lack of block scoping
+
+//In this example, we want to be able to log 1, 2, 3, but we'll see that we cannot!
+var arr = [1,2,3];
+var out = [];
+
+//the for loop is a block expression, it has no scope
+for(var i = 0; i<arr.length;i++) {
+	var item = arr[i]; //therefore when the loop finishes, it will be as if item has been defined outside
+	//here we push a callback function into the out array
+	out.push(function(){
+		console.log(item); //this will access item which is defined outside of its scope
+	});
+}
+
+console.log(item, '<- This is the item after the loop finishes!'); //the fact that I can access item, means that for did not scope that item
+console.log(out, '<- This is the array of functions!');
+
+//the forEach is the ES5 command which executes a callback on each item of the array, the func is automatically injected from the javascript
+out.forEach(function(func){
+	func(); //the executes the callback on each array
+});
+</code>
+
+Because the block expression has no scope, the item variable remains at 3 when the callback is called. In order to avoid this problem, we have to wrap the block scope's code inside an anonymous self-executing function enclosure. Note that once ES6 takes place, we can simply use the ''let'' operator to automatically make a variable block scoped, however at this moment, it is not very well supported.
+
+[[http://beta.plnkr.co/edit/1GgFPd?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//Using an anonymous function or let to provide block scoping
+
+//In this example, we want to be able to log 1, 2, 3, but we'll see that we cannot!
+var arr = [1,2,3];
+var out = [];
+
+//the for loop is a block expression, it has no scope
+for(var i = 0; i<arr.length;i++) {
+	(function(item){
+		out.push(function(){
+		   console.log(item); 
+		});
+	})(arr[i]);
+}
+
+out.forEach(function(func){
+	func();
+});
+
+//using "let" in ES6 also works (notice that it requires version=1.7 in the script tag!)
+var arr2 = [1, 2, 3];
+var out = [];
+
+for(var i = 0; i < arr2.length; i++){
+	let item = arr2[i]; //can't really be used right now! No shims available
+	out.push(function(){
+		console.log(item);
+	});
+}
+
+out.forEach(function(func){
+	func();
+});
+</code>
+
+==== Using Higher Order Functions ====
+
+As we learned in PHP, higher order functions are functions that either accept a callback function as a parameter, and/or return back a function to be used. You're going to use higher order functions often when programming for events, because you need to pass callback functions into the event handlers! One of the advantages of this ability is that it provides a more expressive functional alternative to loops. There's a number of higher order functional constructs for arrays that allow you to pass callbacks in, instead of looping.
+
+[[http://beta.plnkr.co/edit/7TPJ6o?p=preview|Plunker Demo]]
+
+<code javascript>
+'use strict';
+
+//demonstrating using functions instead of loops
+
+//instead of iterating through an array, we can use forEach, map and filter functions
+var array = ['one', 'two', 'three'];
+
+for(var i = 0; i < array.length; i++){
+	if(array[i] === 'two'){
+		array[i] = array[i].toUpperCase();
+	}
+}
+console.log(array, '<- LOOPING');
+
+//forEach method (runs a function when it encounters each value)
+var array = ['one', 'two', 'three'];
+array.forEach(function(value, index, originalArray){
+	if(value === 'two'){
+		array[index] = value.toUpperCase();
+	}
+});
+console.log(array, '<- FOREACH METHOD');
+
+//map method (returns a new array and mutates the value)
+var array = ['one', 'two', 'three'];
+array = array.map(function(value, index, originalArray){
+	if(value === 'two'){
+		value = 'TWO';
+	}
+	return value;
+}).join(','); //cool use of joins by mapping out an array and then joining into a string!
+console.log(array, '<- MAP METHOD');
+
+//filter method
+var array = ['one', 'two', 'three'];
+array = array.filter(function(value, index, originalArray){
+	if(value === 'two'){
+		return false;
+	}
+	return true;
+});
+console.log(array, '<- FILTER METHOD');
+
+//reduce method (iterates through two values at a time
+var array = ['one', 'two', 'three'];
+array = array.reduce(function(prev, next, index, originalArray){
+	if(next === 'two'){
+		next = next.toUpperCase();
+	}
+	return prev + next;
+});
+console.log(array, '<- REDUCE METHOD');
+
+//you can combine all of these methods together via method chaining
+var array = ['one', 'two', 'three'];
+array = array.map(function(value){
+	if(value === 'two'){
+		return 'TWO';
+	}
+	return value; //without this it'll be almost like filtering
+}).filter(function(value){
+	if(value === 'three'){
+		return false;
+	}
+	return true;
+}).reduce(function(prev, next){
+	if(next === 'one'){
+		next = 'oNe';
+	}
+	return prev + next;
+}, ''); //second parameter to reduce is initial value, if you want to start "next" at the first elemnt of array
+console.log(array, '<- COMBINED METHOD');
+</code>
+
+More interesting applications of functional programming in javascript can be acquired in these sources:
+
+  * [[http://dailyjs.com/2012/09/14/functional-programming/|Daily JS demonstrations of partial application, composition and flipping]].
+  * [[http://cjohansen.no/talks/2012/sdc-functional/#1|Slides on Functional Programming]]
+  * [[http://osteele.com/sources/javascript/functional/|Oliver Steele's Functional JS Library]]
+  * [[https://github.com/caolan/async|Library for simplifying asynchronous callbacks]]
 ===== MVC in Javascript =====
 
 Talk about AngularJS also the concept of templating
@@ -766,4 +943,10 @@ Operational Transformation using ShareJS
 
 ===== Canvas =====
 
-2D graphics and EaselJS
+2D graphics and EaselJS and Kinetic.JS
+
+Also usage of D3.
+
+===== WebGL =====
+
+Using three.js!

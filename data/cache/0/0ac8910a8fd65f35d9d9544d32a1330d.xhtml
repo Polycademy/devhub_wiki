@@ -366,12 +366,16 @@ Because the object instances takes priority over the prototype, this allows meth
 </p>
 <pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
 &nbsp;
-<span class="co1">//demonstrating shadowing or method overriding</span>
+<span class="co1">//demonstrating shadowing or method overriding with &quot;private&quot; variables</span>
 &nbsp;
 <span class="kw1">var</span> Person <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span>name<span class="sy0">,</span> age<span class="sy0">,</span> job<span class="br0">&#41;</span><span class="br0">&#123;</span>
     <span class="kw1">this</span>.<span class="me1">name</span> <span class="sy0">=</span> name<span class="sy0">;</span>
     <span class="kw1">this</span>.<span class="me1">age</span> <span class="sy0">=</span> age<span class="sy0">;</span>
     <span class="kw1">this</span>.<span class="me1">job</span> <span class="sy0">=</span> job<span class="sy0">;</span>
+    <span class="kw1">var</span> privateVariable <span class="sy0">=</span> <span class="st0">'I am the equivalent of private variables'</span><span class="sy0">;</span>
+    <span class="kw1">this</span>.<span class="me1">privelegedMethod</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="kw1">return</span> privateVariable<span class="sy0">;</span>
+    <span class="br0">&#125;</span>
 <span class="br0">&#125;</span><span class="sy0">;</span>
 &nbsp;
 <span class="co1">//fallback method on the prototype</span>
@@ -384,6 +388,7 @@ Person.<span class="kw1">prototype</span>.<span class="me1">sayName</span> <span
 <span class="co1">//overrides the prototype method</span>
 person1.<span class="me1">sayName</span> <span class="sy0">=</span> <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
     console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">name</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="kw1">this</span>.<span class="me1">privelegedMethod</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="sy0">;</span>
 <span class="br0">&#125;</span>
 &nbsp;
 <span class="co1">//executes the object instance's method</span>
@@ -416,7 +421,7 @@ If you need to determine whether a property is part of the object instance or pa
 <span class="br0">&#125;</span></pre>
 
 </div>
-<!-- EDIT5 SECTION "Object Creation" [12151-20679] -->
+<!-- EDIT5 SECTION "Object Creation" [12151-20894] -->
 <h3 class="sectionedit6" id="understanding_this_context_and_binding">Understanding &quot;this&quot; Context and Binding</h3>
 <div class="level3">
 
@@ -574,7 +579,7 @@ Remember that if you are using frameworks or libraries, sometimes they will expl
 </p>
 
 </div>
-<!-- EDIT6 SECTION "Understanding this Context and Binding" [20680-27326] -->
+<!-- EDIT6 SECTION "Understanding this Context and Binding" [20895-27541] -->
 <h3 class="sectionedit7" id="inheritance">Inheritance</h3>
 <div class="level3">
 
@@ -794,29 +799,219 @@ console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig.<span 
 console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig.<span class="kw3">__proto__</span>.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT7 SECTION "Inheritance" [27327-37923] -->
+<!-- EDIT7 SECTION "Inheritance" [27542-38138] -->
 <h2 class="sectionedit8" id="functional_programming_in_javascript">Functional Programming in Javascript</h2>
 <div class="level2">
 
 <p>
-Talk about true closures
+Javascript is a very <a href="http://eloquentjavascript.net/chapter6.html" class="urlextern" title="http://eloquentjavascript.net/chapter6.html"  rel="nofollow">functional language</a>, its functions are very flexible, and because it&#039;s architecture is often event driven and asynchronous, it often uses callbacks. You&#039;ve also seen how it uses functions to create objects. All functions in javascript are naturally closures, they access variables outside of its own scope. I usually refer to this as “functions can access things upwards, but cannot access things downwards”. So a high level function can access variables inside of its functions. Another recommended practice is to always use functional expressions rather than function declarations. This is because using the <code>var</code> operator keeps the function within the local scope, that way you don&#039;t pollute the global scope. This section will discuss several important aspects of functions in javascript.
 </p>
-
-<p>
-Higher order functions.
-</p>
-
-<p>
-Anonymous function declaration and immediate execution.
-</p>
-<pre class="code javascript"><span class="co1">//self-executing anonymous function enclosure</span>
-<span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>parameter<span class="br0">&#41;</span><span class="br0">&#123;</span>
-    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'I was declared and executed immediately! Here is my '</span> <span class="sy0">+</span> parameter<span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="br0">&#40;</span><span class="st0">'parameter'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//second set of parantheses can have parameters, or have actual commands</span></pre>
 
 </div>
-<!-- EDIT8 SECTION "Functional Programming in Javascript" [37924-38349] -->
-<h2 class="sectionedit9" id="mvc_in_javascript">MVC in Javascript</h2>
+<!-- EDIT8 SECTION "Functional Programming in Javascript" [38139-39053] -->
+<h3 class="sectionedit9" id="anonymous_self-executing_function_enclosure">Anonymous Self-Executing Function Enclosure</h3>
+<div class="level3">
+
+<p>
+Sometimes you&#039;ll need to create a functional scope and execute it immediately. This mainly because only functions create an explicit scope in a javascript. By creating a function, you can scope all of your variable names so they won&#039;t conflict with other people&#039;s code. While this is useful, sometimes the code needs to execute, so instead of creating a functional expression and then executing it, we can just execute it as it was created.
+</p>
+<pre class="code javascript"><span class="co1">//self-executing anonymous function enclosure</span>
+&nbsp;
+<span class="co1">//you need to wrap the anonymous function with two parantheses, then add another two parantheses!</span>
+<span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>parameter<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="kw1">var</span> nameThatCannotConflict <span class="sy0">=</span> <span class="st0">'Blah!'</span><span class="sy0">;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'I was declared and executed immediately! Here is my '</span> <span class="sy0">+</span> parameter<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="br0">&#40;</span><span class="st0">'parameter'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//second set of parantheses can have parameters, or have actual commands</span></pre>
+
+<p>
+The above style is often used in jQuery plugins, since many different authors would be using similar names for their variables!
+</p>
+
+</div>
+<!-- EDIT9 SECTION "Anonymous Self-Executing Function Enclosure" [39054-40096] -->
+<h3 class="sectionedit10" id="functional_scope_and_block_scoping">Functional Scope and Block Scoping</h3>
+<div class="level3">
+
+<p>
+The block expressions in javascript such as <code>for</code> and <code>if</code> do not create scopes. However sometimes we&#039;ll need block scopes when each iteration of the block expression has something unique. We can also use self-executing anonymous function enclosures to simulate block expression scope. The below code shows how block expressions can confuse novice developers.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/AFBt5e?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/AFBt5e?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Demonstration of function scoping vs the lack of block scoping</span>
+&nbsp;
+<span class="co1">//In this example, we want to be able to log 1, 2, 3, but we'll see that we cannot!</span>
+<span class="kw1">var</span> arr <span class="sy0">=</span> <span class="br0">&#91;</span><span class="nu0">1</span><span class="sy0">,</span><span class="nu0">2</span><span class="sy0">,</span><span class="nu0">3</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">var</span> out <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the for loop is a block expression, it has no scope</span>
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0">&lt;</span>arr.<span class="me1">length</span><span class="sy0">;</span>i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+	<span class="kw1">var</span> item <span class="sy0">=</span> arr<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="sy0">;</span> <span class="co1">//therefore when the loop finishes, it will be as if item has been defined outside</span>
+	<span class="co1">//here we push a callback function into the out array</span>
+	out.<span class="me1">push</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		console.<span class="me1">log</span><span class="br0">&#40;</span>item<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//this will access item which is defined outside of its scope</span>
+	<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+console.<span class="me1">log</span><span class="br0">&#40;</span>item<span class="sy0">,</span> <span class="st0">'&lt;- This is the item after the loop finishes!'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//the fact that I can access item, means that for did not scope that item</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>out<span class="sy0">,</span> <span class="st0">'&lt;- This is the array of functions!'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the forEach is the ES5 command which executes a callback on each item of the array, the func is automatically injected from the javascript</span>
+out.<span class="me1">forEach</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>func<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	func<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//the executes the callback on each array</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Because the block expression has no scope, the item variable remains at 3 when the callback is called. In order to avoid this problem, we have to wrap the block scope&#039;s code inside an anonymous self-executing function enclosure. Note that once ES6 takes place, we can simply use the <code>let</code> operator to automatically make a variable block scoped, however at this moment, it is not very well supported.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/1GgFPd?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/1GgFPd?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Using an anonymous function or let to provide block scoping</span>
+&nbsp;
+<span class="co1">//In this example, we want to be able to log 1, 2, 3, but we'll see that we cannot!</span>
+<span class="kw1">var</span> arr <span class="sy0">=</span> <span class="br0">&#91;</span><span class="nu0">1</span><span class="sy0">,</span><span class="nu0">2</span><span class="sy0">,</span><span class="nu0">3</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">var</span> out <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//the for loop is a block expression, it has no scope</span>
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i<span class="sy0">&lt;</span>arr.<span class="me1">length</span><span class="sy0">;</span>i<span class="sy0">++</span><span class="br0">&#41;</span> <span class="br0">&#123;</span>
+	<span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>item<span class="br0">&#41;</span><span class="br0">&#123;</span>
+		out.<span class="me1">push</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		   console.<span class="me1">log</span><span class="br0">&#40;</span>item<span class="br0">&#41;</span><span class="sy0">;</span> 
+		<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="br0">&#40;</span>arr<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+out.<span class="me1">forEach</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>func<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	func<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//using &quot;let&quot; in ES6 also works (notice that it requires version=1.7 in the script tag!)</span>
+<span class="kw1">var</span> arr2 <span class="sy0">=</span> <span class="br0">&#91;</span><span class="nu0">1</span><span class="sy0">,</span> <span class="nu0">2</span><span class="sy0">,</span> <span class="nu0">3</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="kw1">var</span> out <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> arr2.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	let item <span class="sy0">=</span> arr2<span class="br0">&#91;</span>i<span class="br0">&#93;</span><span class="sy0">;</span> <span class="co1">//can't really be used right now! No shims available</span>
+	out.<span class="me1">push</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		console.<span class="me1">log</span><span class="br0">&#40;</span>item<span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+out.<span class="me1">forEach</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>func<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	func<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT10 SECTION "Functional Scope and Block Scoping" [40097-42812] -->
+<h3 class="sectionedit11" id="using_higher_order_functions">Using Higher Order Functions</h3>
+<div class="level3">
+
+<p>
+As we learned in <abbr title="Hypertext Preprocessor">PHP</abbr>, higher order functions are functions that either accept a callback function as a parameter, and/or return back a function to be used. You&#039;re going to use higher order functions often when programming for events, because you need to pass callback functions into the event handlers! One of the advantages of this ability is that it provides a more expressive functional alternative to loops. There&#039;s a number of higher order functional constructs for arrays that allow you to pass callbacks in, instead of looping.
+</p>
+
+<p>
+<a href="http://beta.plnkr.co/edit/7TPJ6o?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/7TPJ6o?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//demonstrating using functions instead of loops</span>
+&nbsp;
+<span class="co1">//instead of iterating through an array, we can use forEach, map and filter functions</span>
+<span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'one'</span><span class="sy0">,</span> <span class="st0">'two'</span><span class="sy0">,</span> <span class="st0">'three'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+<span class="kw1">for</span><span class="br0">&#40;</span><span class="kw1">var</span> i <span class="sy0">=</span> <span class="nu0">0</span><span class="sy0">;</span> i <span class="sy0">&lt;</span> array.<span class="me1">length</span><span class="sy0">;</span> i<span class="sy0">++</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>array<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">===</span> <span class="st0">'two'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		array<span class="br0">&#91;</span>i<span class="br0">&#93;</span> <span class="sy0">=</span> array<span class="br0">&#91;</span>i<span class="br0">&#93;</span>.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>array<span class="sy0">,</span> <span class="st0">'&lt;- LOOPING'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//forEach method (runs a function when it encounters each value)</span>
+<span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'one'</span><span class="sy0">,</span> <span class="st0">'two'</span><span class="sy0">,</span> <span class="st0">'three'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+array.<span class="me1">forEach</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>value<span class="sy0">,</span> index<span class="sy0">,</span> originalArray<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>value <span class="sy0">===</span> <span class="st0">'two'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		array<span class="br0">&#91;</span>index<span class="br0">&#93;</span> <span class="sy0">=</span> value.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>array<span class="sy0">,</span> <span class="st0">'&lt;- FOREACH METHOD'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//map method (returns a new array and mutates the value)</span>
+<span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'one'</span><span class="sy0">,</span> <span class="st0">'two'</span><span class="sy0">,</span> <span class="st0">'three'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+array <span class="sy0">=</span> array.<span class="me1">map</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>value<span class="sy0">,</span> index<span class="sy0">,</span> originalArray<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>value <span class="sy0">===</span> <span class="st0">'two'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		value <span class="sy0">=</span> <span class="st0">'TWO'</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+	<span class="kw1">return</span> value<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>.<span class="me1">join</span><span class="br0">&#40;</span><span class="st0">','</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//cool use of joins by mapping out an array and then joining into a string!</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>array<span class="sy0">,</span> <span class="st0">'&lt;- MAP METHOD'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//filter method</span>
+<span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'one'</span><span class="sy0">,</span> <span class="st0">'two'</span><span class="sy0">,</span> <span class="st0">'three'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+array <span class="sy0">=</span> array.<span class="me1">filter</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>value<span class="sy0">,</span> index<span class="sy0">,</span> originalArray<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>value <span class="sy0">===</span> <span class="st0">'two'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		<span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+	<span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>array<span class="sy0">,</span> <span class="st0">'&lt;- FILTER METHOD'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//reduce method (iterates through two values at a time</span>
+<span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'one'</span><span class="sy0">,</span> <span class="st0">'two'</span><span class="sy0">,</span> <span class="st0">'three'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+array <span class="sy0">=</span> array.<span class="me1">reduce</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>prev<span class="sy0">,</span> next<span class="sy0">,</span> index<span class="sy0">,</span> originalArray<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>next <span class="sy0">===</span> <span class="st0">'two'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		next <span class="sy0">=</span> next.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+	<span class="kw1">return</span> prev <span class="sy0">+</span> next<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>array<span class="sy0">,</span> <span class="st0">'&lt;- REDUCE METHOD'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//you can combine all of these methods together via method chaining</span>
+<span class="kw1">var</span> array <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'one'</span><span class="sy0">,</span> <span class="st0">'two'</span><span class="sy0">,</span> <span class="st0">'three'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+array <span class="sy0">=</span> array.<span class="me1">map</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>value<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>value <span class="sy0">===</span> <span class="st0">'two'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		<span class="kw1">return</span> <span class="st0">'TWO'</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+	<span class="kw1">return</span> value<span class="sy0">;</span> <span class="co1">//without this it'll be almost like filtering</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>.<span class="me1">filter</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>value<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>value <span class="sy0">===</span> <span class="st0">'three'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		<span class="kw1">return</span> <span class="kw2">false</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+	<span class="kw1">return</span> <span class="kw2">true</span><span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="br0">&#41;</span>.<span class="me1">reduce</span><span class="br0">&#40;</span><span class="kw1">function</span><span class="br0">&#40;</span>prev<span class="sy0">,</span> next<span class="br0">&#41;</span><span class="br0">&#123;</span>
+	<span class="kw1">if</span><span class="br0">&#40;</span>next <span class="sy0">===</span> <span class="st0">'one'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+		next <span class="sy0">=</span> <span class="st0">'oNe'</span><span class="sy0">;</span>
+	<span class="br0">&#125;</span>
+	<span class="kw1">return</span> prev <span class="sy0">+</span> next<span class="sy0">;</span>
+<span class="br0">&#125;</span><span class="sy0">,</span> <span class="st0">''</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//second parameter to reduce is initial value, if you want to start &quot;next&quot; at the first elemnt of array</span>
+console.<span class="me1">log</span><span class="br0">&#40;</span>array<span class="sy0">,</span> <span class="st0">'&lt;- COMBINED METHOD'</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+More interesting applications of functional programming in javascript can be acquired in these sources:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://dailyjs.com/2012/09/14/functional-programming/" class="urlextern" title="http://dailyjs.com/2012/09/14/functional-programming/"  rel="nofollow">Daily JS demonstrations of partial application, composition and flipping</a>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://cjohansen.no/talks/2012/sdc-functional/#1" class="urlextern" title="http://cjohansen.no/talks/2012/sdc-functional/#1"  rel="nofollow">Slides on Functional Programming</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://osteele.com/sources/javascript/functional/" class="urlextern" title="http://osteele.com/sources/javascript/functional/"  rel="nofollow">Oliver Steele&#039;s Functional JS Library</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/caolan/async" class="urlextern" title="https://github.com/caolan/async"  rel="nofollow">Library for simplifying asynchronous callbacks</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT11 SECTION "Using Higher Order Functions" [42813-45982] -->
+<h2 class="sectionedit12" id="mvc_in_javascript">MVC in Javascript</h2>
 <div class="level2">
 
 <p>
@@ -864,8 +1059,8 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT9 SECTION "MVC in Javascript" [38350-39053] -->
-<h3 class="sectionedit10" id="modules">Modules</h3>
+<!-- EDIT12 SECTION "MVC in Javascript" [45983-46686] -->
+<h3 class="sectionedit13" id="modules">Modules</h3>
 <div class="level3">
 
 <p>
@@ -877,8 +1072,8 @@ AngularJS modules
 </p>
 
 </div>
-<!-- EDIT10 SECTION "Modules" [39054-39136] -->
-<h3 class="sectionedit11" id="routing">Routing</h3>
+<!-- EDIT13 SECTION "Modules" [46687-46769] -->
+<h3 class="sectionedit14" id="routing">Routing</h3>
 <div class="level3">
 
 <p>
@@ -886,8 +1081,8 @@ AngularJS routing
 </p>
 
 </div>
-<!-- EDIT11 SECTION "Routing" [39137-39174] -->
-<h3 class="sectionedit12" id="scoping">Scoping</h3>
+<!-- EDIT14 SECTION "Routing" [46770-46807] -->
+<h3 class="sectionedit15" id="scoping">Scoping</h3>
 <div class="level3">
 
 <p>
@@ -915,8 +1110,8 @@ AngularJS routing
 </p>
 
 </div>
-<!-- EDIT12 SECTION "Scoping" [39175-39697] -->
-<h3 class="sectionedit13" id="controllers">Controllers</h3>
+<!-- EDIT15 SECTION "Scoping" [46808-47330] -->
+<h3 class="sectionedit16" id="controllers">Controllers</h3>
 <div class="level3">
 
 <p>
@@ -924,8 +1119,8 @@ ANGULARJS page controllers vs partial controllers
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Controllers" [39698-39771] -->
-<h3 class="sectionedit14" id="directives">Directives</h3>
+<!-- EDIT16 SECTION "Controllers" [47331-47404] -->
+<h3 class="sectionedit17" id="directives">Directives</h3>
 <div class="level3">
 
 <p>
@@ -957,8 +1152,8 @@ Isolate scope and stuff
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Directives" [39772-40298] -->
-<h3 class="sectionedit15" id="templating">Templating</h3>
+<!-- EDIT17 SECTION "Directives" [47405-47931] -->
+<h3 class="sectionedit18" id="templating">Templating</h3>
 <div class="level3">
 
 <p>
@@ -970,8 +1165,8 @@ Loading from server, or loading from client
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Templating" [40299-40412] -->
-<h3 class="sectionedit16" id="services">Services</h3>
+<!-- EDIT18 SECTION "Templating" [47932-48045] -->
+<h3 class="sectionedit19" id="services">Services</h3>
 <div class="level3">
 
 <p>
@@ -979,8 +1174,8 @@ AngularJS services
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Services" [40413-40452] -->
-<h2 class="sectionedit17" id="bom_dom">BOM &amp; DOM</h2>
+<!-- EDIT19 SECTION "Services" [48046-48085] -->
+<h2 class="sectionedit20" id="bom_dom">BOM &amp; DOM</h2>
 <div class="level2">
 
 <p>
@@ -1000,8 +1195,8 @@ Location object…
 </p>
 
 </div>
-<!-- EDIT17 SECTION "BOM & DOM" [40453-40580] -->
-<h2 class="sectionedit18" id="events_asynchronous">Events &amp; Asynchronous</h2>
+<!-- EDIT20 SECTION "BOM & DOM" [48086-48213] -->
+<h2 class="sectionedit21" id="events_asynchronous">Events &amp; Asynchronous</h2>
 <div class="level2">
 
 <p>
@@ -1021,8 +1216,8 @@ Using promises
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Events & Asynchronous" [40581-40774] -->
-<h2 class="sectionedit19" id="ajax">AJAX</h2>
+<!-- EDIT21 SECTION "Events & Asynchronous" [48214-48407] -->
+<h2 class="sectionedit22" id="ajax">AJAX</h2>
 <div class="level2">
 
 <p>
@@ -1042,8 +1237,8 @@ Long polling, short polling
 </p>
 
 </div>
-<!-- EDIT19 SECTION "AJAX" [40775-40921] -->
-<h2 class="sectionedit20" id="html5_apis">HTML5 APIs</h2>
+<!-- EDIT22 SECTION "AJAX" [48408-48554] -->
+<h2 class="sectionedit23" id="html5_apis">HTML5 APIs</h2>
 <div class="level2">
 
 <p>
@@ -1055,8 +1250,8 @@ Web Workers
 </p>
 
 </div>
-<!-- EDIT20 SECTION "HTML5 APIs" [40922-40991] -->
-<h2 class="sectionedit21" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
+<!-- EDIT23 SECTION "HTML5 APIs" [48555-48624] -->
+<h2 class="sectionedit24" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
 <div class="level2">
 
 <p>
@@ -1072,8 +1267,8 @@ Require.js or HeadJS
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Dependency Management & Script Loaders" [40992-41143] -->
-<h2 class="sectionedit22" id="real_time_web">Real Time Web</h2>
+<!-- EDIT24 SECTION "Dependency Management & Script Loaders" [48625-48776] -->
+<h2 class="sectionedit25" id="real_time_web">Real Time Web</h2>
 <div class="level2">
 
 <p>
@@ -1085,13 +1280,26 @@ Operational Transformation using ShareJS
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Real Time Web" [41144-41251] -->
-<h2 class="sectionedit23" id="canvas">Canvas</h2>
+<!-- EDIT25 SECTION "Real Time Web" [48777-48884] -->
+<h2 class="sectionedit26" id="canvas">Canvas</h2>
 <div class="level2">
 
 <p>
-2D graphics and EaselJS
+2D graphics and EaselJS and Kinetic.<abbr title="JavaScript">JS</abbr>
+</p>
+
+<p>
+Also usage of D3.
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Canvas" [41252-] -->
+<!-- EDIT26 SECTION "Canvas" [48885-48963] -->
+<h2 class="sectionedit27" id="webgl">WebGL</h2>
+<div class="level2">
+
+<p>
+Using three.js!
+</p>
+
+</div>
+<!-- EDIT27 SECTION "WebGL" [48964-] -->
