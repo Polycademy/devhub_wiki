@@ -1010,38 +1010,87 @@ More interesting applications of functional programming in javascript can be acq
 </ul>
 
 </div>
-<!-- EDIT11 SECTION "Using Higher Order Functions" [42813-45982] -->
+<!-- EDIT11 SECTION "Using Higher Order Functions" [42813-45983] -->
 <h2 class="sectionedit12" id="mvc_in_javascript">MVC in Javascript</h2>
 <div class="level2">
 
 <p>
-Talk about AngularJS also the concept of templating
+As developers realised javascript was more and more important to the development of the web, they started to face architectural issues when they wanted to build large scale client side applications. So developers decided to apply the battle tested MVC architecture to the client side. MVC on the client side is quite different from MVC on the server side. The formulations of MVC on the server side are quite similar, however front end developers faced problems translating those concepts to the client side, and so the implementations of MVC differs across different client side frameworks.
 </p>
 
 <p>
-Installing Node.js
+The particular framework that Polycademy recommends is <a href="http://angularjs.org/" class="urlextern" title="http://angularjs.org/"  rel="nofollow">AngularJS</a>. This client side framework is produced and maintained by Google. It considers itself an MV* framework, essentially “MV whatever”. Before we launch into AngularJS, let&#039;s try to understand Angular&#039;s architectural philosophy.
+</p>
+
+</div>
+
+<h4 id="models_services">Models &amp; Services</h4>
+<div class="level4">
+
+<p>
+In AngularJS, the concept of a <a href="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_model" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_model"  rel="nofollow">model can refer to two things</a>. Most often it refers to any object that contains useful data that is then displayed to the user for viewing or further modification. In order for these models to display, the model objects have to attached to the “scope” of the controller and view. However models on the server side is where to access and mutate application state, they are not just variables of data. Similarly in AngularJS, there are <a href="http://docs.angularjs.org/guide/dev_guide.services" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.services"  rel="nofollow">&quot;services&quot; that act as our mediators, accessors and mutators of state</a>. However in the case of client side applications, this state is usually stored on the server side, which is then accessed via a RESTful <abbr title="Application Programming Interface">API</abbr>. Therefore models in AngularJS could be simple variables, a layer that mediates a RESTful <abbr title="Application Programming Interface">API</abbr>, or a layer that mediates data storage on the client, or some other complex business logic that doesn&#039;t involve user interface changes.
+</p>
+
+</div>
+
+<h4 id="views_templates_directives_filters">Views, Templates, Directives &amp; Filters</h4>
+<div class="level4">
+
+<p>
+On the client side, everything can be considered the view. However with the growing complexity of client side applications, we have to make the distinction clearer. <a href="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_view" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_view"  rel="nofollow">The view in AngularJS is live rendering of the DOM</a>. It is live because it&#039;s not just static <abbr title="Document Object Model">DOM</abbr> which is simple read from, but the <abbr title="Document Object Model">DOM</abbr> can actively change based on user, browser or server sent events. Furthermore it&#039;s the final rendering because it&#039;s after the controller has matched the models with their templates, and after AngularJS renders your directives and applies your filters.
 </p>
 
 <p>
-Will need understanding of below concepts before investigating
+AngularJS has two unique concepts called <a href="http://docs.angularjs.org/guide/directive" class="urlextern" title="http://docs.angularjs.org/guide/directive"  rel="nofollow">directives</a> and <a href="http://docs.angularjs.org/guide/dev_guide.templates.filters" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.templates.filters"  rel="nofollow">filters</a>.
+</p>
+
+<p>
+You can think of directives as extensions to <abbr title="HyperText Markup Language">HTML</abbr>. They are like reusable user interface components. Directives is where you place your <abbr title="Document Object Model">DOM</abbr> manipulations such as jQuery and other logic to handle user inputted events. They are like as if you had control over the <abbr title="HyperText Markup Language">HTML</abbr> standard and started adding in custom <abbr title="HyperText Markup Language">HTML</abbr> tags that you needed for your web application. The usage of directives and enhancing the <abbr title="HyperText Markup Language">HTML</abbr> itself comes from AngularJS&#039;s philosophy of declarative programming when building UI and imperative programming when building business logic. This may seem to conflict “unobtrusive javascript” movement, however as you start working in AngularJS, you start to see how this philosophy not only improves testability, but also makes the <abbr title="HyperText Markup Language">HTML</abbr> a self-documenting document on how the end user interface, whereas before you would never know if clicking on a certain <abbr title="HyperText Markup Language">HTML</abbr> tag would cause some other <abbr title="HyperText Markup Language">HTML</abbr> to appear or disappear. This is one of the best concepts that AngularJS has brought into the world.
+</p>
+
+<p>
+Filters simply format data for display. They don&#039;t fit in the directive space, because they aren&#039;t user interface changes, but subtly change the display of model data. Such as for example to turn letters into uppercase, or to localise currencies.
+</p>
+
+<p>
+AngularJS also doesn&#039;t have a preference on how you structure your templates. It is possible for you to store your templates on the server and lazy load them over the wire, or to store them on the client side as template scripts, or to embed them in your directive code. Polycademy suggests you store the templates on the client side as template scripts. You often don&#039;t need to lazy load templates, because templates are often empty <abbr title="HyperText Markup Language">HTML</abbr>, when you strip away all the data from the <abbr title="HyperText Markup Language">HTML</abbr>, you&#039;re not left with much. The overhead of loading all the templates up front will be less the time taken to download the templates each time you visit a page. Of course there are caching solutions, but such a solution takes up implementation time. Now of course if your templates are large and numerous, then you may choose to build an <abbr title="Application Programming Interface">API</abbr> to load up templates from the server. By having all of your templates on the client side on one page load, your site becomes far more responsive, and approaches being a true single page application!
+</p>
+
+</div>
+
+<h4 id="controllers_scopes">Controllers &amp; Scopes</h4>
+<div class="level4">
+
+<p>
+In AngularJS, <a href="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller"  rel="nofollow">controllers bind model variables acquired or mutated from services to templates</a>. Controllers aren&#039;t resources or pages on the client side, but rather a section of dynamic user interface. If you can draw a box around certain dynamically changing sections of the page and give semantic meaning, then it can be considered “controllable”. This basically means inside your <abbr title="HyperText Markup Language">HTML</abbr>, you would specify a certain containing to be the controller of all the nested tags. You can have a main controller for the entire page state, multiple controllers side by side, controllers nested in parent controllers or no controllers at all if the page isn&#039;t dynamic.
+</p>
+
+<p>
+The key to understanding AngularJS controllers is understanding <a href="http://docs.angularjs.org/guide/scope" class="urlextern" title="http://docs.angularjs.org/guide/scope"  rel="nofollow">scopes</a>. In other client side frameworks, these are often called the “view model”. The scope is simply an object that is available to all elements, directives and filters that are within the <abbr title="HyperText Markup Language">HTML</abbr> tag specified as the controller. It provides the glue that binds the changes in model data to the changes on the user interface. <a href="http://stackoverflow.com/a/9693933/582917" class="urlextern" title="http://stackoverflow.com/a/9693933/582917"  rel="nofollow">One of the unique aspects of AngularJS is bidirectional data binding</a>. This means as data changes on the user interface either via user events or browser events, these changes get reflected in the controller, model and services, and vice versa. This allows <a href="http://docs.angularjs.org/guide/dev_guide.templates.databinding" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.templates.databinding"  rel="nofollow">real time updating and propagation of model changes across all layers of the AngularJS application</a>. This is a very powerful tool, allowing you create truly responsive client side applications, there can multiple layers of application respond to change events. One common application of this is having forms self-validate in real time, and having the data get interpreted which may trigger user interface changes such as suggestions to what they are typing.
+</p>
+
+<p>
+Polycademy is currently preparing an AngularJS + Codeigniter seed application. This is basically a full boilerplate and architecture ready set of files that has all the necessary configuration and third party libraries installed. You&#039;ll be able to just clone it and start coding immediately. It will avoid repeat configuration. When this is ready, you&#039;ll see it a link here.
+</p>
+
+<p>
+To start getting deeper into AngularJS, you should read/watch/refer to all of these resources:
 </p>
 <ul>
-<li class="level1"><div class="li"> Egghead.io - <a href="http://egghead.io/" class="urlextern" title="http://egghead.io/"  rel="nofollow">http://egghead.io/</a></div>
+<li class="level1"><div class="li"> <a href="http://docs.angularjs.org/guide/concepts" class="urlextern" title="http://docs.angularjs.org/guide/concepts"  rel="nofollow">AngularJS Conceptual Guide</a> - You should read the rest of the guide while you&#039;re at it, but make sure to do the tutorials at the same time.</div>
 </li>
-<li class="level1"><div class="li"> Simpulton Blog - <a href="http://onehungrymind.com/category/angularjs/" class="urlextern" title="http://onehungrymind.com/category/angularjs/"  rel="nofollow">http://onehungrymind.com/category/angularjs/</a></div>
+<li class="level1"><div class="li"> <a href="http://egghead.io/" class="urlextern" title="http://egghead.io/"  rel="nofollow">Egghead.io</a> - Short video tutorials working on the core features of AngularJS.</div>
 </li>
-<li class="level1"><div class="li"> Year of Moo - <a href="http://www.yearofmoo.com/tags/AngularJS.html" class="urlextern" title="http://www.yearofmoo.com/tags/AngularJS.html"  rel="nofollow">http://www.yearofmoo.com/tags/AngularJS.html</a></div>
+<li class="level1"><div class="li"> <a href="http://docs.angularjs.org/tutorial" class="urlextern" title="http://docs.angularjs.org/tutorial"  rel="nofollow">Official AngularJS Tutorial Application</a> - This tutorial takes you through building a simple AngularJS application involving page changes, services, and AngularJS&#039;s integrated test driven development. You will need to install Node.js to run tests.</div>
 </li>
-<li class="level1"><div class="li"> How does Data Binding work in AngularJS - <a href="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933" class="urlextern" title="http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933"  rel="nofollow">http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933</a></div>
+<li class="level1"><div class="li"> <a href="http://onehungrymind.com/category/angularjs/" class="urlextern" title="http://onehungrymind.com/category/angularjs/"  rel="nofollow">Simpulton&#039;s Blog &amp; Videos</a></div>
 </li>
-<li class="level1"><div class="li"> AngularJS step by step building a simple App tutorial - <a href="http://docs.angularjs.org/tutorial" class="urlextern" title="http://docs.angularjs.org/tutorial"  rel="nofollow">http://docs.angularjs.org/tutorial</a></div>
-</li>
-<li class="level1"><div class="li"> AngularJS Guide - <a href="http://docs.angularjs.org/guide/" class="urlextern" title="http://docs.angularjs.org/guide/"  rel="nofollow">http://docs.angularjs.org/guide/</a></div>
+<li class="level1"><div class="li"> <a href="http://www.yearofmoo.com/tags/AngularJS.html" class="urlextern" title="http://www.yearofmoo.com/tags/AngularJS.html"  rel="nofollow">Year of Moo&#039;s AngularJS articles</a></div>
 </li>
 </ul>
 
 <p>
-Video tutorials:
+Here are several youtube videos regarding AngularJS that you also complete watching.
 </p>
 <div class="vshare__center"><!--[if !IE]> -->
 <object width="520" height="406" type="application/x-shockwave-flash" data="http://www.youtube.com/v/tKe25THBoF4%26list%3DPLwwh-11EOGvME7nAKOD6zq9I4wAZtsp-a?allowFullScreen=true&amp;allowScriptAccess=always&amp;fs=1">
@@ -1059,20 +1108,16 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT12 SECTION "MVC in Javascript" [45983-46686] -->
+<!-- EDIT12 SECTION "MVC in Javascript" [45984-54506] -->
 <h3 class="sectionedit13" id="modules">Modules</h3>
 <div class="level3">
 
 <p>
-AngularJS modules
-</p>
-
-<p>
-<a href="https://gist.github.com/Mithrandir0x/3639232" class="urlextern" title="https://gist.github.com/Mithrandir0x/3639232"  rel="nofollow">https://gist.github.com/Mithrandir0x/3639232</a>
+AngularJS modules, used for organisation. Talk about the structure you set up, to allow full injection everywhere!
 </p>
 
 </div>
-<!-- EDIT13 SECTION "Modules" [46687-46769] -->
+<!-- EDIT13 SECTION "Modules" [54507-54641] -->
 <h3 class="sectionedit14" id="routing">Routing</h3>
 <div class="level3">
 
@@ -1080,8 +1125,24 @@ AngularJS modules
 AngularJS routing
 </p>
 
+<p>
+XSRF!
+</p>
+
+<p>
+HTML5 URLS!
+</p>
+
+<p>
+.htaccess
+</p>
+
+<p>
+and server side pigeon routing!
+</p>
+
 </div>
-<!-- EDIT14 SECTION "Routing" [46770-46807] -->
+<!-- EDIT14 SECTION "Routing" [54642-54743] -->
 <h3 class="sectionedit15" id="scoping">Scoping</h3>
 <div class="level3">
 
@@ -1110,7 +1171,7 @@ AngularJS routing
 </p>
 
 </div>
-<!-- EDIT15 SECTION "Scoping" [46808-47330] -->
+<!-- EDIT15 SECTION "Scoping" [54744-55266] -->
 <h3 class="sectionedit16" id="controllers">Controllers</h3>
 <div class="level3">
 
@@ -1119,7 +1180,7 @@ ANGULARJS page controllers vs partial controllers
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Controllers" [47331-47404] -->
+<!-- EDIT16 SECTION "Controllers" [55267-55340] -->
 <h3 class="sectionedit17" id="directives">Directives</h3>
 <div class="level3">
 
@@ -1152,7 +1213,7 @@ Isolate scope and stuff
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Directives" [47405-47931] -->
+<!-- EDIT17 SECTION "Directives" [55341-55867] -->
 <h3 class="sectionedit18" id="templating">Templating</h3>
 <div class="level3">
 
@@ -1165,7 +1226,7 @@ Loading from server, or loading from client
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Templating" [47932-48045] -->
+<!-- EDIT18 SECTION "Templating" [55868-55981] -->
 <h3 class="sectionedit19" id="services">Services</h3>
 <div class="level3">
 
@@ -1173,8 +1234,12 @@ Loading from server, or loading from client
 AngularJS services
 </p>
 
+<p>
+<a href="https://gist.github.com/Mithrandir0x/3639232" class="urlextern" title="https://gist.github.com/Mithrandir0x/3639232"  rel="nofollow">https://gist.github.com/Mithrandir0x/3639232</a>
+</p>
+
 </div>
-<!-- EDIT19 SECTION "Services" [48046-48085] -->
+<!-- EDIT19 SECTION "Services" [55982-56067] -->
 <h2 class="sectionedit20" id="bom_dom">BOM &amp; DOM</h2>
 <div class="level2">
 
@@ -1195,7 +1260,7 @@ Location object…
 </p>
 
 </div>
-<!-- EDIT20 SECTION "BOM & DOM" [48086-48213] -->
+<!-- EDIT20 SECTION "BOM & DOM" [56068-56195] -->
 <h2 class="sectionedit21" id="events_asynchronous">Events &amp; Asynchronous</h2>
 <div class="level2">
 
@@ -1216,7 +1281,7 @@ Using promises
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Events & Asynchronous" [48214-48407] -->
+<!-- EDIT21 SECTION "Events & Asynchronous" [56196-56389] -->
 <h2 class="sectionedit22" id="ajax">AJAX</h2>
 <div class="level2">
 
@@ -1237,7 +1302,7 @@ Long polling, short polling
 </p>
 
 </div>
-<!-- EDIT22 SECTION "AJAX" [48408-48554] -->
+<!-- EDIT22 SECTION "AJAX" [56390-56536] -->
 <h2 class="sectionedit23" id="html5_apis">HTML5 APIs</h2>
 <div class="level2">
 
@@ -1249,8 +1314,12 @@ Browser level (for other stuff)
 Web Workers
 </p>
 
+<p>
+<a href="http://platform.html5.org/" class="urlextern" title="http://platform.html5.org/"  rel="nofollow">List of HTML5 APIs</a>
+</p>
+
 </div>
-<!-- EDIT23 SECTION "HTML5 APIs" [48555-48624] -->
+<!-- EDIT23 SECTION "HTML5 APIs" [56537-56657] -->
 <h2 class="sectionedit24" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
 <div class="level2">
 
@@ -1267,7 +1336,7 @@ Require.js or HeadJS
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Dependency Management & Script Loaders" [48625-48776] -->
+<!-- EDIT24 SECTION "Dependency Management & Script Loaders" [56658-56809] -->
 <h2 class="sectionedit25" id="real_time_web">Real Time Web</h2>
 <div class="level2">
 
@@ -1280,7 +1349,7 @@ Operational Transformation using ShareJS
 </p>
 
 </div>
-<!-- EDIT25 SECTION "Real Time Web" [48777-48884] -->
+<!-- EDIT25 SECTION "Real Time Web" [56810-56917] -->
 <h2 class="sectionedit26" id="canvas">Canvas</h2>
 <div class="level2">
 
@@ -1293,7 +1362,7 @@ Also usage of D3.
 </p>
 
 </div>
-<!-- EDIT26 SECTION "Canvas" [48885-48963] -->
+<!-- EDIT26 SECTION "Canvas" [56918-56996] -->
 <h2 class="sectionedit27" id="webgl">WebGL</h2>
 <div class="level2">
 
@@ -1302,4 +1371,4 @@ Using three.js!
 </p>
 
 </div>
-<!-- EDIT27 SECTION "WebGL" [48964-] -->
+<!-- EDIT27 SECTION "WebGL" [56997-] -->

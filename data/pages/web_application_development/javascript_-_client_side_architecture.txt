@@ -824,32 +824,64 @@ More interesting applications of functional programming in javascript can be acq
   * [[http://cjohansen.no/talks/2012/sdc-functional/#1|Slides on Functional Programming]]
   * [[http://osteele.com/sources/javascript/functional/|Oliver Steele's Functional JS Library]]
   * [[https://github.com/caolan/async|Library for simplifying asynchronous callbacks]]
+
 ===== MVC in Javascript =====
 
-Talk about AngularJS also the concept of templating
+As developers realised javascript was more and more important to the development of the web, they started to face architectural issues when they wanted to build large scale client side applications. So developers decided to apply the battle tested MVC architecture to the client side. MVC on the client side is quite different from MVC on the server side. The formulations of MVC on the server side are quite similar, however front end developers faced problems translating those concepts to the client side, and so the implementations of MVC differs across different client side frameworks.
 
-Installing Node.js
+The particular framework that Polycademy recommends is [[http://angularjs.org/|AngularJS]]. This client side framework is produced and maintained by Google. It considers itself an MV* framework, essentially "MV whatever". Before we launch into AngularJS, let's try to understand Angular's architectural philosophy.
 
-Will need understanding of below concepts before investigating
+=== Models & Services ===
 
-  * Egghead.io - http://egghead.io/
-  * Simpulton Blog - http://onehungrymind.com/category/angularjs/
-  * Year of Moo - http://www.yearofmoo.com/tags/AngularJS.html
-  * How does Data Binding work in AngularJS - http://stackoverflow.com/questions/9682092/databinding-in-angularjs/9693933#9693933
-  * AngularJS step by step building a simple App tutorial - http://docs.angularjs.org/tutorial
-  * AngularJS Guide - http://docs.angularjs.org/guide/
+In AngularJS, the concept of a [[http://docs.angularjs.org/guide/dev_guide.mvc.understanding_model|model can refer to two things]]. Most often it refers to any object that contains useful data that is then displayed to the user for viewing or further modification. In order for these models to display, the model objects have to attached to the "scope" of the controller and view. However models on the server side is where to access and mutate application state, they are not just variables of data. Similarly in AngularJS, there are [[http://docs.angularjs.org/guide/dev_guide.services|"services" that act as our mediators, accessors and mutators of state]]. However in the case of client side applications, this state is usually stored on the server side, which is then accessed via a RESTful API. Therefore models in AngularJS could be simple variables, a layer that mediates a RESTful API, or a layer that mediates data storage on the client, or some other complex business logic that doesn't involve user interface changes.
 
-Video tutorials:
+=== Views, Templates, Directives & Filters ===
+
+On the client side, everything can be considered the view. However with the growing complexity of client side applications, we have to make the distinction clearer. [[http://docs.angularjs.org/guide/dev_guide.mvc.understanding_view|The view in AngularJS is live rendering of the DOM]]. It is live because it's not just static DOM which is simple read from, but the DOM can actively change based on user, browser or server sent events. Furthermore it's the final rendering because it's after the controller has matched the models with their templates, and after AngularJS renders your directives and applies your filters.
+
+AngularJS has two unique concepts called [[http://docs.angularjs.org/guide/directive|directives]] and [[http://docs.angularjs.org/guide/dev_guide.templates.filters|filters]].
+
+You can think of directives as extensions to HTML. They are like reusable user interface components. Directives is where you place your DOM manipulations such as jQuery and other logic to handle user inputted events. They are like as if you had control over the HTML standard and started adding in custom HTML tags that you needed for your web application. The usage of directives and enhancing the HTML itself comes from AngularJS's philosophy of declarative programming when building UI and imperative programming when building business logic. This may seem to conflict "unobtrusive javascript" movement, however as you start working in AngularJS, you start to see how this philosophy not only improves testability, but also makes the HTML a self-documenting document on how the end user interface, whereas before you would never know if clicking on a certain HTML tag would cause some other HTML to appear or disappear. This is one of the best concepts that AngularJS has brought into the world.
+
+Filters simply format data for display. They don't fit in the directive space, because they aren't user interface changes, but subtly change the display of model data. Such as for example to turn letters into uppercase, or to localise currencies.
+
+AngularJS also doesn't have a preference on how you structure your templates. It is possible for you to store your templates on the server and lazy load them over the wire, or to store them on the client side as template scripts, or to embed them in your directive code. Polycademy suggests you store the templates on the client side as template scripts. You often don't need to lazy load templates, because templates are often empty HTML, when you strip away all the data from the HTML, you're not left with much. The overhead of loading all the templates up front will be less the time taken to download the templates each time you visit a page. Of course there are caching solutions, but such a solution takes up implementation time. Now of course if your templates are large and numerous, then you may choose to build an API to load up templates from the server. By having all of your templates on the client side on one page load, your site becomes far more responsive, and approaches being a true single page application!
+
+=== Controllers & Scopes ===
+
+In AngularJS, [[http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller|controllers bind model variables acquired or mutated from services to templates]]. Controllers aren't resources or pages on the client side, but rather a section of dynamic user interface. If you can draw a box around certain dynamically changing sections of the page and give semantic meaning, then it can be considered "controllable". This basically means inside your HTML, you would specify a certain containing to be the controller of all the nested tags. You can have a main controller for the entire page state, multiple controllers side by side, controllers nested in parent controllers or no controllers at all if the page isn't dynamic.
+
+The key to understanding AngularJS controllers is understanding [[http://docs.angularjs.org/guide/scope|scopes]]. In other client side frameworks, these are often called the "view model". The scope is simply an object that is available to all elements, directives and filters that are within the HTML tag specified as the controller. It provides the glue that binds the changes in model data to the changes on the user interface. [[http://stackoverflow.com/a/9693933/582917|One of the unique aspects of AngularJS is bidirectional data binding]]. This means as data changes on the user interface either via user events or browser events, these changes get reflected in the controller, model and services, and vice versa. This allows [[http://docs.angularjs.org/guide/dev_guide.templates.databinding|real time updating and propagation of model changes across all layers of the AngularJS application]]. This is a very powerful tool, allowing you create truly responsive client side applications, there can multiple layers of application respond to change events. One common application of this is having forms self-validate in real time, and having the data get interpreted which may trigger user interface changes such as suggestions to what they are typing.
+
+Polycademy is currently preparing an AngularJS + Codeigniter seed application. This is basically a full boilerplate and architecture ready set of files that has all the necessary configuration and third party libraries installed. You'll be able to just clone it and start coding immediately. It will avoid repeat configuration. When this is ready, you'll see it a link here.
+
+To start getting deeper into AngularJS, you should read/watch/refer to all of these resources:
+
+  * [[http://docs.angularjs.org/guide/concepts|AngularJS Conceptual Guide]] - You should read the rest of the guide while you're at it, but make sure to do the tutorials at the same time.
+  * [[http://egghead.io/|Egghead.io]] - Short video tutorials working on the core features of AngularJS.
+  * [[http://docs.angularjs.org/tutorial|Official AngularJS Tutorial Application]] - This tutorial takes you through building a simple AngularJS application involving page changes, services, and AngularJS's integrated test driven development. You will need to install Node.js to run tests.
+  * [[http://onehungrymind.com/category/angularjs/|Simpulton's Blog & Videos]]
+  * [[http://www.yearofmoo.com/tags/AngularJS.html|Year of Moo's AngularJS articles]]
+
+Here are several youtube videos regarding AngularJS that you also complete watching.
 
 {{ youtube>tKe25THBoF4&list=PLwwh-11EOGvME7nAKOD6zq9I4wAZtsp-a?large }}
+
 ==== Modules ====
 
-AngularJS modules
+AngularJS modules, used for organisation. Talk about the structure you set up, to allow full injection everywhere!
 
-https://gist.github.com/Mithrandir0x/3639232
 ==== Routing ====
 
 AngularJS routing
+
+XSRF!
+
+HTML5 URLS!
+
+.htaccess
+
+and server side pigeon routing!
 
 ==== Scoping ====
 
@@ -893,6 +925,8 @@ Loading from server, or loading from client
 
 AngularJS services
 
+https://gist.github.com/Mithrandir0x/3639232
+
 ===== BOM & DOM =====
 
 Using jQuery for DOM manipulation or jQLite
@@ -926,6 +960,8 @@ AJAX authentication and validation
 Browser level (for other stuff)
 
 Web Workers
+
+[[http://platform.html5.org/|List of HTML5 APIs]]
 
 ===== Dependency Management & Script Loaders =====
 
