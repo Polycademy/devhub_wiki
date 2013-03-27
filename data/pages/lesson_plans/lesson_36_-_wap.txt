@@ -1,0 +1,25 @@
+====== Lesson 36 - WAP ======
+
+**Expected Work**
+
+  - Finished Codecademy
+  - Should have a grasp of javascript syntax and native commands
+  - Worked on the jQuery fundamentals
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Javascript OOP inheritance
+  - Javascript functional programming
+  - AngularJS architecture
+  - 20 days left!
+
+**Practice**
+
+  - Finish off jQuery fundamentals
+  - Continue watching videos on AngularJS

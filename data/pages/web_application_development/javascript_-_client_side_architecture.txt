@@ -869,33 +869,594 @@ Here are several youtube videos regarding AngularJS that you also complete watch
 
 ==== Modules ====
 
-AngularJS modules, used for organisation. Talk about the structure you set up, to allow full injection everywhere!
+[[http://docs.angularjs.org/guide/module|AngularJS structures its code under modules]]. These are the not same as [[http://wiki.ecmascript.org/doku.php?id=harmony:modules|modules that are coming into ES6]]. Instead they act more like namespaces or packages. AngularJS is a fully dependency injected framework. By structuring your controllers, services and directives as modules, they can then be available to be dependency injected anywhere in your code. This means that modules is how AngularJS wires up and bootstraps all of the dependencies. Kind of like an IOC container. Furthermore this opens up opportunities to share AngularJS libraries with fellow AngularJS developers. For example check out the [[http://ngmodules.org/|AngularJS Modules aggregator]].
 
+One key consideration is that unlike server side code, when you deploy your client side application in production, they are all deployed into one document, either minified or imported into the HTML document. So modules in AngularJS have nothing to do with script loading, you can still integrate [[http://headjs.com/|Head.JS]] or [[http://requirejs.org/|Require.JS]] if need be.
+
+It's important to read the AngularJS guide on [[http://docs.angularjs.org/guide/concepts#module|how modules configure the dependency injector]], and refer to the [[http://docs.angularjs.org/api/angular.Module|module API in the documentation]] before continuing.
+
+AngularJS doesn't really specify how you should structure your development files, they simply suggest that you put all of your components as part of some modules. Here is our recommendation on structuring your client side application. Each file below will be a module. Note that it doesn't consider where to put your partial templates, that is left up to you. We recommend embedding them in your HTML that is first loaded by your server, refer to the template section for further information.
+
+    root/js
+      |
+      |----app.js
+      |
+      |----controllers
+      |       |
+      |       |----This is where your place your page controllers
+      |       |
+      |       |----Blog.Controllers.js (page controller)
+      |       |
+      |       |----Header.Controllers.js (sectional controller)
+      |
+      |----directives
+      |       |
+      |       |----This is where you put reusable directive code
+      |       |
+      |       |----Fade.Directive.js
+      |       |
+      |       |----EqualiseHeight.Directive.js
+      |
+      |----filters
+      |       |
+      |       |----This is where you put reusable filter code
+      |       |
+      |       |----Currency.Filter.js
+      |
+      |----services
+      |       |
+      |       |----This is where you put shared services
+      |       |
+      |       |----Blog.Service.js
+      |       |
+      |       |----ErrorResponse.Service.js
+      |
+      |----vendor
+              |
+              |----AngularJS Libraries
+              |
+              |----jQuery Libraries
+              |
+              |----Bootstrap Libraries
+              |
+              |----Modernizr
+              |
+              |----es5 shim
+              |
+              |----es6 shim
+              |
+              |----ieshiv
+              |
+              |----JSON3
+
+Our ''app.js'' is equivalent to our front controller. This is where we configure all of our dependencies, our page level routing, single page URL structure "deep linking", and any initial configuration and constants such as handling CSRF.
+
+Each page on our web application can have its own page level controller. These are not the same as RESTful resources, but simply user interface constructs. If we were using AngularJS on a mobile application, then the controllers may be completely different! The controllers directory is also where we place any sectional controllers that don't correspond to any particular page. Any subsections of a page can be considered sub controllers, and these can be placed inside the page controller's script file.
+
+The directives will contain reusable directive code, they don't contain any template files. Notice how we name them, they don't refer to any kind of data or page, but particular behaviour of our user interface. Directives can often be used in multiple places.
+
+Filters will contain any reusable filter code.
+
+Services should have the same name as our RESTful resources on the server. This is where we put the intermediary layer to communicate with external resources. The services section can also contain any kind of business logic that don't involve user interface changes.
+
+Please note that module names are StudlyCaps. The names of the controllers, services, and filters are also StudlyCaps. The only exception is directives need to be camelcased. However all of their filenames will be StudlyCaps.
+
+The vendor directory is where we place all of our third party code. It is recommended to use their CDNs to load the scripts instead of from your own server if they provide it. Make sure to always use their minified version, and if they don't have a minified version, you can minify it yourself using the [[http://refresh-sf.com/yui/|online YUI service]].
+
+Inside of each of those script files, we register them as a module, and we also declare any dependencies.
+
+<file javascript app.js>
+'use strict';
+
+//here's an example of app.js registering itself as a module, and then declaring all of its dependencies!
+//you may notice some modules as part of AngularJS itself
+
+/* ==========================================================================
+   BOOTSTRAPPER (notice the cascading dependencies, AngularJS uses the order you defined to configure the injector!)
+   ========================================================================== */
+
+//app is an module that is dependent on several top level modules
+var app = angular.module('App', [
+	'Controllers',
+	'Filters',
+	'Services',
+	'Directives',
+	'ngResource', //for RESTful resources
+	'ngCookies' //for manipulation of cookies
+]);
+
+//Define all the page level controllers (Application Logic)
+angular.module('Controllers', [
+	'Header.Controllers', 
+	'Footer.Controllers', 
+	'Home.Controllers', 
+	'Blog.Controllers', 
+	'Courses.Controllers'
+]);
+//Define all shared services (Interaction with Backend)
+angular.module('Services', [
+	'AjaxLoader.Service',
+	'ErrorResponse.Service',
+	'Courses.Service'
+]);
+//Define all shared directives (UI Logic)
+angular.module('Directives', [
+	'EqualiseHeight.Directive',
+	'Fade.Directive'
+]);
+//Define all shared filters (UI Filtering)
+angular.module('Filters', [
+	'Currency.Filter'
+]);
+</file>
+
+Here's an excerpt out of a typical page controller module.
+
+<file javascript Courses.Controllers.js>
+'use strict';
+
+//notice the name of the module is the same as the file name
+
+/**
+ * Here we have registered Courses.Controllers as a module, and also declared a dependency to Courses.Controllers.Index.
+ * This is because Courses.Controllers may have many sub controllers.
+ * The Index subcontroller can be considered the main page, but further controllers can be chained and be declared inside the HTML
+ */
+angular.module('Courses.Controllers', ['Courses.Controllers.Index']);
+
+//think of this module as the page level module
+//it contains a single controller called CoursesIndexCtrl, but could have more if there were sub sections of the page
+angular.module('Courses.Controllers.Index', [])
+    .controller('CoursesIndexCtrl', [ //<- actual name of the controller, not the module
+        //this part is for dependency injection, we're injecting $scope service and CoursesServ service into this controller's function. The CoursesServ has been dependency injected, because in our app.js bootstrapping process, we added in the Courses.Service module to injector globally!
+        '$scope',
+        'CoursesServ',
+        function($scope, CoursesServ){
+        
+            //start doing magic here!
+            //add models to the scope
+        
+        }
+    ]);
+</file>
+
+Here's an excerpt from the Courses.Service.js.
+
+<file javascript Courses.Service.js>
+'use strict';
+
+angular.module('Courses.Service', [])
+    .factory('CoursesServ', [
+        '$resource',
+        function($resource){
+            return $resource(
+                'api/courses/:id',
+                {},
+                {
+                    update: {
+                        method: 'PUT', //THIS METHOD DOESN'T EXIST BY DEFAULT
+                    }
+                }
+            );
+        }
+    ]);
+</file>
+
+Modules is also how AngularJS configures itself. That is you can hook into AngularJS's processing during its config phase, and after everything's been loaded in its run phase. You can do this in any module as long as it has been specified as a dependent module on the main ''app.js'' module. For example, here is the ErrorResponse.Service module that intercepts HTTP responses and inspects their HTTP status code and then creates a corresponding message for various errors.
+
+<file javascript Error.Response.js>
+'use strict';
+
+/**
+ * Response Handler for Error Codes across all HTTP requests to show an alert box!
+ */
+angular.module('ErrorResponse.Service', [])
+    .config(
+        [
+            '$provide',
+            '$httpProvider',
+            function($provide, $httpProvider){
+                
+                //model variable...
+                var httpMessages = [];
+                
+                //bind the httpMessages array to the httpMessages key so it can be dependency injected
+                $provide.value('httpMessages', httpMessages);
+                
+                $httpProvider.responseInterceptors.push(['$q', function($q) {
+                
+                    return function(promise) {
+                        
+                        return promise.then(
+                            function(successResponse) {
+                                
+                                //we only want to show anything that wasn't a GET based request
+                                //these allow you show messages, you don't have to show these types though (because usually not required)
+                                
+                                switch(successResponse.config.method.toUpperCase()){
+                                    case 'GET':
+                                        httpMessages.push({
+                                            message: 'Successfully Received',
+                                            type: 'success'
+                                        });
+                                        break;
+                                    case 'POST':
+                                        httpMessages.push({
+                                            message: 'Successfully Posted',
+                                            type: 'success'
+                                        });
+                                        break;
+                                    case 'PUT':
+                                        httpMessages.push({
+                                            message: 'Successfully Updated',
+                                            type: 'success'
+                                        });
+                                        break;
+                                    case 'DELETE':
+                                        httpMessages.push({
+                                            message: 'Sucessfully Deleted',
+                                            type: 'success'
+                                        });
+                                        break;
+                                }
+                                
+                                
+                                return successResponse;
+
+                            },
+                            function(failureResponse) {
+                                
+                                switch(failureResponse.status){
+                                    case 400: //show validation error messages then!
+                                        httpMessages.push({
+                                            message: 'Validation failed, try tweaking your submission.',
+                                            type: 'failure'
+                                        });
+                                        break;
+                                    case 401: //for ionauth authentication, will need to redirect to login screen, or modal box
+                                        httpMessages.push({
+                                            message: 'Unauthorised request, try logging in.',
+                                            type: 'failure'
+                                        });
+                                        break;
+                                    case 403: //returned by server for resources the user should not be able to access directly
+                                        httpMessages.push({
+                                            message: 'You can\'t access this.',
+                                            type: 'failure'
+                                        });
+                                        break;
+                                    case 404:
+                                        httpMessages.push({
+                                            message: '404, sorry could not find what you were looking for.',
+                                            type: 'failure'
+                                        });
+                                        break;
+                                    case 405:
+                                        httpMessages.push({
+                                            message: 'The requested method was incompatible with the requested resource.',
+                                            type: 'failure'
+                                        });
+                                        break;
+                                    case 500:
+                                        httpMessages.push({
+                                            message: 'There was a server error, try again later, or contact the owners.',
+                                            type: 'failure'
+                                        });
+                                        break;
+                                    default:
+                                        httpMessages.push({
+                                            message: failureResponse.status + ' General error processing the request',
+                                            type: 'failure'
+                                        });
+                                }
+                                
+                                return $q.reject(failureResponse);
+                                
+                            }
+                        );
+                        
+                    };
+                    
+                }]);
+                
+            }
+        ]
+    );
+</file>
 ==== Routing ====
 
-AngularJS routing
+One of the core features of single page applications is client side routing. This means the client side javascript handles the page loading and URL changes. Originally this was limited due to the lack of history management provided by browsers in AJAX applications, however with HTML5's history API, client side javascript can tap into the history of browsers, and manage the page state through the URLs itself. Therefore the URLs could change live based on the state of the page. This allowed [[wp>Deep linking#Deep_linking_and_web_technologies|deep linking]] and enhanced user experience as people could copy and share states of AJAX enhanced applications. AngularJS provides this powerful functionality as part of the framework. However there are still problems to resolve on the server side either in security, and in routing requests so they could be handled by the client. Furthermore SEO was still an issue as search engine robots could not run javascript, this will be investigated at a later time.
 
-XSRF!
+=== Base Tag ===
 
-HTML5 URLS!
+The first thing to setup is the HTML ''<base />'' tag which provides a reference URL for all the relative links in your web application. This simplifies the job of maintaining relative URLs for AngularJS. If you did not have this base tag pointing to the root URL of your web application, then any relative URLs in your AJAX requests inside javascript would be relative to the current URL state of the user. Imagine if I needed to access ''api/blog'' in an XHR request, if the end user's URL state was at ''http://example.com/some/random/page'', then the resolve URL would be ''http://example.com/some/random/page/api/blog''. It's quite unlikely that your API would be accessible in that manner.
 
-.htaccess
+To start using the base tag, you need to place inside of your ''<head></head>'' tags, and inside the ''href'' attribute, you need to place the URL to your web application. In the case of Codeigniter, both ''base_url()'' and ''site_url()'' functions will suffice.
 
-and server side pigeon routing!
+<code html>
+<head>
+    <base href="<?= base_url() ?>" />
+</head>
+</code>
 
+Now if I needed to link relatively, I can simply name the link without any preceding slashes. If I wanted to go to the home page, I would simply have nothing inside my ''href'' attribute. Absolute links still work, just write them from ''http:%%/%%/'' onwards. Note that the base tag does not affect links inside CSS. It simply affects links inside the HTML and javascript.
+
+<code html>
+<ul class="nav">
+    <li><a href="">home</a></li>
+    <li><a href="courses">courses</a></li>
+    <li><a href="partners">partners</a></li>
+    <li><a href="http://codeforaustralia.com.au">code for australia</a></li>
+    <li><a href="http://phpbounce.aws.af.cm/">php bounce</a></li>
+    <li><a href="http://polycademy.eventbrite.com.au/">events</a></li>
+    <li><a href="blog">blog</a></li>
+</ul>
+</code>
+
+One key problem to keep track of is the hash (#) links. These don't play nicely with the base tag. If you have a hash link, on the page, they will always go to the base url. You can solve this by always prefixing it with the current URL or URL segment by using Codeigniter's URL functions or javascript to interpret the current location.
+
+=== Client Routing Config ===
+
+When single page applications and client side routing first started getting popular, developers used [[http://www.webmonkey.com/2011/02/gawker-learns-the-hard-way-why-hash-bang-urls-are-evil/|hash bang URLs in order allow javascript to change the URL]] without reloading the page. However this is no longer required with the the introduction of the history API. We can now have URLs that change with javascript and look completely the same as normal URLs. Assuming we have the base tag setup, here is what we would do inside our ''app.js'' front controller to get HTML5 URLs.
+
+<code javascript>
+/* ==========================================================================
+   ROUTER
+   ========================================================================== */
+
+//Define all routes here and which page level controller should handle them
+app.config(
+    [
+        '$routeProvider', //used for routing
+        '$locationProvider', //used to manipulate the URL
+        function($routeProvider, $locationProvider) {
+            
+            //HTML5 Mode URLs
+            //there are two commands here, one to make html5mode true, and the second to set the hashPrefix for the hashbang fallback, so it will be #! for the urls in legacy browsers
+            $locationProvider.html5Mode(true).hashPrefix('!');
+            
+            //Routing
+            //this is chained up, and it's cascading, so when it hits '/' it goes to home, if nothing, go back to home
+            $routeProvider
+                .when(
+                    '/',
+                    {
+                        templateUrl: 'home_index.html', //the templateUrl can be loaded with the controller, this only works when you are using the "ng-view" directive in your HTML
+                        controller: 'HomeIndexCtrl'
+                    }
+                )
+                .when(
+                    '/blog',
+                    {
+                        templateUrl: 'blog_index.html',
+                        controller: 'BlogIndexCtrl'
+                    }
+                )
+                .otherwise(
+                    {
+                        redirectTo: '/'
+                    }
+                );
+            
+        }
+    ]
+);
+</code>
+
+However remember that older browsers don't have the history API, AngularJS intelligently rewrites your links with hash bangs so you don't have to worry about it. Refer to the [[http://docs.angularjs.org/guide/dev_guide.services.$location|documentation on $location service]] for more information.
+
+The routing only works when you have the ''ng-view'' directive setup in your HTML. This would usually be placed between the header and footer templates. In the case of Codeigniter, and if you are using Polycademy's CiTemplating class, the ''ng-view'' directive would be placed in your index view of your home controller.
+
+<file php index_view.php>
+<div class="main">
+    <div class="container">
+        <div ng-view></div>
+    </div>
+</div>
+</file>
+
+The client side template that you specified in the ''templateUrl'' would be injected as a child to the tags where ''ng-view'' is placed.
+
+=== Server Side Routing ===
+
+So far we've managed to make AngularJS responsive to links and make URL changes automatically without reloading the page. However a problem arises, if someone were to save their current URL at a some point outside of the home page, close the browser, reopen it and navigate to that URL directly from their browser, where would that browser go? If you're handling routing on the client side, and that javascript is only loaded on the home page, then the browser would go no where but hit a 404. What we need to do is make the server point to home page whenever someone requests a URL. Those extra URL segments would remain when the javascript gets loaded and AngularJS would interpret it and then navigate to the correct page state. Of course we don't want to rout requests to the home page, or else we couldn't have a server API, we need to keep some routes open for direct access.
+
+To implement this on an Apache PHP server, we need an .htaccess file that makes all requests that don't look for files or directories to a PHP front controller. We already have done this during the server side programming. Next we need to configure our server routing to make all requests go to the home controller except for requests which hit the API. This can be easily achieved with the Pigeon routing library. Therefore your ''config/routes.php'' file will start to look like this:
+
+<code php>
+Pigeon::map(function($r){   
+
+    //Route all API requests to the correct controller/method
+    //this acts as the gate keeper prefix, there is no required change in our controllers
+    $r->route('api', false, function($r){
+    
+        //setup your RESTful resources
+        $r->resources('courses');
+        $r->resources('applications');
+        
+        //remove the migrations in production
+        $r->get('migrate', 'migrate/index');
+        $r->get('migrate/revert', 'migrate/revert');
+        
+    });
+    
+    //everything else can go to the home controller and index method (while preserving all URL segments, that's what the parantheses and hash does)
+    $r->route('(.*)', 'home#index');
+    
+});
+
+$route = Pigeon::draw();
+
+$route['default_controller'] = 'home';
+$route['404_override'] = '';
+</code>
+
+Now on the client side, when someone accesses:
+
+<code>
+() means it's interpreted by the server
+[] means it's interpreted by the client
+http://example.com/ => (Home/Index) & [/]
+http://example.com/some/other/page => (Home/Index) & [/Some/Other/Page]
+http://example.com/api/courses => (Courses/Index)
+http://example.com/api/applications => (Applications/Index)
+</code>
+
+This allows your AngularJS to handle UI page states, and leaves your server open up its API to any client.
+
+=== CSRF Problem ===
+
+Codeigniter natively only inspects POST requests for its CSRF code. It also expects that the CSRF code would be inside a form encoded data called ''application/x-www-form-urlencoded''. There are several problems with this in the single page application world. Firstly we use POST, PUT and DELETE for RESTful resources. CSRF should be checked on all three of those requests except GET. Secondly AngularJS and many other client side frameworks send and receive data based on JSON. If we are sending forms and data from the client to server and back using the JSON format, the CSRF checked in Codeigniter would fail because the JSON mimetype of ''application/json'' is not the same as ''application/x-www-form-urlencoded'', Codeigniter would not be able to find the CSRF token.
+
+To solve this problem we have to change the way CSRF is interpreted on the server to include POST, PUT and DELETE HTTP methods and also to check for the CSRF code outside of a form encoded hidden input. AngularJS recommends us to use an HTTP header message called ''X-XSRF-TOKEN'' instead. This should be included on every requests to the server, and its value will be checked against the CSRF token in the cookie. Let's first change the CSRF checker on Codeigniter, we can extend the native library by writing a ''MY_Security.php'' class inside the ''application/core''. This class would be provided to you on Polycademy's Angular Codeigniter seed repository.
+
+<file php MY_Security.php>
+<?php
+
+class MY_Security extends CI_Security{
+
+    //overriding the normal csrf_verify, this gets automatically called in the Input library's constructor
+    //verifying on POST and PUT and DELETE
+    public function csrf_verify(){
+        
+        //If it is GET, ignore the rest Watch out for CORS support!, You may need to let OPTIONS go through to!
+        if(strtoupper($_SERVER['REQUEST_METHOD']) == 'GET'){
+            return $this->csrf_set_cookie();
+        }
+        
+        // Check if URI has been whitelisted from CSRF checks
+        if($exclude_uris = config_item('csrf_exclude_uris')){
+            $uri = load_class('URI', 'core');
+            if(in_array($uri->uri_string(), $exclude_uris)){
+                return $this;
+            }
+        }
+        
+        //COOKIE needs to exist and at least either POST or SERVER needs to exist and at least one of the POST or SERVER must match the COOKIE
+        if(
+            (
+                !isset($_COOKIE[$this->_csrf_cookie_name]) //if cookie doesnt exist
+                OR
+                (
+                    !isset($_POST[$this->_csrf_token_name]) //or if both POST and SERVER doesnt exist
+                    AND
+                    !isset($_SERVER['HTTP_X_XSRF_TOKEN'])
+                )
+            )
+            AND
+            (
+                ($_POST[$this->_csrf_token_name] !== $_COOKIE[$this->_csrf_cookie_name]) //and if both did not match
+                AND
+                ($_SERVER['HTTP_X_XSRF_TOKEN'] !== $_COOKIE[$this->_csrf_cookie_name])
+            )
+        ){
+        
+            $this->csrf_show_error();
+        
+        }
+        
+        // We kill this since we're done and we don't want to polute the _POST array
+        unset($_POST[$this->_csrf_token_name]);
+
+        if(config_item('csrf_regenerate')){
+            unset($_COOKIE[$this->_csrf_cookie_name]);
+            $this->_csrf_hash = '';
+        }
+
+        $this->_csrf_set_hash();
+        $this->csrf_set_cookie();
+
+        log_message('debug', 'CSRF token verified');
+        return $this;
+    
+    }
+
+}
+</file>
+
+Next in our ''app.js'' front controller, we have to take the CSRF token that comes from the server in the form of a cookie, create an X-XSRF-TOKEN header message with the value of the CSRF token. We can try and find it by rummaging through the cookie data, or we can get PHP to tell javascript what the cookie is called and hence how to find the CSRF token. This can be achieved by placing an embedded script inside our footer partial, that creates a global object, we can run Codeigniter commands that gives the CSRF cookie name to javascript.
+
+<code html>
+<!-- Pass in PHP variables to Javascript -->
+<script>
+    var serverVars = {
+        baseUrl: '<?= base_url() ?>',
+        csrfCookieName: '<?= $this->config->item('cookie_prefix') . $this->config->item('csrf_cookie_name') ?>'
+    };
+</script>
+</code>
+
+In our javascript, we need to watch any change in the cookie's CSRF value. This is because the CSRF value may be regenerated on each request. That is what the ''$watch'' service gives us.
+
+<code javascript>
+/* ==========================================================================
+   GLOBAL FEATURES
+   ========================================================================== */
+
+app.run([
+    '$rootScope',
+    '$cookies',
+    '$http',
+    function($rootScope, $cookies, $http){
+    
+        //XSRF INTEGRATION
+        
+        //this $watch has two callback parameters, one to watch, second to setup the X-XSRF-TOKEN
+        $rootScope.$watch(
+            function(){
+                return $cookies[serverVars.csrfCookieName]; //notice the usage of csrfCookieName from serverVars
+            },
+            function(){
+                $http.defaults.headers.common['X-XSRF-TOKEN'] = $cookies[serverVars.csrfCookieName];
+            }
+        );
+        
+    }
+]);
+</code>
 ==== Scoping ====
 
-http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope
+The scope is responsible for detecting changes to the model section and provides the execution context for expressions inside of the HTML. It's part of AngularJS's bidirectional binding. The scopes are nested in a hierarchical structure which closely follow the DOM structure. When you setup a controller using ''ng-controller'', that setups a scope. Certain directives also create scopes, however there are nuances to the way the scope operates and inherits from the parent scope. If you have HTML like so:
 
-http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined
+[[http://plnkr.co/edit/28R71g7ICtXan6Gp2XOW?p=preview|Plunker Demo]]
 
-http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh
+<code html>
+<body>
+    <div ng-controller="GreetCtrl">Hello {{name}}!</div>
+    <div ng-controller="ListCtrl">
+        <ol>
+            <li ng-repeat="name in names">{{name}}</li>
+        </ol>
+    </div>
+</body>
+</code>
 
-http://jimhoskins.com/2012/12/17/angularjs-and-apply.html
+And javascript like so:
 
-https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance
+<code javascript>
+function GreetCtrl($scope) {
+    $scope.name = 'World';
+}
+     
+function ListCtrl($scope) {
+    $scope.names = ['Igor', 'Misko', 'Vojta'];
+}
+</code>
 
-http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/
+Then the scopes operate in this manner. Check the highlighted scopes. Each controller created a scope, and in the ''ng-repeat'' directive, each line created a scope.
+
+{{ :web_application_development:concepts-scope.png?500 |}}
+
+Scopes are very powerful, you can setup custom watchers from them that observe changes in variables and then take a corresponding action. However they are also somewhat non-intuitive especially when you want to do advanced things with them such as with directives. Therefore it's important to understand scopes in detail through these resources:
+
+  * [[https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance|The Nuances of Scope Prototypical Inheritance]]
+  * [[http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/|Scope Life Cycle]]
+  * [[https://github.com/angular/angular.js/wiki/When-to-use-%24scope.%24apply%28%29|When to use scope.$apply]]
+  * [[http://jimhoskins.com/2012/12/17/angularjs-and-apply.html|In depth explanation of scope.$apply]]
+  * [[http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh|Application of scope.$apply]]
+  * [[http://docs.angularjs.org/guide/scope|Official documentation on scopes]]
+  * [[http://stackoverflow.com/a/14177235/582917|ng-repeat and using it with scopes]]
+  * [[http://stackoverflow.com/a/13457410/582917|Directives and scopes]]
 ==== Controllers ====
 
 ANGULARJS page controllers vs partial controllers
@@ -915,17 +1476,30 @@ https://groups.google.com/forum/#!msg/angular/AjGgp8parNY/sU8Mi0vioScJ
 http://onehungrymind.com/angularjs-directives-basics/
 
 http://onehungrymind.com/angularjs-and-dom-manipulation/
+
+https://github.com/andreev-artem/angular_experiments
+
+http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED
+
+https://github.com/petebacondarwin/AngularJS-Directives-Presentation
 ==== Templating ====
 
 Client side templates vs Serverside templates
 
 Loading from server, or loading from client
 
+Structure on the server side, and load them using Template::partial
 ==== Services ====
 
 AngularJS services
 
 https://gist.github.com/Mithrandir0x/3639232
+
+===== Authentication =====
+
+http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application
+
+https://github.com/andreassolberg/jso/tree/version2
 
 ===== BOM & DOM =====
 
@@ -971,6 +1545,9 @@ AMD
 
 Require.js or HeadJS
 
+Performance of minification, so minification vs asynchronous! Can work with Angular.
+
+http://www.peterbe.com/plog/requirejs-vs-headjs
 ===== Real Time Web =====
 
 Web Sockets using AutobahnJS and WAMP

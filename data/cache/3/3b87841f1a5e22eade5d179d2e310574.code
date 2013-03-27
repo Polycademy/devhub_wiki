@@ -1,0 +1,7 @@
+<span class="kw1">function</span> GreetCtrl<span class="br0">&#40;</span>$scope<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    $scope.<span class="me1">name</span> <span class="sy0">=</span> <span class="st0">'World'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">function</span> ListCtrl<span class="br0">&#40;</span>$scope<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    $scope.<span class="me1">names</span> <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'Igor'</span><span class="sy0">,</span> <span class="st0">'Misko'</span><span class="sy0">,</span> <span class="st0">'Vojta'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>

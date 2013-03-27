@@ -1113,65 +1113,673 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <div class="level3">
 
 <p>
-AngularJS modules, used for organisation. Talk about the structure you set up, to allow full injection everywhere!
+<a href="http://docs.angularjs.org/guide/module" class="urlextern" title="http://docs.angularjs.org/guide/module"  rel="nofollow">AngularJS structures its code under modules</a>. These are the not same as <a href="http://wiki.ecmascript.org/doku.php?id=harmony:modules" class="urlextern" title="http://wiki.ecmascript.org/doku.php?id=harmony:modules"  rel="nofollow">modules that are coming into ES6</a>. Instead they act more like namespaces or packages. AngularJS is a fully dependency injected framework. By structuring your controllers, services and directives as modules, they can then be available to be dependency injected anywhere in your code. This means that modules is how AngularJS wires up and bootstraps all of the dependencies. Kind of like an IOC container. Furthermore this opens up opportunities to share AngularJS libraries with fellow AngularJS developers. For example check out the <a href="http://ngmodules.org/" class="urlextern" title="http://ngmodules.org/"  rel="nofollow">AngularJS Modules aggregator</a>.
 </p>
 
+<p>
+One key consideration is that unlike server side code, when you deploy your client side application in production, they are all deployed into one document, either minified or imported into the <abbr title="HyperText Markup Language">HTML</abbr> document. So modules in AngularJS have nothing to do with script loading, you can still integrate <a href="http://headjs.com/" class="urlextern" title="http://headjs.com/"  rel="nofollow">Head.JS</a> or <a href="http://requirejs.org/" class="urlextern" title="http://requirejs.org/"  rel="nofollow">Require.JS</a> if need be.
+</p>
+
+<p>
+It&#039;s important to read the AngularJS guide on <a href="http://docs.angularjs.org/guide/concepts#module" class="urlextern" title="http://docs.angularjs.org/guide/concepts#module"  rel="nofollow">how modules configure the dependency injector</a>, and refer to the <a href="http://docs.angularjs.org/api/angular.Module" class="urlextern" title="http://docs.angularjs.org/api/angular.Module"  rel="nofollow">module API in the documentation</a> before continuing.
+</p>
+
+<p>
+AngularJS doesn&#039;t really specify how you should structure your development files, they simply suggest that you put all of your components as part of some modules. Here is our recommendation on structuring your client side application. Each file below will be a module. Note that it doesn&#039;t consider where to put your partial templates, that is left up to you. We recommend embedding them in your <abbr title="HyperText Markup Language">HTML</abbr> that is first loaded by your server, refer to the template section for further information.
+</p>
+<pre class="code">  root/js
+    |
+    |----app.js
+    |
+    |----controllers
+    |       |
+    |       |----This is where your place your page controllers
+    |       |
+    |       |----Blog.Controllers.js (page controller)
+    |       |
+    |       |----Header.Controllers.js (sectional controller)
+    |
+    |----directives
+    |       |
+    |       |----This is where you put reusable directive code
+    |       |
+    |       |----Fade.Directive.js
+    |       |
+    |       |----EqualiseHeight.Directive.js
+    |
+    |----filters
+    |       |
+    |       |----This is where you put reusable filter code
+    |       |
+    |       |----Currency.Filter.js
+    |
+    |----services
+    |       |
+    |       |----This is where you put shared services
+    |       |
+    |       |----Blog.Service.js
+    |       |
+    |       |----ErrorResponse.Service.js
+    |
+    |----vendor
+            |
+            |----AngularJS Libraries
+            |
+            |----jQuery Libraries
+            |
+            |----Bootstrap Libraries
+            |
+            |----Modernizr
+            |
+            |----es5 shim
+            |
+            |----es6 shim
+            |
+            |----ieshiv
+            |
+            |----JSON3</pre>
+
+<p>
+Our <code>app.js</code> is equivalent to our front controller. This is where we configure all of our dependencies, our page level routing, single page <abbr title="Uniform Resource Locator">URL</abbr> structure “deep linking”, and any initial configuration and constants such as handling CSRF.
+</p>
+
+<p>
+Each page on our web application can have its own page level controller. These are not the same as RESTful resources, but simply user interface constructs. If we were using AngularJS on a mobile application, then the controllers may be completely different! The controllers directory is also where we place any sectional controllers that don&#039;t correspond to any particular page. Any subsections of a page can be considered sub controllers, and these can be placed inside the page controller&#039;s script file.
+</p>
+
+<p>
+The directives will contain reusable directive code, they don&#039;t contain any template files. Notice how we name them, they don&#039;t refer to any kind of data or page, but particular behaviour of our user interface. Directives can often be used in multiple places.
+</p>
+
+<p>
+Filters will contain any reusable filter code.
+</p>
+
+<p>
+Services should have the same name as our RESTful resources on the server. This is where we put the intermediary layer to communicate with external resources. The services section can also contain any kind of business logic that don&#039;t involve user interface changes.
+</p>
+
+<p>
+Please note that module names are StudlyCaps. The names of the controllers, services, and filters are also StudlyCaps. The only exception is directives need to be camelcased. However all of their filenames will be StudlyCaps.
+</p>
+
+<p>
+The vendor directory is where we place all of our third party code. It is recommended to use their CDNs to load the scripts instead of from your own server if they provide it. Make sure to always use their minified version, and if they don&#039;t have a minified version, you can minify it yourself using the <a href="http://refresh-sf.com/yui/" class="urlextern" title="http://refresh-sf.com/yui/"  rel="nofollow">online YUI service</a>.
+</p>
+
+<p>
+Inside of each of those script files, we register them as a module, and we also declare any dependencies.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=19" title="Download Snippet" class="mediafile mf_js">app.js</a></dt>
+<dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//here's an example of app.js registering itself as a module, and then declaring all of its dependencies!</span>
+<span class="co1">//you may notice some modules as part of AngularJS itself</span>
+&nbsp;
+<span class="coMULTI">/* ==========================================================================
+   BOOTSTRAPPER (notice the cascading dependencies, AngularJS uses the order you defined to configure the injector!)
+   ========================================================================== */</span>
+&nbsp;
+<span class="co1">//app is an module that is dependent on several top level modules</span>
+<span class="kw1">var</span> app <span class="sy0">=</span> angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'App'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+	<span class="st0">'Controllers'</span><span class="sy0">,</span>
+	<span class="st0">'Filters'</span><span class="sy0">,</span>
+	<span class="st0">'Services'</span><span class="sy0">,</span>
+	<span class="st0">'Directives'</span><span class="sy0">,</span>
+	<span class="st0">'ngResource'</span><span class="sy0">,</span> <span class="co1">//for RESTful resources</span>
+	<span class="st0">'ngCookies'</span> <span class="co1">//for manipulation of cookies</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Define all the page level controllers (Application Logic)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+	<span class="st0">'Header.Controllers'</span><span class="sy0">,</span> 
+	<span class="st0">'Footer.Controllers'</span><span class="sy0">,</span> 
+	<span class="st0">'Home.Controllers'</span><span class="sy0">,</span> 
+	<span class="st0">'Blog.Controllers'</span><span class="sy0">,</span> 
+	<span class="st0">'Courses.Controllers'</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared services (Interaction with Backend)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Services'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+	<span class="st0">'AjaxLoader.Service'</span><span class="sy0">,</span>
+	<span class="st0">'ErrorResponse.Service'</span><span class="sy0">,</span>
+	<span class="st0">'Courses.Service'</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared directives (UI Logic)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+	<span class="st0">'EqualiseHeight.Directive'</span><span class="sy0">,</span>
+	<span class="st0">'Fade.Directive'</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared filters (UI Filtering)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Filters'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+	<span class="st0">'Currency.Filter'</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+<p>
+Here&#039;s an excerpt out of a typical page controller module.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=20" title="Download Snippet" class="mediafile mf_js">Courses.Controllers.js</a></dt>
+<dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//notice the name of the module is the same as the file name</span>
+&nbsp;
+<span class="coMULTI">/**
+ * Here we have registered Courses.Controllers as a module, and also declared a dependency to Courses.Controllers.Index.
+ * This is because Courses.Controllers may have many sub controllers.
+ * The Index subcontroller can be considered the main page, but further controllers can be chained and be declared inside the HTML
+ */</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Courses.Controllers'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">'Courses.Controllers.Index'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//think of this module as the page level module</span>
+<span class="co1">//it contains a single controller called CoursesIndexCtrl, but could have more if there were sub sections of the page</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Courses.Controllers.Index'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+    .<span class="me1">controller</span><span class="br0">&#40;</span><span class="st0">'CoursesIndexCtrl'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- actual name of the controller, not the module</span>
+        <span class="co1">//this part is for dependency injection, we're injecting $scope service and CoursesServ service into this controller's function. The CoursesServ has been dependency injected, because in our app.js bootstrapping process, we added in the Courses.Service module to injector globally!</span>
+        <span class="st0">'$scope'</span><span class="sy0">,</span>
+        <span class="st0">'CoursesServ'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="sy0">,</span> CoursesServ<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="co1">//start doing magic here!</span>
+            <span class="co1">//add models to the scope</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+<p>
+Here&#039;s an excerpt from the Courses.Service.js.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=21" title="Download Snippet" class="mediafile mf_js">Courses.Service.js</a></dt>
+<dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Courses.Service'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+    .<span class="me1">factory</span><span class="br0">&#40;</span><span class="st0">'CoursesServ'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+        <span class="st0">'$resource'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$resource<span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="kw1">return</span> $resource<span class="br0">&#40;</span>
+                <span class="st0">'api/courses/:id'</span><span class="sy0">,</span>
+                <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="br0">&#123;</span>
+                    update<span class="sy0">:</span> <span class="br0">&#123;</span>
+                        method<span class="sy0">:</span> <span class="st0">'PUT'</span><span class="sy0">,</span> <span class="co1">//THIS METHOD DOESN'T EXIST BY DEFAULT</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+<p>
+Modules is also how AngularJS configures itself. That is you can hook into AngularJS&#039;s processing during its config phase, and after everything&#039;s been loaded in its run phase. You can do this in any module as long as it has been specified as a dependent module on the main <code>app.js</code> module. For example, here is the ErrorResponse.Service module that intercepts <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> responses and inspects their <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> status code and then creates a corresponding message for various errors.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=22" title="Download Snippet" class="mediafile mf_js">Error.Response.js</a></dt>
+<dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="coMULTI">/**
+ * Response Handler for Error Codes across all HTTP requests to show an alert box!
+ */</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'ErrorResponse.Service'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+    .<span class="me1">config</span><span class="br0">&#40;</span>
+        <span class="br0">&#91;</span>
+            <span class="st0">'$provide'</span><span class="sy0">,</span>
+            <span class="st0">'$httpProvider'</span><span class="sy0">,</span>
+            <span class="kw1">function</span><span class="br0">&#40;</span>$provide<span class="sy0">,</span> $httpProvider<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+                <span class="co1">//model variable...</span>
+                <span class="kw1">var</span> httpMessages <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+&nbsp;
+                <span class="co1">//bind the httpMessages array to the httpMessages key so it can be dependency injected</span>
+                $provide.<span class="me1">value</span><span class="br0">&#40;</span><span class="st0">'httpMessages'</span><span class="sy0">,</span> httpMessages<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                $httpProvider.<span class="me1">responseInterceptors</span>.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#91;</span><span class="st0">'$q'</span><span class="sy0">,</span> <span class="kw1">function</span><span class="br0">&#40;</span>$q<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                    <span class="kw1">return</span> <span class="kw1">function</span><span class="br0">&#40;</span>promise<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                        <span class="kw1">return</span> promise.<span class="me1">then</span><span class="br0">&#40;</span>
+                            <span class="kw1">function</span><span class="br0">&#40;</span>successResponse<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                                <span class="co1">//we only want to show anything that wasn't a GET based request</span>
+                                <span class="co1">//these allow you show messages, you don't have to show these types though (because usually not required)</span>
+&nbsp;
+                                <span class="kw1">switch</span><span class="br0">&#40;</span>successResponse.<span class="me1">config</span>.<span class="me1">method</span>.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                                    <span class="kw1">case</span> <span class="st0">'GET'</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'Successfully Received'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="st0">'POST'</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'Successfully Posted'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="st0">'PUT'</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'Successfully Updated'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="st0">'DELETE'</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'Sucessfully Deleted'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="br0">&#125;</span>
+&nbsp;
+&nbsp;
+                                <span class="kw1">return</span> successResponse<span class="sy0">;</span>
+&nbsp;
+                            <span class="br0">&#125;</span><span class="sy0">,</span>
+                            <span class="kw1">function</span><span class="br0">&#40;</span>failureResponse<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                                <span class="kw1">switch</span><span class="br0">&#40;</span>failureResponse.<span class="me1">status</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                                    <span class="kw1">case</span> <span class="nu0">400</span><span class="sy0">:</span> <span class="co1">//show validation error messages then!</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'Validation failed, try tweaking your submission.'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="nu0">401</span><span class="sy0">:</span> <span class="co1">//for ionauth authentication, will need to redirect to login screen, or modal box</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'Unauthorised request, try logging in.'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="nu0">403</span><span class="sy0">:</span> <span class="co1">//returned by server for resources the user should not be able to access directly</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'You can<span class="es0">\'</span>t access this.'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="nu0">404</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'404, sorry could not find what you were looking for.'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="nu0">405</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'The requested method was incompatible with the requested resource.'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">case</span> <span class="nu0">500</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> <span class="st0">'There was a server error, try again later, or contact the owners.'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                        <span class="kw1">break</span><span class="sy0">;</span>
+                                    <span class="kw1">default</span><span class="sy0">:</span>
+                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                            message<span class="sy0">:</span> failureResponse.<span class="me1">status</span> <span class="sy0">+</span> <span class="st0">' General error processing the request'</span><span class="sy0">,</span>
+                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                <span class="br0">&#125;</span>
+&nbsp;
+                                <span class="kw1">return</span> $q.<span class="me1">reject</span><span class="br0">&#40;</span>failureResponse<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                            <span class="br0">&#125;</span>
+                        <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                    <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+                <span class="br0">&#125;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="br0">&#125;</span>
+        <span class="br0">&#93;</span>
+    <span class="br0">&#41;</span><span class="sy0">;</span></pre>
+</dd></dl>
+
 </div>
-<!-- EDIT13 SECTION "Modules" [54507-54641] -->
+<!-- EDIT13 SECTION "Modules" [54507-69440] -->
 <h3 class="sectionedit14" id="routing">Routing</h3>
 <div class="level3">
 
 <p>
-AngularJS routing
-</p>
-
-<p>
-XSRF!
-</p>
-
-<p>
-HTML5 URLS!
-</p>
-
-<p>
-.htaccess
-</p>
-
-<p>
-and server side pigeon routing!
+One of the core features of single page applications is client side routing. This means the client side javascript handles the page loading and <abbr title="Uniform Resource Locator">URL</abbr> changes. Originally this was limited due to the lack of history management provided by browsers in <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> applications, however with HTML5&#039;s history <abbr title="Application Programming Interface">API</abbr>, client side javascript can tap into the history of browsers, and manage the page state through the URLs itself. Therefore the URLs could change live based on the state of the page. This allowed <a href="http://en.wikipedia.org/wiki/Deep linking#Deep_linking_and_web_technologies" class="interwiki iw_wp" title="http://en.wikipedia.org/wiki/Deep linking#Deep_linking_and_web_technologies">deep linking</a> and enhanced user experience as people could copy and share states of <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> enhanced applications. AngularJS provides this powerful functionality as part of the framework. However there are still problems to resolve on the server side either in security, and in routing requests so they could be handled by the client. Furthermore SEO was still an issue as search engine robots could not run javascript, this will be investigated at a later time.
 </p>
 
 </div>
-<!-- EDIT14 SECTION "Routing" [54642-54743] -->
+
+<h4 id="base_tag">Base Tag</h4>
+<div class="level4">
+
+<p>
+The first thing to setup is the <abbr title="HyperText Markup Language">HTML</abbr> <code>&lt;base /&gt;</code> tag which provides a reference <abbr title="Uniform Resource Locator">URL</abbr> for all the relative links in your web application. This simplifies the job of maintaining relative URLs for AngularJS. If you did not have this base tag pointing to the root <abbr title="Uniform Resource Locator">URL</abbr> of your web application, then any relative URLs in your <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> requests inside javascript would be relative to the current <abbr title="Uniform Resource Locator">URL</abbr> state of the user. Imagine if I needed to access <code>api/blog</code> in an XHR request, if the end user&#039;s <abbr title="Uniform Resource Locator">URL</abbr> state was at <code><a href="http://example.com/some/random/page" class="urlextern" title="http://example.com/some/random/page"  rel="nofollow">http://example.com/some/random/page</a></code>, then the resolve <abbr title="Uniform Resource Locator">URL</abbr> would be <code><a href="http://example.com/some/random/page/api/blog" class="urlextern" title="http://example.com/some/random/page/api/blog"  rel="nofollow">http://example.com/some/random/page/api/blog</a></code>. It&#039;s quite unlikely that your <abbr title="Application Programming Interface">API</abbr> would be accessible in that manner.
+</p>
+
+<p>
+To start using the base tag, you need to place inside of your <code>&lt;head&gt;&lt;/head&gt;</code> tags, and inside the <code>href</code> attribute, you need to place the <abbr title="Uniform Resource Locator">URL</abbr> to your web application. In the case of Codeigniter, both <code>base_url()</code> and <code>site_url()</code> functions will suffice.
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/head.html"><span class="kw2">head</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/base.html"><span class="kw2">base</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;&lt;?= base_url() ?&gt;</span></span>&quot; /&gt;
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/head.html"><span class="kw2">head</span></a>&gt;</span></pre>
+
+<p>
+Now if I needed to link relatively, I can simply name the link without any preceding slashes. If I wanted to go to the home page, I would simply have nothing inside my <code>href</code> attribute. Absolute links still work, just write them from <code>http://</code> onwards. Note that the base tag does not affect links inside <abbr title="Cascading Style Sheets">CSS</abbr>. It simply affects links inside the <abbr title="HyperText Markup Language">HTML</abbr> and javascript.
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/ul.html"><span class="kw2">ul</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;nav&quot;</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;&quot;</span>&gt;</span>home<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;courses&quot;</span>&gt;</span>courses<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;partners&quot;</span>&gt;</span>partners<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;http://codeforaustralia.com.au&quot;</span>&gt;</span>code for australia<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;http://phpbounce.aws.af.cm/&quot;</span>&gt;</span>php bounce<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;http://polycademy.eventbrite.com.au/&quot;</span>&gt;</span>events<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;&lt;<a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a> <span class="kw3">href</span><span class="sy0">=</span><span class="st0">&quot;blog&quot;</span>&gt;</span>blog<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/a.html"><span class="kw2">a</span></a>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/ul.html"><span class="kw2">ul</span></a>&gt;</span></pre>
+
+<p>
+One key problem to keep track of is the hash (#) links. These don&#039;t play nicely with the base tag. If you have a hash link, on the page, they will always go to the base url. You can solve this by always prefixing it with the current <abbr title="Uniform Resource Locator">URL</abbr> or <abbr title="Uniform Resource Locator">URL</abbr> segment by using Codeigniter&#039;s <abbr title="Uniform Resource Locator">URL</abbr> functions or javascript to interpret the current location.
+</p>
+
+</div>
+
+<h4 id="client_routing_config">Client Routing Config</h4>
+<div class="level4">
+
+<p>
+When single page applications and client side routing first started getting popular, developers used <a href="http://www.webmonkey.com/2011/02/gawker-learns-the-hard-way-why-hash-bang-urls-are-evil/" class="urlextern" title="http://www.webmonkey.com/2011/02/gawker-learns-the-hard-way-why-hash-bang-urls-are-evil/"  rel="nofollow">hash bang URLs in order allow javascript to change the URL</a> without reloading the page. However this is no longer required with the the introduction of the history <abbr title="Application Programming Interface">API</abbr>. We can now have URLs that change with javascript and look completely the same as normal URLs. Assuming we have the base tag setup, here is what we would do inside our <code>app.js</code> front controller to get HTML5 URLs.
+</p>
+<pre class="code javascript"><span class="coMULTI">/* ==========================================================================
+   ROUTER
+   ========================================================================== */</span>
+&nbsp;
+<span class="co1">//Define all routes here and which page level controller should handle them</span>
+app.<span class="me1">config</span><span class="br0">&#40;</span>
+    <span class="br0">&#91;</span>
+        <span class="st0">'$routeProvider'</span><span class="sy0">,</span> <span class="co1">//used for routing</span>
+        <span class="st0">'$locationProvider'</span><span class="sy0">,</span> <span class="co1">//used to manipulate the URL</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$routeProvider<span class="sy0">,</span> $locationProvider<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+            <span class="co1">//HTML5 Mode URLs</span>
+            <span class="co1">//there are two commands here, one to make html5mode true, and the second to set the hashPrefix for the hashbang fallback, so it will be #! for the urls in legacy browsers</span>
+            $locationProvider.<span class="me1">html5Mode</span><span class="br0">&#40;</span><span class="kw2">true</span><span class="br0">&#41;</span>.<span class="me1">hashPrefix</span><span class="br0">&#40;</span><span class="st0">'!'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//Routing</span>
+            <span class="co1">//this is chained up, and it's cascading, so when it hits '/' it goes to home, if nothing, go back to home</span>
+            $routeProvider
+                .<span class="me1">when</span><span class="br0">&#40;</span>
+                    <span class="st0">'/'</span><span class="sy0">,</span>
+                    <span class="br0">&#123;</span>
+                        templateUrl<span class="sy0">:</span> <span class="st0">'home_index.html'</span><span class="sy0">,</span> <span class="co1">//the templateUrl can be loaded with the controller, this only works when you are using the &quot;ng-view&quot; directive in your HTML</span>
+                        controller<span class="sy0">:</span> <span class="st0">'HomeIndexCtrl'</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#41;</span>
+                .<span class="me1">when</span><span class="br0">&#40;</span>
+                    <span class="st0">'/blog'</span><span class="sy0">,</span>
+                    <span class="br0">&#123;</span>
+                        templateUrl<span class="sy0">:</span> <span class="st0">'blog_index.html'</span><span class="sy0">,</span>
+                        controller<span class="sy0">:</span> <span class="st0">'BlogIndexCtrl'</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#41;</span>
+                .<span class="me1">otherwise</span><span class="br0">&#40;</span>
+                    <span class="br0">&#123;</span>
+                        redirectTo<span class="sy0">:</span> <span class="st0">'/'</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span>
+<span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+However remember that older browsers don&#039;t have the history <abbr title="Application Programming Interface">API</abbr>, AngularJS intelligently rewrites your links with hash bangs so you don&#039;t have to worry about it. Refer to the <a href="http://docs.angularjs.org/guide/dev_guide.services.$location" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.services.$location"  rel="nofollow">documentation on $location service</a> for more information.
+</p>
+
+<p>
+The routing only works when you have the <code>ng-view</code> directive setup in your <abbr title="HyperText Markup Language">HTML</abbr>. This would usually be placed between the header and footer templates. In the case of Codeigniter, and if you are using Polycademy&#039;s CiTemplating class, the <code>ng-view</code> directive would be placed in your index view of your home controller.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=26" title="Download Snippet" class="mediafile mf_php">index_view.php</a></dt>
+<dd><pre class="code file php"><span class="sy0">&lt;</span>div <span class="kw2">class</span><span class="sy0">=</span><span class="st0">&quot;main&quot;</span><span class="sy0">&gt;</span>
+    <span class="sy0">&lt;</span>div <span class="kw2">class</span><span class="sy0">=</span><span class="st0">&quot;container&quot;</span><span class="sy0">&gt;</span>
+        <span class="sy0">&lt;</span>div ng<span class="sy0">-</span>view<span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span>
+    <span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span>
+<span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span></pre>
+</dd></dl>
+
+<p>
+The client side template that you specified in the <code>templateUrl</code> would be injected as a child to the tags where <code>ng-view</code> is placed.
+</p>
+
+</div>
+
+<h4 id="server_side_routing">Server Side Routing</h4>
+<div class="level4">
+
+<p>
+So far we&#039;ve managed to make AngularJS responsive to links and make <abbr title="Uniform Resource Locator">URL</abbr> changes automatically without reloading the page. However a problem arises, if someone were to save their current <abbr title="Uniform Resource Locator">URL</abbr> at a some point outside of the home page, close the browser, reopen it and navigate to that <abbr title="Uniform Resource Locator">URL</abbr> directly from their browser, where would that browser go? If you&#039;re handling routing on the client side, and that javascript is only loaded on the home page, then the browser would go no where but hit a 404. What we need to do is make the server point to home page whenever someone requests a <abbr title="Uniform Resource Locator">URL</abbr>. Those extra <abbr title="Uniform Resource Locator">URL</abbr> segments would remain when the javascript gets loaded and AngularJS would interpret it and then navigate to the correct page state. Of course we don&#039;t want to rout requests to the home page, or else we couldn&#039;t have a server <abbr title="Application Programming Interface">API</abbr>, we need to keep some routes open for direct access.
+</p>
+
+<p>
+To implement this on an Apache <abbr title="Hypertext Preprocessor">PHP</abbr> server, we need an .htaccess file that makes all requests that don&#039;t look for files or directories to a <abbr title="Hypertext Preprocessor">PHP</abbr> front controller. We already have done this during the server side programming. Next we need to configure our server routing to make all requests go to the home controller except for requests which hit the <abbr title="Application Programming Interface">API</abbr>. This can be easily achieved with the Pigeon routing library. Therefore your <code>config/routes.php</code> file will start to look like this:
+</p>
+<pre class="code php">Pigeon<span class="sy0">::</span><span class="me2">map</span><span class="br0">&#40;</span><span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$r</span><span class="br0">&#41;</span><span class="br0">&#123;</span>   
+&nbsp;
+    <span class="co1">//Route all API requests to the correct controller/method</span>
+    <span class="co1">//this acts as the gate keeper prefix, there is no required change in our controllers</span>
+    <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">route</span><span class="br0">&#40;</span><span class="st_h">'api'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$r</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//setup your RESTful resources</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'courses'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'applications'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//remove the migrations in production</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'migrate'</span><span class="sy0">,</span> <span class="st_h">'migrate/index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'migrate/revert'</span><span class="sy0">,</span> <span class="st_h">'migrate/revert'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//everything else can go to the home controller and index method (while preserving all URL segments, that's what the parantheses and hash does)</span>
+    <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">route</span><span class="br0">&#40;</span><span class="st_h">'(.*)'</span><span class="sy0">,</span> <span class="st_h">'home#index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$route</span> <span class="sy0">=</span> Pigeon<span class="sy0">::</span><span class="me2">draw</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$route</span><span class="br0">&#91;</span><span class="st_h">'default_controller'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'home'</span><span class="sy0">;</span>
+<span class="re0">$route</span><span class="br0">&#91;</span><span class="st_h">'404_override'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span></pre>
+
+<p>
+Now on the client side, when someone accesses:
+</p>
+<pre class="code">() means it&#039;s interpreted by the server
+[] means it&#039;s interpreted by the client
+http://example.com/ =&gt; (Home/Index) &amp; [/]
+http://example.com/some/other/page =&gt; (Home/Index) &amp; [/Some/Other/Page]
+http://example.com/api/courses =&gt; (Courses/Index)
+http://example.com/api/applications =&gt; (Applications/Index)</pre>
+
+<p>
+This allows your AngularJS to handle UI page states, and leaves your server open up its <abbr title="Application Programming Interface">API</abbr> to any client.
+</p>
+
+</div>
+
+<h4 id="csrf_problem">CSRF Problem</h4>
+<div class="level4">
+
+<p>
+Codeigniter natively only inspects POST requests for its CSRF code. It also expects that the CSRF code would be inside a form encoded data called <code>application/x-www-form-urlencoded</code>. There are several problems with this in the single page application world. Firstly we use POST, PUT and DELETE for RESTful resources. CSRF should be checked on all three of those requests except GET. Secondly AngularJS and many other client side frameworks send and receive data based on JSON. If we are sending forms and data from the client to server and back using the JSON format, the CSRF checked in Codeigniter would fail because the JSON mimetype of <code>application/json</code> is not the same as <code>application/x-www-form-urlencoded</code>, Codeigniter would not be able to find the CSRF token.
+</p>
+
+<p>
+To solve this problem we have to change the way CSRF is interpreted on the server to include POST, PUT and DELETE <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> methods and also to check for the CSRF code outside of a form encoded hidden input. AngularJS recommends us to use an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> header message called <code>X-XSRF-TOKEN</code> instead. This should be included on every requests to the server, and its value will be checked against the CSRF token in the cookie. Let&#039;s first change the CSRF checker on Codeigniter, we can extend the native library by writing a <code>MY_Security.php</code> class inside the <code>application/core</code>. This class would be provided to you on Polycademy&#039;s Angular Codeigniter seed repository.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=29" title="Download Snippet" class="mediafile mf_php">MY_Security.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> MY_Security <span class="kw2">extends</span> CI_Security<span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//overriding the normal csrf_verify, this gets automatically called in the Input library's constructor</span>
+    <span class="co1">//verifying on POST and PUT and DELETE</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> csrf_verify<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//If it is GET, ignore the rest Watch out for CORS support!, You may need to let OPTIONS go through to!</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/strtoupper"><span class="kw3">strtoupper</span></a><span class="br0">&#40;</span><span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'REQUEST_METHOD'</span><span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="st_h">'GET'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">csrf_set_cookie</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">// Check if URI has been whitelisted from CSRF checks</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$exclude_uris</span> <span class="sy0">=</span> config_item<span class="br0">&#40;</span><span class="st_h">'csrf_exclude_uris'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$uri</span> <span class="sy0">=</span> load_class<span class="br0">&#40;</span><span class="st_h">'URI'</span><span class="sy0">,</span> <span class="st_h">'core'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/in_array"><span class="kw3">in_array</span></a><span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">-&gt;</span><span class="me1">uri_string</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$exclude_uris</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//COOKIE needs to exist and at least either POST or SERVER needs to exist and at least one of the POST or SERVER must match the COOKIE</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span>
+            <span class="br0">&#40;</span>
+                <span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">&#40;</span><span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="co1">//if cookie doesnt exist</span>
+                OR
+                <span class="br0">&#40;</span>
+                    <span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">&#40;</span><span class="re0">$_POST</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_token_name<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="co1">//or if both POST and SERVER doesnt exist</span>
+                    AND
+                    <span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">&#40;</span><span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'HTTP_X_XSRF_TOKEN'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+                <span class="br0">&#41;</span>
+            <span class="br0">&#41;</span>
+            AND
+            <span class="br0">&#40;</span>
+                <span class="br0">&#40;</span><span class="re0">$_POST</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_token_name<span class="br0">&#93;</span> <span class="sy0">!==</span> <span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="co1">//and if both did not match</span>
+                AND
+                <span class="br0">&#40;</span><span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'HTTP_X_XSRF_TOKEN'</span><span class="br0">&#93;</span> <span class="sy0">!==</span> <span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span>
+            <span class="br0">&#41;</span>
+        <span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">csrf_show_error</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">// We kill this since we're done and we don't want to polute the _POST array</span>
+        <a href="http://www.php.net/unset"><span class="kw3">unset</span></a><span class="br0">&#40;</span><span class="re0">$_POST</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_token_name<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span>config_item<span class="br0">&#40;</span><span class="st_h">'csrf_regenerate'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <a href="http://www.php.net/unset"><span class="kw3">unset</span></a><span class="br0">&#40;</span><span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_hash <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_set_hash<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">csrf_set_cookie</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        log_message<span class="br0">&#40;</span><span class="st_h">'debug'</span><span class="sy0">,</span> <span class="st_h">'CSRF token verified'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span></pre>
+</dd></dl>
+
+<p>
+Next in our <code>app.js</code> front controller, we have to take the CSRF token that comes from the server in the form of a cookie, create an X-XSRF-TOKEN header message with the value of the CSRF token. We can try and find it by rummaging through the cookie data, or we can get <abbr title="Hypertext Preprocessor">PHP</abbr> to tell javascript what the cookie is called and hence how to find the CSRF token. This can be achieved by placing an embedded script inside our footer partial, that creates a global object, we can run Codeigniter commands that gives the CSRF cookie name to javascript.
+</p>
+<pre class="code html4strict"><span class="sc-1">&lt;!-- Pass in PHP variables to Javascript --&gt;</span>
+<span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
+    var serverVars = {
+        baseUrl: '<span class="sc2">&lt;?<span class="sy0">=</span> base_url<span class="br0">&#40;</span><span class="br0">&#41;</span> ?&gt;</span>',
+        csrfCookieName: '<span class="sc2">&lt;?<span class="sy0">=</span> $this-&gt;</span>config-&gt;item('cookie_prefix') . $this-&gt;config-&gt;item('csrf_cookie_name') ?&gt;'
+    };
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span></pre>
+
+<p>
+In our javascript, we need to watch any change in the cookie&#039;s CSRF value. This is because the CSRF value may be regenerated on each request. That is what the <code>$watch</code> service gives us.
+</p>
+<pre class="code javascript"><span class="coMULTI">/* ==========================================================================
+   GLOBAL FEATURES
+   ========================================================================== */</span>
+&nbsp;
+app.<span class="me1">run</span><span class="br0">&#40;</span><span class="br0">&#91;</span>
+    <span class="st0">'$rootScope'</span><span class="sy0">,</span>
+    <span class="st0">'$cookies'</span><span class="sy0">,</span>
+    <span class="st0">'$http'</span><span class="sy0">,</span>
+    <span class="kw1">function</span><span class="br0">&#40;</span>$rootScope<span class="sy0">,</span> $cookies<span class="sy0">,</span> $http<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//XSRF INTEGRATION</span>
+&nbsp;
+        <span class="co1">//this $watch has two callback parameters, one to watch, second to setup the X-XSRF-TOKEN</span>
+        $rootScope.$watch<span class="br0">&#40;</span>
+            <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                <span class="kw1">return</span> $cookies<span class="br0">&#91;</span>serverVars.<span class="me1">csrfCookieName</span><span class="br0">&#93;</span><span class="sy0">;</span> <span class="co1">//notice the usage of csrfCookieName from serverVars</span>
+            <span class="br0">&#125;</span><span class="sy0">,</span>
+            <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                $http.<span class="me1">defaults</span>.<span class="me1">headers</span>.<span class="me1">common</span><span class="br0">&#91;</span><span class="st0">'X-XSRF-TOKEN'</span><span class="br0">&#93;</span> <span class="sy0">=</span> $cookies<span class="br0">&#91;</span>serverVars.<span class="me1">csrfCookieName</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+</div>
+<!-- EDIT14 SECTION "Routing" [69441-83849] -->
 <h3 class="sectionedit15" id="scoping">Scoping</h3>
 <div class="level3">
 
 <p>
-<a href="http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope" class="urlextern" title="http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope"  rel="nofollow">http://stackoverflow.com/questions/13449821/in-angularjs-how-to-make-an-isolated-scope-inherit-from-ng-repeats-scope</a>
+The scope is responsible for detecting changes to the model section and provides the execution context for expressions inside of the <abbr title="HyperText Markup Language">HTML</abbr>. It&#039;s part of AngularJS&#039;s bidirectional binding. The scopes are nested in a hierarchical structure which closely follow the <abbr title="Document Object Model">DOM</abbr> structure. When you setup a controller using <code>ng-controller</code>, that setups a scope. Certain directives also create scopes, however there are nuances to the way the scope operates and inherits from the parent scope. If you have <abbr title="HyperText Markup Language">HTML</abbr> like so:
 </p>
 
 <p>
-<a href="http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined" class="urlextern" title="http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined"  rel="nofollow">http://stackoverflow.com/questions/11752977/angularjs-ng-model-scope-in-ng-repeat-is-undefined</a>
+<a href="http://plnkr.co/edit/28R71g7ICtXan6Gp2XOW?p=preview" class="urlextern" title="http://plnkr.co/edit/28R71g7ICtXan6Gp2XOW?p=preview"  rel="nofollow">Plunker Demo</a>
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> ng-controller<span class="sy0">=</span><span class="st0">&quot;GreetCtrl&quot;</span>&gt;</span>Hello {{name}}!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> ng-controller<span class="sy0">=</span><span class="st0">&quot;ListCtrl&quot;</span>&gt;</span>
+        <span class="sc2">&lt;<a href="http://december.com/html/4/element/ol.html"><span class="kw2">ol</span></a>&gt;</span>
+            <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a> ng-repeat<span class="sy0">=</span><span class="st0">&quot;name in names&quot;</span>&gt;</span>{{name}}<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+        <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/ol.html"><span class="kw2">ol</span></a>&gt;</span>
+    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span></pre>
+
+<p>
+And javascript like so:
+</p>
+<pre class="code javascript"><span class="kw1">function</span> GreetCtrl<span class="br0">&#40;</span>$scope<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    $scope.<span class="me1">name</span> <span class="sy0">=</span> <span class="st0">'World'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span>
+&nbsp;
+<span class="kw1">function</span> ListCtrl<span class="br0">&#40;</span>$scope<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+    $scope.<span class="me1">names</span> <span class="sy0">=</span> <span class="br0">&#91;</span><span class="st0">'Igor'</span><span class="sy0">,</span> <span class="st0">'Misko'</span><span class="sy0">,</span> <span class="st0">'Vojta'</span><span class="br0">&#93;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+Then the scopes operate in this manner. Check the highlighted scopes. Each controller created a scope, and in the <code>ng-repeat</code> directive, each line created a scope.
 </p>
 
 <p>
-<a href="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh" class="urlextern" title="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh"  rel="nofollow">http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh</a>
+<a href="/lib/exe/detail.php?id=web_application_development%3Ajavascript_-_client_side_architecture&amp;media=web_application_development:concepts-scope.png" class="media" title="web_application_development:concepts-scope.png"><img src="/lib/exe/fetch.php?w=500&amp;media=web_application_development:concepts-scope.png" class="mediacenter" alt="" width="500" /></a>
 </p>
 
 <p>
-<a href="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html" class="urlextern" title="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html"  rel="nofollow">http://jimhoskins.com/2012/12/17/angularjs-and-apply.html</a>
+Scopes are very powerful, you can setup custom watchers from them that observe changes in variables and then take a corresponding action. However they are also somewhat non-intuitive especially when you want to do advanced things with them such as with directives. Therefore it&#039;s important to understand scopes in detail through these resources:
 </p>
-
-<p>
-<a href="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance" class="urlextern" title="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance"  rel="nofollow">https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance</a>
-</p>
-
-<p>
-<a href="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/" class="urlextern" title="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/"  rel="nofollow">http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/</a>
-</p>
+<ul>
+<li class="level1"><div class="li"> <a href="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance" class="urlextern" title="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance"  rel="nofollow">The Nuances of Scope Prototypical Inheritance</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/" class="urlextern" title="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/"  rel="nofollow">Scope Life Cycle</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/angular/angular.js/wiki/When-to-use-%24scope.%24apply%28%29" class="urlextern" title="https://github.com/angular/angular.js/wiki/When-to-use-%24scope.%24apply%28%29"  rel="nofollow">When to use scope.$apply</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html" class="urlextern" title="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html"  rel="nofollow">In depth explanation of scope.$apply</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh" class="urlextern" title="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh"  rel="nofollow">Application of scope.$apply</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://docs.angularjs.org/guide/scope" class="urlextern" title="http://docs.angularjs.org/guide/scope"  rel="nofollow">Official documentation on scopes</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://stackoverflow.com/a/14177235/582917" class="urlextern" title="http://stackoverflow.com/a/14177235/582917"  rel="nofollow">ng-repeat and using it with scopes</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://stackoverflow.com/a/13457410/582917" class="urlextern" title="http://stackoverflow.com/a/13457410/582917"  rel="nofollow">Directives and scopes</a></div>
+</li>
+</ul>
 
 </div>
-<!-- EDIT15 SECTION "Scoping" [54744-55266] -->
+<!-- EDIT15 SECTION "Scoping" [83850-86233] -->
 <h3 class="sectionedit16" id="controllers">Controllers</h3>
 <div class="level3">
 
@@ -1180,7 +1788,7 @@ ANGULARJS page controllers vs partial controllers
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Controllers" [55267-55340] -->
+<!-- EDIT16 SECTION "Controllers" [86234-86307] -->
 <h3 class="sectionedit17" id="directives">Directives</h3>
 <div class="level3">
 
@@ -1212,8 +1820,20 @@ Isolate scope and stuff
 <a href="http://onehungrymind.com/angularjs-and-dom-manipulation/" class="urlextern" title="http://onehungrymind.com/angularjs-and-dom-manipulation/"  rel="nofollow">http://onehungrymind.com/angularjs-and-dom-manipulation/</a>
 </p>
 
+<p>
+<a href="https://github.com/andreev-artem/angular_experiments" class="urlextern" title="https://github.com/andreev-artem/angular_experiments"  rel="nofollow">https://github.com/andreev-artem/angular_experiments</a>
+</p>
+
+<p>
+<a href="http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED" class="urlextern" title="http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED"  rel="nofollow">http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED</a>
+</p>
+
+<p>
+<a href="https://github.com/petebacondarwin/AngularJS-Directives-Presentation" class="urlextern" title="https://github.com/petebacondarwin/AngularJS-Directives-Presentation"  rel="nofollow">https://github.com/petebacondarwin/AngularJS-Directives-Presentation</a>
+</p>
+
 </div>
-<!-- EDIT17 SECTION "Directives" [55341-55867] -->
+<!-- EDIT17 SECTION "Directives" [86308-87028] -->
 <h3 class="sectionedit18" id="templating">Templating</h3>
 <div class="level3">
 
@@ -1225,8 +1845,12 @@ Client side templates vs Serverside templates
 Loading from server, or loading from client
 </p>
 
+<p>
+Structure on the server side, and load them using Template::partial
+</p>
+
 </div>
-<!-- EDIT18 SECTION "Templating" [55868-55981] -->
+<!-- EDIT18 SECTION "Templating" [87029-87210] -->
 <h3 class="sectionedit19" id="services">Services</h3>
 <div class="level3">
 
@@ -1239,8 +1863,21 @@ AngularJS services
 </p>
 
 </div>
-<!-- EDIT19 SECTION "Services" [55982-56067] -->
-<h2 class="sectionedit20" id="bom_dom">BOM &amp; DOM</h2>
+<!-- EDIT19 SECTION "Services" [87211-87296] -->
+<h2 class="sectionedit20" id="authentication">Authentication</h2>
+<div class="level2">
+
+<p>
+<a href="http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application" class="urlextern" title="http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application"  rel="nofollow">http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application</a>
+</p>
+
+<p>
+<a href="https://github.com/andreassolberg/jso/tree/version2" class="urlextern" title="https://github.com/andreassolberg/jso/tree/version2"  rel="nofollow">https://github.com/andreassolberg/jso/tree/version2</a>
+</p>
+
+</div>
+<!-- EDIT20 SECTION "Authentication" [87297-87449] -->
+<h2 class="sectionedit21" id="bom_dom">BOM &amp; DOM</h2>
 <div class="level2">
 
 <p>
@@ -1260,8 +1897,8 @@ Location object…
 </p>
 
 </div>
-<!-- EDIT20 SECTION "BOM & DOM" [56068-56195] -->
-<h2 class="sectionedit21" id="events_asynchronous">Events &amp; Asynchronous</h2>
+<!-- EDIT21 SECTION "BOM & DOM" [87450-87577] -->
+<h2 class="sectionedit22" id="events_asynchronous">Events &amp; Asynchronous</h2>
 <div class="level2">
 
 <p>
@@ -1281,8 +1918,8 @@ Using promises
 </p>
 
 </div>
-<!-- EDIT21 SECTION "Events & Asynchronous" [56196-56389] -->
-<h2 class="sectionedit22" id="ajax">AJAX</h2>
+<!-- EDIT22 SECTION "Events & Asynchronous" [87578-87771] -->
+<h2 class="sectionedit23" id="ajax">AJAX</h2>
 <div class="level2">
 
 <p>
@@ -1302,8 +1939,8 @@ Long polling, short polling
 </p>
 
 </div>
-<!-- EDIT22 SECTION "AJAX" [56390-56536] -->
-<h2 class="sectionedit23" id="html5_apis">HTML5 APIs</h2>
+<!-- EDIT23 SECTION "AJAX" [87772-87918] -->
+<h2 class="sectionedit24" id="html5_apis">HTML5 APIs</h2>
 <div class="level2">
 
 <p>
@@ -1319,8 +1956,8 @@ Web Workers
 </p>
 
 </div>
-<!-- EDIT23 SECTION "HTML5 APIs" [56537-56657] -->
-<h2 class="sectionedit24" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
+<!-- EDIT24 SECTION "HTML5 APIs" [87919-88039] -->
+<h2 class="sectionedit25" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
 <div class="level2">
 
 <p>
@@ -1335,9 +1972,17 @@ AMD
 Require.js or HeadJS
 </p>
 
+<p>
+Performance of minification, so minification vs asynchronous! Can work with Angular.
+</p>
+
+<p>
+<a href="http://www.peterbe.com/plog/requirejs-vs-headjs" class="urlextern" title="http://www.peterbe.com/plog/requirejs-vs-headjs"  rel="nofollow">http://www.peterbe.com/plog/requirejs-vs-headjs</a>
+</p>
+
 </div>
-<!-- EDIT24 SECTION "Dependency Management & Script Loaders" [56658-56809] -->
-<h2 class="sectionedit25" id="real_time_web">Real Time Web</h2>
+<!-- EDIT25 SECTION "Dependency Management & Script Loaders" [88040-88325] -->
+<h2 class="sectionedit26" id="real_time_web">Real Time Web</h2>
 <div class="level2">
 
 <p>
@@ -1349,8 +1994,8 @@ Operational Transformation using ShareJS
 </p>
 
 </div>
-<!-- EDIT25 SECTION "Real Time Web" [56810-56917] -->
-<h2 class="sectionedit26" id="canvas">Canvas</h2>
+<!-- EDIT26 SECTION "Real Time Web" [88326-88433] -->
+<h2 class="sectionedit27" id="canvas">Canvas</h2>
 <div class="level2">
 
 <p>
@@ -1362,8 +2007,8 @@ Also usage of D3.
 </p>
 
 </div>
-<!-- EDIT26 SECTION "Canvas" [56918-56996] -->
-<h2 class="sectionedit27" id="webgl">WebGL</h2>
+<!-- EDIT27 SECTION "Canvas" [88434-88512] -->
+<h2 class="sectionedit28" id="webgl">WebGL</h2>
 <div class="level2">
 
 <p>
@@ -1371,4 +2016,4 @@ Using three.js!
 </p>
 
 </div>
-<!-- EDIT27 SECTION "WebGL" [56997-] -->
+<!-- EDIT28 SECTION "WebGL" [88513-] -->

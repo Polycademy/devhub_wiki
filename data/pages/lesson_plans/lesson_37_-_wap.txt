@@ -1,0 +1,24 @@
+====== Lesson 37 - WAP ======
+
+**Expected Work**
+
+  - Finished jQuery fundamentals
+  - Watching AngularJS video tutorials
+  - Working through AngularJS main phone tutorial
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Introduction to AngularJS's seed project
+  - Creating AngularJS modules, controllers, services, directives and filters
+  - 19 days left!
+
+**Practice**
+
+  - Continue watching videos on AngularJS
+  - Try to finish AngularJS's phone tutorial

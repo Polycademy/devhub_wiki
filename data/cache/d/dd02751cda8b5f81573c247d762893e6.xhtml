@@ -2294,9 +2294,9 @@ Once you&#039;ve handled the request you need to pass back a response with an <a
 </li>
 <li class="level1"><div class="li"> 201 Created: Successful request when something is created at another <abbr title="Uniform Resource Locator">URL</abbr> (specified by the value returned in the Location header)</div>
 </li>
-<li class="level1"><div class="li"> 204 No Content: Successful request when no data is returned</div>
+<li class="level1"><div class="li"> 204 No Content: Successful request when no data is returned, can be used when someone is trying to update or delete something that already has the same update or already been deleted</div>
 </li>
-<li class="level1"><div class="li"> 400 Bad Request: Incorrect parameters specified on request</div>
+<li class="level1"><div class="li"> 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors</div>
 </li>
 <li class="level1"><div class="li"> 404 Not Found: No resource at the specified <abbr title="Uniform Resource Locator">URL</abbr></div>
 </li>
@@ -2304,7 +2304,9 @@ Once you&#039;ve handled the request you need to pass back a response with an <a
 </li>
 <li class="level1"><div class="li"> 406 Not Acceptable: Requested data format not supported</div>
 </li>
-<li class="level1"><div class="li"> 500 Internal Server Error: An unexpected error occurred</div>
+<li class="level1"><div class="li"> 409 Conflict: Indicates the request couldn&#039;t be completed due to a conlict, can be used when some re-registers with the same email/password on a web application</div>
+</li>
+<li class="level1"><div class="li"> 500 Internal Server Error: An unexpected error occurred, use this for database or system errors</div>
 </li>
 <li class="level1"><div class="li"> 501 Not Implemented: when a client makes a request using an unknown <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> verb</div>
 </li>
@@ -2323,7 +2325,7 @@ Now you understand the RESTful standard. The first thing to implement RESTful st
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131346-142561] -->
+<!-- EDIT46 SECTION "REST" [131346-142924] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
@@ -2344,7 +2346,7 @@ Of course if the data doesn&#039;t change much, remember to cache the JSON outpu
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [142562-145046] -->
+<!-- EDIT47 SECTION "Handling Output" [142925-145409] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
@@ -2375,7 +2377,7 @@ You&#039;ll notice that almost all APIs requiring any kind of authentication wil
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [145047-147691] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [145410-148054] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
@@ -2434,7 +2436,7 @@ We have a number of libraries available to abstract all of these authentication 
 </ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [147692-154249] -->
+<!-- EDIT49 SECTION "Third Party Login" [148055-154612] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
@@ -2455,7 +2457,7 @@ Most of these implementations are outside the scope of this course, but a lot of
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [154250-156473] -->
+<!-- EDIT50 SECTION "Providing Web Services APIs" [154613-156836] -->
 <h3 class="sectionedit51" id="ajax_json_message_protocol">AJAX JSON Message Protocol</h3>
 <div class="level3">
 
@@ -2481,7 +2483,7 @@ Also note that if you are implementing web sockets, they require a more strict m
 </p>
 
 </div>
-<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [156474-157988] -->
+<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [156837-158351] -->
 <h3 class="sectionedit52" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
@@ -2530,7 +2532,7 @@ Regardless of the authentication scheme, if writing state management in javascri
 </p>
 
 </div>
-<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [157989-162751] -->
+<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [158352-163114] -->
 <h3 class="sectionedit53" id="restful_server">RESTful Server</h3>
 <div class="level3">
 
@@ -2553,7 +2555,7 @@ There are also frameworks designed to be used as an <abbr title="Application Pro
 </p>
 
 </div>
-<!-- EDIT53 SECTION "RESTful Server" [162752-163652] -->
+<!-- EDIT53 SECTION "RESTful Server" [163115-164015] -->
 <h3 class="sectionedit54" id="debugging_apis">Debugging APIs</h3>
 <div class="level3">
 
@@ -2562,7 +2564,7 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 </p>
 
 </div>
-<!-- EDIT54 SECTION "Debugging APIs" [163653-163823] -->
+<!-- EDIT54 SECTION "Debugging APIs" [164016-164186] -->
 <h2 class="sectionedit55" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
@@ -2629,7 +2631,7 @@ An important concept to understand is that using long running daemons instead of
 </p>
 
 </div>
-<!-- EDIT55 SECTION "Concurrent Processing" [163824-169330] -->
+<!-- EDIT55 SECTION "Concurrent Processing" [164187-169693] -->
 <h3 class="sectionedit56" id="configuration_for_daemons">Configuration for Daemons</h3>
 <div class="level3">
 
@@ -2660,7 +2662,7 @@ You can also investigate more <a href="http://www.php.net/manual/en/info.configu
 </p>
 
 </div>
-<!-- EDIT56 SECTION "Configuration for Daemons" [169331-171209] -->
+<!-- EDIT56 SECTION "Configuration for Daemons" [169694-171572] -->
 <h3 class="sectionedit57" id="hosting_solutions">Hosting Solutions</h3>
 <div class="level3">
 
@@ -2687,7 +2689,7 @@ Not all web hosts will offer concurrent processing features, mainly because runn
 </ul>
 
 </div>
-<!-- EDIT57 SECTION "Hosting Solutions" [171210-172759] -->
+<!-- EDIT57 SECTION "Hosting Solutions" [171573-173122] -->
 <h2 class="sectionedit58" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
@@ -2712,4 +2714,4 @@ There will be no free web hosts that will support a Ratchet configuration, you&#
 </p>
 
 </div>
-<!-- EDIT58 SECTION "Sockets & RTC" [172760-] -->
+<!-- EDIT58 SECTION "Sockets & RTC" [173123-] -->

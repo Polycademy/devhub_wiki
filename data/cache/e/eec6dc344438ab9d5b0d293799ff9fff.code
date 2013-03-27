@@ -1,0 +1,61 @@
+<span class="kw2">&lt;?php</span>
+&nbsp;
+<span class="kw2">class</span> MY_Security <span class="kw2">extends</span> CI_Security<span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//overriding the normal csrf_verify, this gets automatically called in the Input library's constructor</span>
+    <span class="co1">//verifying on POST and PUT and DELETE</span>
+    <span class="kw2">public</span> <span class="kw2">function</span> csrf_verify<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//If it is GET, ignore the rest Watch out for CORS support!, You may need to let OPTIONS go through to!</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/strtoupper"><span class="kw3">strtoupper</span></a><span class="br0">&#40;</span><span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'REQUEST_METHOD'</span><span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="sy0">==</span> <span class="st_h">'GET'</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">csrf_set_cookie</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">// Check if URI has been whitelisted from CSRF checks</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span><span class="re0">$exclude_uris</span> <span class="sy0">=</span> config_item<span class="br0">&#40;</span><span class="st_h">'csrf_exclude_uris'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$uri</span> <span class="sy0">=</span> load_class<span class="br0">&#40;</span><span class="st_h">'URI'</span><span class="sy0">,</span> <span class="st_h">'core'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="kw1">if</span><span class="br0">&#40;</span><a href="http://www.php.net/in_array"><span class="kw3">in_array</span></a><span class="br0">&#40;</span><span class="re0">$uri</span><span class="sy0">-&gt;</span><span class="me1">uri_string</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span> <span class="re0">$exclude_uris</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+            <span class="br0">&#125;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">//COOKIE needs to exist and at least either POST or SERVER needs to exist and at least one of the POST or SERVER must match the COOKIE</span>
+        <span class="kw1">if</span><span class="br0">&#40;</span>
+            <span class="br0">&#40;</span>
+                <span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">&#40;</span><span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="co1">//if cookie doesnt exist</span>
+                OR
+                <span class="br0">&#40;</span>
+                    <span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">&#40;</span><span class="re0">$_POST</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_token_name<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="co1">//or if both POST and SERVER doesnt exist</span>
+                    AND
+                    <span class="sy0">!</span><a href="http://www.php.net/isset"><span class="kw3">isset</span></a><span class="br0">&#40;</span><span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'HTTP_X_XSRF_TOKEN'</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+                <span class="br0">&#41;</span>
+            <span class="br0">&#41;</span>
+            AND
+            <span class="br0">&#40;</span>
+                <span class="br0">&#40;</span><span class="re0">$_POST</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_token_name<span class="br0">&#93;</span> <span class="sy0">!==</span> <span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span> <span class="co1">//and if both did not match</span>
+                AND
+                <span class="br0">&#40;</span><span class="re0">$_SERVER</span><span class="br0">&#91;</span><span class="st_h">'HTTP_X_XSRF_TOKEN'</span><span class="br0">&#93;</span> <span class="sy0">!==</span> <span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span>
+            <span class="br0">&#41;</span>
+        <span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">csrf_show_error</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="co1">// We kill this since we're done and we don't want to polute the _POST array</span>
+        <a href="http://www.php.net/unset"><span class="kw3">unset</span></a><span class="br0">&#40;</span><span class="re0">$_POST</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_token_name<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="kw1">if</span><span class="br0">&#40;</span>config_item<span class="br0">&#40;</span><span class="st_h">'csrf_regenerate'</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <a href="http://www.php.net/unset"><span class="kw3">unset</span></a><span class="br0">&#40;</span><span class="re0">$_COOKIE</span><span class="br0">&#91;</span><span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_cookie_name<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_hash <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+&nbsp;
+        <span class="re0">$this</span><span class="sy0">-&gt;</span>_csrf_set_hash<span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$this</span><span class="sy0">-&gt;</span><span class="me1">csrf_set_cookie</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        log_message<span class="br0">&#40;</span><span class="st_h">'debug'</span><span class="sy0">,</span> <span class="st_h">'CSRF token verified'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="kw1">return</span> <span class="re0">$this</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span>
+&nbsp;
+<span class="br0">&#125;</span>
