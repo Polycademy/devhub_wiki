@@ -1,0 +1,15 @@
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="br0">&#41;</span>
+    .<span class="me1">directive</span><span class="br0">&#40;</span><span class="st0">'camelCasedDirectiveNameDir'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- this is optional since no dependencies to be injected, but still used for convention</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="co1">//here i can return the directive definition object</span>
+            <span class="kw1">return</span><span class="br0">&#123;</span>
+                scope<span class="sy0">:</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                link<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attributes<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//at this point the DOM has been compiled, the scope is attached, and you can start manipulating things</span>
+                    <span class="co1">//scope is the scope of the directive, it could be the containing, controller's scope if it scope: false, it could be it's own scope if {}, it could be a prototypical scope if scope: true</span>
+                    <span class="co1">//element is the DOM element that you placed the directive on, except that it's also wrapped in jQlite, or jQuery if you have it loaded</span>
+                    <span class="co1">//attributes is an object listing all the attributes on the DOM element that the directive is attached to.</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>

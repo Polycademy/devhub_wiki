@@ -1,0 +1,25 @@
+====== Lesson 39 - WAP ======
+
+**Expected Work**
+
+  - Watching AngularJS video tutorials
+  - Finish the AngularJS phone tutorial
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - CRUD from Angular to Server
+  - Introducing directives and their scopes
+  - Nuances of AngularJS scopes inheritance
+  - 17 days left!
+
+**Practice**
+
+  - Continue watching videos on AngularJS
+  - Read about scoping and the external references on the wiki
+  - Begin migrating all of your views to AngularJS, and do it one by one, replace the PHP UI bits with Angular directives instead

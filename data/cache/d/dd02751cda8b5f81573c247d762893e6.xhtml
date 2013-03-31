@@ -1364,6 +1364,10 @@ For most web applications, unless you&#039;re operating on big data, your schema
 </li>
 </ul>
 
+<p>
+Note that your <strong>column names should follow the camel case pattern</strong>. This is because if you&#039;re building an <abbr title="Asynchronous JavaScript and XML">AJAX</abbr> application, javascript developers often use camel cases for their variables and object keys. If you follow up with camel case in your database column names, it will make it easier to communicate between javascript and <abbr title="Hypertext Preprocessor">PHP</abbr>.
+</p>
+
 </div>
 
 <h4 id="data_types">Data Types</h4>
@@ -1378,7 +1382,7 @@ You should also take care to choose the correct data type for each column. Use <
 </p>
 
 </div>
-<!-- EDIT23 SECTION "Database Planning" [67384-69669] -->
+<!-- EDIT23 SECTION "Database Planning" [67384-70007] -->
 <h3 class="sectionedit24" id="active_records">Active Records</h3>
 <div class="level3">
 
@@ -1427,7 +1431,7 @@ Refer <a href="http://ellislab.com/codeigniter/user-guide/general/errors.html" c
 </p>
 
 </div>
-<!-- EDIT24 SECTION "Active Records" [69670-72486] -->
+<!-- EDIT24 SECTION "Active Records" [70008-72824] -->
 <h3 class="sectionedit25" id="search">Search</h3>
 <div class="level3">
 
@@ -1504,7 +1508,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT25 SECTION "Search" [72487-78679] -->
+<!-- EDIT25 SECTION "Search" [72825-79017] -->
 <h3 class="sectionedit26" id="redis">Redis</h3>
 <div class="level3">
 
@@ -1535,7 +1539,7 @@ We can switch to using Redis for session data if you require that kind of perfor
 </ul>
 
 </div>
-<!-- EDIT26 SECTION "Redis" [78680-80114] -->
+<!-- EDIT26 SECTION "Redis" [79018-80452] -->
 <h3 class="sectionedit27" id="migrations">Migrations</h3>
 <div class="level3">
 
@@ -1640,7 +1644,7 @@ Make sure to refer to the <a href="http://ellislab.com/codeigniter/user-guide/da
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Migrations" [80115-86035] -->
+<!-- EDIT27 SECTION "Migrations" [80453-86373] -->
 <h2 class="sectionedit28" id="security">Security</h2>
 <div class="level2">
 
@@ -1649,7 +1653,7 @@ Security of web applications is important whenever you&#039;re handling user inp
 </p>
 
 </div>
-<!-- EDIT28 SECTION "Security" [86036-86536] -->
+<!-- EDIT28 SECTION "Security" [86374-86874] -->
 <h3 class="sectionedit29" id="input_validation">Input Validation</h3>
 <div class="level3">
 
@@ -1770,7 +1774,7 @@ The third problem is the newer RESTful <abbr title="Hyper Text Transfer Protocol
 </p>
 
 </div>
-<!-- EDIT29 SECTION "Input Validation" [86537-98662] -->
+<!-- EDIT29 SECTION "Input Validation" [86875-99000] -->
 <h3 class="sectionedit30" id="handling_passwords">Handling Passwords</h3>
 <div class="level3">
 
@@ -1791,7 +1795,7 @@ However there is a new native password hashing function that is on <abbr title="
 </p>
 
 </div>
-<!-- EDIT30 SECTION "Handling Passwords" [98663-101273] -->
+<!-- EDIT30 SECTION "Handling Passwords" [99001-101611] -->
 <h3 class="sectionedit31" id="ssl">SSL</h3>
 <div class="level3">
 
@@ -1820,7 +1824,7 @@ When you&#039;re developing on localhost, you won&#039;t need to implement <abbr
 </p>
 
 </div>
-<!-- EDIT31 SECTION "SSL" [101274-104277] -->
+<!-- EDIT31 SECTION "SSL" [101612-104615] -->
 <h3 class="sectionedit32" id="payments_credit_cards">Payments &amp; Credit Cards</h3>
 <div class="level3">
 
@@ -1839,7 +1843,7 @@ Rather than implementing the merchant processor&#039;s own <abbr title="Applicat
 </ul>
 
 </div>
-<!-- EDIT32 SECTION "Payments & Credit Cards" [104278-104914] -->
+<!-- EDIT32 SECTION "Payments & Credit Cards" [104616-105252] -->
 <h2 class="sectionedit33" id="sessions_authentication">Sessions &amp; Authentication</h2>
 <div class="level2">
 
@@ -1848,7 +1852,7 @@ For there to be users to your web application, you need user accounts. To have u
 </p>
 
 </div>
-<!-- EDIT33 SECTION "Sessions & Authentication" [104915-105769] -->
+<!-- EDIT33 SECTION "Sessions & Authentication" [105253-106107] -->
 <h3 class="sectionedit34" id="sessions">Sessions</h3>
 <div class="level3">
 
@@ -1869,7 +1873,7 @@ There&#039;s a caveat to all of the above information. In the RESTful standard, 
 </p>
 
 </div>
-<!-- EDIT34 SECTION "Sessions" [105770-107958] -->
+<!-- EDIT34 SECTION "Sessions" [106108-108296] -->
 <h3 class="sectionedit35" id="authentication_system">Authentication System</h3>
 <div class="level3">
 
@@ -1901,7 +1905,7 @@ We won&#039;t actually be using Codeigniter&#039;s session database store sessio
 </p>
 
 </div>
-<!-- EDIT35 SECTION "Authentication System" [107959-109694] -->
+<!-- EDIT35 SECTION "Authentication System" [108297-110032] -->
 <h3 class="sectionedit36" id="access_control_list">Access Control List</h3>
 <div class="level3">
 
@@ -1940,7 +1944,7 @@ Refer to these resources to use Zend <abbr title="Access Control List">ACL</abbr
 </ul>
 
 </div>
-<!-- EDIT36 SECTION "Access Control List" [109695-111307] -->
+<!-- EDIT36 SECTION "Access Control List" [110033-111645] -->
 <h2 class="sectionedit37" id="htaccess">.htaccess</h2>
 <div class="level2">
 
@@ -1949,7 +1953,7 @@ The <a href="http://en.wikipedia.org/wiki/.htaccess" class="interwiki iw_wp" tit
 </p>
 
 </div>
-<!-- EDIT37 SECTION ".htaccess" [111308-112330] -->
+<!-- EDIT37 SECTION ".htaccess" [111646-112668] -->
 <h3 class="sectionedit38" id="url_rewriting">URL Rewriting</h3>
 <div class="level3">
 
@@ -2007,7 +2011,7 @@ To learn more about rewriting, check out this <a href="http://net.tutsplus.com/t
 </p>
 
 </div>
-<!-- EDIT38 SECTION "URL Rewriting" [112331-117064] -->
+<!-- EDIT38 SECTION "URL Rewriting" [112669-117402] -->
 <h3 class="sectionedit39" id="compression">Compression</h3>
 <div class="level3">
 
@@ -2074,7 +2078,7 @@ Notice that the content-encoding has a value of gzip. If we use H5BP&#039;s defl
 </p>
 
 </div>
-<!-- EDIT39 SECTION "Compression" [117065-121089] -->
+<!-- EDIT39 SECTION "Compression" [117403-121427] -->
 <h3 class="sectionedit40" id="controlling_browser_cache">Controlling Browser Cache</h3>
 <div class="level3">
 
@@ -2144,7 +2148,7 @@ This way instead of using query parameters, you can cache bust javascript, css, 
 </p>
 
 </div>
-<!-- EDIT40 SECTION "Controlling Browser Cache" [121090-125309] -->
+<!-- EDIT40 SECTION "Controlling Browser Cache" [121428-125647] -->
 <h2 class="sectionedit41" id="caching">Caching</h2>
 <div class="level2">
 
@@ -2153,7 +2157,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT41 SECTION "Caching" [125310-125877] -->
+<!-- EDIT41 SECTION "Caching" [125648-126215] -->
 <h3 class="sectionedit42" id="opcode_caching">Opcode Caching</h3>
 <div class="level3">
 
@@ -2162,7 +2166,7 @@ Caching is a matter of storing dynamically produced data in a static state so th
 </p>
 
 </div>
-<!-- EDIT42 SECTION "Opcode Caching" [125878-126272] -->
+<!-- EDIT42 SECTION "Opcode Caching" [126216-126610] -->
 <h3 class="sectionedit43" id="file_caching">File Caching</h3>
 <div class="level3">
 
@@ -2185,7 +2189,7 @@ Phil Sturgeon created a <a href="https://github.com/philsturgeon/codeigniter-cac
 </p>
 
 </div>
-<!-- EDIT43 SECTION "File Caching" [126273-127729] -->
+<!-- EDIT43 SECTION "File Caching" [126611-128067] -->
 <h3 class="sectionedit44" id="memory_caching">Memory Caching</h3>
 <div class="level3">
 
@@ -2206,7 +2210,7 @@ Be wary of <a href="http://en.wikipedia.org/wiki/Race_condition#Software" class=
 </p>
 
 </div>
-<!-- EDIT44 SECTION "Memory Caching" [127730-129326] -->
+<!-- EDIT44 SECTION "Memory Caching" [128068-129664] -->
 <h2 class="sectionedit45" id="restful_routing">RESTful Routing</h2>
 <div class="level2">
 
@@ -2236,7 +2240,7 @@ One question that was often asked by beginning developers is, how best to rout y
 </p>
 
 </div>
-<!-- EDIT45 SECTION "RESTful Routing" [129327-131345] -->
+<!-- EDIT45 SECTION "RESTful Routing" [129665-131683] -->
 <h3 class="sectionedit46" id="rest">REST</h3>
 <div class="level3">
 
@@ -2298,6 +2302,8 @@ Once you&#039;ve handled the request you need to pass back a response with an <a
 </li>
 <li class="level1"><div class="li"> 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors</div>
 </li>
+<li class="level1"><div class="li"> 403 Unauthorised: Can be used for incorrect login, can&#039;t use 401 in a session based cookie system</div>
+</li>
 <li class="level1"><div class="li"> 404 Not Found: No resource at the specified <abbr title="Uniform Resource Locator">URL</abbr></div>
 </li>
 <li class="level1"><div class="li"> 405 Method Not Allowed: when a client makes a request using an <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> verb not supported at the requested <abbr title="Uniform Resource Locator">URL</abbr> (supported verbs are returned in the Allow header)</div>
@@ -2325,7 +2331,7 @@ Now you understand the RESTful standard. The first thing to implement RESTful st
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131346-142924] -->
+<!-- EDIT46 SECTION "REST" [131684-143364] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
@@ -2346,7 +2352,7 @@ Of course if the data doesn&#039;t change much, remember to cache the JSON outpu
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [142925-145409] -->
+<!-- EDIT47 SECTION "Handling Output" [143365-145849] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
@@ -2377,7 +2383,7 @@ You&#039;ll notice that almost all APIs requiring any kind of authentication wil
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [145410-148054] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [145850-148494] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
@@ -2436,7 +2442,7 @@ We have a number of libraries available to abstract all of these authentication 
 </ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [148055-154612] -->
+<!-- EDIT49 SECTION "Third Party Login" [148495-155052] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
@@ -2457,12 +2463,12 @@ Most of these implementations are outside the scope of this course, but a lot of
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [154613-156836] -->
+<!-- EDIT50 SECTION "Providing Web Services APIs" [155053-157276] -->
 <h3 class="sectionedit51" id="ajax_json_message_protocol">AJAX JSON Message Protocol</h3>
 <div class="level3">
 
 <p>
-When we&#039;ve established an <abbr title="Application Programming Interface">API</abbr> for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There&#039;s no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages.
+When we&#039;ve established an <abbr title="Application Programming Interface">API</abbr> for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There&#039;s no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages. These messages should be constructed on your model layer, because that&#039;s where your errors primarily come from and that&#039;s where your validation takes place. However you can also use these messages on the controller, and when messages come back from your model, you can augment them in your controller. See <a href="https://blog.apigee.com/detail/restful_api_design_what_about_errors/" class="urlextern" title="https://blog.apigee.com/detail/restful_api_design_what_about_errors/"  rel="nofollow">Apigee&#039;s blog post on API error design</a> and <a href="https://blog.apigee.com/detail/restful_api_design_tips_for_versioning/" class="urlextern" title="https://blog.apigee.com/detail/restful_api_design_tips_for_versioning/"  rel="nofollow">API versioning</a> for more information.
 </p>
 <pre class="code javascript"><span class="co1">//the content can be whatever we want, simply put in what makes sense, and what the client would need</span>
 <span class="co1">//the code can be:</span>
@@ -2475,6 +2481,7 @@ When we&#039;ve established an <abbr title="Application Programming Interface">A
 <span class="br0">&#123;</span>
     <span class="st0">&quot;content&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//this can be an object, array or string</span>
     <span class="st0">&quot;code&quot;</span><span class="sy0">:</span> <span class="st0">&quot;&quot;</span><span class="sy0">,</span> <span class="co1">//this could be &quot;success&quot;/&quot;error&quot;/&quot;validation_error&quot;/&quot;system_error&quot;/&quot;redirect&quot;,</span>
+    <span class="st0">&quot;http&quot;</span><span class="sy0">:</span> <span class="st0">&quot;&quot;</span><span class="sy0">,</span> <span class="co1">//this could be any of the HTTP codes</span>
     <span class="st0">&quot;redirect&quot;</span><span class="sy0">:</span> <span class="st0">&quot;url/to/redirect/to&quot;</span> <span class="co1">//this allows the server to redirect the single page app client</span>
 <span class="br0">&#125;</span></pre>
 
@@ -2483,7 +2490,7 @@ Also note that if you are implementing web sockets, they require a more strict m
 </p>
 
 </div>
-<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [156837-158351] -->
+<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [157277-159379] -->
 <h3 class="sectionedit52" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
@@ -2532,7 +2539,7 @@ Regardless of the authentication scheme, if writing state management in javascri
 </p>
 
 </div>
-<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [158352-163114] -->
+<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [159380-164142] -->
 <h3 class="sectionedit53" id="restful_server">RESTful Server</h3>
 <div class="level3">
 
@@ -2555,7 +2562,7 @@ There are also frameworks designed to be used as an <abbr title="Application Pro
 </p>
 
 </div>
-<!-- EDIT53 SECTION "RESTful Server" [163115-164015] -->
+<!-- EDIT53 SECTION "RESTful Server" [164143-165043] -->
 <h3 class="sectionedit54" id="debugging_apis">Debugging APIs</h3>
 <div class="level3">
 
@@ -2564,7 +2571,7 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 </p>
 
 </div>
-<!-- EDIT54 SECTION "Debugging APIs" [164016-164186] -->
+<!-- EDIT54 SECTION "Debugging APIs" [165044-165214] -->
 <h2 class="sectionedit55" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
@@ -2631,7 +2638,7 @@ An important concept to understand is that using long running daemons instead of
 </p>
 
 </div>
-<!-- EDIT55 SECTION "Concurrent Processing" [164187-169693] -->
+<!-- EDIT55 SECTION "Concurrent Processing" [165215-170721] -->
 <h3 class="sectionedit56" id="configuration_for_daemons">Configuration for Daemons</h3>
 <div class="level3">
 
@@ -2662,7 +2669,7 @@ You can also investigate more <a href="http://www.php.net/manual/en/info.configu
 </p>
 
 </div>
-<!-- EDIT56 SECTION "Configuration for Daemons" [169694-171572] -->
+<!-- EDIT56 SECTION "Configuration for Daemons" [170722-172600] -->
 <h3 class="sectionedit57" id="hosting_solutions">Hosting Solutions</h3>
 <div class="level3">
 
@@ -2689,7 +2696,7 @@ Not all web hosts will offer concurrent processing features, mainly because runn
 </ul>
 
 </div>
-<!-- EDIT57 SECTION "Hosting Solutions" [171573-173122] -->
+<!-- EDIT57 SECTION "Hosting Solutions" [172601-174150] -->
 <h2 class="sectionedit58" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
@@ -2714,4 +2721,4 @@ There will be no free web hosts that will support a Ratchet configuration, you&#
 </p>
 
 </div>
-<!-- EDIT58 SECTION "Sockets & RTC" [173123-] -->
+<!-- EDIT58 SECTION "Sockets & RTC" [174151-] -->

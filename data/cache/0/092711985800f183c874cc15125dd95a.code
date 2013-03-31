@@ -1,0 +1,43 @@
+<span class="co1">//THIS IS PSEUDO CODE, but shows you all the options and configuration of a directive</span>
+&nbsp;
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="br0">&#41;</span>
+    .<span class="me1">directive</span><span class="br0">&#40;</span><span class="st0">'directiveName'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- Actual directive name is always camelcased</span>
+        <span class="st0">'$someService'</span><span class="sy0">,</span>
+        <span class="st0">'$anotherService'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$someService<span class="sy0">,</span> $anotherService<span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="co1">//&lt;- Directive's factory function, can be dependency injected with services</span>
+&nbsp;
+            <span class="co1">//any code here is not binded to a particular directive, but would be executed on the first instantiation of the directive</span>
+&nbsp;
+            <span class="co1">//we need to return a &quot;directive definition object&quot; that configures the directive</span>
+            <span class="kw1">return</span> <span class="br0">&#123;</span>
+                name<span class="sy0">:</span> <span class="st0">''</span><span class="sy0">,</span> <span class="co1">//&lt;- name of the directive, never used</span>
+                priority<span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="co1">//&lt;- user when there are multiple directives on the same element, and you need to specify the order of activation</span>
+                terminal<span class="sy0">:</span> <span class="kw2">true</span><span class="sy0">,</span> <span class="co1">//&lt;- takes the all directives on the elemnt with the same priority number and makes them the last to be activated</span>
+                template<span class="sy0">:</span> <span class="st0">'&lt;div&gt;&lt;/div&gt;'</span><span class="sy0">,</span> <span class="co1">//&lt;- you can create templates straight in the directive</span>
+                templateUrl<span class="sy0">:</span> <span class="st0">'directive.html'</span><span class="sy0">,</span> <span class="co1">//&lt;- this can query a template over the internet, or from an embedded template, directives can act as reusable widgets</span>
+                replace<span class="sy0">:</span> <span class="kw2">false</span><span class="sy0">,</span> <span class="co1">//&lt;- boolean for replacing the original element with the directive delcaration</span>
+                transclude<span class="sy0">:</span> <span class="kw2">false</span><span class="sy0">,</span> <span class="co1">//&lt;- boolean for moving the original element's content into the template's ng-transclude, used in reusable widgets</span>
+                restrict<span class="sy0">:</span> <span class="st0">'A'</span><span class="sy0">,</span> <span class="co1">//&lt;- determines how the directive can be declared</span>
+                scope<span class="sy0">:</span> <span class="br0">&#123;</span> <span class="co1">//&lt;- defines the scope of the directive, by default it is false, but can be true for prototypical scope, or {} for isolate scope</span>
+                    localName<span class="sy0">:</span> <span class="sy0">@</span>externalName<span class="sy0">,</span> <span class="co1">//&lt;- here's the guest list for the isolate scope</span>
+                    localBind<span class="sy0">:</span> <span class="sy0">=</span>externalName<span class="sy0">,</span>
+                    localExp<span class="sy0">:</span> <span class="sy0">&amp;</span>externalName
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                controller<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="sy0">,</span> $element<span class="sy0">,</span> $attrs<span class="sy0">,</span> $transclude<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//this is a &quot;directive controller&quot;, can be used to allow interdirective communication, this controller will only be binded to each directive instantiation, not the same as ng-controller, since that is only accessible via scope inheritance</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                require<span class="sy0">:</span> <span class="br0">&#91;</span><span class="st0">'?^directiveName'</span><span class="sy0">,</span> <span class="st0">'requiredDirective'</span><span class="sy0">,</span> <span class="st0">'^parentDirective'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="co1">//&lt;- goes with directive controllers, specifies a contract that it needs other directives to ALSO include the controller function, and parameter in their compile/linking functions</span>
+                compile<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>element<span class="sy0">,</span> attrs<span class="sy0">,</span> transclude<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">//this function is executed BEFORE the directive is compiled and linked to the scope</span>
+                    <span class="co1">//it would replace the link: property</span>
+                    <span class="co1">//the element here refers to the original element where the directive was declared</span>
+                    <span class="kw1">return</span> <span class="br0">&#123;</span>
+                        pre<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> iElement<span class="sy0">,</span> iAttrs<span class="sy0">,</span> controller<span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//just before the linking</span>
+                        post<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> iElement<span class="sy0">,</span> iAttrs<span class="sy0">,</span> controller<span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span> <span class="co1">//the same as the link: function defined below</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                link<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attrs<span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span> <span class="co1">//this is what you would 90% of the time, you can actually manipulate the DOM in the inside here</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>

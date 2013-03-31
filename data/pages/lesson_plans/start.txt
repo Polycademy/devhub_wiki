@@ -64,6 +64,12 @@ Here is the list of lesson plans:
   * [[Lesson 48 - WAP|Lesson 48]]
   * [[Lesson 49 - WAP|Lesson 49]]
   * [[Lesson 50 - WAP|Lesson 50]]
+**Week 11**
+  * [[Lesson 51 - WAP|Lesson 51]]
+  * [[Lesson 52 - WAP|Lesson 52]]
+  * [[Lesson 53 - WAP|Lesson 53]]
+  * [[Lesson 54 - WAP|Lesson 54]]
+  * [[Lesson 55 - WAP|Lesson 55]]
 **Cheat Sheets**
   * [[https://www.filepicker.io/api/file/piXIraTSEOocWVb21q9l|HTML Cheat Sheet]]
   * [[https://www.filepicker.io/api/file/B7R7k36TmyilSgdQGvkF|CSS Cheat Sheet]]

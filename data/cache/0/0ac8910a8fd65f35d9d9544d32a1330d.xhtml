@@ -99,8 +99,12 @@ The BOM refers to the APIs that the browser vendors expose to developers. Basica
 There is no standard for BOM, so each browser may try to out compete other vendors by offering features others don&#039;t have.
 </p>
 
+<p>
+In the browser host environment, javascript is simply loaded via script tags similar to how <abbr title="Cascading Style Sheets">CSS</abbr> is loaded. These script tags can be placed anywhere in your <abbr title="HyperText Markup Language">HTML</abbr>, however it is recommended that they are placed in the footer of the body tag. This allows the <abbr title="HyperText Markup Language">HTML</abbr> to be loaded before javascript is loaded. There are exceptions for javascript scripts that need to change the <abbr title="HyperText Markup Language">HTML</abbr> before it is rendered such as Modernizr. You may need to concatenate and minify scripts in production. In other host environments, javascript may be loaded using file I/O such as Node.js.
+</p>
+
 </div>
-<!-- EDIT2 SECTION "Javascript Implementations" [3179-6908] -->
+<!-- EDIT2 SECTION "Javascript Implementations" [3179-7472] -->
 <h2 class="sectionedit3" id="working_in_javascript">Working in Javascript</h2>
 <div class="level2">
 
@@ -177,7 +181,7 @@ The above are just the basics. To work with HTML5 APIs, you&#039;ll need to cons
 </p>
 
 </div>
-<!-- EDIT3 SECTION "Working in Javascript" [6909-10005] -->
+<!-- EDIT3 SECTION "Working in Javascript" [7473-10569] -->
 <h2 class="sectionedit4" id="oop_in_javascript">OOP in Javascript</h2>
 <div class="level2">
 
@@ -208,7 +212,7 @@ You refer to these resources on OOP in javascript before continuing:
 </ul>
 
 </div>
-<!-- EDIT4 SECTION "OOP in Javascript" [10006-12150] -->
+<!-- EDIT4 SECTION "OOP in Javascript" [10570-12714] -->
 <h3 class="sectionedit5" id="object_creation">Object Creation</h3>
 <div class="level3">
 
@@ -421,7 +425,7 @@ If you need to determine whether a property is part of the object instance or pa
 <span class="br0">&#125;</span></pre>
 
 </div>
-<!-- EDIT5 SECTION "Object Creation" [12151-20894] -->
+<!-- EDIT5 SECTION "Object Creation" [12715-21458] -->
 <h3 class="sectionedit6" id="understanding_this_context_and_binding">Understanding &quot;this&quot; Context and Binding</h3>
 <div class="level3">
 
@@ -579,7 +583,7 @@ Remember that if you are using frameworks or libraries, sometimes they will expl
 </p>
 
 </div>
-<!-- EDIT6 SECTION "Understanding this Context and Binding" [20895-27541] -->
+<!-- EDIT6 SECTION "Understanding this Context and Binding" [21459-28105] -->
 <h3 class="sectionedit7" id="inheritance">Inheritance</h3>
 <div class="level3">
 
@@ -799,7 +803,7 @@ console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig.<span 
 console.<span class="me1">log</span><span class="br0">&#40;</span>wildPig.<span class="kw3">__proto__</span>.<span class="kw3">__proto__</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT7 SECTION "Inheritance" [27542-38138] -->
+<!-- EDIT7 SECTION "Inheritance" [28106-38702] -->
 <h2 class="sectionedit8" id="functional_programming_in_javascript">Functional Programming in Javascript</h2>
 <div class="level2">
 
@@ -808,7 +812,7 @@ Javascript is a very <a href="http://eloquentjavascript.net/chapter6.html" class
 </p>
 
 </div>
-<!-- EDIT8 SECTION "Functional Programming in Javascript" [38139-39053] -->
+<!-- EDIT8 SECTION "Functional Programming in Javascript" [38703-39617] -->
 <h3 class="sectionedit9" id="anonymous_self-executing_function_enclosure">Anonymous Self-Executing Function Enclosure</h3>
 <div class="level3">
 
@@ -831,7 +835,7 @@ The above style is often used in jQuery plugins, since many different authors wo
 </p>
 
 </div>
-<!-- EDIT9 SECTION "Anonymous Self-Executing Function Enclosure" [39054-40096] -->
+<!-- EDIT9 SECTION "Anonymous Self-Executing Function Enclosure" [39618-40660] -->
 <h3 class="sectionedit10" id="functional_scope_and_block_scoping">Functional Scope and Block Scoping</h3>
 <div class="level3">
 
@@ -911,7 +915,7 @@ out.<span class="me1">forEach</span><span class="br0">&#40;</span><span class="k
 <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT10 SECTION "Functional Scope and Block Scoping" [40097-42812] -->
+<!-- EDIT10 SECTION "Functional Scope and Block Scoping" [40661-43376] -->
 <h3 class="sectionedit11" id="using_higher_order_functions">Using Higher Order Functions</h3>
 <div class="level3">
 
@@ -1010,7 +1014,7 @@ More interesting applications of functional programming in javascript can be acq
 </ul>
 
 </div>
-<!-- EDIT11 SECTION "Using Higher Order Functions" [42813-45983] -->
+<!-- EDIT11 SECTION "Using Higher Order Functions" [43377-46547] -->
 <h2 class="sectionedit12" id="mvc_in_javascript">MVC in Javascript</h2>
 <div class="level2">
 
@@ -1108,7 +1112,7 @@ The <a href="http://www.adobe.com/products/flashplayer/">Adobe Flash Plugin</a> 
 <!-- <![endif]-->
 </div>
 </div>
-<!-- EDIT12 SECTION "MVC in Javascript" [45984-54506] -->
+<!-- EDIT12 SECTION "MVC in Javascript" [46548-55070] -->
 <h3 class="sectionedit13" id="modules">Modules</h3>
 <div class="level3">
 
@@ -1125,7 +1129,7 @@ It&#039;s important to read the AngularJS guide on <a href="http://docs.angularj
 </p>
 
 <p>
-AngularJS doesn&#039;t really specify how you should structure your development files, they simply suggest that you put all of your components as part of some modules. Here is our recommendation on structuring your client side application. Each file below will be a module. Note that it doesn&#039;t consider where to put your partial templates, that is left up to you. We recommend embedding them in your <abbr title="HyperText Markup Language">HTML</abbr> that is first loaded by your server, refer to the template section for further information.
+AngularJS doesn&#039;t really specify how you should structure your development files, they simply suggest that you put all of your components as part of modules. Here is our recommendation on structuring your client side application. Note that it doesn&#039;t consider where to put your partial templates, that is left up to you. We recommend embedding them in your <abbr title="HyperText Markup Language">HTML</abbr> that is first loaded by your server, refer to the template section for further information.
 </p>
 <pre class="code">  root/js
     |
@@ -1232,28 +1236,13 @@ Inside of each of those script files, we register them as a module, and we also 
 <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
 <span class="co1">//Define all the page level controllers (Application Logic)</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
-	<span class="st0">'Header.Controllers'</span><span class="sy0">,</span> 
-	<span class="st0">'Footer.Controllers'</span><span class="sy0">,</span> 
-	<span class="st0">'Home.Controllers'</span><span class="sy0">,</span> 
-	<span class="st0">'Blog.Controllers'</span><span class="sy0">,</span> 
-	<span class="st0">'Courses.Controllers'</span>
-<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="co1">//Define all shared services (Interaction with Backend)</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Services'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
-	<span class="st0">'AjaxLoader.Service'</span><span class="sy0">,</span>
-	<span class="st0">'ErrorResponse.Service'</span><span class="sy0">,</span>
-	<span class="st0">'Courses.Service'</span>
-<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-<span class="co1">//Define all shared directives (UI Logic)</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
-	<span class="st0">'EqualiseHeight.Directive'</span><span class="sy0">,</span>
-	<span class="st0">'Fade.Directive'</span>
-<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
 <span class="co1">//Define all shared filters (UI Filtering)</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Filters'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
-	<span class="st0">'Currency.Filter'</span>
-<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Filters'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared services (Interaction with Backend)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Services'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared directives (UI Logic)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 </dd></dl>
 
 <p>
@@ -1263,18 +1252,12 @@ Here&#039;s an excerpt out of a typical page controller module.
 <dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=20" title="Download Snippet" class="mediafile mf_js">Courses.Controllers.js</a></dt>
 <dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
 &nbsp;
-<span class="co1">//notice the name of the module is the same as the file name</span>
-&nbsp;
 <span class="coMULTI">/**
- * Here we have registered Courses.Controllers as a module, and also declared a dependency to Courses.Controllers.Index.
- * This is because Courses.Controllers may have many sub controllers.
- * The Index subcontroller can be considered the main page, but further controllers can be chained and be declared inside the HTML
+ * This controller is bound the Controllers module
+ * It is possible to have multiple controllers on this module, however they should be sub controllers that are nested inside the CoursesIndexCtrl
  */</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Courses.Controllers'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="st0">'Courses.Controllers.Index'</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
-<span class="co1">//think of this module as the page level module</span>
-<span class="co1">//it contains a single controller called CoursesIndexCtrl, but could have more if there were sub sections of the page</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Courses.Controllers.Index'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="br0">&#41;</span>
     .<span class="me1">controller</span><span class="br0">&#40;</span><span class="st0">'CoursesIndexCtrl'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- actual name of the controller, not the module</span>
         <span class="co1">//this part is for dependency injection, we're injecting $scope service and CoursesServ service into this controller's function. The CoursesServ has been dependency injected, because in our app.js bootstrapping process, we added in the Courses.Service module to injector globally!</span>
         <span class="st0">'$scope'</span><span class="sy0">,</span>
@@ -1295,7 +1278,7 @@ Here&#039;s an excerpt from the Courses.Service.js.
 <dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=21" title="Download Snippet" class="mediafile mf_js">Courses.Service.js</a></dt>
 <dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
 &nbsp;
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Courses.Service'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Services'</span><span class="br0">&#41;</span>
     .<span class="me1">factory</span><span class="br0">&#40;</span><span class="st0">'CoursesServ'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
         <span class="st0">'$resource'</span><span class="sy0">,</span>
         <span class="kw1">function</span><span class="br0">&#40;</span>$resource<span class="br0">&#41;</span><span class="br0">&#123;</span>
@@ -1322,122 +1305,120 @@ Modules is also how AngularJS configures itself. That is you can hook into Angul
 <span class="coMULTI">/**
  * Response Handler for Error Codes across all HTTP requests to show an alert box!
  */</span>
-angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'ErrorResponse.Service'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span>
-    .<span class="me1">config</span><span class="br0">&#40;</span>
-        <span class="br0">&#91;</span>
-            <span class="st0">'$provide'</span><span class="sy0">,</span>
-            <span class="st0">'$httpProvider'</span><span class="sy0">,</span>
-            <span class="kw1">function</span><span class="br0">&#40;</span>$provide<span class="sy0">,</span> $httpProvider<span class="br0">&#41;</span><span class="br0">&#123;</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Services'</span><span class="br0">&#41;</span>
+    .<span class="me1">config</span><span class="br0">&#40;</span><span class="br0">&#91;</span>
+        <span class="st0">'$provide'</span><span class="sy0">,</span>
+        <span class="st0">'$httpProvider'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$provide<span class="sy0">,</span> $httpProvider<span class="br0">&#41;</span><span class="br0">&#123;</span>
 &nbsp;
-                <span class="co1">//model variable...</span>
-                <span class="kw1">var</span> httpMessages <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">;</span>
+            <span class="co1">//model variable...</span>
+            <span class="kw1">var</span> httpMessages <span class="sy0">=</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="sy0">;</span>
 &nbsp;
-                <span class="co1">//bind the httpMessages array to the httpMessages key so it can be dependency injected</span>
-                $provide.<span class="me1">value</span><span class="br0">&#40;</span><span class="st0">'httpMessages'</span><span class="sy0">,</span> httpMessages<span class="br0">&#41;</span><span class="sy0">;</span>
+            <span class="co1">//bind the httpMessages array to the httpMessages key so it can be dependency injected</span>
+            $provide.<span class="me1">value</span><span class="br0">&#40;</span><span class="st0">'httpMessages'</span><span class="sy0">,</span> httpMessages<span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
-                $httpProvider.<span class="me1">responseInterceptors</span>.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#91;</span><span class="st0">'$q'</span><span class="sy0">,</span> <span class="kw1">function</span><span class="br0">&#40;</span>$q<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+            $httpProvider.<span class="me1">responseInterceptors</span>.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#91;</span><span class="st0">'$q'</span><span class="sy0">,</span> <span class="kw1">function</span><span class="br0">&#40;</span>$q<span class="br0">&#41;</span> <span class="br0">&#123;</span>
 &nbsp;
-                    <span class="kw1">return</span> <span class="kw1">function</span><span class="br0">&#40;</span>promise<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                <span class="kw1">return</span> <span class="kw1">function</span><span class="br0">&#40;</span>promise<span class="br0">&#41;</span> <span class="br0">&#123;</span>
 &nbsp;
-                        <span class="kw1">return</span> promise.<span class="me1">then</span><span class="br0">&#40;</span>
-                            <span class="kw1">function</span><span class="br0">&#40;</span>successResponse<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="kw1">return</span> promise.<span class="me1">then</span><span class="br0">&#40;</span>
+                        <span class="kw1">function</span><span class="br0">&#40;</span>successResponse<span class="br0">&#41;</span> <span class="br0">&#123;</span>
 &nbsp;
-                                <span class="co1">//we only want to show anything that wasn't a GET based request</span>
-                                <span class="co1">//these allow you show messages, you don't have to show these types though (because usually not required)</span>
+                            <span class="co1">//we only want to show anything that wasn't a GET based request</span>
+                            <span class="co1">//these allow you show messages, you don't have to show these types though (because usually not required)</span>
 &nbsp;
-                                <span class="kw1">switch</span><span class="br0">&#40;</span>successResponse.<span class="me1">config</span>.<span class="me1">method</span>.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
-                                    <span class="kw1">case</span> <span class="st0">'GET'</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'Successfully Received'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="st0">'POST'</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'Successfully Posted'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="st0">'PUT'</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'Successfully Updated'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="st0">'DELETE'</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'Sucessfully Deleted'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'success'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                <span class="br0">&#125;</span>
-&nbsp;
-&nbsp;
-                                <span class="kw1">return</span> successResponse<span class="sy0">;</span>
-&nbsp;
-                            <span class="br0">&#125;</span><span class="sy0">,</span>
-                            <span class="kw1">function</span><span class="br0">&#40;</span>failureResponse<span class="br0">&#41;</span> <span class="br0">&#123;</span>
-&nbsp;
-                                <span class="kw1">switch</span><span class="br0">&#40;</span>failureResponse.<span class="me1">status</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
-                                    <span class="kw1">case</span> <span class="nu0">400</span><span class="sy0">:</span> <span class="co1">//show validation error messages then!</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'Validation failed, try tweaking your submission.'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="nu0">401</span><span class="sy0">:</span> <span class="co1">//for ionauth authentication, will need to redirect to login screen, or modal box</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'Unauthorised request, try logging in.'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="nu0">403</span><span class="sy0">:</span> <span class="co1">//returned by server for resources the user should not be able to access directly</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'You can<span class="es0">\'</span>t access this.'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="nu0">404</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'404, sorry could not find what you were looking for.'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="nu0">405</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'The requested method was incompatible with the requested resource.'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">case</span> <span class="nu0">500</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> <span class="st0">'There was a server error, try again later, or contact the owners.'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                        <span class="kw1">break</span><span class="sy0">;</span>
-                                    <span class="kw1">default</span><span class="sy0">:</span>
-                                        httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
-                                            message<span class="sy0">:</span> failureResponse.<span class="me1">status</span> <span class="sy0">+</span> <span class="st0">' General error processing the request'</span><span class="sy0">,</span>
-                                            type<span class="sy0">:</span> <span class="st0">'failure'</span>
-                                        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
-                                <span class="br0">&#125;</span>
-&nbsp;
-                                <span class="kw1">return</span> $q.<span class="me1">reject</span><span class="br0">&#40;</span>failureResponse<span class="br0">&#41;</span><span class="sy0">;</span>
-&nbsp;
+                            <span class="kw1">switch</span><span class="br0">&#40;</span>successResponse.<span class="me1">config</span>.<span class="me1">method</span>.<span class="me1">toUpperCase</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                                <span class="kw1">case</span> <span class="st0">'GET'</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'Successfully Received'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="st0">'POST'</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'Successfully Posted'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="st0">'PUT'</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'Successfully Updated'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="st0">'DELETE'</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'Sucessfully Deleted'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'success'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
                             <span class="br0">&#125;</span>
-                        <span class="br0">&#41;</span><span class="sy0">;</span>
 &nbsp;
-                    <span class="br0">&#125;</span><span class="sy0">;</span>
 &nbsp;
-                <span class="br0">&#125;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                            <span class="kw1">return</span> successResponse<span class="sy0">;</span>
 &nbsp;
-            <span class="br0">&#125;</span>
-        <span class="br0">&#93;</span>
-    <span class="br0">&#41;</span><span class="sy0">;</span></pre>
+                        <span class="br0">&#125;</span><span class="sy0">,</span>
+                        <span class="kw1">function</span><span class="br0">&#40;</span>failureResponse<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+&nbsp;
+                            <span class="kw1">switch</span><span class="br0">&#40;</span>failureResponse.<span class="me1">status</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+                                <span class="kw1">case</span> <span class="nu0">400</span><span class="sy0">:</span> <span class="co1">//show validation error messages then!</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'Validation failed, try tweaking your submission.'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="nu0">401</span><span class="sy0">:</span> <span class="co1">//for ionauth authentication, will need to redirect to login screen, or modal box</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'Unauthorised request, try logging in.'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="nu0">403</span><span class="sy0">:</span> <span class="co1">//returned by server for resources the user should not be able to access directly</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'You can<span class="es0">\'</span>t access this.'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="nu0">404</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'404, sorry could not find what you were looking for.'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="nu0">405</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'The requested method was incompatible with the requested resource.'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">case</span> <span class="nu0">500</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> <span class="st0">'There was a server error, try again later, or contact the owners.'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                                    <span class="kw1">break</span><span class="sy0">;</span>
+                                <span class="kw1">default</span><span class="sy0">:</span>
+                                    httpMessages.<span class="me1">push</span><span class="br0">&#40;</span><span class="br0">&#123;</span>
+                                        message<span class="sy0">:</span> failureResponse.<span class="me1">status</span> <span class="sy0">+</span> <span class="st0">' General error processing the request'</span><span class="sy0">,</span>
+                                        type<span class="sy0">:</span> <span class="st0">'failure'</span>
+                                    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+                            <span class="br0">&#125;</span>
+&nbsp;
+                            <span class="kw1">return</span> $q.<span class="me1">reject</span><span class="br0">&#40;</span>failureResponse<span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                        <span class="br0">&#125;</span>
+                    <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+                <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="br0">&#125;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 </dd></dl>
 
 </div>
-<!-- EDIT13 SECTION "Modules" [54507-69440] -->
+<!-- EDIT13 SECTION "Modules" [55071-68856] -->
 <h3 class="sectionedit14" id="routing">Routing</h3>
 <div class="level3">
 
@@ -1717,12 +1698,12 @@ app.<span class="me1">run</span><span class="br0">&#40;</span><span class="br0">
 <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
 
 </div>
-<!-- EDIT14 SECTION "Routing" [69441-83849] -->
+<!-- EDIT14 SECTION "Routing" [68857-83265] -->
 <h3 class="sectionedit15" id="scoping">Scoping</h3>
 <div class="level3">
 
 <p>
-The scope is responsible for detecting changes to the model section and provides the execution context for expressions inside of the <abbr title="HyperText Markup Language">HTML</abbr>. It&#039;s part of AngularJS&#039;s bidirectional binding. The scopes are nested in a hierarchical structure which closely follow the <abbr title="Document Object Model">DOM</abbr> structure. When you setup a controller using <code>ng-controller</code>, that setups a scope. Certain directives also create scopes, however there are nuances to the way the scope operates and inherits from the parent scope. If you have <abbr title="HyperText Markup Language">HTML</abbr> like so:
+The scope is responsible for detecting changes to the model section and provides the execution context for expressions inside of the <abbr title="HyperText Markup Language">HTML</abbr>. It&#039;s part of AngularJS&#039;s bidirectional binding. The scopes are nested in a hierarchical structure which closely follow the <abbr title="Document Object Model">DOM</abbr> structure. When you setup a controller using <code>ng-controller</code>, that setups a scope. Certain directives also create scopes, however there are nuances to the way the scope operates and inherits from the parent scope. Furthermore as soon as you declare <code>ng-app</code> on a particular tag, AngularJS creates a <code>$rootScope</code> from which all other scopes are inherit from. Here&#039;s an example, if you have <abbr title="HyperText Markup Language">HTML</abbr> like so:
 </p>
 
 <p>
@@ -1757,18 +1738,46 @@ Then the scopes operate in this manner. Check the highlighted scopes. Each contr
 </p>
 
 <p>
-Scopes are very powerful, you can setup custom watchers from them that observe changes in variables and then take a corresponding action. However they are also somewhat non-intuitive especially when you want to do advanced things with them such as with directives. Therefore it&#039;s important to understand scopes in detail through these resources:
+Scopes are very powerful, they are not only used to establish contexts inside the <abbr title="HyperText Markup Language">HTML</abbr>, but to watch mutations of data, broadcast and handle events, run functions outside of AngularJS context and allow child to parent communication. The usage of scopes will be demonstrated over the course of writing controllers and directives, however this section will point to some common misunderstandings:
+</p>
+
+<p>
+1. Confusion over how child scopes can changes values on the parent scope:
+</p>
+
+<p>
+Scopes are objects that can contain primitive properties or reference types such as objects and arrays. Scope inheritance is based on prototypical inheritance that is happening behind the scenes. Therefore it&#039;s important to understand how scope properties are created and accessed and modified. This often causes confusion because if you set a property on a scope, and you actually want to change a property on the parent (which is in the child scope&#039;s prototype), it may sometimes simply create that property on the child which shadows the property on the parent. The problem comes from a misunderstanding of how properties are accessed. The resource below will go into detail over how to resolve this problem:
 </p>
 <ul>
-<li class="level1"><div class="li"> <a href="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance" class="urlextern" title="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance"  rel="nofollow">The Nuances of Scope Prototypical Inheritance</a></div>
+<li class="level1"><div class="li"> <a href="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance" class="urlextern" title="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance"  rel="nofollow">The Nuances of Scope Prototypical Inheritance</a> - Here is a <a href="http://beta.plnkr.co/edit/7H4ZZKhcfm2OLodz6FVS?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/7H4ZZKhcfm2OLodz6FVS?p=preview"  rel="nofollow">Plunker Demo showing one of the nuances of scope inheritance</a>.</div>
 </li>
-<li class="level1"><div class="li"> <a href="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/" class="urlextern" title="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/"  rel="nofollow">Scope Life Cycle</a></div>
-</li>
+</ul>
+
+<p>
+2. Confusion about why running a AngularJS function inside a callback of a third party function, or native javascript function doesn&#039;t update the scope bindings:
+</p>
+
+<p>
+Sometimes you need get AngularJS to update its scope properties or run some sort of function defined inside AngularJS, but it will be executed in the context of a native javascript function such as <code>setTimeout</code> or in a third party library such as a jQuery event binding callback. If you just try to run the function, you may get binding loss, but also the scope bindings just may not activate. If you&#039;re meeting this problem you need to learn how to use the <code>$scope.$apply</code> method. The resources below discuss this method:
+</p>
+<ul>
 <li class="level1"><div class="li"> <a href="https://github.com/angular/angular.js/wiki/When-to-use-%24scope.%24apply%28%29" class="urlextern" title="https://github.com/angular/angular.js/wiki/When-to-use-%24scope.%24apply%28%29"  rel="nofollow">When to use scope.$apply</a></div>
 </li>
 <li class="level1"><div class="li"> <a href="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html" class="urlextern" title="http://jimhoskins.com/2012/12/17/angularjs-and-apply.html"  rel="nofollow">In depth explanation of scope.$apply</a></div>
 </li>
 <li class="level1"><div class="li"> <a href="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh" class="urlextern" title="http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh"  rel="nofollow">Application of scope.$apply</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://jsfiddle.net/vojtajina/U7Bz9/" class="urlextern" title="http://jsfiddle.net/vojtajina/U7Bz9/"  rel="nofollow">jsFiddle for Infinite Scroll</a> - this example shows an application of using <code>$scope.$apply</code> inside a jQuery bind callback.</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://coderwall.com/p/ngisma" class="urlextern" title="https://coderwall.com/p/ngisma"  rel="nofollow">Safe Apply Helper</a> &amp; <a href="http://stackoverflow.com/questions/13639717/does-the-scope-and-phase-workaround-always-work-as-expected-in-angularjs" class="urlextern" title="http://stackoverflow.com/questions/13639717/does-the-scope-and-phase-workaround-always-work-as-expected-in-angularjs"  rel="nofollow">Checking the digest phase in apply</a></div>
+</li>
+</ul>
+
+<p>
+Scopes have various other nuances and applications, but we&#039;ll get to there in the later sections. Here are some resources on scopes you need to understand as well.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/" class="urlextern" title="http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/"  rel="nofollow">Scope Life Cycle</a></div>
 </li>
 <li class="level1"><div class="li"> <a href="http://docs.angularjs.org/guide/scope" class="urlextern" title="http://docs.angularjs.org/guide/scope"  rel="nofollow">Official documentation on scopes</a></div>
 </li>
@@ -1779,29 +1788,440 @@ Scopes are very powerful, you can setup custom watchers from them that observe c
 </ul>
 
 </div>
-<!-- EDIT15 SECTION "Scoping" [83850-86233] -->
+<!-- EDIT15 SECTION "Scoping" [83266-88030] -->
 <h3 class="sectionedit16" id="controllers">Controllers</h3>
 <div class="level3">
 
 <p>
-ANGULARJS page controllers vs partial controllers
+In <a href="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller" class="urlextern" title="http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller"  rel="nofollow">AngularJS controllers</a> are used to designate sections of your user interface and manage the scope object in that particular section of the interface. In doing so, the controllers also access shared services in order to acquire data from the external third parties or your own RESTful resources. Therefore controllers can represent whole pages, sections of a page, or subsections of a page. Any time you need some sort of dynamic functionality on the page and it can be semantically separate from the other sections of the page, you need a controller. Controller hence determine the page state.
+</p>
+
+<p>
+Assuming the seed application layout, inside your <code>js/controllers</code> directory, each file inside there would be a module. Each module would contain at least one controller. That controller can be considered the page level controller. Any controllers that would be nested inside a particular page would be appended to the module. Let&#039;s start with an example. Assuming we have a page we want to represent called “Blog” which is a page level module/controller and we want that controller to be accessible from an <abbr title="Uniform Resource Locator">URL</abbr> state such as <code>example.com/blog</code>. Then we need to create a file called <code>Blog.Controllers.js</code> inside our controllers directory.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:javascript_-_client_side_architecture&amp;codeblock=34" title="Download Snippet" class="mediafile mf_js">Blog.Controllers.js</a></dt>
+<dd><pre class="code file javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//whenever there's a [] in the 2nd parameter, it means the module is created, here there's no [], so it's attaching itself to the Controllers module</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="br0">&#41;</span>
+    .<span class="me1">controller</span><span class="br0">&#40;</span><span class="st0">'BlogIndexCtrl'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- BlogIndexCtrl is actual name of the controller</span>
+        <span class="st0">'$scope'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="co1">//the $scope here would be available to all elements that are the children of BlogIndexCtrl</span>
+            $scope.<span class="me1">data</span> <span class="sy0">=</span> <span class="st0">'Hello World!'</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span>
+    .<span class="me1">controller</span><span class="br0">&#40;</span><span class="st0">'BlogMobileCtrl'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//this part is optional, imagine a different kind of Blog State that may be used conditionally from the routes</span>
+        <span class="st0">'$scope'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="br0">&#41;</span><span class="br0">&#123;</span>
+            $scope.<span class="me1">data</span> <span class="sy0">=</span> <span class="st0">'I am a different controller!'</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span>
+    .<span class="me1">controller</span><span class="br0">&#40;</span><span class="st0">'BlogSubCtrl'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- this also demonstrates a controller that is part of the Blog.Controllers.Mobile, so this could be a sub controller that is nested inside 'BlogMobileCtrl'</span>
+        <span class="st0">'$scope'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="br0">&#41;</span><span class="br0">&#123;</span>
+            $scope.<span class="me1">data</span> <span class="sy0">=</span> <span class="st0">'I am a different controller!'</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>    </pre>
+</dd></dl>
+
+<p>
+If we want one of the controllers to be “routable” (accessible from the <abbr title="Uniform Resource Locator">URL</abbr> state), then we need add the controller&#039;s name to one of our routes. Of course make sure to add the page level module as a dependency to the controllers modules in the bootstrapping process in <code>app.js</code>.
+</p>
+<pre class="code javascript">$routeProvider
+    .<span class="me1">when</span><span class="br0">&#40;</span>
+        <span class="st0">'/blog'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span>
+            templateUrl<span class="sy0">:</span> <span class="st0">'blog_index.html'</span><span class="sy0">,</span> <span class="co1">//&lt;- don't worry about this yet, this comes from an embedded template</span>
+            controller<span class="sy0">:</span> <span class="st0">'BlogIndexCtrl'</span> <span class="co1">//&lt;- here is our controller that is being routed to when the URL is at &quot;/blog&quot;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+In our <abbr title="HyperText Markup Language">HTML</abbr>, we can setup a template with the <code>BlogIndexCtrl</code> managing it. The below file is a partial template that gets embedded in footer partial. Find out about it in the templates section.
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;text/ng-template&quot;</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;blog_index.html&quot;</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>Hi the scope's data is here {{data}}<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span></pre>
+
+<p>
+Notice that we do not need to use the <code>ng-controller</code> directive to bind the controller to the template. This is because it is implicitly done inside the routing, when we said that <code>BlogIndexCtrl</code> is matched to <code>blog_index.html</code>. However if we wanted to make a certain controller a sub controller that is nested inside <code>BlogIndexCtrl</code> then we would have to explicitly write that directive like so:
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;text/ng-template&quot;</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;nested_index.html&quot;</span>&gt;</span>
+    <span class="sc-1">&lt;!-- This is assuming you have a controller that has these sub controllers! --&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>NESTED INDEX CTRL: {{data}}<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> ng-controller<span class="sy0">=</span><span class="st0">&quot;NestedSubCtrl&quot;</span>&gt;</span>SUB CTRL: {{data}}<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> ng-controller<span class="sy0">=</span><span class="st0">&quot;NestedSub2Ctrl&quot;</span>&gt;</span>SUB CTRL2: {{data}}<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span></pre>
+
+<p>
+Finally remember that not all controller modules inside the <code>js/controllers</code> directory need to be a particular page. They can just be sections of a page. For example, the headers and footers of a page may be shared across many pages. Then you can make them top level modules inside the <code>js/controllers</code> directory.
+</p>
+
+<p>
+All of the above may be a bit confusing, since there&#039;s a lot of interlinking parts that need to come together to work. Check out this <a href="http://beta.plnkr.co/edit/XZs1zNLpZubPBjnULJ3n?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/XZs1zNLpZubPBjnULJ3n?p=preview"  rel="nofollow">Plunker demo with a working configuration of nested controllers</a>. It won&#039;t match your file/directory structure because everything needs to be in files. However you can see what the end result may look like.
 </p>
 
 </div>
-<!-- EDIT16 SECTION "Controllers" [86234-86307] -->
+
+<h4 id="communication_between_controllers">Communication between Controllers</h4>
+<div class="level4">
+
+<p>
+You will need to eventually <a href="http://stackoverflow.com/questions/11252780/whats-the-correct-way-to-communicate-between-controllers-in-angularjs" class="urlextern" title="http://stackoverflow.com/questions/11252780/whats-the-correct-way-to-communicate-between-controllers-in-angularjs"  rel="nofollow">communicate between different controllers depending on an external event or some third party service or your own RESTful resources</a>. There are two ways to communicate between controllers. The recommended way is through services. Services are meant to be shared across controllers, this philosophy is similar to the operation of models in the traditional server side MVC, where controllers call upon models to do work. You should look at the services section to find out more.
+</p>
+
+<p>
+<strong>Shared Service Method</strong>
+</p>
+
+<p>
+This example shows how to use shared services along with the <code>$watch</code> function to allow messaging between controllers. The <code>$watch</code> service observes changes in a model variable and then runs a function when it changes. This is probably the most common method, however <a href="http://eburley.github.com/2013/01/31/angularjs-watch-pub-sub-best-practices.html" class="urlextern" title="http://eburley.github.com/2013/01/31/angularjs-watch-pub-sub-best-practices.html"  rel="nofollow">sometimes it won&#039;t solve your problem when you have more complicated messaging needs</a>.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://beta.plnkr.co/edit/X8txKfVBotWTDfD9au8x?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/X8txKfVBotWTDfD9au8x?p=preview"  rel="nofollow">Plunker Demo of Shared Services &amp; $watch</a></div>
+</li>
+</ul>
+
+<p>
+<strong>Event Method</strong>
+</p>
+
+<p>
+The second way of communicating between controllers is to construct a publish/subscribe event bus system. The simple way would be to use <code>$scope.broadcast</code>, <code>$scope.emit</code> and <code>$scope.on</code> to send and capture events. You can basically broad cast and event from one controller, and catch and handle it in another controller. First thing to understand is what those functions do. Please note that these functions also exist on the <code>$rootScope</code> too.
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://docs.angularjs.org/api/ng.$rootScope.Scope#$broadcast" class="urlextern" title="http://docs.angularjs.org/api/ng.$rootScope.Scope#$broadcast"  rel="nofollow">&quot;$scope.broadcast&quot;</a> creates an event that is propagated to the child scopes. That could be inside a controller or a directive.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://docs.angularjs.org/api/ng.$rootScope.Scope#$emit" class="urlextern" title="http://docs.angularjs.org/api/ng.$rootScope.Scope#$emit"  rel="nofollow">&quot;$scope.emit&quot;</a> creates an event that is propagated to the parent scopes. That could be a controller or the run configuration of <code>ng-app</code>.</div>
+</li>
+<li class="level1"><div class="li"> <a href="http://docs.angularjs.org/api/ng.$rootScope.Scope#$on" class="urlextern" title="http://docs.angularjs.org/api/ng.$rootScope.Scope#$on"  rel="nofollow">&quot;$scope.on&quot;</a> listens for an event and runs a callback handler function accordingly.</div>
+</li>
+</ul>
+
+<p>
+As you can see the hierarchy of scopes matter when deciding to broadcast, emit or listen to an event. A common question would be how to communicate between sibling controllers. There are three possible configurations in using these scope event functions:
+</p>
+<ol>
+<li class="level1"><div class="li"> Use a shared service to always broadcast down from the <code>$rootScope</code>. This is demonstrated by <a href="http://onehungrymind.com/angularjs-communicating-between-controllers/" class="urlextern" title="http://onehungrymind.com/angularjs-communicating-between-controllers/"  rel="nofollow">Simpulton in his video on communicating between controllers</a>.</div>
+</li>
+<li class="level1"><div class="li"> Construct a ping pong configuration between child controllers and the <code>ng-app</code> run configuration. Child scopes emit events, the <code>$rootScope</code> in the <code>ng-app</code> run section broadcasts it back to all listeners. <a href="http://jsfiddle.net/VxafF/" class="urlextern" title="http://jsfiddle.net/VxafF/"  rel="nofollow">This is demonstrated in this jsFiddle</a>.</div>
+</li>
+<li class="level1"><div class="li"> Just do it ad-hoc. Emit when you need to communicate to the parent, and broadcast when you need to communicate to the child.</div>
+</li>
+</ol>
+
+<p>
+The disadvantage of using the broadcast, is that the event propagation cannot be cancelled. That is, if you were to emit an event, a listener could handle the event and then stop propagation. However if an event is broadcasted to children, then all children will get it.
+</p>
+
+<p>
+Here&#039;s a <a href="http://beta.plnkr.co/edit/ZU0XNK?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/ZU0XNK?p=preview"  rel="nofollow">Plunker demo showing these event methods in action</a>. Pay attention to the console, and play around with how the messages are sent, plus make sure to check out the <code>event</code> and <code>arg</code> parameters that can be displayed in the handler function.
+</p>
+
+<p>
+<strong>Event Bus Method</strong>
+</p>
+
+<p>
+Broadcasting, emitting and handling up and down the scopes is actually somewhat inefficient, especially when you have many events happening. Therefore you will need a dedicated event bus that abstracts this process, there are several third party libraries that make this possible. However they may or may not be implemented as an AngularJS service, therefore possibly bypassing the dependency injection. These libraries will not be using the AngularJS <code>$scope.broadcast</code>, <code>$scope.emit</code> or <code>$scope.on</code>, instead they implement their own handlers:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://jsfiddle.net/ThomasBurleson/sv7D5/" class="urlextern" title="http://jsfiddle.net/ThomasBurleson/sv7D5/"  rel="nofollow">jQuery Event Bus + AngularJS Service integration</a> - This one relies on jQuery to handle the events. however it integrates the code into an AngularJS service. Here&#039;s the <a href="http://fiddle.jshell.net/ThomasBurleson/sv7D5/show/" class="urlextern" title="http://fiddle.jshell.net/ThomasBurleson/sv7D5/show/"  rel="nofollow">full explanation</a>.</div>
+</li>
+<li class="level1"><div class="li"> The <a href="http://radio.uxder.com/index.html" class="urlextern" title="http://radio.uxder.com/index.html"  rel="nofollow">Radio.js</a> is third party library that doesn&#039;t have any dependencies, it&#039;s has a simple <abbr title="Application Programming Interface">API</abbr> to allow you to send and capture events. However it will introduce a global variable into your AngularJS code since it&#039;s not integrated as an AngularJS service. However it may be possible to create a service wrapper around this third party library.</div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT16 SECTION "Controllers" [88031-97888] -->
 <h3 class="sectionedit17" id="directives">Directives</h3>
 <div class="level3">
 
 <p>
-Isolate scope and stuff
+In following with AngularJS&#039;s declarative philosophy in building user interfaces, <a href="http://docs.angularjs.org/guide/directive" class="urlextern" title="http://docs.angularjs.org/guide/directive"  rel="nofollow">AngularJS introduced a concept called directives</a>. These are essentially behaviour extensions to the <abbr title="HyperText Markup Language">HTML</abbr> that allow complex user interface manipulation. This is where you would place your jQuery code. When you&#039;re constructing directives, you are also constructing a domain specific language for your application&#039;s user interface. Directives are declaratively invoked from the <abbr title="HyperText Markup Language">HTML</abbr> itself as a custom tag, <abbr title="HyperText Markup Language">HTML</abbr> attribute or even a comment, and they are imperatively constructed inside the javascript. AngularJS already packages a number of core directives, which can be found in their <a href="http://docs.angularjs.org/api/" class="urlextern" title="http://docs.angularjs.org/api/"  rel="nofollow">API documentation</a>. In fact the very way AngularJS binds itself to the <abbr title="Document Object Model">DOM</abbr> is through directives, so even when you need to call a controller you&#039;re still using the <code>ng-controller</code> directive, and when you&#039;re binding a whole application, then you&#039;re using the <code>ng-app</code> directive. The usage of <code>{{}}</code> to display model variables is actually an <a href="http://docs.angularjs.org/api/ng.$interpolate" class="urlextern" title="http://docs.angularjs.org/api/ng.$interpolate"  rel="nofollow">interpolate directive</a>.
 </p>
 
 <p>
-<a href="http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs" class="urlextern" title="http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs"  rel="nofollow">http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs</a>
+In order for directives to manipulate the <abbr title="Document Object Model">DOM</abbr>, they need to be first binded to a particular <abbr title="Document Object Model">DOM</abbr> element. Then when that <abbr title="Document Object Model">DOM</abbr> element comes into existence either on first page load, or via programmatic insertion from another directive, the directive specified in your AngularJS code then gets executed. There are a number of options to configure how the directive works, either between other directives, between parent and child scopes, or within which phase of compilation it will work.
+</p>
+<pre class="code javascript"><span class="co1">//THIS IS PSEUDO CODE, but shows you all the options and configuration of a directive</span>
+&nbsp;
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="br0">&#41;</span>
+    .<span class="me1">directive</span><span class="br0">&#40;</span><span class="st0">'directiveName'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- Actual directive name is always camelcased</span>
+        <span class="st0">'$someService'</span><span class="sy0">,</span>
+        <span class="st0">'$anotherService'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$someService<span class="sy0">,</span> $anotherService<span class="br0">&#41;</span> <span class="br0">&#123;</span> <span class="co1">//&lt;- Directive's factory function, can be dependency injected with services</span>
+&nbsp;
+            <span class="co1">//any code here is not binded to a particular directive, but would be executed on the first instantiation of the directive</span>
+&nbsp;
+            <span class="co1">//we need to return a &quot;directive definition object&quot; that configures the directive</span>
+            <span class="kw1">return</span> <span class="br0">&#123;</span>
+                name<span class="sy0">:</span> <span class="st0">''</span><span class="sy0">,</span> <span class="co1">//&lt;- name of the directive, never used</span>
+                priority<span class="sy0">:</span> <span class="nu0">0</span><span class="sy0">,</span> <span class="co1">//&lt;- user when there are multiple directives on the same element, and you need to specify the order of activation</span>
+                terminal<span class="sy0">:</span> <span class="kw2">true</span><span class="sy0">,</span> <span class="co1">//&lt;- takes the all directives on the elemnt with the same priority number and makes them the last to be activated</span>
+                template<span class="sy0">:</span> <span class="st0">'&lt;div&gt;&lt;/div&gt;'</span><span class="sy0">,</span> <span class="co1">//&lt;- you can create templates straight in the directive</span>
+                templateUrl<span class="sy0">:</span> <span class="st0">'directive.html'</span><span class="sy0">,</span> <span class="co1">//&lt;- this can query a template over the internet, or from an embedded template, directives can act as reusable widgets</span>
+                replace<span class="sy0">:</span> <span class="kw2">false</span><span class="sy0">,</span> <span class="co1">//&lt;- boolean for replacing the original element with the directive delcaration</span>
+                transclude<span class="sy0">:</span> <span class="kw2">false</span><span class="sy0">,</span> <span class="co1">//&lt;- boolean for moving the original element's content into the template's ng-transclude, used in reusable widgets</span>
+                restrict<span class="sy0">:</span> <span class="st0">'A'</span><span class="sy0">,</span> <span class="co1">//&lt;- determines how the directive can be declared</span>
+                scope<span class="sy0">:</span> <span class="br0">&#123;</span> <span class="co1">//&lt;- defines the scope of the directive, by default it is false, but can be true for prototypical scope, or {} for isolate scope</span>
+                    localName<span class="sy0">:</span> <span class="sy0">@</span>externalName<span class="sy0">,</span> <span class="co1">//&lt;- here's the guest list for the isolate scope</span>
+                    localBind<span class="sy0">:</span> <span class="sy0">=</span>externalName<span class="sy0">,</span>
+                    localExp<span class="sy0">:</span> <span class="sy0">&amp;</span>externalName
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                controller<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="sy0">,</span> $element<span class="sy0">,</span> $attrs<span class="sy0">,</span> $transclude<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//this is a &quot;directive controller&quot;, can be used to allow interdirective communication, this controller will only be binded to each directive instantiation, not the same as ng-controller, since that is only accessible via scope inheritance</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                require<span class="sy0">:</span> <span class="br0">&#91;</span><span class="st0">'?^directiveName'</span><span class="sy0">,</span> <span class="st0">'requiredDirective'</span><span class="sy0">,</span> <span class="st0">'^parentDirective'</span><span class="br0">&#93;</span><span class="sy0">,</span> <span class="co1">//&lt;- goes with directive controllers, specifies a contract that it needs other directives to ALSO include the controller function, and parameter in their compile/linking functions</span>
+                compile<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>element<span class="sy0">,</span> attrs<span class="sy0">,</span> transclude<span class="br0">&#41;</span> <span class="br0">&#123;</span>
+                    <span class="co1">//this function is executed BEFORE the directive is compiled and linked to the scope</span>
+                    <span class="co1">//it would replace the link: property</span>
+                    <span class="co1">//the element here refers to the original element where the directive was declared</span>
+                    <span class="kw1">return</span> <span class="br0">&#123;</span>
+                        pre<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> iElement<span class="sy0">,</span> iAttrs<span class="sy0">,</span> controller<span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//just before the linking</span>
+                        post<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> iElement<span class="sy0">,</span> iAttrs<span class="sy0">,</span> controller<span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span> <span class="co1">//the same as the link: function defined below</span>
+                    <span class="br0">&#125;</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                link<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attrs<span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span> <span class="co1">//this is what you would 90% of the time, you can actually manipulate the DOM in the inside here</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+The above psuedo code shows all the possible configuration options of a directive. In most cases you won&#039;t need to use so many options, as directives usually deal with just manipulating the final compiled scope variables and expressions, and manipulating any <abbr title="Document Object Model">DOM</abbr> using jQuery. Therefore the a common directive can be written like so with just a scope and link definition.
+</p>
+<pre class="code javascript">angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="br0">&#41;</span>
+    .<span class="me1">directive</span><span class="br0">&#40;</span><span class="st0">'camelCasedDirectiveNameDir'</span><span class="sy0">,</span> <span class="br0">&#91;</span> <span class="co1">//&lt;- this is optional since no dependencies to be injected, but still used for convention</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="co1">//here i can return the directive definition object</span>
+            <span class="kw1">return</span><span class="br0">&#123;</span>
+                scope<span class="sy0">:</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                link<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attributes<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//at this point the DOM has been compiled, the scope is attached, and you can start manipulating things</span>
+                    <span class="co1">//scope is the scope of the directive, it could be the containing, controller's scope if it scope: false, it could be it's own scope if {}, it could be a prototypical scope if scope: true</span>
+                    <span class="co1">//element is the DOM element that you placed the directive on, except that it's also wrapped in jQlite, or jQuery if you have it loaded</span>
+                    <span class="co1">//attributes is an object listing all the attributes on the DOM element that the directive is attached to.</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+A directive is attached to a <abbr title="Document Object Model">DOM</abbr> element just by writing it as an attribute, class, comment or tag name. It is recommended to attach it as an attribute as this is the most compatible for older browsers, and also matches the <abbr title="HyperText Markup Language">HTML</abbr> <abbr title="specification">spec</abbr>.
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> camel-cased-directive-name-<span class="kw3">dir</span><span class="sy0">=</span><span class="st0">&quot;parameterToGoIntoTheDirective&quot;</span> another-directive-can-be-attached-too-dir&gt;</span>
+<span class="sc-1">&lt;!-- It is possible to have data and child elements in here too, they would need to be transcluded. --&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span></pre>
+
+<p>
+For detailed explanation of each of those options see the “Writing directives (long version)” section of the <a href="http://docs.angularjs.org/guide/directive" class="urlextern" title="http://docs.angularjs.org/guide/directive"  rel="nofollow">directive documentation</a>. This section will focus on common use cases of directives and their demonstration. For purposes of demonstration, any Plunker demos won&#039;t follow the embedded template convention, this is because Plunker cannot refer back to embedded templates in their directives, but when you write it in your own application, you should separate your templates from your javascript.
+</p>
+
+</div>
+
+<h4 id="building_reusable_directives">Building Reusable Directives</h4>
+<div class="level4">
+
+<p>
+As you build larger and large client side applications. You&#039;ll start to realise that an user interface state cannot be handled by one single controller or view file. There could be a section that deals with notifications, another that deals with chat, another that deals with information summary. The view state will need to be broken down via a separation of responsibilities. Directives can be used to build reusable widgets so you can have maintainable and scalable view states. Note that there is another native directive that allows you to bring in templates into your view state without a custom directive, it&#039;s called <a href="http://docs.angularjs.org/api/ng.directive:ngInclude" class="urlextern" title="http://docs.angularjs.org/api/ng.directive:ngInclude"  rel="nofollow">&quot;ng-include</a>, however it&#039;s not as flexible as a custom directive.
 </p>
 
 <p>
-<a href="http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs" class="urlextern" title="http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs"  rel="nofollow">http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs</a>
+In order to implement this, we first need to have a template for the widget. Then we attach a directive to a <abbr title="Document Object Model">DOM</abbr> element that will contain the template when it is compiled. Then we configure the directive to reference the template, and then we can manipulate it using the scope, jQuery or otherwise.
+</p>
+
+<p>
+Here&#039;s the the template that will be reused, it can be embedded into the <abbr title="HyperText Markup Language">HTML</abbr> or offloaded to be requested on demand:
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a> <span class="kw3">type</span><span class="sy0">=</span><span class="st0">&quot;text/ng-template&quot;</span> <span class="kw3">id</span><span class="sy0">=</span><span class="st0">&quot;directive_widget.html&quot;</span>&gt;</span>
+    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> <span class="kw3">class</span><span class="sy0">=</span><span class="st0">&quot;widget&quot;</span>&gt;</span>
+        <span class="sc2">&lt;<a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>I'm a little widget!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/p.html"><span class="kw2">p</span></a>&gt;</span>
+        <span class="sc2">&lt;<a href="http://december.com/html/4/element/ul.html"><span class="kw2">ul</span></a>&gt;</span>
+            <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>Items to be displayed!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
+        <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/ul.html"><span class="kw2">ul</span></a>&gt;</span>
+    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
+<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span></pre>
+
+<p>
+Here&#039;s the widget directive code:
+</p>
+<pre class="code javascript"><span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="br0">&#41;</span>
+    .<span class="me1">directive</span><span class="br0">&#40;</span><span class="st0">'widgetDir'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="kw1">return</span> <span class="br0">&#123;</span>
+                templateUrl<span class="sy0">:</span> <span class="st0">'directive_widget.html'</span><span class="sy0">,</span> <span class="co1">//&lt;- this can refer to the embedded template</span>
+                link<span class="sy0">:</span> <span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attributes<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>scope<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//&lt;- since there's no scope defined, this scope will actually point to the containing controller's scope</span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>element<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//&lt;- DOM element with jQuery wrapped</span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>attributes<span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//Attributes object</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#125;</span><span class="sy0">;</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span></pre>
+
+<p>
+Then it&#039;s possible to use this widget and have the template come out by doing this:
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> widget-<span class="kw3">dir</span><span class="sy0">=</span><span class="st0">&quot;Something&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span> <span class="sc-1">&lt;!-- the &quot;Something&quot; will be inside the attributes object --&gt;</span></pre>
+
+<p>
+Now that widget&#039;s template will be placed whenever you add <code>widget-dir</code> on any <abbr title="Document Object Model">DOM</abbr> element. The template will be inserted inside of it. Try using jQuery to manipulate the template&#039;s own elements. Notice that since you didn&#039;t define scope, the scope actually points to the nearest containing controller&#039;s scope. This won&#039;t be very useful for reusable directives, so you should actually create a prototypical scope by setting <code>scope: true</code> or isolate scope <code>scope: {}</code>, that way the directives won&#039;t step on each others shoes and it won&#039;t overwrite or accidentally change the parent scope properties. Also note that if you don&#039;t have jQuery loaded before AngularJS, the <a href="http://docs.angularjs.org/api/angular.element" class="urlextern" title="http://docs.angularjs.org/api/angular.element"  rel="nofollow">element is a jQlite wrapped object instead</a>, check out the Angular documentation on jQlite and <code>angular.element</code> to find out more.
+</p>
+
+<p>
+Here is a <a href="http://beta.plnkr.co/edit/F6JrOGtT3QJB841Cii0r?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/F6JrOGtT3QJB841Cii0r?p=preview"  rel="nofollow">Plunker Demo demonstrating using directives with jQuery</a>, which integrates a number of nuances regarding <code>scope.$apply</code> and <code>angular.element</code>.
+</p>
+
+</div>
+
+<h4 id="using_scope_in_directives">Using scope in Directives</h4>
+<div class="level4">
+
+<p>
+One of the most confusing parts of writing directives is managing the scope of the directive, and because there may be multiple directives one <abbr title="Document Object Model">DOM</abbr> element, one directive&#039;s scope will affect other directive&#039;s scope.
+</p>
+
+<p>
+By default, if you don&#039;t configure the scope property in the directive definition object, the scope will be false. This means in the linking function, the scope refers to the parent containing controller&#039;s scope. This make it easy to modify model properties in the parent, however it&#039;s not very flexible, since if you define anything on the scope, it may step on the parent&#039;s scope and inadvertently overwrite some model properties of the same name. This means it&#039;s not very good for reusable or modular directives. This configuration was demonstrated in the building reusable directive section above.
+</p>
+
+<p>
+The scope configuration allows two other styles. The first is simply <code>scope: true</code>, this creates a scope that prototypically inherits from the parent scope. This scope operates in the same manner as a child controller&#039;s scope. Now any model properties defined in the directive will be defined on the directive&#039;s scope rather in the parent. Furthermore if multiple directives on the same element request a new scope, only one new scope is created. In order to communicate with the parent, you&#039;ll have to be aware of the <a href="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance" class="urlextern" title="https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance"  rel="nofollow">nuances of scope inheritance</a>. This is slightly better than no scope, however if you read properties from the parent, then you&#039;re hard coupling the directive to the parent&#039;s scope, in that the directive would not work without having a parent provide certain properties. Furthermore, you may still accidentally read and change (via reference access) properties from the parent scope even when you didn&#039;t intend it.
+</p>
+
+<p>
+The final style is the <a href="http://onehungrymind.com/angularjs-sticky-notes-pt-2-isolated-scope/" class="urlextern" title="http://onehungrymind.com/angularjs-sticky-notes-pt-2-isolated-scope/"  rel="nofollow">isolate scope</a>. It can be set as an empty object, or as an object hash. It it was <code>scope: {}</code>, then it creates an empty isolate scope. This scope does not prototypically inherit from the parent&#039;s scope. This is best choice for creating reusable directives that have to be usable anywhere in the <abbr title="Document Object Model">DOM</abbr> regardless of external circumstances. Note that each directive on the same element that requests an isolate scope get their own isolate scope.
+</p>
+
+<p>
+However sometimes you still need to allow the outside world to configure or add properties to the directive. Sometimes you need a provide a callback that is defined in the parent to the directive. This often happens when you need to link a UI or <abbr title="Document Object Model">DOM</abbr> transformation (directive&#039;s job) to a model or service activation (controller&#039;s job). One example would be infinite scroll, where the directive will check for the scroll event, and activate the controller&#039;s service to retrieve more result rows from the server <abbr title="Application Programming Interface">API</abbr>. This means you need an object hash. The object hash can accept key to value properties, in which the key represents the local value you want defined as a model variable in the directive&#039;s scope, and the value represents the external model variable from outside the directive. You may see something similar to:
+</p>
+<pre class="code javascript">scope<span class="sy0">:</span> <span class="br0">&#123;</span>
+    localProp<span class="sy0">:</span> <span class="sy0">@,</span> <span class="co1">//assuming localProp is the same name as the external property</span>
+    localProp2<span class="sy0">:</span> <span class="sy0">=,</span>
+    localProp3<span class="sy0">:</span> <span class="sy0">&amp;,</span>
+    localProp4<span class="sy0">:</span> <span class="sy0">@</span>externalProp <span class="co1">//assuming that external property has a different name from local property</span>
+<span class="br0">&#125;</span>
+<span class="co1">//now all for local properties will be accessible inside the directive's scope, such as scope.localProp</span></pre>
+
+<p>
+Refer to this <a href="http://beta.plnkr.co/edit/WK1lvOCxz8HeMDRr56vd?p=preview" class="urlextern" title="http://beta.plnkr.co/edit/WK1lvOCxz8HeMDRr56vd?p=preview"  rel="nofollow">Plunker Demo</a> which demonstrates how the model variables are bound using the three types of isolate scope hashing. Open up your console and see the logging working. Then refer to this sticky notes <a href="http://jsfiddle.net/simpulton/VJ94U/" class="urlextern" title="http://jsfiddle.net/simpulton/VJ94U/"  rel="nofollow">Fiddle example</a> of wiring up nested directives with a controller. It even demonstrates using the directive controller instead of a linking function. Though both could have been used.
+</p>
+
+<p>
+All of these properties in the object hash have to be defined on the attributes of the directive attached <abbr title="Document Object Model">DOM</abbr> element. In javascript they will be written as camel case, but in the attribute, they are always written with dashes. So if <code>localProp</code> would be <code>local-prop</code> on the <abbr title="Document Object Model">DOM</abbr> element.
+</p>
+<pre class="code html4strict"><span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> widget local-prop<span class="sy0">=</span><span class="st0">&quot;some parameter&quot;</span>&gt;&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span></pre>
+
+<p>
+The &#039;@&#039; hash is designed for one-directional binding. This means either a primitive string or number is provided to the directive, often for some sort of basic configuration. The &#039;@&#039; hash can also be used to bring in interpolated model properties of the parent scope. Whatever you do the &#039;@&#039; attribute will not be reflected in any other scopes. In order to retrieve the value of the &#039;@&#039; hash, you can&#039;t just access them from <code>scope</code> in the linking function. This is because the process of interpolation hasn&#039;t been done yet. You&#039;ll need to either get it from the <code>attributes</code> object if it was a primitive, or you&#039;ll need to use <code>attributes.$observe</code> to parse the interpolation. Furthermore in order to set the directive&#039;s attribute, you can&#039;t just set it from the attributes object, but you need to use <code>attributes.$set</code> (this can be useful if you&#039;re using <abbr title="Document Object Model">DOM</abbr> attributes to do inter-directive communication).
+</p>
+<pre class="code javascript"><span class="co1">//if our html was like this</span>
+<span class="coMULTI">/*
+&lt;div widget attribute=&quot;some primitive string&quot; interpolated-attribute=&quot;{{interpolatedModel}}&quot;&gt;&lt;/div&gt;
+*/</span>
+<span class="co1">//assuming object hash:</span>
+<span class="coMULTI">/*
+scope: {
+    attribute: '@',
+    interpolatedAttribute: '@'
+};
+*/</span>
+<span class="co1">//then in order to access it in the linking function</span>
+<span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attributes<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span>scope.<span class="me1">attribute</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//won't work</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span>attributes.<span class="me1">attribute</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//works</span>
+&nbsp;
+    attributes.$observe<span class="br0">&#40;</span><span class="st0">'interpolatedAttribute'</span><span class="sy0">,</span> <span class="kw1">function</span><span class="br0">&#40;</span>value<span class="br0">&#41;</span><span class="br0">&#123;</span>
+        <span class="co1">//value now contains the interpolated {{interpolatedModel}}</span>
+        <span class="co1">//this also runs everytime the interpolation changes</span>
+        console.<span class="me1">log</span><span class="br0">&#40;</span><span class="st0">'Observe got activated, new value: '</span> <span class="sy0">+</span> value<span class="br0">&#41;</span><span class="sy0">;</span>
+    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//now it is one way binding, so if the interpolatedModel changed in the controller, then the directive would get it, but if it got changed in the directive, the controller will not get it, but the $observe will still activate!</span>
+&nbsp;
+    attributes.$set<span class="br0">&#40;</span><span class="st0">'interpolatedAttribute'</span><span class="sy0">,</span> <span class="st0">'new value!'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+The most often used is the &#039;=&#039; hash. This setups bi-directional binding. If the model changes in the controller, it is propagated to the directive. If it is changed in the directive, it is propagated to the controller. You don&#039;t have to use the attributes object to access or change it. It can be done straight from <code>scope</code>. Furthermore you don&#039;t have to worry about scope inheritance. This binding doesn&#039;t come from prototypical inheritance, but is directly bound. On the <abbr title="Document Object Model">DOM</abbr> attributes, it is bound without the need of the interpolate directive <code>{{}}</code>.
+</p>
+<pre class="code javascript"><span class="co1">//assuming HTML</span>
+<span class="coMULTI">/*
+&lt;div widget bidirectional=&quot;data&quot;&gt;&lt;/div&gt;
+*/</span>
+<span class="co1">//assuming scope</span>
+<span class="coMULTI">/*
+scope: {
+    bidirectional: '='
+}
+*/</span>
+<span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attributes<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    console.<span class="me1">log</span><span class="br0">&#40;</span>scope.<span class="me1">bidirectional</span><span class="br0">&#41;</span><span class="sy0">;</span>
+    scope.<span class="me1">bidirectional</span> <span class="sy0">=</span> <span class="st0">'new value to be propagated!'</span><span class="sy0">;</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+The more complicated version is the &#039;&amp;&#039; hash which allows functions to be bound to the directive&#039;s isolate scope. This will allow you run parent scope&#039;s functions from inside the directive. Now originally if you didn&#039;t use isolate scope, you could simply access the function from the attributes object and execute from your directive. This <a href="http://jsfiddle.net/vojtajina/U7Bz9/" class="urlextern" title="http://jsfiddle.net/vojtajina/U7Bz9/"  rel="nofollow">infinite scroll directive example</a> uses just the attributes object. It also uses <code>$scope.apply</code> but that&#039;s only due to the fact that <code>bind</code> is a jQuery function. However we&#039;re building reusable directives, so we need to be a bit more stringent. The number one confusion in using the &#039;&amp;&#039; hash, is the way parameters are passed into the functions. You can&#039;t just pass it into the function. You need to have a parameter name declared the attribute <abbr title="Document Object Model">DOM</abbr>, and when you pass in a variable, it needs to be in the form of an object map.
+</p>
+<pre class="code javascript"><span class="co1">//assuming HTML</span>
+<span class="coMULTI">/*
+&lt;div widget expression=&quot;doSomething(param)&quot;&gt;&lt;/div&gt;
+*/</span>
+<span class="co1">//assuming scope</span>
+<span class="coMULTI">/*
+scope: {
+    expression: '&amp;'
+}
+*/</span>
+<span class="co1">//also assuming parent controller</span>
+<span class="coMULTI">/*
+function($scope){
+    $scope.doSomething(input){
+        console.log(input);
+    };
+    $scope.param = 'Some default parameters!';
+}
+*/</span>
+<span class="kw1">function</span><span class="br0">&#40;</span>scope<span class="sy0">,</span> element<span class="sy0">,</span> attributes<span class="br0">&#41;</span><span class="br0">&#123;</span>
+    scope.<span class="me1">doSomething</span><span class="br0">&#40;</span><span class="st0">'Something I want to pass in'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//doesn't work</span>
+    scope.<span class="me1">doSomething</span><span class="br0">&#40;</span><span class="br0">&#123;</span>param<span class="sy0">:</span> <span class="st0">'something I want to pass in!'</span><span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//works</span>
+    scope.<span class="me1">doSomething</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//also works, uses the default parameter in the parent container!</span>
+<span class="br0">&#125;</span></pre>
+
+<p>
+Try experimenting with these object hashes. Remember to always use isolate scopes when you&#039;re building robust reusable directives. Eventually you could even share your directives with other developers.
+</p>
+
+</div>
+
+<h4 id="transclusion_compile">Transclusion &amp; Compile</h4>
+<div class="level4">
+
+<p>
+Using transclusion to build insertable widgets, and then manipulating them in the compile function
+</p>
+
+<p>
+Also using the replace, as an alternative to transclusion
+</p>
+
+</div>
+
+<h4 id="interdirective_communication">Interdirective Communication</h4>
+<div class="level4">
+
+<p>
+Can use the intercontroller communication style, or directive controllers
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/12546945/difference-between-the-controller-and-link-functions-when-defining-an-angula?lq=1" class="urlextern" title="http://stackoverflow.com/questions/12546945/difference-between-the-controller-and-link-functions-when-defining-an-angula?lq=1"  rel="nofollow">http://stackoverflow.com/questions/12546945/difference-between-the-controller-and-link-functions-when-defining-an-angula?lq=1</a>
 </p>
 
 <p>
@@ -1821,19 +2241,77 @@ Isolate scope and stuff
 </p>
 
 <p>
-<a href="https://github.com/andreev-artem/angular_experiments" class="urlextern" title="https://github.com/andreev-artem/angular_experiments"  rel="nofollow">https://github.com/andreev-artem/angular_experiments</a>
+<a href="http://www.bennadel.com/blog/2446-Using-Controllers-In-Directives-In-AngularJS.htm" class="urlextern" title="http://www.bennadel.com/blog/2446-Using-Controllers-In-Directives-In-AngularJS.htm"  rel="nofollow">http://www.bennadel.com/blog/2446-Using-Controllers-In-Directives-In-AngularJS.htm</a>
 </p>
 
 <p>
-<a href="http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED" class="urlextern" title="http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED"  rel="nofollow">http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED</a>
+<a href="http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm" class="urlextern" title="http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm"  rel="nofollow">http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm</a>
 </p>
 
 <p>
-<a href="https://github.com/petebacondarwin/AngularJS-Directives-Presentation" class="urlextern" title="https://github.com/petebacondarwin/AngularJS-Directives-Presentation"  rel="nofollow">https://github.com/petebacondarwin/AngularJS-Directives-Presentation</a>
+<a href="http://www.codinginsight.com/angularjs-directives/" class="urlextern" title="http://www.codinginsight.com/angularjs-directives/"  rel="nofollow">http://www.codinginsight.com/angularjs-directives/</a>
 </p>
 
 </div>
-<!-- EDIT17 SECTION "Directives" [86308-87028] -->
+
+<h4 id="conditional_directives">Conditional Directives</h4>
+<div class="level4">
+
+<p>
+These are native directives in AngularJS that allows us to apply conditional logic to our <abbr title="Document Object Model">DOM</abbr>.
+</p>
+
+<p>
+Using:
+</p>
+
+<p>
+ng-switch
+</p>
+
+<p>
+ng-show
+</p>
+
+<p>
+ng-repeat
+</p>
+
+<p>
+ng-if (from Angular UI)
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs" class="urlextern" title="http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs"  rel="nofollow">http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs</a>
+</p>
+
+<p>
+<a href="http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs" class="urlextern" title="http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs"  rel="nofollow">http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs</a>
+</p>
+
+</div>
+
+<h4 id="inspiration">Inspiration</h4>
+<div class="level4">
+
+<p>
+There are a number of pre-made directives for AngularJS that developers have released open source. You can find inspiration for interesting directives and perhaps integrate them into your application. Here are various sources of directives:
+</p>
+<ul>
+<li class="level1"><div class="li"> <a href="http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED" class="urlextern" title="http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED"  rel="nofollow">AngularJS Tips &amp; Tricks</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/andreev-artem/angular_experiments" class="urlextern" title="https://github.com/andreev-artem/angular_experiments"  rel="nofollow">Angular Experiments</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://angular-ui.github.com/" class="urlextern" title="http://angular-ui.github.com/"  rel="nofollow">Angular UI</a></div>
+</li>
+<li class="level1"><div class="li"> <a href="http://angular-ui.github.com/bootstrap/" class="urlextern" title="http://angular-ui.github.com/bootstrap/"  rel="nofollow">Angular UI Strap</a> - For Twitter Bootstrap directives</div>
+</li>
+<li class="level1"><div class="li"> <a href="https://github.com/petebacondarwin/AngularJS-Directives-Presentation" class="urlextern" title="https://github.com/petebacondarwin/AngularJS-Directives-Presentation"  rel="nofollow">AngularJS Directives Presentation</a></div>
+</li>
+</ul>
+
+</div>
+<!-- EDIT17 SECTION "Directives" [97889-119869] -->
 <h3 class="sectionedit18" id="templating">Templating</h3>
 <div class="level3">
 
@@ -1850,7 +2328,7 @@ Structure on the server side, and load them using Template::partial
 </p>
 
 </div>
-<!-- EDIT18 SECTION "Templating" [87029-87210] -->
+<!-- EDIT18 SECTION "Templating" [119870-120051] -->
 <h3 class="sectionedit19" id="services">Services</h3>
 <div class="level3">
 
@@ -1862,8 +2340,16 @@ AngularJS services
 <a href="https://gist.github.com/Mithrandir0x/3639232" class="urlextern" title="https://gist.github.com/Mithrandir0x/3639232"  rel="nofollow">https://gist.github.com/Mithrandir0x/3639232</a>
 </p>
 
+<p>
+Remember that $resource works with objects, it will always expect either an object to come back, or an array of objects (if it is $resource.query). You cannot have array of arrays, and array of primitives won&#039;t work either. However this can be overwritten, and you can use the $http service instead if you need more granular control.
+</p>
+
+<p>
+Also <abbr title="Hyper Text Transfer Protocol">HTTP</abbr> intercepting + intercepting for redirection!
+</p>
+
 </div>
-<!-- EDIT19 SECTION "Services" [87211-87296] -->
+<!-- EDIT19 SECTION "Services" [120052-120527] -->
 <h2 class="sectionedit20" id="authentication">Authentication</h2>
 <div class="level2">
 
@@ -1876,7 +2362,7 @@ AngularJS services
 </p>
 
 </div>
-<!-- EDIT20 SECTION "Authentication" [87297-87449] -->
+<!-- EDIT20 SECTION "Authentication" [120528-120680] -->
 <h2 class="sectionedit21" id="bom_dom">BOM &amp; DOM</h2>
 <div class="level2">
 
@@ -1897,7 +2383,7 @@ Location object…
 </p>
 
 </div>
-<!-- EDIT21 SECTION "BOM & DOM" [87450-87577] -->
+<!-- EDIT21 SECTION "BOM & DOM" [120681-120808] -->
 <h2 class="sectionedit22" id="events_asynchronous">Events &amp; Asynchronous</h2>
 <div class="level2">
 
@@ -1918,7 +2404,7 @@ Using promises
 </p>
 
 </div>
-<!-- EDIT22 SECTION "Events & Asynchronous" [87578-87771] -->
+<!-- EDIT22 SECTION "Events & Asynchronous" [120809-121002] -->
 <h2 class="sectionedit23" id="ajax">AJAX</h2>
 <div class="level2">
 
@@ -1939,7 +2425,7 @@ Long polling, short polling
 </p>
 
 </div>
-<!-- EDIT23 SECTION "AJAX" [87772-87918] -->
+<!-- EDIT23 SECTION "AJAX" [121003-121149] -->
 <h2 class="sectionedit24" id="html5_apis">HTML5 APIs</h2>
 <div class="level2">
 
@@ -1956,7 +2442,7 @@ Web Workers
 </p>
 
 </div>
-<!-- EDIT24 SECTION "HTML5 APIs" [87919-88039] -->
+<!-- EDIT24 SECTION "HTML5 APIs" [121150-121270] -->
 <h2 class="sectionedit25" id="dependency_management_script_loaders">Dependency Management &amp; Script Loaders</h2>
 <div class="level2">
 
@@ -1981,7 +2467,7 @@ Performance of minification, so minification vs asynchronous! Can work with Angu
 </p>
 
 </div>
-<!-- EDIT25 SECTION "Dependency Management & Script Loaders" [88040-88325] -->
+<!-- EDIT25 SECTION "Dependency Management & Script Loaders" [121271-121556] -->
 <h2 class="sectionedit26" id="real_time_web">Real Time Web</h2>
 <div class="level2">
 
@@ -1994,7 +2480,7 @@ Operational Transformation using ShareJS
 </p>
 
 </div>
-<!-- EDIT26 SECTION "Real Time Web" [88326-88433] -->
+<!-- EDIT26 SECTION "Real Time Web" [121557-121664] -->
 <h2 class="sectionedit27" id="canvas">Canvas</h2>
 <div class="level2">
 
@@ -2007,7 +2493,7 @@ Also usage of D3.
 </p>
 
 </div>
-<!-- EDIT27 SECTION "Canvas" [88434-88512] -->
+<!-- EDIT27 SECTION "Canvas" [121665-121743] -->
 <h2 class="sectionedit28" id="webgl">WebGL</h2>
 <div class="level2">
 
@@ -2016,4 +2502,4 @@ Using three.js!
 </p>
 
 </div>
-<!-- EDIT28 SECTION "WebGL" [88513-] -->
+<!-- EDIT28 SECTION "WebGL" [121744-] -->

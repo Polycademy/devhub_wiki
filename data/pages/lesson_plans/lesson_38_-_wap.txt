@@ -1,0 +1,26 @@
+====== Lesson 38 - WAP ======
+
+**Expected Work**
+
+  - Watching AngularJS video tutorials
+  - Working through AngularJS main phone tutorial
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Connecting AngularJS's services to the server API
+  - Revisiting dependency injection and configuring the injector
+  - Revisiting module bootstrapping
+  - Revisiting using callbacks
+  - 18 days left!
+
+**Practice**
+
+  - Continue watching videos on AngularJS
+  - Finish the AngularJS tutorial
+  - Begin connecting to your server API using the AngularJS $resource service

@@ -1,0 +1,8 @@
+<span class="sy0">&lt;</span>script type<span class="sy0">=</span><span class="st0">&quot;text/ng-template&quot;</span> id<span class="sy0">=</span><span class="st0">&quot;directive_widget.html&quot;</span><span class="sy0">&gt;</span>
+    <span class="sy0">&lt;</span>div <span class="kw5">class</span><span class="sy0">=</span><span class="st0">&quot;widget&quot;</span><span class="sy0">&gt;</span>
+        <span class="sy0">&lt;</span>p<span class="sy0">&gt;</span>I<span class="st0">'m a little widget!&lt;/p&gt;
+        &lt;ul&gt;
+            &lt;li&gt;Items to be displayed!&lt;/li&gt;
+        &lt;/ul&gt;
+    &lt;/div&gt;
+&lt;/script&gt;</span>

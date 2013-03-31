@@ -16,6 +16,7 @@
 
   - Introduction to AngularJS's seed project
   - Creating AngularJS modules, controllers, services, directives and filters
+  - Implementing your front controller in app.js
   - 19 days left!
 
 **Practice**

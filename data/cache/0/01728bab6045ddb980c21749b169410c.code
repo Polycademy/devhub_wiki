@@ -1,0 +1,7 @@
+scope<span class="sy0">:</span> <span class="br0">&#123;</span>
+    localProp<span class="sy0">:</span> <span class="sy0">@,</span> <span class="co1">//assuming localProp is the same name as the external property</span>
+    localProp2<span class="sy0">:</span> <span class="sy0">=,</span>
+    localProp3<span class="sy0">:</span> <span class="sy0">&amp;,</span>
+    localProp4<span class="sy0">:</span> <span class="sy0">@</span>externalProp <span class="co1">//assuming that external property has a different name from local property</span>
+<span class="br0">&#125;</span>
+<span class="co1">//now all for local properties will be accessible inside the directive's scope, such as scope.localProp</span>

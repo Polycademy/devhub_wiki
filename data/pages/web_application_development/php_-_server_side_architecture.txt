@@ -1034,6 +1034,8 @@ For most web applications, unless you're operating on big data, your schema plan
   * [[http://net.tutsplus.com/tutorials/databases/visual-database-creation-with-mysql-workbench/|Visual Database Schema Creation with MySQL Workbench]]
   * [[http://www.dreamincode.net/forums/topic/179103-relational-database-design-normalization/|Database Normalisation Tutorial]]
 
+Note that your **column names should follow the camel case pattern**. This is because if you're building an AJAX application, javascript developers often use camel cases for their variables and object keys. If you follow up with camel case in your database column names, it will make it easier to communicate between javascript and PHP.
+
 === Data Types ===
 
 For pretty much every table you create, you'll need at least an ''id'' column, which would be the unique number pointing to any particular row of data. This ''id'' column needs to have a datatype of integer or larger, and it should have the property of ''AUTO_INCREMENT'', and you should also position it as the primary key. The property of ''AUTO_INCREMENT'' makes the row automatically increment the number as you insert more data even if you don't insert anything into it (this is why we don't have to worry about it when inserting new rows in the model). Making it the primary key makes MySQL index the ''id'' column and gives it precedence making any look up queries with a matching id super fast.
@@ -1615,6 +1617,7 @@ Once you've handled the request you need to pass back a response with an [[http:
   * 201 Created: Successful request when something is created at another URL (specified by the value returned in the Location header)
   * 204 No Content: Successful request when no data is returned, can be used when someone is trying to update or delete something that already has the same update or already been deleted
   * 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors
+  * 403 Unauthorised: Can be used for incorrect login, can't use 401 in a session based cookie system
   * 404 Not Found: No resource at the specified URL
   * 405 Method Not Allowed: when a client makes a request using an HTTP verb not supported at the requested URL (supported verbs are returned in the Allow header)
   * 406 Not Acceptable: Requested data format not supported
@@ -1690,7 +1693,7 @@ Most of these implementations are outside the scope of this course, but a lot of
 
 ==== AJAX JSON Message Protocol ====
 
-When we've established an API for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There's no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages.
+When we've established an API for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There's no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages. These messages should be constructed on your model layer, because that's where your errors primarily come from and that's where your validation takes place. However you can also use these messages on the controller, and when messages come back from your model, you can augment them in your controller. See [[https://blog.apigee.com/detail/restful_api_design_what_about_errors/|Apigee's blog post on API error design]] and [[https://blog.apigee.com/detail/restful_api_design_tips_for_versioning/|API versioning]] for more information.
 
 <code javascript>
 
@@ -1705,6 +1708,7 @@ When we've established an API for either our own single page application or exte
 {
     "content": {}, //this can be an object, array or string
     "code": "", //this could be "success"/"error"/"validation_error"/"system_error"/"redirect",
+    "http": "", //this could be any of the HTTP codes
     "redirect": "url/to/redirect/to" //this allows the server to redirect the single page app client
 }
 </code>

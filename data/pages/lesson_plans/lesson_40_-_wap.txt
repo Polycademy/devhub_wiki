@@ -1,0 +1,23 @@
+====== Lesson 40 - WAP ======
+
+**Expected Work**
+
+  - Finish the AngularJS videos from egghead
+  - Started integrating all of your API to services in AngularJS
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Replacing PHP template code with reusable directives
+  - Communicating between controllers using events, pub/sub and services
+  - 16 days left!
+
+**Practice**
+
+  - Continue migrating all of your views to AngularJS, and do it one by one, replace the PHP UI bits with Angular directives instead
+  - Start creating your own directives that replace jQuery code

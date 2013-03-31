@@ -50,6 +50,7 @@ The BOM refers to the APIs that the browser vendors expose to developers. Basica
 
 There is no standard for BOM, so each browser may try to out compete other vendors by offering features others don't have.
 
+In the browser host environment, javascript is simply loaded via script tags similar to how CSS is loaded. These script tags can be placed anywhere in your HTML, however it is recommended that they are placed in the footer of the body tag. This allows the HTML to be loaded before javascript is loaded. There are exceptions for javascript scripts that need to change the HTML before it is rendered such as Modernizr. You may need to concatenate and minify scripts in production. In other host environments, javascript may be loaded using file I/O such as Node.js.
 ===== Working in Javascript =====
 
 **Console Logging**
@@ -875,7 +876,7 @@ One key consideration is that unlike server side code, when you deploy your clie
 
 It's important to read the AngularJS guide on [[http://docs.angularjs.org/guide/concepts#module|how modules configure the dependency injector]], and refer to the [[http://docs.angularjs.org/api/angular.Module|module API in the documentation]] before continuing.
 
-AngularJS doesn't really specify how you should structure your development files, they simply suggest that you put all of your components as part of some modules. Here is our recommendation on structuring your client side application. Each file below will be a module. Note that it doesn't consider where to put your partial templates, that is left up to you. We recommend embedding them in your HTML that is first loaded by your server, refer to the template section for further information.
+AngularJS doesn't really specify how you should structure your development files, they simply suggest that you put all of your components as part of modules. Here is our recommendation on structuring your client side application. Note that it doesn't consider where to put your partial templates, that is left up to you. We recommend embedding them in your HTML that is first loaded by your server, refer to the template section for further information.
 
     root/js
       |
@@ -966,28 +967,13 @@ var app = angular.module('App', [
 ]);
 
 //Define all the page level controllers (Application Logic)
-angular.module('Controllers', [
-	'Header.Controllers', 
-	'Footer.Controllers', 
-	'Home.Controllers', 
-	'Blog.Controllers', 
-	'Courses.Controllers'
-]);
-//Define all shared services (Interaction with Backend)
-angular.module('Services', [
-	'AjaxLoader.Service',
-	'ErrorResponse.Service',
-	'Courses.Service'
-]);
-//Define all shared directives (UI Logic)
-angular.module('Directives', [
-	'EqualiseHeight.Directive',
-	'Fade.Directive'
-]);
+angular.module('Controllers', []);
 //Define all shared filters (UI Filtering)
-angular.module('Filters', [
-	'Currency.Filter'
-]);
+angular.module('Filters', []);
+//Define all shared services (Interaction with Backend)
+angular.module('Services', []);
+//Define all shared directives (UI Logic)
+angular.module('Directives', []);
 </file>
 
 Here's an excerpt out of a typical page controller module.
@@ -995,18 +981,12 @@ Here's an excerpt out of a typical page controller module.
 <file javascript Courses.Controllers.js>
 'use strict';
 
-//notice the name of the module is the same as the file name
-
 /**
- * Here we have registered Courses.Controllers as a module, and also declared a dependency to Courses.Controllers.Index.
- * This is because Courses.Controllers may have many sub controllers.
- * The Index subcontroller can be considered the main page, but further controllers can be chained and be declared inside the HTML
+ * This controller is bound the Controllers module
+ * It is possible to have multiple controllers on this module, however they should be sub controllers that are nested inside the CoursesIndexCtrl
  */
-angular.module('Courses.Controllers', ['Courses.Controllers.Index']);
 
-//think of this module as the page level module
-//it contains a single controller called CoursesIndexCtrl, but could have more if there were sub sections of the page
-angular.module('Courses.Controllers.Index', [])
+angular.module('Controllers')
     .controller('CoursesIndexCtrl', [ //<- actual name of the controller, not the module
         //this part is for dependency injection, we're injecting $scope service and CoursesServ service into this controller's function. The CoursesServ has been dependency injected, because in our app.js bootstrapping process, we added in the Courses.Service module to injector globally!
         '$scope',
@@ -1025,7 +1005,7 @@ Here's an excerpt from the Courses.Service.js.
 <file javascript Courses.Service.js>
 'use strict';
 
-angular.module('Courses.Service', [])
+angular.module('Services')
     .factory('CoursesServ', [
         '$resource',
         function($resource){
@@ -1050,118 +1030,116 @@ Modules is also how AngularJS configures itself. That is you can hook into Angul
 /**
  * Response Handler for Error Codes across all HTTP requests to show an alert box!
  */
-angular.module('ErrorResponse.Service', [])
-    .config(
-        [
-            '$provide',
-            '$httpProvider',
-            function($provide, $httpProvider){
+angular.module('Services')
+    .config([
+        '$provide',
+        '$httpProvider',
+        function($provide, $httpProvider){
                 
-                //model variable...
-                var httpMessages = [];
+            //model variable...
+            var httpMessages = [];
                 
-                //bind the httpMessages array to the httpMessages key so it can be dependency injected
-                $provide.value('httpMessages', httpMessages);
+            //bind the httpMessages array to the httpMessages key so it can be dependency injected
+            $provide.value('httpMessages', httpMessages);
                 
-                $httpProvider.responseInterceptors.push(['$q', function($q) {
+            $httpProvider.responseInterceptors.push(['$q', function($q) {
                 
-                    return function(promise) {
+                return function(promise) {
                         
-                        return promise.then(
-                            function(successResponse) {
+                    return promise.then(
+                        function(successResponse) {
                                 
-                                //we only want to show anything that wasn't a GET based request
-                                //these allow you show messages, you don't have to show these types though (because usually not required)
+                            //we only want to show anything that wasn't a GET based request
+                            //these allow you show messages, you don't have to show these types though (because usually not required)
                                 
-                                switch(successResponse.config.method.toUpperCase()){
-                                    case 'GET':
-                                        httpMessages.push({
-                                            message: 'Successfully Received',
-                                            type: 'success'
-                                        });
-                                        break;
-                                    case 'POST':
-                                        httpMessages.push({
-                                            message: 'Successfully Posted',
-                                            type: 'success'
-                                        });
-                                        break;
-                                    case 'PUT':
-                                        httpMessages.push({
-                                            message: 'Successfully Updated',
-                                            type: 'success'
-                                        });
-                                        break;
-                                    case 'DELETE':
-                                        httpMessages.push({
-                                            message: 'Sucessfully Deleted',
-                                            type: 'success'
-                                        });
-                                        break;
-                                }
-                                
-                                
-                                return successResponse;
-
-                            },
-                            function(failureResponse) {
-                                
-                                switch(failureResponse.status){
-                                    case 400: //show validation error messages then!
-                                        httpMessages.push({
-                                            message: 'Validation failed, try tweaking your submission.',
-                                            type: 'failure'
-                                        });
-                                        break;
-                                    case 401: //for ionauth authentication, will need to redirect to login screen, or modal box
-                                        httpMessages.push({
-                                            message: 'Unauthorised request, try logging in.',
-                                            type: 'failure'
-                                        });
-                                        break;
-                                    case 403: //returned by server for resources the user should not be able to access directly
-                                        httpMessages.push({
-                                            message: 'You can\'t access this.',
-                                            type: 'failure'
-                                        });
-                                        break;
-                                    case 404:
-                                        httpMessages.push({
-                                            message: '404, sorry could not find what you were looking for.',
-                                            type: 'failure'
-                                        });
-                                        break;
-                                    case 405:
-                                        httpMessages.push({
-                                            message: 'The requested method was incompatible with the requested resource.',
-                                            type: 'failure'
-                                        });
-                                        break;
-                                    case 500:
-                                        httpMessages.push({
-                                            message: 'There was a server error, try again later, or contact the owners.',
-                                            type: 'failure'
-                                        });
-                                        break;
-                                    default:
-                                        httpMessages.push({
-                                            message: failureResponse.status + ' General error processing the request',
-                                            type: 'failure'
-                                        });
-                                }
-                                
-                                return $q.reject(failureResponse);
-                                
+                            switch(successResponse.config.method.toUpperCase()){
+                                case 'GET':
+                                    httpMessages.push({
+                                        message: 'Successfully Received',
+                                        type: 'success'
+                                    });
+                                    break;
+                                case 'POST':
+                                    httpMessages.push({
+                                        message: 'Successfully Posted',
+                                        type: 'success'
+                                    });
+                                    break;
+                                case 'PUT':
+                                    httpMessages.push({
+                                        message: 'Successfully Updated',
+                                        type: 'success'
+                                    });
+                                    break;
+                                case 'DELETE':
+                                    httpMessages.push({
+                                        message: 'Sucessfully Deleted',
+                                        type: 'success'
+                                    });
+                                    break;
                             }
-                        );
+                            
+                                
+                            return successResponse;
+
+                        },
+                        function(failureResponse) {
+                                
+                            switch(failureResponse.status){
+                                case 400: //show validation error messages then!
+                                    httpMessages.push({
+                                        message: 'Validation failed, try tweaking your submission.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 401: //for ionauth authentication, will need to redirect to login screen, or modal box
+                                    httpMessages.push({
+                                        message: 'Unauthorised request, try logging in.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 403: //returned by server for resources the user should not be able to access directly
+                                    httpMessages.push({
+                                        message: 'You can\'t access this.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 404:
+                                    httpMessages.push({
+                                        message: '404, sorry could not find what you were looking for.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 405:
+                                    httpMessages.push({
+                                        message: 'The requested method was incompatible with the requested resource.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 500:
+                                    httpMessages.push({
+                                        message: 'There was a server error, try again later, or contact the owners.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                default:
+                                    httpMessages.push({
+                                        message: failureResponse.status + ' General error processing the request',
+                                        type: 'failure'
+                                    });
+                            }
+                                
+                            return $q.reject(failureResponse);
+                                
+                        }
+                    );
                         
-                    };
-                    
-                }]);
+                };
+                   
+            }]);
                 
-            }
-        ]
-    );
+        }
+    ]);
 </file>
 ==== Routing ====
 
@@ -1416,7 +1394,7 @@ app.run([
 </code>
 ==== Scoping ====
 
-The scope is responsible for detecting changes to the model section and provides the execution context for expressions inside of the HTML. It's part of AngularJS's bidirectional binding. The scopes are nested in a hierarchical structure which closely follow the DOM structure. When you setup a controller using ''ng-controller'', that setups a scope. Certain directives also create scopes, however there are nuances to the way the scope operates and inherits from the parent scope. If you have HTML like so:
+The scope is responsible for detecting changes to the model section and provides the execution context for expressions inside of the HTML. It's part of AngularJS's bidirectional binding. The scopes are nested in a hierarchical structure which closely follow the DOM structure. When you setup a controller using ''ng-controller'', that setups a scope. Certain directives also create scopes, however there are nuances to the way the scope operates and inherits from the parent scope. Furthermore as soon as you declare ''ng-app'' on a particular tag, AngularJS creates a ''$rootScope'' from which all other scopes are inherit from. Here's an example, if you have HTML like so:
 
 [[http://plnkr.co/edit/28R71g7ICtXan6Gp2XOW?p=preview|Plunker Demo]]
 
@@ -1447,27 +1425,386 @@ Then the scopes operate in this manner. Check the highlighted scopes. Each contr
 
 {{ :web_application_development:concepts-scope.png?500 |}}
 
-Scopes are very powerful, you can setup custom watchers from them that observe changes in variables and then take a corresponding action. However they are also somewhat non-intuitive especially when you want to do advanced things with them such as with directives. Therefore it's important to understand scopes in detail through these resources:
+Scopes are very powerful, they are not only used to establish contexts inside the HTML, but to watch mutations of data, broadcast and handle events, run functions outside of AngularJS context and allow child to parent communication. The usage of scopes will be demonstrated over the course of writing controllers and directives, however this section will point to some common misunderstandings:
 
-  * [[https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance|The Nuances of Scope Prototypical Inheritance]]
-  * [[http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/|Scope Life Cycle]]
+1. Confusion over how child scopes can changes values on the parent scope:
+
+Scopes are objects that can contain primitive properties or reference types such as objects and arrays. Scope inheritance is based on prototypical inheritance that is happening behind the scenes. Therefore it's important to understand how scope properties are created and accessed and modified. This often causes confusion because if you set a property on a scope, and you actually want to change a property on the parent (which is in the child scope's prototype), it may sometimes simply create that property on the child which shadows the property on the parent. The problem comes from a misunderstanding of how properties are accessed. The resource below will go into detail over how to resolve this problem:
+
+  * [[https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance|The Nuances of Scope Prototypical Inheritance]] - Here is a [[http://beta.plnkr.co/edit/7H4ZZKhcfm2OLodz6FVS?p=preview|Plunker Demo showing one of the nuances of scope inheritance]].
+
+2. Confusion about why running a AngularJS function inside a callback of a third party function, or native javascript function doesn't update the scope bindings:
+
+Sometimes you need get AngularJS to update its scope properties or run some sort of function defined inside AngularJS, but it will be executed in the context of a native javascript function such as ''setTimeout'' or in a third party library such as a jQuery event binding callback. If you just try to run the function, you may get binding loss, but also the scope bindings just may not activate. If you're meeting this problem you need to learn how to use the ''$scope.$apply'' method. The resources below discuss this method:
+
   * [[https://github.com/angular/angular.js/wiki/When-to-use-%24scope.%24apply%28%29|When to use scope.$apply]]
   * [[http://jimhoskins.com/2012/12/17/angularjs-and-apply.html|In depth explanation of scope.$apply]]
   * [[http://stackoverflow.com/questions/12304728/how-can-i-tell-angularjs-to-refresh|Application of scope.$apply]]
+  * [[http://jsfiddle.net/vojtajina/U7Bz9/|jsFiddle for Infinite Scroll]] - this example shows an application of using ''$scope.$apply'' inside a jQuery bind callback.
+  * [[https://coderwall.com/p/ngisma|Safe Apply Helper]] & [[http://stackoverflow.com/questions/13639717/does-the-scope-and-phase-workaround-always-work-as-expected-in-angularjs|Checking the digest phase in apply]]
+
+Scopes have various other nuances and applications, but we'll get to there in the later sections. Here are some resources on scopes you need to understand as well.
+
+  * [[http://onehungrymind.com/notes-on-angularjs-scope-life-cycle/|Scope Life Cycle]]
   * [[http://docs.angularjs.org/guide/scope|Official documentation on scopes]]
   * [[http://stackoverflow.com/a/14177235/582917|ng-repeat and using it with scopes]]
   * [[http://stackoverflow.com/a/13457410/582917|Directives and scopes]]
 ==== Controllers ====
 
-ANGULARJS page controllers vs partial controllers
+In [[http://docs.angularjs.org/guide/dev_guide.mvc.understanding_controller|AngularJS controllers]] are used to designate sections of your user interface and manage the scope object in that particular section of the interface. In doing so, the controllers also access shared services in order to acquire data from the external third parties or your own RESTful resources. Therefore controllers can represent whole pages, sections of a page, or subsections of a page. Any time you need some sort of dynamic functionality on the page and it can be semantically separate from the other sections of the page, you need a controller. Controller hence determine the page state.
 
+Assuming the seed application layout, inside your ''js/controllers'' directory, each file inside there would be a module. Each module would contain at least one controller. That controller can be considered the page level controller. Any controllers that would be nested inside a particular page would be appended to the module. Let's start with an example. Assuming we have a page we want to represent called "Blog" which is a page level module/controller and we want that controller to be accessible from an URL state such as ''example.com/blog''. Then we need to create a file called ''Blog.Controllers.js'' inside our controllers directory.
+
+<file javascript Blog.Controllers.js>
+'use strict';
+
+//whenever there's a [] in the 2nd parameter, it means the module is created, here there's no [], so it's attaching itself to the Controllers module
+angular.module('Controllers')
+    .controller('BlogIndexCtrl', [ //<- BlogIndexCtrl is actual name of the controller
+        '$scope',
+        function($scope){
+            //the $scope here would be available to all elements that are the children of BlogIndexCtrl
+            $scope.data = 'Hello World!';
+        }
+    ])
+    .controller('BlogMobileCtrl', [ //this part is optional, imagine a different kind of Blog State that may be used conditionally from the routes
+        '$scope',
+        function($scope){
+            $scope.data = 'I am a different controller!';
+        }
+    ])
+    .controller('BlogSubCtrl', [ //<- this also demonstrates a controller that is part of the Blog.Controllers.Mobile, so this could be a sub controller that is nested inside 'BlogMobileCtrl'
+        '$scope',
+        function($scope){
+            $scope.data = 'I am a different controller!';
+        }
+    ]);    
+</file>
+
+If we want one of the controllers to be "routable" (accessible from the URL state), then we need add the controller's name to one of our routes. Of course make sure to add the page level module as a dependency to the controllers modules in the bootstrapping process in ''app.js''.
+
+<code javascript>
+$routeProvider
+    .when(
+        '/blog',
+        {
+            templateUrl: 'blog_index.html', //<- don't worry about this yet, this comes from an embedded template
+            controller: 'BlogIndexCtrl' //<- here is our controller that is being routed to when the URL is at "/blog"
+        }
+    );
+</code>
+
+In our HTML, we can setup a template with the ''BlogIndexCtrl'' managing it. The below file is a partial template that gets embedded in footer partial. Find out about it in the templates section.
+
+<code html>
+<script type="text/ng-template" id="blog_index.html">
+    <p>Hi the scope's data is here {{data}}</p>
+</script>
+</code>
+
+Notice that we do not need to use the ''ng-controller'' directive to bind the controller to the template. This is because it is implicitly done inside the routing, when we said that ''BlogIndexCtrl'' is matched to ''blog_index.html''. However if we wanted to make a certain controller a sub controller that is nested inside ''BlogIndexCtrl'' then we would have to explicitly write that directive like so:
+
+<code html>
+<script type="text/ng-template" id="nested_index.html">
+    <!-- This is assuming you have a controller that has these sub controllers! -->
+    <div>NESTED INDEX CTRL: {{data}}</div>
+    <div ng-controller="NestedSubCtrl">SUB CTRL: {{data}}</div>
+    <div ng-controller="NestedSub2Ctrl">SUB CTRL2: {{data}}</div>
+</script>
+</code>
+
+Finally remember that not all controller modules inside the ''js/controllers'' directory need to be a particular page. They can just be sections of a page. For example, the headers and footers of a page may be shared across many pages. Then you can make them top level modules inside the ''js/controllers'' directory.
+
+All of the above may be a bit confusing, since there's a lot of interlinking parts that need to come together to work. Check out this [[http://beta.plnkr.co/edit/XZs1zNLpZubPBjnULJ3n?p=preview|Plunker demo with a working configuration of nested controllers]]. It won't match your file/directory structure because everything needs to be in files. However you can see what the end result may look like.
+
+=== Communication between Controllers ===
+
+You will need to eventually [[http://stackoverflow.com/questions/11252780/whats-the-correct-way-to-communicate-between-controllers-in-angularjs|communicate between different controllers depending on an external event or some third party service or your own RESTful resources]]. There are two ways to communicate between controllers. The recommended way is through services. Services are meant to be shared across controllers, this philosophy is similar to the operation of models in the traditional server side MVC, where controllers call upon models to do work. You should look at the services section to find out more.
+
+**Shared Service Method**
+
+This example shows how to use shared services along with the ''$watch'' function to allow messaging between controllers. The ''$watch'' service observes changes in a model variable and then runs a function when it changes. This is probably the most common method, however [[http://eburley.github.com/2013/01/31/angularjs-watch-pub-sub-best-practices.html|sometimes it won't solve your problem when you have more complicated messaging needs]].
+
+  * [[http://beta.plnkr.co/edit/X8txKfVBotWTDfD9au8x?p=preview|Plunker Demo of Shared Services & $watch]]
+
+**Event Method**
+
+The second way of communicating between controllers is to construct a publish/subscribe event bus system. The simple way would be to use ''$scope.broadcast'', ''$scope.emit'' and ''$scope.on'' to send and capture events. You can basically broad cast and event from one controller, and catch and handle it in another controller. First thing to understand is what those functions do. Please note that these functions also exist on the ''$rootScope'' too.
+
+  * [[http://docs.angularjs.org/api/ng.$rootScope.Scope#$broadcast|"$scope.broadcast"]] creates an event that is propagated to the child scopes. That could be inside a controller or a directive.
+  * [[http://docs.angularjs.org/api/ng.$rootScope.Scope#$emit|"$scope.emit"]] creates an event that is propagated to the parent scopes. That could be a controller or the run configuration of ''ng-app''.
+  * [[http://docs.angularjs.org/api/ng.$rootScope.Scope#$on|"$scope.on"]] listens for an event and runs a callback handler function accordingly.
+
+As you can see the hierarchy of scopes matter when deciding to broadcast, emit or listen to an event. A common question would be how to communicate between sibling controllers. There are three possible configurations in using these scope event functions:
+
+  - Use a shared service to always broadcast down from the ''$rootScope''. This is demonstrated by [[http://onehungrymind.com/angularjs-communicating-between-controllers/|Simpulton in his video on communicating between controllers]].
+  - Construct a ping pong configuration between child controllers and the ''ng-app'' run configuration. Child scopes emit events, the ''$rootScope'' in the ''ng-app'' run section broadcasts it back to all listeners. [[http://jsfiddle.net/VxafF/|This is demonstrated in this jsFiddle]].
+  - Just do it ad-hoc. Emit when you need to communicate to the parent, and broadcast when you need to communicate to the child.
+
+The disadvantage of using the broadcast, is that the event propagation cannot be cancelled. That is, if you were to emit an event, a listener could handle the event and then stop propagation. However if an event is broadcasted to children, then all children will get it.
+
+Here's a [[http://beta.plnkr.co/edit/ZU0XNK?p=preview|Plunker demo showing these event methods in action]]. Pay attention to the console, and play around with how the messages are sent, plus make sure to check out the ''event'' and ''arg'' parameters that can be displayed in the handler function.
+
+**Event Bus Method**
+
+Broadcasting, emitting and handling up and down the scopes is actually somewhat inefficient, especially when you have many events happening. Therefore you will need a dedicated event bus that abstracts this process, there are several third party libraries that make this possible. However they may or may not be implemented as an AngularJS service, therefore possibly bypassing the dependency injection. These libraries will not be using the AngularJS ''$scope.broadcast'', ''$scope.emit'' or ''$scope.on'', instead they implement their own handlers:
+
+  * [[http://jsfiddle.net/ThomasBurleson/sv7D5/|jQuery Event Bus + AngularJS Service integration]] - This one relies on jQuery to handle the events. however it integrates the code into an AngularJS service. Here's the [[http://fiddle.jshell.net/ThomasBurleson/sv7D5/show/|full explanation]].
+  * The [[http://radio.uxder.com/index.html|Radio.js]] is third party library that doesn't have any dependencies, it's has a simple API to allow you to send and capture events. However it will introduce a global variable into your AngularJS code since it's not integrated as an AngularJS service. However it may be possible to create a service wrapper around this third party library.
 ==== Directives ====
 
-Isolate scope and stuff
+In following with AngularJS's declarative philosophy in building user interfaces, [[http://docs.angularjs.org/guide/directive|AngularJS introduced a concept called directives]]. These are essentially behaviour extensions to the HTML that allow complex user interface manipulation. This is where you would place your jQuery code. When you're constructing directives, you are also constructing a domain specific language for your application's user interface. Directives are declaratively invoked from the HTML itself as a custom tag, HTML attribute or even a comment, and they are imperatively constructed inside the javascript. AngularJS already packages a number of core directives, which can be found in their [[http://docs.angularjs.org/api/|API documentation]]. In fact the very way AngularJS binds itself to the DOM is through directives, so even when you need to call a controller you're still using the ''ng-controller'' directive, and when you're binding a whole application, then you're using the ''ng-app'' directive. The usage of ''{{}}'' to display model variables is actually an [[http://docs.angularjs.org/api/ng.$interpolate|interpolate directive]].
 
-http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs
+In order for directives to manipulate the DOM, they need to be first binded to a particular DOM element. Then when that DOM element comes into existence either on first page load, or via programmatic insertion from another directive, the directive specified in your AngularJS code then gets executed. There are a number of options to configure how the directive works, either between other directives, between parent and child scopes, or within which phase of compilation it will work.
 
-http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs
+<code javascript>
+//THIS IS PSEUDO CODE, but shows you all the options and configuration of a directive
+
+angular.module('Directives')
+    .directive('directiveName', [ //<- Actual directive name is always camelcased
+        '$someService',
+        '$anotherService',
+        function($someService, $anotherService) { //<- Directive's factory function, can be dependency injected with services
+        
+            //any code here is not binded to a particular directive, but would be executed on the first instantiation of the directive
+        
+            //we need to return a "directive definition object" that configures the directive
+            return {
+                name: '', //<- name of the directive, never used
+                priority: 0, //<- user when there are multiple directives on the same element, and you need to specify the order of activation
+                terminal: true, //<- takes the all directives on the elemnt with the same priority number and makes them the last to be activated
+                template: '<div></div>', //<- you can create templates straight in the directive
+                templateUrl: 'directive.html', //<- this can query a template over the internet, or from an embedded template, directives can act as reusable widgets
+                replace: false, //<- boolean for replacing the original element with the directive delcaration
+                transclude: false, //<- boolean for moving the original element's content into the template's ng-transclude, used in reusable widgets
+                restrict: 'A', //<- determines how the directive can be declared
+                scope: { //<- defines the scope of the directive, by default it is false, but can be true for prototypical scope, or {} for isolate scope
+                    localName: @externalName, //<- here's the guest list for the isolate scope
+                    localBind: =externalName,
+                    localExp: &externalName
+                },
+                controller: function($scope, $element, $attrs, $transclude){
+                    //this is a "directive controller", can be used to allow interdirective communication, this controller will only be binded to each directive instantiation, not the same as ng-controller, since that is only accessible via scope inheritance
+                },
+                require: ['?^directiveName', 'requiredDirective', '^parentDirective'], //<- goes with directive controllers, specifies a contract that it needs other directives to ALSO include the controller function, and parameter in their compile/linking functions
+                compile: function(element, attrs, transclude) {
+                    //this function is executed BEFORE the directive is compiled and linked to the scope
+                    //it would replace the link: property
+                    //the element here refers to the original element where the directive was declared
+                    return {
+                        pre: function(scope, iElement, iAttrs, controller) {}, //just before the linking
+                        post: function(scope, iElement, iAttrs, controller) {} //the same as the link: function defined below
+                    }
+                },
+                link: function(scope, element, attrs) {} //this is what you would 90% of the time, you can actually manipulate the DOM in the inside here
+            };
+            
+        }
+    ]);
+</code>
+
+The above psuedo code shows all the possible configuration options of a directive. In most cases you won't need to use so many options, as directives usually deal with just manipulating the final compiled scope variables and expressions, and manipulating any DOM using jQuery. Therefore the a common directive can be written like so with just a scope and link definition.
+
+<code javascript>
+angular.module('Directives')
+    .directive('camelCasedDirectiveNameDir', [ //<- this is optional since no dependencies to be injected, but still used for convention
+        function(){
+            //here i can return the directive definition object
+            return{
+                scope: {},
+                link: function(scope, element, attributes){
+                    //at this point the DOM has been compiled, the scope is attached, and you can start manipulating things
+                    //scope is the scope of the directive, it could be the containing, controller's scope if it scope: false, it could be it's own scope if {}, it could be a prototypical scope if scope: true
+                    //element is the DOM element that you placed the directive on, except that it's also wrapped in jQlite, or jQuery if you have it loaded
+                    //attributes is an object listing all the attributes on the DOM element that the directive is attached to.
+                }
+            };
+        }
+    ]);
+
+</code>
+
+A directive is attached to a DOM element just by writing it as an attribute, class, comment or tag name. It is recommended to attach it as an attribute as this is the most compatible for older browsers, and also matches the HTML spec.
+
+<code html>
+<div camel-cased-directive-name-dir="parameterToGoIntoTheDirective" another-directive-can-be-attached-too-dir>
+<!-- It is possible to have data and child elements in here too, they would need to be transcluded. -->
+</div>
+</code>
+
+For detailed explanation of each of those options see the "Writing directives (long version)" section of the [[http://docs.angularjs.org/guide/directive|directive documentation]]. This section will focus on common use cases of directives and their demonstration. For purposes of demonstration, any Plunker demos won't follow the embedded template convention, this is because Plunker cannot refer back to embedded templates in their directives, but when you write it in your own application, you should separate your templates from your javascript.
+
+=== Building Reusable Directives ===
+
+As you build larger and large client side applications. You'll start to realise that an user interface state cannot be handled by one single controller or view file. There could be a section that deals with notifications, another that deals with chat, another that deals with information summary. The view state will need to be broken down via a separation of responsibilities. Directives can be used to build reusable widgets so you can have maintainable and scalable view states. Note that there is another native directive that allows you to bring in templates into your view state without a custom directive, it's called [[http://docs.angularjs.org/api/ng.directive:ngInclude|"ng-include]], however it's not as flexible as a custom directive.
+
+In order to implement this, we first need to have a template for the widget. Then we attach a directive to a DOM element that will contain the template when it is compiled. Then we configure the directive to reference the template, and then we can manipulate it using the scope, jQuery or otherwise.
+
+Here's the the template that will be reused, it can be embedded into the HTML or offloaded to be requested on demand:
+
+<code html>
+<script type="text/ng-template" id="directive_widget.html">
+    <div class="widget">
+        <p>I'm a little widget!</p>
+        <ul>
+            <li>Items to be displayed!</li>
+        </ul>
+    </div>
+</script>
+</code>
+
+Here's the widget directive code:
+
+<code javascript>
+'use strict';
+
+angular.module('Directives')
+    .directive('widgetDir', [
+        function(){
+            return {
+                templateUrl: 'directive_widget.html', //<- this can refer to the embedded template
+                link: function(scope, element, attributes){
+                    console.log(scope); //<- since there's no scope defined, this scope will actually point to the containing controller's scope
+                    console.log(element); //<- DOM element with jQuery wrapped
+                    console.log(attributes); //Attributes object
+                }
+            };
+        }
+    ]);
+</code>
+
+Then it's possible to use this widget and have the template come out by doing this:
+
+<code html>
+<div widget-dir="Something"></div> <!-- the "Something" will be inside the attributes object -->
+</code>
+
+Now that widget's template will be placed whenever you add ''widget-dir'' on any DOM element. The template will be inserted inside of it. Try using jQuery to manipulate the template's own elements. Notice that since you didn't define scope, the scope actually points to the nearest containing controller's scope. This won't be very useful for reusable directives, so you should actually create a prototypical scope by setting ''scope: true'' or isolate scope ''scope: {}'', that way the directives won't step on each others shoes and it won't overwrite or accidentally change the parent scope properties. Also note that if you don't have jQuery loaded before AngularJS, the [[http://docs.angularjs.org/api/angular.element|element is a jQlite wrapped object instead]], check out the Angular documentation on jQlite and ''angular.element'' to find out more.
+
+Here is a [[http://beta.plnkr.co/edit/F6JrOGtT3QJB841Cii0r?p=preview|Plunker Demo demonstrating using directives with jQuery]], which integrates a number of nuances regarding ''scope.$apply'' and ''angular.element''.
+
+=== Using scope in Directives ===
+
+One of the most confusing parts of writing directives is managing the scope of the directive, and because there may be multiple directives one DOM element, one directive's scope will affect other directive's scope.
+
+By default, if you don't configure the scope property in the directive definition object, the scope will be false. This means in the linking function, the scope refers to the parent containing controller's scope. This make it easy to modify model properties in the parent, however it's not very flexible, since if you define anything on the scope, it may step on the parent's scope and inadvertently overwrite some model properties of the same name. This means it's not very good for reusable or modular directives. This configuration was demonstrated in the building reusable directive section above.
+
+The scope configuration allows two other styles. The first is simply ''scope: true'', this creates a scope that prototypically inherits from the parent scope. This scope operates in the same manner as a child controller's scope. Now any model properties defined in the directive will be defined on the directive's scope rather in the parent. Furthermore if multiple directives on the same element request a new scope, only one new scope is created. In order to communicate with the parent, you'll have to be aware of the [[https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance|nuances of scope inheritance]]. This is slightly better than no scope, however if you read properties from the parent, then you're hard coupling the directive to the parent's scope, in that the directive would not work without having a parent provide certain properties. Furthermore, you may still accidentally read and change (via reference access) properties from the parent scope even when you didn't intend it.
+
+The final style is the [[http://onehungrymind.com/angularjs-sticky-notes-pt-2-isolated-scope/|isolate scope]]. It can be set as an empty object, or as an object hash. It it was ''scope: {}'', then it creates an empty isolate scope. This scope does not prototypically inherit from the parent's scope. This is best choice for creating reusable directives that have to be usable anywhere in the DOM regardless of external circumstances. Note that each directive on the same element that requests an isolate scope get their own isolate scope.
+
+However sometimes you still need to allow the outside world to configure or add properties to the directive. Sometimes you need a provide a callback that is defined in the parent to the directive. This often happens when you need to link a UI or DOM transformation (directive's job) to a model or service activation (controller's job). One example would be infinite scroll, where the directive will check for the scroll event, and activate the controller's service to retrieve more result rows from the server API. This means you need an object hash. The object hash can accept key to value properties, in which the key represents the local value you want defined as a model variable in the directive's scope, and the value represents the external model variable from outside the directive. You may see something similar to:
+
+<code javascript>
+scope: {
+    localProp: @, //assuming localProp is the same name as the external property
+    localProp2: =,
+    localProp3: &,
+    localProp4: @externalProp //assuming that external property has a different name from local property
+}
+//now all for local properties will be accessible inside the directive's scope, such as scope.localProp
+</code>
+
+Refer to this [[http://beta.plnkr.co/edit/WK1lvOCxz8HeMDRr56vd?p=preview|Plunker Demo]] which demonstrates how the model variables are bound using the three types of isolate scope hashing. Open up your console and see the logging working. Then refer to this sticky notes [[http://jsfiddle.net/simpulton/VJ94U/|Fiddle example]] of wiring up nested directives with a controller. It even demonstrates using the directive controller instead of a linking function. Though both could have been used.
+
+All of these properties in the object hash have to be defined on the attributes of the directive attached DOM element. In javascript they will be written as camel case, but in the attribute, they are always written with dashes. So if ''localProp'' would be ''local-prop'' on the DOM element.
+
+<code html>
+<div widget local-prop="some parameter"></div>
+</code>
+
+The '@' hash is designed for one-directional binding. This means either a primitive string or number is provided to the directive, often for some sort of basic configuration. The '@' hash can also be used to bring in interpolated model properties of the parent scope. Whatever you do the '@' attribute will not be reflected in any other scopes. In order to retrieve the value of the '@' hash, you can't just access them from ''scope'' in the linking function. This is because the process of interpolation hasn't been done yet. You'll need to either get it from the ''attributes'' object if it was a primitive, or you'll need to use ''attributes.$observe'' to parse the interpolation. Furthermore in order to set the directive's attribute, you can't just set it from the attributes object, but you need to use ''attributes.$set'' (this can be useful if you're using DOM attributes to do inter-directive communication).
+
+<code javascript>
+//if our html was like this
+/*
+<div widget attribute="some primitive string" interpolated-attribute="{{interpolatedModel}}"></div>
+*/
+//assuming object hash:
+/*
+scope: {
+    attribute: '@',
+    interpolatedAttribute: '@'
+};
+*/
+//then in order to access it in the linking function
+function(scope, element, attributes){
+    console.log(scope.attribute); //won't work
+    console.log(attributes.attribute); //works
+    
+    attributes.$observe('interpolatedAttribute', function(value){
+        //value now contains the interpolated {{interpolatedModel}}
+        //this also runs everytime the interpolation changes
+        console.log('Observe got activated, new value: ' + value);
+    });
+    
+    //now it is one way binding, so if the interpolatedModel changed in the controller, then the directive would get it, but if it got changed in the directive, the controller will not get it, but the $observe will still activate!
+    
+    attributes.$set('interpolatedAttribute', 'new value!');
+}
+</code>
+
+The most often used is the '=' hash. This setups bi-directional binding. If the model changes in the controller, it is propagated to the directive. If it is changed in the directive, it is propagated to the controller. You don't have to use the attributes object to access or change it. It can be done straight from ''scope''. Furthermore you don't have to worry about scope inheritance. This binding doesn't come from prototypical inheritance, but is directly bound. On the DOM attributes, it is bound without the need of the interpolate directive ''{{}}''.
+
+<code javascript>
+//assuming HTML
+/*
+<div widget bidirectional="data"></div>
+*/
+//assuming scope
+/*
+scope: {
+    bidirectional: '='
+}
+*/
+function(scope, element, attributes){
+    console.log(scope.bidirectional);
+    scope.bidirectional = 'new value to be propagated!';
+}
+</code>
+
+The more complicated version is the '&' hash which allows functions to be bound to the directive's isolate scope. This will allow you run parent scope's functions from inside the directive. Now originally if you didn't use isolate scope, you could simply access the function from the attributes object and execute from your directive. This [[http://jsfiddle.net/vojtajina/U7Bz9/|infinite scroll directive example]] uses just the attributes object. It also uses ''$scope.apply'' but that's only due to the fact that ''bind'' is a jQuery function. However we're building reusable directives, so we need to be a bit more stringent. The number one confusion in using the '&' hash, is the way parameters are passed into the functions. You can't just pass it into the function. You need to have a parameter name declared the attribute DOM, and when you pass in a variable, it needs to be in the form of an object map.
+
+<code javascript>
+//assuming HTML
+/*
+<div widget expression="doSomething(param)"></div>
+*/
+//assuming scope
+/*
+scope: {
+    expression: '&'
+}
+*/
+//also assuming parent controller
+/*
+function($scope){
+    $scope.doSomething(input){
+        console.log(input);
+    };
+    $scope.param = 'Some default parameters!';
+}
+*/
+function(scope, element, attributes){
+    scope.doSomething('Something I want to pass in'); //doesn't work
+    scope.doSomething({param: 'something I want to pass in!'}); //works
+    scope.doSomething(); //also works, uses the default parameter in the parent container!
+}
+</code>
+
+Try experimenting with these object hashes. Remember to always use isolate scopes when you're building robust reusable directives. Eventually you could even share your directives with other developers.
+
+=== Transclusion & Compile ===
+
+Using transclusion to build insertable widgets, and then manipulating them in the compile function
+
+Also using the replace, as an alternative to transclusion
+
+=== Interdirective Communication ===
+
+Can use the intercontroller communication style, or directive controllers
+
+http://stackoverflow.com/questions/12546945/difference-between-the-controller-and-link-functions-when-defining-an-angula?lq=1
 
 http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/
 
@@ -1477,11 +1814,39 @@ http://onehungrymind.com/angularjs-directives-basics/
 
 http://onehungrymind.com/angularjs-and-dom-manipulation/
 
-https://github.com/andreev-artem/angular_experiments
+http://www.bennadel.com/blog/2446-Using-Controllers-In-Directives-In-AngularJS.htm
 
-http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED
+http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm
 
-https://github.com/petebacondarwin/AngularJS-Directives-Presentation
+http://www.codinginsight.com/angularjs-directives/
+
+=== Conditional Directives ===
+
+These are native directives in AngularJS that allows us to apply conditional logic to our DOM.
+
+Using:
+
+ng-switch
+
+ng-show
+
+ng-repeat
+
+ng-if (from Angular UI)
+
+http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs
+
+http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs
+
+=== Inspiration ===
+
+There are a number of pre-made directives for AngularJS that developers have released open source. You can find inspiration for interesting directives and perhaps integrate them into your application. Here are various sources of directives:
+
+  * [[http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED|AngularJS Tips & Tricks]]
+  * [[https://github.com/andreev-artem/angular_experiments|Angular Experiments]]
+  * [[http://angular-ui.github.com/|Angular UI]]
+  * [[http://angular-ui.github.com/bootstrap/|Angular UI Strap]] - For Twitter Bootstrap directives
+  * [[https://github.com/petebacondarwin/AngularJS-Directives-Presentation|AngularJS Directives Presentation]]
 ==== Templating ====
 
 Client side templates vs Serverside templates
@@ -1495,6 +1860,9 @@ AngularJS services
 
 https://gist.github.com/Mithrandir0x/3639232
 
+Remember that $resource works with objects, it will always expect either an object to come back, or an array of objects (if it is $resource.query). You cannot have array of arrays, and array of primitives won't work either. However this can be overwritten, and you can use the $http service instead if you need more granular control.
+
+Also HTTP intercepting + intercepting for redirection!
 ===== Authentication =====
 
 http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application

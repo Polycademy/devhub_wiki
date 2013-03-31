@@ -1,0 +1,27 @@
+<span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//here's an example of app.js registering itself as a module, and then declaring all of its dependencies!</span>
+<span class="co1">//you may notice some modules as part of AngularJS itself</span>
+&nbsp;
+<span class="coMULTI">/* ==========================================================================
+   BOOTSTRAPPER (notice the cascading dependencies, AngularJS uses the order you defined to configure the injector!)
+   ========================================================================== */</span>
+&nbsp;
+<span class="co1">//app is an module that is dependent on several top level modules</span>
+<span class="kw1">var</span> app <span class="sy0">=</span> angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'App'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+	<span class="st0">'Controllers'</span><span class="sy0">,</span>
+	<span class="st0">'Filters'</span><span class="sy0">,</span>
+	<span class="st0">'Services'</span><span class="sy0">,</span>
+	<span class="st0">'Directives'</span><span class="sy0">,</span>
+	<span class="st0">'ngResource'</span><span class="sy0">,</span> <span class="co1">//for RESTful resources</span>
+	<span class="st0">'ngCookies'</span> <span class="co1">//for manipulation of cookies</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="co1">//Define all the page level controllers (Application Logic)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared filters (UI Filtering)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Filters'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared services (Interaction with Backend)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Services'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+<span class="co1">//Define all shared directives (UI Logic)</span>
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Directives'</span><span class="sy0">,</span> <span class="br0">&#91;</span><span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>
