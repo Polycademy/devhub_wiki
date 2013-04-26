@@ -36,6 +36,11 @@ You can also use package managers to explore more code libraries. Popular ones i
   * Fine Uploader
   * jQuery File Upload
   * Plupload
+  * MathJax
+  * tQuery
+  * BtAppJS
+  * MathBoxJS
+  * Emscripten
 
 ==== Game Development ====
 

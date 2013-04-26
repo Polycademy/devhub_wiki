@@ -1,0 +1,8 @@
+$routeProvider
+    .<span class="me1">when</span><span class="br0">&#40;</span>
+        <span class="st0">'/'</span><span class="sy0">,</span>
+        <span class="br0">&#123;</span>
+            templateUrl<span class="sy0">:</span> <span class="st0">'the_name_of_the_template.html'</span><span class="sy0">,</span>
+            controller<span class="sy0">:</span> <span class="st0">'TheControllerToBeBoundTo'</span>
+        <span class="br0">&#125;</span>
+    <span class="br0">&#41;</span><span class="sy0">;</span>

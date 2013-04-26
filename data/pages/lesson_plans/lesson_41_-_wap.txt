@@ -1,0 +1,28 @@
+====== Lesson 41 - WAP ======
+
+**Expected Work**
+
+  - Integrating your server API to your AngularJS
+  - Migrating your PHP code in templates to AngularJS directives
+  - Look into integrating authentication and AngularUI
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Revisiting server API convention for error reporting
+  - Directive configuration
+  - Directive scopes
+  - Directive transclusion & compile
+  - Interdirective communication
+  - Conditional directives
+  - Inpiration for directives
+  - 15 days left!
+
+**Practice**
+
+  - Migrate all of your view files to partials and directive templates

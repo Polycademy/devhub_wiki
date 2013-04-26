@@ -2294,15 +2294,15 @@ If the request comes from GET, any parameters should be extracted from the <abbr
 Once you&#039;ve handled the request you need to pass back a response with an <a href="http://blog.garethj.com/2009/02/17/building-a-restful-web-application-with-php/#returningResponses" class="urlextern" title="http://blog.garethj.com/2009/02/17/building-a-restful-web-application-with-php/#returningResponses"  rel="nofollow">appropriate HTTP response code</a>.
 </p>
 <ul>
-<li class="level1"><div class="li"> 200 OK: successful request when data is returned</div>
+<li class="level1"><div class="li"> 200 OK: successful request when data is returned, also use this when no action was taken</div>
 </li>
 <li class="level1"><div class="li"> 201 Created: Successful request when something is created at another <abbr title="Uniform Resource Locator">URL</abbr> (specified by the value returned in the Location header)</div>
 </li>
-<li class="level1"><div class="li"> 204 No Content: Successful request when no data is returned, can be used when someone is trying to update or delete something that already has the same update or already been deleted</div>
+<li class="level1"><div class="li"> 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors &amp; login errors</div>
 </li>
-<li class="level1"><div class="li"> 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors</div>
+<li class="level1"><div class="li"> 401 Unauthorised: Can be used for incorrect login, or when login is required. The specification dictates that a <abbr title="World Wide Web">WWW</abbr>-Authenticate header needs to be passed, <a href="http://stackoverflow.com/questions/8389253/correct-http-status-code-for-resource-which-requires-authorization" class="urlextern" title="http://stackoverflow.com/questions/8389253/correct-http-status-code-for-resource-which-requires-authorization"  rel="nofollow">but you can fudge it</a></div>
 </li>
-<li class="level1"><div class="li"> 403 Unauthorised: Can be used for incorrect login, can&#039;t use 401 in a session based cookie system</div>
+<li class="level1"><div class="li"> 403 Forbidden: Can be used to show that a user does not have sufficient permissions to access a resource, even if they were logged in</div>
 </li>
 <li class="level1"><div class="li"> 404 Not Found: No resource at the specified <abbr title="Uniform Resource Locator">URL</abbr></div>
 </li>
@@ -2331,7 +2331,59 @@ Now you understand the RESTful standard. The first thing to implement RESTful st
 </p>
 
 </div>
-<!-- EDIT46 SECTION "REST" [131684-143364] -->
+
+<h4 id="routing_configuration">Routing Configuration</h4>
+<div class="level4">
+
+<p>
+If you are using Pigeon, RESTful routing is simple. Here&#039;s a example <code>routes.php</code> that allows RESTful routes going through an <abbr title="Application Programming Interface">API</abbr> route. This goes along well with single page application design.
+</p>
+<dl class="file">
+<dt><a href="/doku.php?do=export_code&amp;id=web_application_development:php_-_server_side_architecture&amp;codeblock=45" title="Download Snippet" class="mediafile mf_php">routes.php</a></dt>
+<dd><pre class="code file php"><span class="kw2">&lt;?php</span>
+&nbsp;
+Pigeon<span class="sy0">::</span><span class="me2">map</span><span class="br0">&#40;</span><span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$r</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+    <span class="co1">//Route all API requests to the correct controller/method</span>
+    <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">route</span><span class="br0">&#40;</span><span class="st_h">'api'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$r</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+        <span class="co1">//courses resource, for creating new courses</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'courses'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//for user accounts</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'accounts'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//for logging in and out</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'sessions'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//let's try subresource routing</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'dummy'</span><span class="br0">&#41;</span><span class="sy0">;</span>  <span class="co1">//this goes to dummy by itself</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'super_dummy'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//this goes to super dummy</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">route</span><span class="br0">&#40;</span><span class="st_h">'super_dummy/(:num)'</span><span class="sy0">,</span> <span class="kw4">false</span><span class="sy0">,</span> <span class="kw2">function</span><span class="br0">&#40;</span><span class="re0">$r</span><span class="br0">&#41;</span><span class="br0">&#123;</span>
+            <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">resources</span><span class="br0">&#40;</span><span class="st_h">'dummy'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="co1">//this allows sub resource routing such as http://example.com/super_dummy/4/dummy/5</span>
+            <span class="co1">//the 4 and 5 will be available as $id and $second_id in the parameters of the controller methods</span>
+            <span class="co1">//use sub resources, when a resource needs to be accessed in the context of a parent resource</span>
+        <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="co1">//migration, comment these in production</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'migrate'</span><span class="sy0">,</span> <span class="st_h">'migrate/index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+        <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">get</span><span class="br0">&#40;</span><span class="st_h">'migrate/revert'</span><span class="sy0">,</span> <span class="st_h">'migrate/revert'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+    <span class="co1">//Route everything else to AngularJS</span>
+    <span class="re0">$r</span><span class="sy0">-&gt;</span><span class="me1">route</span><span class="br0">&#40;</span><span class="st_h">'(.*)'</span><span class="sy0">,</span> <span class="st_h">'home#index'</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="br0">&#125;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$route</span> <span class="sy0">=</span> Pigeon<span class="sy0">::</span><span class="me2">draw</span><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+<span class="re0">$route</span><span class="br0">&#91;</span><span class="st_h">'default_controller'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">'home'</span><span class="sy0">;</span>
+<span class="re0">$route</span><span class="br0">&#91;</span><span class="st_h">'404_override'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <span class="st_h">''</span><span class="sy0">;</span></pre>
+</dd></dl>
+
+</div>
+<!-- EDIT46 SECTION "REST" [131684-145158] -->
 <h3 class="sectionedit47" id="handling_output">Handling Output</h3>
 <div class="level3">
 
@@ -2352,7 +2404,7 @@ Of course if the data doesn&#039;t change much, remember to cache the JSON outpu
 </p>
 
 </div>
-<!-- EDIT47 SECTION "Handling Output" [143365-145849] -->
+<!-- EDIT47 SECTION "Handling Output" [145159-147643] -->
 <h2 class="sectionedit48" id="consuming_web_services_apis">Consuming Web Services APIs</h2>
 <div class="level2">
 
@@ -2383,7 +2435,7 @@ You&#039;ll notice that almost all APIs requiring any kind of authentication wil
 </p>
 
 </div>
-<!-- EDIT48 SECTION "Consuming Web Services APIs" [145850-148494] -->
+<!-- EDIT48 SECTION "Consuming Web Services APIs" [147644-150288] -->
 <h3 class="sectionedit49" id="third_party_login">Third Party Login</h3>
 <div class="level3">
 
@@ -2442,7 +2494,7 @@ We have a number of libraries available to abstract all of these authentication 
 </ul>
 
 </div>
-<!-- EDIT49 SECTION "Third Party Login" [148495-155052] -->
+<!-- EDIT49 SECTION "Third Party Login" [150289-156846] -->
 <h2 class="sectionedit50" id="providing_web_services_apis">Providing Web Services APIs</h2>
 <div class="level2">
 
@@ -2463,7 +2515,7 @@ Most of these implementations are outside the scope of this course, but a lot of
 </p>
 
 </div>
-<!-- EDIT50 SECTION "Providing Web Services APIs" [155053-157276] -->
+<!-- EDIT50 SECTION "Providing Web Services APIs" [156847-159070] -->
 <h3 class="sectionedit51" id="ajax_json_message_protocol">AJAX JSON Message Protocol</h3>
 <div class="level3">
 
@@ -2481,7 +2533,6 @@ When we&#039;ve established an <abbr title="Application Programming Interface">A
 <span class="br0">&#123;</span>
     <span class="st0">&quot;content&quot;</span><span class="sy0">:</span> <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//this can be an object, array or string</span>
     <span class="st0">&quot;code&quot;</span><span class="sy0">:</span> <span class="st0">&quot;&quot;</span><span class="sy0">,</span> <span class="co1">//this could be &quot;success&quot;/&quot;error&quot;/&quot;validation_error&quot;/&quot;system_error&quot;/&quot;redirect&quot;,</span>
-    <span class="st0">&quot;http&quot;</span><span class="sy0">:</span> <span class="st0">&quot;&quot;</span><span class="sy0">,</span> <span class="co1">//this could be any of the HTTP codes</span>
     <span class="st0">&quot;redirect&quot;</span><span class="sy0">:</span> <span class="st0">&quot;url/to/redirect/to&quot;</span> <span class="co1">//this allows the server to redirect the single page app client</span>
 <span class="br0">&#125;</span></pre>
 
@@ -2490,7 +2541,7 @@ Also note that if you are implementing web sockets, they require a more strict m
 </p>
 
 </div>
-<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [157277-159379] -->
+<!-- EDIT51 SECTION "AJAX JSON Message Protocol" [159071-161118] -->
 <h3 class="sectionedit52" id="restful_authentication_stateless_state">RESTful Authentication &amp; Stateless State</h3>
 <div class="level3">
 
@@ -2539,7 +2590,7 @@ Regardless of the authentication scheme, if writing state management in javascri
 </p>
 
 </div>
-<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [159380-164142] -->
+<!-- EDIT52 SECTION "RESTful Authentication & Stateless State" [161119-165881] -->
 <h3 class="sectionedit53" id="restful_server">RESTful Server</h3>
 <div class="level3">
 
@@ -2562,7 +2613,7 @@ There are also frameworks designed to be used as an <abbr title="Application Pro
 </p>
 
 </div>
-<!-- EDIT53 SECTION "RESTful Server" [164143-165043] -->
+<!-- EDIT53 SECTION "RESTful Server" [165882-166782] -->
 <h3 class="sectionedit54" id="debugging_apis">Debugging APIs</h3>
 <div class="level3">
 
@@ -2571,7 +2622,7 @@ Also note that debugging APIs will require the use of Curl. Firebug and associat
 </p>
 
 </div>
-<!-- EDIT54 SECTION "Debugging APIs" [165044-165214] -->
+<!-- EDIT54 SECTION "Debugging APIs" [166783-166953] -->
 <h2 class="sectionedit55" id="concurrent_processing">Concurrent Processing</h2>
 <div class="level2">
 
@@ -2638,7 +2689,7 @@ An important concept to understand is that using long running daemons instead of
 </p>
 
 </div>
-<!-- EDIT55 SECTION "Concurrent Processing" [165215-170721] -->
+<!-- EDIT55 SECTION "Concurrent Processing" [166954-172460] -->
 <h3 class="sectionedit56" id="configuration_for_daemons">Configuration for Daemons</h3>
 <div class="level3">
 
@@ -2669,7 +2720,7 @@ You can also investigate more <a href="http://www.php.net/manual/en/info.configu
 </p>
 
 </div>
-<!-- EDIT56 SECTION "Configuration for Daemons" [170722-172600] -->
+<!-- EDIT56 SECTION "Configuration for Daemons" [172461-174339] -->
 <h3 class="sectionedit57" id="hosting_solutions">Hosting Solutions</h3>
 <div class="level3">
 
@@ -2696,7 +2747,7 @@ Not all web hosts will offer concurrent processing features, mainly because runn
 </ul>
 
 </div>
-<!-- EDIT57 SECTION "Hosting Solutions" [172601-174150] -->
+<!-- EDIT57 SECTION "Hosting Solutions" [174340-175889] -->
 <h2 class="sectionedit58" id="sockets_rtc">Sockets &amp; RTC</h2>
 <div class="level2">
 
@@ -2721,4 +2772,4 @@ There will be no free web hosts that will support a Ratchet configuration, you&#
 </p>
 
 </div>
-<!-- EDIT58 SECTION "Sockets & RTC" [174151-] -->
+<!-- EDIT58 SECTION "Sockets & RTC" [175890-] -->

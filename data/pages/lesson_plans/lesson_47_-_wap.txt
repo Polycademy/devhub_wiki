@@ -1,0 +1,22 @@
+====== Lesson 46 - WAP ======
+
+**Expected Work**
+
+  - Implementation
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - SEO for AJAX Applications
+  - Build Process using Grunt
+  - Test Driven Development
+  - 9 days left!
+
+**Practice**
+
+  - Finish up your application!

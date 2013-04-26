@@ -36,10 +36,8 @@ Profiling for speed
 
 Build Tools (minification, concatenation)
 
-Phing
-
 Grunt - http://gruntjs.com/sample-gruntfile & http://net.tutsplus.com/tutorials/javascript-ajax/meeting-grunt-the-build-tool-for-javascript/
 
-Uglifyjs
+Also using Source Maps http://www.html5rocks.com/en/tutorials/developertools/sourcemaps/
 
-Require.js optimiser.
+Uglifyjs

@@ -1,0 +1,23 @@
+====== Lesson 43 - WAP ======
+
+**Expected Work**
+
+  - Finished AngularJS Theory
+  - Begin exploration, and hustling to implement all the features you need
+  - Also look into your technology stack
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - A better authentication system including server side and client side
+  - Revision Q & A
+  - 13 days left!
+
+**Practice**
+
+  - Finish up your application!

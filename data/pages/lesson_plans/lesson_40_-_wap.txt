@@ -13,8 +13,8 @@
 
 **Lecture**
 
-  - Replacing PHP template code with reusable directives
   - Communicating between controllers using events, pub/sub and services
+  - Introduction to directives
   - 16 days left!
 
 **Practice**

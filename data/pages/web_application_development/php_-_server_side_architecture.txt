@@ -1613,11 +1613,11 @@ If the request comes from GET, any parameters should be extracted from the URL u
 
 Once you've handled the request you need to pass back a response with an [[http://blog.garethj.com/2009/02/17/building-a-restful-web-application-with-php/#returningResponses|appropriate HTTP response code]].
 
-  * 200 OK: successful request when data is returned
+  * 200 OK: successful request when data is returned, also use this when no action was taken
   * 201 Created: Successful request when something is created at another URL (specified by the value returned in the Location header)
-  * 204 No Content: Successful request when no data is returned, can be used when someone is trying to update or delete something that already has the same update or already been deleted
-  * 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors
-  * 403 Unauthorised: Can be used for incorrect login, can't use 401 in a session based cookie system
+  * 400 Bad Request: Incorrect parameters specified on request, can be used for validation errors & login errors
+  * 401 Unauthorised: Can be used for incorrect login, or when login is required. The specification dictates that a WWW-Authenticate header needs to be passed, [[http://stackoverflow.com/questions/8389253/correct-http-status-code-for-resource-which-requires-authorization|but you can fudge it]]
+  * 403 Forbidden: Can be used to show that a user does not have sufficient permissions to access a resource, even if they were logged in
   * 404 Not Found: No resource at the specified URL
   * 405 Method Not Allowed: when a client makes a request using an HTTP verb not supported at the requested URL (supported verbs are returned in the Allow header)
   * 406 Not Acceptable: Requested data format not supported
@@ -1630,6 +1630,54 @@ The 200 status code doesn't actually need to be manually returned, if you return
 One constraint of RESTful architecture is the concept of stateless server. Essentially the server should not manage the state of the request. Every request is supposed to carry all the necessary payload to authenticate and validate the request, hence "State Transfer" in the REST name. This means servers using database sessions actually violate RESTful style. Note that we're talking application state not resource state. Application state is the state of the client in interacting with your application. [[http://jcalcote.wordpress.com/2009/08/10/restful-authentication/|This is somewhat controversial constraint]]. While there are advantages to stateless servers in scalability, because if you have a million clients, you don't have a million records of session to manage, instead each client simply passes in their authentication token each time they want something, it some what difficult to create a secure authentication method that is good of user experience when complying with statelessness. There are number of methods that are described in the [[#providing_web_services_apis|Providing a Web Service APIs]] section. However you need to balance your effort against your reward. The question to ask yourself is "Are you building a RESTful API which will only be used by your own web based browser clients (that might be a single page application), or are you building a RESTful API for third party web services so they can create mashups?". If your answer is the former, you can then choose to either create a RESTful compliant authentication scheme (difficult) or go with the old cookie database based sessions. If your answer was the latter, then you should definitely create a RESTful compliant authentication scheme, as your clients (who are third party services) will be expecting that, and servers usually don't carry cookies. You can also use a both in a [[http://programmers.stackexchange.com/questions/141019/should-cookies-be-used-in-a-restful-api|fallback strategy to deal with both browsers and servers]].
 
 Now you understand the RESTful standard. The first thing to implement RESTful style URLs through your application's routing feature. You could manually write all the resource routes yourself. Or you can use the excellent [[https://github.com/jamierumbelow/pigeon|Pigeon library]] that is integrated into Codeigniter and can be called from the routes config file. This is just the tip of the iceberg, but you're on your way to a RESTful web application.
+
+=== Routing Configuration ===
+
+If you are using Pigeon, RESTful routing is simple. Here's a example ''routes.php'' that allows RESTful routes going through an API route. This goes along well with single page application design.
+
+<file php routes.php>
+<?php
+
+Pigeon::map(function($r){
+    
+    //Route all API requests to the correct controller/method
+    $r->route('api', false, function($r){
+        
+        //courses resource, for creating new courses
+        $r->resources('courses');
+        
+        //for user accounts
+        $r->resources('accounts');
+        
+        //for logging in and out
+        $r->resources('sessions');
+        
+        //let's try subresource routing
+        $r->resources('dummy');  //this goes to dummy by itself
+        $r->resources('super_dummy'); //this goes to super dummy
+        $r->route('super_dummy/(:num)', false, function($r){
+            $r->resources('dummy'); //this allows sub resource routing such as http://example.com/super_dummy/4/dummy/5
+            //the 4 and 5 will be available as $id and $second_id in the parameters of the controller methods
+            //use sub resources, when a resource needs to be accessed in the context of a parent resource
+        });
+        
+        //migration, comment these in production
+        $r->get('migrate', 'migrate/index');
+        $r->get('migrate/revert', 'migrate/revert');
+        
+    });
+    
+    //Route everything else to AngularJS
+    $r->route('(.*)', 'home#index');
+    
+});
+
+$route = Pigeon::draw();
+
+$route['default_controller'] = 'home';
+$route['404_override'] = '';
+</file>
+
 ==== Handling Output ====
 
 Each resource URL should be able viewable in different formats according to RESTful standards. This is called [[wp>Content negotiation|content negotiation]]. Clients and browsers can specify the data formats they are capable of receiving using the HTTP Accept header. In javacript this can be set using the setRequestHeader method on the XMLHttpRequest object. A normal browser request (meaning navigating using the URLs in the browser) does not add any custom HTTP Accept headers to the request. You can use jQuery or direct javascript to add it in.
@@ -1696,7 +1744,6 @@ Most of these implementations are outside the scope of this course, but a lot of
 When we've established an API for either our own single page application or externals to use, we need to establish a convention for our JSON messages. There's no recommended best practice, so we can make up our own. Polycademy recommends the following protocol for all your server outputted messages. These messages should be constructed on your model layer, because that's where your errors primarily come from and that's where your validation takes place. However you can also use these messages on the controller, and when messages come back from your model, you can augment them in your controller. See [[https://blog.apigee.com/detail/restful_api_design_what_about_errors/|Apigee's blog post on API error design]] and [[https://blog.apigee.com/detail/restful_api_design_tips_for_versioning/|API versioning]] for more information.
 
 <code javascript>
-
 //the content can be whatever we want, simply put in what makes sense, and what the client would need
 //the code can be:
 //success => standard success for any particular request
@@ -1708,7 +1755,6 @@ When we've established an API for either our own single page application or exte
 {
     "content": {}, //this can be an object, array or string
     "code": "", //this could be "success"/"error"/"validation_error"/"system_error"/"redirect",
-    "http": "", //this could be any of the HTTP codes
     "redirect": "url/to/redirect/to" //this allows the server to redirect the single page app client
 }
 </code>

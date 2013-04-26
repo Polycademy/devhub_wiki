@@ -1,0 +1,21 @@
+====== Lesson 45 - WAP ======
+
+**Expected Work**
+
+  - Implementation
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - How is javascript asynchronous
+  - HTML5 APIs
+  - 11 days left!
+
+**Practice**
+
+  - Finish up your application!

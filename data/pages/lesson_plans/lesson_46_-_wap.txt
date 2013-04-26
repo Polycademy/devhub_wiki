@@ -1,0 +1,22 @@
+====== Lesson 46 - WAP ======
+
+**Expected Work**
+
+  - Implementation
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Using AngularUI & AngularUI Bootstrap
+  - Using ng-Animate
+  - Managing State in Client Side and Server Side and connecting the state together. This can be done through all the storage options on client side, but also storage options on the server side.
+  - 10 days left!
+
+**Practice**
+
+  - Finish up your application!

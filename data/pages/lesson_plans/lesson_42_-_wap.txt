@@ -1,0 +1,28 @@
+====== Lesson 42 - WAP ======
+
+**Expected Work**
+
+  - Continue Migrating your PHP code in templates to AngularJS directives
+  - Look into integrating authentication and AngularUI
+  - Make sure your server API matches the convention for error reporting
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - Creating services for global configuration and run blocks
+  - Creating services for HTTP intercepting & promises
+  - Setting up authentication and using ''$location'' for redirection
+  - Introduction to continuation passing style of callback doom
+  - Introduction to promises
+  - 14 days left!
+
+**Practice**
+
+  - Integrate authentication
+  - Integrate directives
+  - Integrate http intercepting & promises

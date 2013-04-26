@@ -1,0 +1,74 @@
+<span class="st0">'use strict'</span><span class="sy0">;</span>
+&nbsp;
+angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'Controllers'</span><span class="br0">&#41;</span>
+    .<span class="me1">controller</span><span class="br0">&#40;</span><span class="st0">'CoursesIndexCtrl'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+        <span class="st0">'$scope'</span><span class="sy0">,</span>
+        <span class="st0">'CoursesServ'</span><span class="sy0">,</span>
+        <span class="kw1">function</span><span class="br0">&#40;</span>$scope<span class="sy0">,</span> CoursesServ<span class="br0">&#41;</span><span class="br0">&#123;</span>
+&nbsp;
+            <span class="co1">//these examples won't demonstrate the .query function, this is because based on our RESTful convention, we're always going to get back an object map, rather than an array. However you are free to explore</span>
+&nbsp;
+            <span class="co1">//get all the courses, get is part of the $resource object</span>
+            CoursesServ.<span class="kw1">get</span><span class="br0">&#40;</span>
+                <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//this is the success callback</span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//fail callback (will activate on 400 or 500 status codes)</span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="sy0">;</span>
+                <span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//we can get a specific course, and pass in a parameter into the URL</span>
+            CoursesServ.<span class="kw1">get</span><span class="br0">&#40;</span>
+                <span class="br0">&#123;</span> id<span class="sy0">:</span> <span class="nu0">2</span> <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//any parameters specified that was not also part of the URL actually end up becoming query strings</span>
+            CoursesServ.<span class="kw1">get</span><span class="br0">&#40;</span>
+                <span class="br0">&#123;</span> limit<span class="sy0">:</span> <span class="nu0">10</span><span class="sy0">,</span> offset<span class="sy0">:</span> <span class="nu0">10</span> <span class="br0">&#125;</span><span class="sy0">,</span> <span class="co1">//will result in api/courses/?limit=10&amp;offset=10</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//equivalent to POST</span>
+            CoursesServ.<span class="me1">save</span><span class="br0">&#40;</span>
+                <span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="br0">&#123;</span> <span class="co1">//&lt;- this is the payload data</span>
+                    courseName<span class="sy0">:</span> <span class="st0">'11 Weeks Weekly'</span><span class="sy0">,</span>
+                    courseDate<span class="sy0">:</span> <span class="st0">'12th April 2013'</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//success function </span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>response.<span class="me1">status</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//now we're using our custom update method configured in the service</span>
+            CoursesServ.<span class="me1">update</span><span class="br0">&#40;</span>
+                <span class="br0">&#123;</span> id<span class="sy0">:</span> <span class="nu0">2</span> <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="br0">&#123;</span> <span class="co1">//&lt;- this is the payload data</span>
+                    courseName<span class="sy0">:</span> <span class="st0">'new name'</span><span class="sy0">,</span>
+                    courseDate<span class="sy0">:</span> <span class="st0">'14th April 2013'</span>
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span>
+                    <span class="co1">//success function </span>
+                    console.<span class="me1">log</span><span class="br0">&#40;</span>response.<span class="me1">status</span><span class="br0">&#41;</span><span class="sy0">;</span> 
+                <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+            <span class="co1">//and of course delete</span>
+            CoursesServ.<span class="me1">remove</span><span class="br0">&#40;</span>
+                <span class="br0">&#123;</span> id<span class="sy0">:</span> <span class="nu0">2</span> <span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span><span class="sy0">,</span>
+                <span class="kw1">function</span><span class="br0">&#40;</span>response<span class="br0">&#41;</span><span class="br0">&#123;</span><span class="br0">&#125;</span>
+            <span class="br0">&#41;</span><span class="sy0">;</span>
+&nbsp;
+        <span class="br0">&#125;</span>
+    <span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>

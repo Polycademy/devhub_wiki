@@ -1,0 +1,5 @@
+<span class="co1">//assuming this in your footer &lt;script src=&quot;js/vendor/angular-resource.min.js&quot;&gt;&lt;/script&gt;</span>
+<span class="co1">//write this in your bootstrapper in app.js</span>
+<span class="kw1">var</span> app <span class="sy0">=</span> angular.<span class="me1">module</span><span class="br0">&#40;</span><span class="st0">'App'</span><span class="sy0">,</span> <span class="br0">&#91;</span>
+    <span class="st0">'ngResource'</span> <span class="co1">//add ngResource to the list of dependent modules</span>
+<span class="br0">&#93;</span><span class="br0">&#41;</span><span class="sy0">;</span>

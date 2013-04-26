@@ -18,4 +18,8 @@ Take Impress or Jmpress and kill Prezi with it!
 ==== Multi-Dimensional Grapher ====
 
 A graphing application that takes an infinite amount of dimensions.
+
+==== Instant Pub/Sub Messaging between Friends ====
+
+Allow something like launchy, but to send messages, but not in one to one, but pub/sub. Instant broadcast to all those who are listening. Provide API to listen too!
 ===== Embedded Apps =====

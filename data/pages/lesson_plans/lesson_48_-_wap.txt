@@ -1,0 +1,22 @@
+====== Lesson 47 - WAP ======
+
+**Expected Work**
+
+  - Implementation
+
+**Agile**
+
+  - What did you since last session
+  - What do you want to achieve today
+  - Any problems?
+
+**Lecture**
+
+  - SubResource Routing
+  - Recap overview of our web application architecture
+  - Dynamic Animations
+  - 8 days left!
+
+**Practice**
+
+  - Finish up your application!

@@ -1,39 +1,65 @@
 ====== Javascript - Design Patterns ======
 
+Javascript is a very flexible language which is a double edged sword. It gives a lot of power to developers but it also provides the ability for sloppy coding. Due to the silent errors of javascript, it is often very dangerous to write bad code in javascript, as you won't know until something really breaks. The practice of javascript also incorporates the usage of the BOM and DOM APIs. The arrival of [[http://platform.html5.org/|HTML5]] increased the number of APIs and consequently the number of things we can do with javascript. This section discusses design patterns, practices, utilities and the usage of HTML5 APIs when writing javascript.
+
+===== Javascript Language & Standards =====
+
 JS Hint and Linting
 
-OOP for Javascript
+Coffeescript & Typescript
 
-Using AngularUI, AngularStrap other Angular Modules!
+===== Third Party Libraries =====
 
-Authentication AngularJS - http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application
+Angular Modules
 
-Global error handling
+Using Bower (vendor)
 
-CSRF AngularJS
+CDNs
 
-AJAX loader
+===== Validation =====
 
-Coffeescript??
+Client side form validation using Angular UI Ui validate
 
-Client side form validation
+UX side of validation
 
-==== Dynamic Client Side ====
+===== Animation =====
 
-OOP
+UX side of animation
 
-Functional Programming
+ngAnimate & jQuery http://www.yearofmoo.com/2013/04/animation-in-angularjs.html
 
-Type Hinting
+Canvas
 
-Programming Tactics, Module Augmentation Pattern, Facade Pattern
+WebGL
 
-DOM manipulation
+Using AngularUI and Angular UI Bootstrap
 
-Input Validation
+===== Advanced Functional Javascript =====
 
-http://net.tutsplus.com/tutorials/javascript-ajax/event-based-programming-what-async-has-over-sync/
+Using functional.js
 
-Using Canvas for 2D animation.
+===== Advanced DOM Manipulation =====
 
-Using WebGL for 3d animation.
+Using native javascript, DOM traversal, XML... etc
+
+===== Advanced User Interface States =====
+
+Routing
+
+Angular UI Router
+
+Finite State Machines
+
+State Trees/Charts
+
+http://en.wikipedia.org/wiki/State_diagram
+
+http://en.wikipedia.org/wiki/Finite-state_machine
+
+https://github.com/yaptv/StateTree
+
+https://github.com/DavidDurman/statechart
+
+https://github.com/etgryphon/stativus
+
+http://www.amazon.com/Constructing-User-Interface-Statecharts-Horrocks/dp/0201342782

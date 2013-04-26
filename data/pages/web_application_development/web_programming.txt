@@ -42,6 +42,7 @@ Codeigniter
 jQuery (for DOM and AJAX)
 
   * [[http://api.jquery.com/|jQuery API Documentation]]
+  * [[http://learn.jquery.com/|Learn jQuery]]
   * [[http://jqfundamentals.com/|jQuery Fundamentals]]
   * [[https://tutsplus.com/course/30-days-to-learn-jquery/|30 Days to Learn jQuery]]
 

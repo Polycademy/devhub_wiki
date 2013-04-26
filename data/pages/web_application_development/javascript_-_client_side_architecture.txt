@@ -1553,7 +1553,9 @@ Broadcasting, emitting and handling up and down the scopes is actually somewhat 
   * The [[http://radio.uxder.com/index.html|Radio.js]] is third party library that doesn't have any dependencies, it's has a simple API to allow you to send and capture events. However it will introduce a global variable into your AngularJS code since it's not integrated as an AngularJS service. However it may be possible to create a service wrapper around this third party library.
 ==== Directives ====
 
-In following with AngularJS's declarative philosophy in building user interfaces, [[http://docs.angularjs.org/guide/directive|AngularJS introduced a concept called directives]]. These are essentially behaviour extensions to the HTML that allow complex user interface manipulation. This is where you would place your jQuery code. When you're constructing directives, you are also constructing a domain specific language for your application's user interface. Directives are declaratively invoked from the HTML itself as a custom tag, HTML attribute or even a comment, and they are imperatively constructed inside the javascript. AngularJS already packages a number of core directives, which can be found in their [[http://docs.angularjs.org/api/|API documentation]]. In fact the very way AngularJS binds itself to the DOM is through directives, so even when you need to call a controller you're still using the ''ng-controller'' directive, and when you're binding a whole application, then you're using the ''ng-app'' directive. The usage of ''{{}}'' to display model variables is actually an [[http://docs.angularjs.org/api/ng.$interpolate|interpolate directive]].
+In following with AngularJS's declarative philosophy in building user interfaces, [[http://docs.angularjs.org/guide/directive|AngularJS introduced a concept called directives]]. These are essentially behaviour extensions to the HTML that allow complex user interface manipulation. This is where you would place your jQuery code. Remember that if you come from the jQuery world, you probably think that events and their handlers should drive DOM changes. In the Angular world, events drive the model/$scope changes, which automatically update the view. The view contains/"declares" directives. These directives manipulate the DOM ("automatically") when the corresponding model changes.
+
+When you're constructing directives, you are also constructing a domain specific language for your application's user interface. Directives are declaratively invoked from the HTML itself as a custom tag, HTML attribute or even a comment, and they are imperatively constructed inside the javascript. AngularJS already packages a number of core directives, which can be found in their [[http://docs.angularjs.org/api/|API documentation]]. In fact the very way AngularJS binds itself to the DOM is through directives, so even when you need to call a controller you're still using the ''ng-controller'' directive, and when you're binding a whole application, then you're using the ''ng-app'' directive. The usage of ''{{}}'' to display model variables is actually an [[http://docs.angularjs.org/api/ng.$interpolate|interpolate directive]].
 
 In order for directives to manipulate the DOM, they need to be first binded to a particular DOM element. Then when that DOM element comes into existence either on first page load, or via programmatic insertion from another directive, the directive specified in your AngularJS code then gets executed. There are a number of options to configure how the directive works, either between other directives, between parent and child scopes, or within which phase of compilation it will work.
 
@@ -1796,79 +1798,420 @@ Try experimenting with these object hashes. Remember to always use isolate scope
 
 === Transclusion & Compile ===
 
-Using transclusion to build insertable widgets, and then manipulating them in the compile function
+Directives can also be used to manipulate the child DOM elements of the DOM element which was attached to a directive. You may wish to do this when you need to provide large pieces of data or to provide a custom template to be injected into the directive template. You can do this by either using the transclusion method or compile function method.
 
-Also using the replace, as an alternative to transclusion
+Transclusion simply means moving the children of the original directive element into the directive's template. The directive's template would also need to attach ''ng-transclude'' to a container. The children would be interpolated and processed in the parent container's scope, and when they get injected into the directive template, they get their own transclude scope, that would be a sibling to any isolate/prototypical directive scope. Here's a [[http://beta.plnkr.co/edit/ZKrSGdrDH0iZpnEGMldG?p=preview|Plunker Demo showing basic transclusion]]. 
+
+<code javascript>
+//assuming HTML
+/*
+<body ng-controller="ContainingCtrl">
+    <h1>Tranclusion</h1>
+    <div widget>
+        Hello Im going to get transcluded!
+        <p>So am I!</p>
+        <p>{{meToo}}</p>
+    </div>
+</body>
+*/
+//the directive would be like this
+app.directive('widget', [
+        function(){
+            return {
+                replace: true, //<- this is going to make the whole template replace the directive element
+                scope:{},
+                transclude: true, //<- transcluded scope is a sibling to the isolate scope
+                template:   '<div class="widget" ng-transclude></div>' //<- placing ng-transcluded will move the children elements from directive element to the template
+            };
+        }
+    ]);
+</code>
+
+This [[http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html|blog article on transclusion]] goes into more detail regarding the different uses of such a technique. For inspiration on the application of transclusion see this article on creating a [[http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/|dynamic search box using transclusion]].
+
+The basic form of transclusion isn't very flexible, it simply moves all the children to where ''ng-transclude'' is defined. Sometimes we need to be able to manipulate the DOM before it is compiled into scopes by AngularJS, so we can change the structure of the transclusion. We can of course just use jQuery via the linking function's element parameter to change everything, however this may not be desirable, as it is faster to work on the pre-compiled DOM. To do this, we can use the compile function instead of the link function. Note that this means using ''ng-transclude'' is optional, as we are essentially manually transcluding it.
+
+Here's a [[http://beta.plnkr.co/edit/lhhJhbAHjwXJeYWYYANP?p=preview|Plunker Demo that uses a compile function along with transclusion]] to manipulate the transcluded HTML rather than just doing a dump of ''ng-transclude''.
 
 === Interdirective Communication ===
 
-Can use the intercontroller communication style, or directive controllers
+Communicating between directives can be done in the same way controllers communicate between each other. You can use a shared service, custom events, or a dedicated event bus. Directives can even use a parent containing controller's scope to communicate as well. However directives have two more ways to communicate between themselves. The first is through the directive element's attributes. You can setup multiple directives to bind to the same attributes, and have one directive change the attributes, which will be reflected in the other attributes. However this is not very flexible, so AngularJS also provides a construct called directive controllers. These are controllers that are bound to the directive itself, and its properties are shared across the directives.
 
-http://stackoverflow.com/questions/12546945/difference-between-the-controller-and-link-functions-when-defining-an-angula?lq=1
+Refer to this [[http://beta.plnkr.co/edit/7lMDPqF3EYv5dyR5sLRA?p=preview|Plunker Demo]] of using multiple directives with directive controllers on one element, and also having a child directive requesting the parent's directive controllers. It also incorporates a demonstration of the [[http://docs.angularjs.org/api/ngSanitize.$sanitize|ngSanitize module]] and ''ng-bind-html'' directive which will render HTML from your models. Note the nuances of scope, you cannot have multiple isolate scopes on the same element, and you cannot have multiple templates attached to the same element.
 
-http://thesmithfam.org/blog/2012/12/17/communicating-between-directives-in-angularjs/
+Often you would use this when you have a main directive that handles the templates and transclusion, but you also need some other "plugin" directives that can augment the capability of the main directive. Child directives can also communicate through directive controllers allowing you to create multidimentional directives. That is directives that encompass several elements. One example would be creating tab panels.
 
-https://groups.google.com/forum/#!msg/angular/AjGgp8parNY/sU8Mi0vioScJ
+Here are some extra sources of information on using this construct: 
 
-http://onehungrymind.com/angularjs-directives-basics/
-
-http://onehungrymind.com/angularjs-and-dom-manipulation/
-
-http://www.bennadel.com/blog/2446-Using-Controllers-In-Directives-In-AngularJS.htm
-
-http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm
-
-http://www.codinginsight.com/angularjs-directives/
+  * [[http://www.bennadel.com/blog/2446-Using-Controllers-In-Directives-In-AngularJS.htm|Using controllers in directives]]
+  * [[http://www.bennadel.com/blog/2447-Exploring-Directive-Controllers-Compiling-Linking-And-Priority-In-AngularJS.htm|Exploring directive controllers and priority]]
 
 === Conditional Directives ===
 
-These are native directives in AngularJS that allows us to apply conditional logic to our DOM.
+One of the key concepts in client side templating is that there should be as little logic as possible. AngularJS provides a number native directives that is sufficient to do basic conditional logic in your DOM. A number of these directives are also specifically designed for forms and form validation. These directives are:
 
-Using:
+  * [[http://docs.angularjs.org/api/ng.directive:ngShow|ngShow]] - Use this to show and hide DOM elements based on a boolean value. When used in multiple places, you could have a single boolean switch on and off multiple elements. This is also often used in conjunction with forms.
+  * [[http://docs.angularjs.org/api/ng.directive:ngHide|ngHide]] - Just the opposite of ngShow.
+  * [[http://docs.angularjs.org/api/ng.directive:ngSwitch|ngSwitch]] - Used when you need to do multiple ngShows, you can essentially switch between different DOM elements depending on boolean expression. It also has a [[http://plnkr.co/edit/qm3EUM?p=preview|change attribute which can equate to function]] that is fired every time the switch expression is checked.
+  * [[http://docs.angularjs.org/api/ng.directive:ngRepeat|ngRepeat]] - Use this to repeat or list out elements based on a collection of items. This also creates its own scope and exposes several scope properties to determine the list properties.
+  * [[http://docs.angularjs.org/api/ngSanitize.directive:ngBindHtml|ngBindHtml]] & [[http://docs.angularjs.org/api/ng.directive:ngBindHtmlUnsafe|ngBindHtmlUnsafe]] - These are what you use when you need to bind raw HTML to the scope. You can't just interpolate them normally, or else Angular will think of them as text, and not HTML. The ''ngBindHtml'' requires the [[http://docs.angularjs.org/api/ngSanitize|ngSanitize module]].
+  * [[http://docs.angularjs.org/api/ng.directive:ngClass|ngClass]] - Use this to apply a CSS class to the DOM element, the passed in parameters could be a space delimited string of class names, array of class names, or object map of class names to model booleans. Essentially you will be able to set CSS classes dynamically without creating a whole new custom directive. This [[http://stackoverflow.com/a/13813255/582917|Stackoverflow post goes into detail of using ngClass and ngStyle]].
+  * [[http://docs.angularjs.org/api/ng.directive:ngStyle|ngStyle]] - Use this to apply styles directly to a DOM element. However you should be using ngClass as much as possible and prevent writing CSS in your javascript.
+  * [[http://docs.angularjs.org/api/ng.directive:ngClick|ngClick]] - Use this to bind a callback function to a click event.
+  * [[http://docs.angularjs.org/api/ng.directive:ngHref|ngHref]] - Used when you need to interpolate a link in the ''href'' attribute such as anchor links.
+  * [[http://docs.angularjs.org/api/ng.directive:ngSrc|ngSrc]] - Used when you need to interpolate a link in the ''src'' attribute such as images.
+  * [[http://docs.angularjs.org/api/ng.directive:ngNonBindable|ngNonBindable]] - Use this when you're writing code that may be interpreted by AngularJS and you actually don't want Angular to interpret it.
+  * [[http://docs.angularjs.org/api/ng.directive:ngPluralize|ngPluralize]] - Used to automatically pluralisation like when you need to display how many people is viewing or doing something at a time.
 
-ng-switch
+Forms have a special place in AngularJS as they are the primary way of interacting with web applications. Therefore AngularJS augments the forms in a number of ways. Refer to the [[http://docs.angularjs.org/api/ng.directive:form|form documentation for more information]], remember that each form input tag such as select and textarea all have their unique AngularJS directives. Here are number of commonly used form directives with forms. Some of these directives are only required if you're going them be based on conditional model properties. Like for example, if you need to dynamically determine if a form input is required or not, you can use the [[https://github.com/angular/angular.js/issues/1202#issuecomment-9927346|ngRequired]], however if it's always going to be required, then you can just skip that and use the HTML5 ''required'' attribute by itself.
 
-ng-show
+  * [[http://docs.angularjs.org/api/ng.directive:ngSubmit|ngSubmit]] - When you're submitting a form, you probably want to submit it through AngularJS so it can do an AJAX XHR POST request or PUT request. You'll need the ngSubmit directive on the form tag to specify a expression to evaluate when someone hits the submit button. This will prevent the default action of the browser submitting the form.
+  * [[http://docs.angularjs.org/api/ng.directive:input|Input]] - AngularJS augments the HTML input tag with a number of native directives. Most of it is due to the fact that you may wish to interpolate boolean values from the model, and you cannot just use the normal attributes of the input tag.
+  * [[http://docs.angularjs.org/api/ng.directive:ngModel|ngModel]] - When using forms, you have to use ngModel to bind the input's data to a scope property. This can be used for check boxes and radios, and can be immediately linked to a ''$scope'' property defined in the controller or any other directives relying on the input's data change.
+  * [[http://docs.angularjs.org/api/ng.directive:ngDisabled|ngDisabled]] - Used to disable or enable a form input based on an AngularJS model property/expression.
+  * [[http://docs.angularjs.org/api/ng.directive:ngReadonly|ngReadonly]] - Used to make a form input only read only based on an AngularJS model property/expression.
+  * [[http://docs.angularjs.org/api/ng.directive:ngChange|ngChange]] - Run a expression every time a form input changes, this relies on ngModel being declared on the same element.
+  * [[http://docs.angularjs.org/api/ng.directive:ngSelected|ngSelected]] - Select the correct option from a select drop down based on interpolated model properties. This is used on the option tag.
 
-ng-repeat
-
-ng-if (from Angular UI)
-
-http://stackoverflow.com/questions/13813254/how-do-i-conditionally-apply-css-styles-in-angularjs
-
-http://stackoverflow.com/questions/7792652/what-is-the-best-way-to-conditionally-apply-a-class-with-angularjs
+The Angular UI project also contains a number of directives useful for conditions. One of them is the [[http://angular-ui.github.com/|ngIf directive]], which does a similar thing to ngShow, but it actually removes it completely from the DOM. This is less efficient than just hiding it, however it will affect DOM traversal because the elements will literally no longer exist in the DOM.
 
 === Inspiration ===
 
-There are a number of pre-made directives for AngularJS that developers have released open source. You can find inspiration for interesting directives and perhaps integrate them into your application. Here are various sources of directives:
+There are a number of pre-made directives for AngularJS that developers have released open source. You can find inspiration for interesting directives and perhaps integrate them into your application. Here are various sources of directives and information on creating directives:
 
   * [[http://deansofer.com/posts/view/14/AngularJs-Tips-and-Tricks-UPDATED|AngularJS Tips & Tricks]]
   * [[https://github.com/andreev-artem/angular_experiments|Angular Experiments]]
   * [[http://angular-ui.github.com/|Angular UI]]
+  * [[http://angular-ui.github.com/ng-grid/|Angular UI ngGrid]] - For table related directives.
   * [[http://angular-ui.github.com/bootstrap/|Angular UI Strap]] - For Twitter Bootstrap directives
   * [[https://github.com/petebacondarwin/AngularJS-Directives-Presentation|AngularJS Directives Presentation]]
+  * [[http://onehungrymind.com/angularjs-and-dom-manipulation/|Basic animation with directives]]
+  * [[http://onehungrymind.com/angularjs-directives-basics/|Animating balls with directives]]
 ==== Templating ====
 
-Client side templates vs Serverside templates
+Templates in AngularJS can specified in multiple ways. They can be stored on the server, and be requested on demand by AngularJS through a RESTful API. You will simply have to use a relative ''templateUrl'' in your routing or directives to acquire them. You should then [[http://docs.angularjs.org/api/ng.$templateCache|cache those templates]] (see the [[http://plnkr.co/edit/J6Y2dc?p=preview|Plunker demo that caches templates on the run configuration]]). The second way would be to embed the client side templates into the HTML on the first page load. This would bring all of the templates into the user's browser, and there will be no need to download templates on other page loads. Finally you can also write templates directly into the AngularJS javascript code, however this is not recommended as it mixes your concerns.
 
-Loading from server, or loading from client
+Most templates for most web applications are actually quite small. So we can just embed them on the first page load. The client side templates in AngularJS have to be wrapped in ''<script>'' tags like so:
 
-Structure on the server side, and load them using Template::partial
+<code html>
+<script type="text/ng-template" id="the_name_of_the_template.html">
+    <p>HTML template and AngularJS directives here</p>
+</script>
+</code>
+
+They can then be referenced using ''templateUrl'' through their id. For example in the routes:
+
+<code javascript>
+$routeProvider
+    .when(
+        '/',
+        {
+            templateUrl: 'the_name_of_the_template.html',
+            controller: 'TheControllerToBeBoundTo'
+        }
+    );
+</code>
+
+It is unnecessary to specify ''ng-controller'' in templates that are routed. The specified controller will automatically be assigned the root of your template partial.
+
+Now in order to embed these templates we can use the CiTemplating class's ''Template::asset();'' method to import the templates. Assuming that you placed your templates into the partial directory based on the CiTemplating's specified directory structure, you can bring all of the templates and embed them by simply writing this in your footer partial template:
+
+<code html>
+<!-- the first parameter is the path to the partials folder, the second parameter is the extension of the files we want, the third parameter is an array of negated files or directories -->
+<? Template::asset('application/views/partials', 'php', array('footer_partial.php', 'header_partial.php')) ?>
+</code>
+
+It may be recommended to cache outputted view file, since the templates hardly change, and the ''.htaccess'' file doesn't stipulate the browser to cache HTML files. Since we're using AngularJS the templates are separate from the content, so we can cache the HTML, instead the dynamic data from our JSON based RESTful API.
 ==== Services ====
 
-AngularJS services
+Services in AngularJS most represent the server side concept of models. Here's a list of common uses of services:
 
-https://gist.github.com/Mithrandir0x/3639232
+  * To act as mediators to a RESTful API.
+  * For inter-controller or inter-directive communication.
+  * To provide modularised global configuration.
+  * To intercept HTTP requests and provide global changes.
+  * To act as an event bus for your application.
+  * To wrap over third party library functions, so you can dependency inject and thus mock the dependencies during TDD. Like for example the event bus [[http://radio.uxder.com/|Radio.js]].
+  * To act as an AngularJS specific library.
+  * To interact with HTML5 APIs that deal with data storage or cache rather than DOM manipulation.
 
-Remember that $resource works with objects, it will always expect either an object to come back, or an array of objects (if it is $resource.query). You cannot have array of arrays, and array of primitives won't work either. However this can be overwritten, and you can use the $http service instead if you need more granular control.
+One key difference is that services are instantiated as singletons, when multiple controllers request a service, it is always the same service, not multiple instantiations. This helps for inter-controller communication.
 
-Also HTTP intercepting + intercepting for redirection!
+Services can be defined in three ways. The simplest is through the ''service'' function, and the most complex but flexible is the ''provider'' function. The one in between is the ''factory'' function, which is the one that is most commonly used. [[https://gist.github.com/Mithrandir0x/3639232|The three different styles is demonstrated by this Github gist]].
+
+This examples shows a service interacting with a RESTful API using the ''$resource'' service. The ''$resource'' services comes from a separate AngularJS module called ngResource. You'll need to load up that script file and load it as a module dependency.
+
+<code javascript>
+//assuming this in your footer <script src="js/vendor/angular-resource.min.js"></script>
+//write this in your bootstrapper in app.js
+var app = angular.module('App', [
+    'ngResource' //add ngResource to the list of dependent modules
+]);
+</code>
+
+You can then dependency inject the ''$resource'' object. [[http://docs.angularjs.org/api/ngResource.$resource|It provides an API that naturally maps to any RESTful design]]. However the PUT request is missing, so you will need to define it on the configuration object. Note that the ''$resource'' service works on objects, so the returned JSON data must be either a single object, or an array of objects, no primitives allowed. The ''query()'' function always expects an array of objects.
+
+<code javascript>
+'use strict';
+
+angular.module('Services')
+    .factory('CoursesServ', [ //<- name of the service will be dependency injected into a controller
+        '$resource', //<- dependency injecting the $resource
+        function($resource){
+            
+            //factories must return an object API to be usable, here we are returning a fully configured $resource object back to the controller or directive that dependency injects this CoursesServ service
+            return $resource(
+                'api/courses/:id', //here is the URL (relative) to the server, the ":id" is actually an optional parameter, that will appear when you specify it in the default configuration or the configuration when you use in the controller
+                {}, //default configuration (nothing here for now)
+                {
+                    update: {
+                        method: 'PUT', //this method doesn't exist by default, so we're adding in an update method
+                    }
+                }
+            );
+            
+        }
+    ]);
+</code>
+
+Now in your controller you can use this service like so:
+
+<code javascript>
+'use strict';
+
+angular.module('Controllers')
+    .controller('CoursesIndexCtrl', [
+        '$scope',
+        'CoursesServ',
+        function($scope, CoursesServ){
+            
+            //these examples won't demonstrate the .query function, this is because based on our RESTful convention, we're always going to get back an object map, rather than an array. However you are free to explore
+            
+            //get all the courses, get is part of the $resource object
+            CoursesServ.get(
+                {},
+                function(response){
+                    //this is the success callback
+                    console.log(response);
+                },
+                function(response){
+                    //fail callback (will activate on 400 or 500 status codes)
+                    console.log(response);
+                }
+            );
+            
+            //we can get a specific course, and pass in a parameter into the URL
+            CoursesServ.get(
+                { id: 2 },
+                function(response){},
+                function(response){}
+            );
+            
+            //any parameters specified that was not also part of the URL actually end up becoming query strings
+            CoursesServ.get(
+                { limit: 10, offset: 10 }, //will result in api/courses/?limit=10&offset=10
+                function(response){},
+                function(response){}
+            );
+            
+            //equivalent to POST
+            CoursesServ.save(
+                {},
+                { //<- this is the payload data
+                    courseName: '11 Weeks Weekly',
+                    courseDate: '12th April 2013'
+                },
+                function(response){
+                    //success function 
+                    console.log(response.status); 
+                },
+                function(response){}
+            );
+            
+            //now we're using our custom update method configured in the service
+            CoursesServ.update(
+                { id: 2 },
+                { //<- this is the payload data
+                    courseName: 'new name',
+                    courseDate: '14th April 2013'
+                },
+                function(response){
+                    //success function 
+                    console.log(response.status); 
+                },
+                function(response){}
+            );
+            
+            //and of course delete
+            CoursesServ.remove(
+                { id: 2 },
+                function(response){},
+                function(response){}
+            );
+            
+        }
+    ]);
+</code>
+
+All of the methods on the "$resource" object can be overwritten in its configuration. But sometimes you need a more granular control over your XHR requests. You can then use the "$http" service instead.
+
+Remember that $resource works with objects, it will always expect either an object to come back, or an array of objects (if it is $resource.query). You cannot have array of arrays, and array of primitives won't work either. However this can be overwritten, and you can use the [[http://docs.angularjs.org/api/ng.$http|$http service]] instead if you need more granular control.
+
+=== HTTP Intercepting via Run & Config Block Services ===
+
+Services is also where you can append configuration and run blocks to the application. In your ''app.js'' file, you have global configuration and global run blocks. These can actually be abstracted to the services, and they just have to be loaded as dependencies to the main module. In fact you can have multiple configuration and run blocks across multiple services and they will all be combined when the application is initialised. This is important as you may wish to have services that intercept HTTP requests and responses. The application of HTTP intercepting includes authentication (login/logout events), HTTP error handling, and state transition based on the state of the HTTP request, or any application events based on HTTP status. The intercepting process can only be done in the configuration block, as this is when the ''$httpProvider'' is available for configuration, however global event broad casting can only be done in the run configuration as that is when the ''$rootScope'' is available.
+
+Here is an example of a configuration block inside a service that intercepts HTTP responses and checks their HTTP status, and creates a corresponding array of messages. These messages are then configured as value based services and added to the dependency injector. This is done through the [[http://docs.angularjs.org/api/AUTO.$provide|"$provide" service]], which is the actually the backbone of creating services to be dependency injected. When you write a service on a module, those are just convenience functions that actually use the ''$provide'' in the background. You should investigate these [[http://slides.wesalvaro.com/20121113/#/|slides on the "$provide" service to find out more]].
+
+<file javascript ErrorResponse.Service.js>
+'use strict';
+
+/**
+ * Response Handler for Error Codes across all HTTP requests to show an alert box!
+**/
+angular.module('Services')
+    .config([ //<-  config phase to acquire the $httpProvider service
+        '$provide', //<- the provide service is only available in the configuration block, it allows the creation of services, factories, providers, values, constants and decorators
+        '$httpProvider', //<- you can only inject Providers in config blocks
+        function($provide, $httpProvider){
+        
+            //model variable...
+            var httpMessages = [];
+            
+            //bind the httpMessages array to the httpMessages key so it can be dependency injected
+            //the $provide configures the dependency injector, this is because we don't actually want to dependency inject this ErrorResponse handler, but instead it's output
+            $provide.value('httpMessages', httpMessages);
+            
+            //we are using the responseInterceptors function to push in interceptors, as there could be multiple interceptors
+            //$q is a promise implementation allowing us to pass a promise of a future value even if it doesn't exist currently
+            $httpProvider.responseInterceptors.push(['$q', function($q) {
+            
+                //we are in the interceptor that is being added to the list of responseInterceptors
+                
+                //we have to return a function that accepts a promise parameter, and return the original or new promise
+                
+                return function(promise) {
+                
+                    //here we are using a promise and applying a then function 
+                    return promise.then( //<- then is part of the promise API
+                        function(successResponse) { //<- successResponse is actually being passed in from previous interceptors, so you can stack interceptors
+                            
+                            //we only want to show anything that wasn't a GET based request
+                            //these allow you show messages, you don't have to show these types though (because usually not required)
+                            
+                            //here I'm intercepting the HTTP method for the success, because the same 200 code could be used for multiple success states
+                            switch(successResponse.config.method.toUpperCase()){
+                                case 'GET':
+                                    httpMessages.push({
+                                        message: 'Successfully Received',
+                                        type: 'success'
+                                    });
+                                    break;
+                                case 'POST':
+                                    httpMessages.push({
+                                        message: 'Successfully Posted',
+                                        type: 'success'
+                                    });
+                                    break;
+                                case 'PUT':
+                                    httpMessages.push({
+                                        message: 'Successfully Updated',
+                                        type: 'success'
+                                    });
+                                    break;
+                                case 'DELETE':
+                                    httpMessages.push({
+                                        message: 'Sucessfully Deleted',
+                                        type: 'success'
+                                    });
+                                    break;
+                            }
+                            
+                            
+                            return successResponse;
+
+                        },
+                        function(failureResponse) {
+                            
+                            //here I'm intercepting the actual HTTP status
+                            switch(failureResponse.status){
+                                case 400: //show validation error messages then!
+                                    httpMessages.push({
+                                        message: 'Validation failed, try tweaking your submission.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 401: //for ionauth authentication, will need to redirect to login screen, or modal box
+                                    httpMessages.push({
+                                        message: 'Unauthorised request, try logging in.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 403: //returned by server for resources the user should not be able to access directly
+                                    httpMessages.push({
+                                        message: 'You can\'t access this.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 404:
+                                    httpMessages.push({
+                                        message: '404, sorry could not find what you were looking for.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 405:
+                                    httpMessages.push({
+                                        message: 'The requested method was incompatible with the requested resource.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                case 500:
+                                    httpMessages.push({
+                                        message: 'There was a server error, try again later, or contact the owners.',
+                                        type: 'failure'
+                                    });
+                                    break;
+                                default:
+                                    httpMessages.push({
+                                        message: failureResponse.status + ' General error processing the request',
+                                        type: 'failure'
+                                    });
+                            }
+                            
+                            //we have return the $q promise as it will be passed onto to other interceptors
+                            return $q.reject(failureResponse);
+                            
+                        }
+                    );
+                    
+                };
+                
+            }]);
+        
+        }
+    ]);
+</file>
+
+=== Promises in Interceptors ===
+
+The HTTP interceptors rely on the [[http://docs.angularjs.org/api/ng.$q|"$q" implementation of promises]]. [[http://wiki.commonjs.org/wiki/Promises/A|Promises]] were designed to solve the problem of asynchronous programming. When we do asynchronous operations and parallel operations on a single threaded environment like browser based javascript, any subsequent follow up operations need to be ran as a callback. The problem comes when there are multiple subsequent follow ups, it forces us to write in a [[wp>Continuation-passing style|continuation passing style]], essentially the code becomes a mountain of callbacks calling callbacks. This is error prone, ugly and difficult to maintain. Promises provide an API that abstracts away the callback mess.
+
+Interceptors are essentially a callback chain for an asynchronous operation which in this case is an XHR request. So we're essentially pushing an interceptor function to the array of interceptors, because there could be multiple interceptors. Each interceptor function returns a function that accepts a promise and returns the promise. [[wp>Futures and promises|The promise variable represents the eventual future value that has not yet been fully computed]]. The promise parameter is passed in from the previous returned promise from the previous interceptor function. The current returned promise will be passed to the next promise parameter in the next interceptor. This allows a clear chaining of interceptors.
+
+These promises are "thenable" meaning we can use a ''then()'' function that accepts a success function parameter and fail function parameter. If a success function determines that its input is incorrect, in can reject the response, and so in the next promise, the control flow will jump to the fail function. A fail function can handle the response and then return a normal response indicating that it has handled the failure, so in the next promise, the control flow will jump back to the success function. [[http://domenic.me/2012/10/14/youre-missing-the-point-of-promises/|You can start to see that promises are not a mechanism for chaining up callback functions, but are also intended to provide an elegant control flow system]], so successes can throw errors which will be caught by the next failure which can handle it and pass it to the next success. If a success simply passes the success, than on the next control flow, it will stay on the success lane.
+
+In the ''ErrorResponse.Service.js'' example, we're simply adding a message based on the status of the request, therefore we're not mutating the response in any way. So we're not jumping any lanes, that's why the success function simply returns back the response, and in the failure function, we return a rejection.
+
+All the functions that are part of the ''then()'' in the promise will be evaluated one by one (synchronously) when the initial XHR handler calls ''$q.resolve()''. Until then however, these functions are simply defined but not executed.
+
+There will be more on promises, continuation passing style and asynchronous operations in the [[#events_asynchronous_programming|Events and Asynchronous Programming section]], you just have to accept the way it's being used here.
 ===== Authentication =====
 
-http://www.espeo.pl/2012/02/26/authentication-in-angularjs-application
+Authentication on the client side depends on your server side configuration of authentication. Supporters of single page applications usually recommend using Oauth 2.0 for your authentication schemes, as that allow multiple client consumers of your server side application, especially since session based cookies only work on the browser. In that case you should look into integrating [[https://github.com/andreassolberg/jso/tree/version2|JSO library, which is a javascript library for managing Oauth authentication]]. You should wrap it's API in an Angular service.
 
-https://github.com/andreassolberg/jso/tree/version2
+However if you're working on a session based cookie authentication system, client side authentication is simply a matter of intercepting HTTP responses for their status code, we need to check for a [[wp>HTTP 403|403 status code]]. This means that the user tried to access a resource that needed authentication. Note that the 403 is not the same as a 401. 401 is used for [[wp>Basic access authentication|HTTP based authentication]]. If you have a session based authentication system, so 401 is not suitable, you will need to respond with a 403 status code on the server. Once Angular detects this 403 code, you either save his current URL state, redirect to a login page, when they login, redirect back to where they were. However if you have more complex UI states, where one could be on a page where there are publicly available resources and authenticated resources present at the same time, you may need to save all the 403 requests, display a login modal box, and when the person logs in, resend all the 403 requests so that the person can keep working on the same page. One example would be like a dashboard in which someone clicks on a button that opens up some authenticated resource, this would show a login modal box, when the person logs in, the modal box disappears, the request is resent, and the resource comes back properly from the server.
 
+We'll attempt to do both styles here:
 ===== BOM & DOM =====
 
 Using jQuery for DOM manipulation or jQLite
@@ -1879,32 +2222,91 @@ Cookies.. etc
 
 Location object...
 
-===== Events & Asynchronous =====
+===== Events & Asynchronous Programming =====
 
-Asyncrhonous callbacks
+Firstly Javascript is always synchronous. The event loop, is a long running queue of tasks to do. The only parts of javascript that is asynchronous is the I/O APIs exposed by the browser and the setTimeout and setInterval methods.
 
-Using promises
+Also Asynchronous NOT EQUAL concurrency.
 
-http://stackoverflow.com/questions/15207788/calling-a-function-when-ng-repeat-has-finished
+Also managing asynchronous code:
 
-http://jsfiddle.net/VxafF/
+1. Continuation Passing Style of Callbacks (usually when using APIs/SetTimeOut)
+
+2. Events (either using DOM based events (include the custom events.. etc), when the processing and handling needs to be distributed and isolated like Pub/Sub) OR using a custom event bus which simply keeps a list of callbacks to call when it receives an event.
+
+3. Using promises - Provides an an API to manage CPS
+
+4. Uses async.js (to manage callback chaining) - Provides another API to manage CPS
+
+5. Using setTimeout(fn, 0) or $timeout(fn, 0) to yield the function, or do bits and pieces code breaking up the execution of your large function to allow the browser to catch up)
+
+For true concurrency: look at web workers. The code is still executed synchronously in the end.
+
+Priority is important too!
+
+
+http://ejohn.org/blog/how-javascript-timers-work/
+
+http://stackoverflow.com/questions/4574940/settimeout-with-zero-delay-used-often-in-web-pages-why
+
+http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
+
+http://stackoverflow.com/questions/3294281/asynchronous-programming-in-javascript-not-ajax
+
+http://stackoverflow.com/questions/8982489/how-does-asynchronous-programming-work-in-a-single-threaded-programming-model
+
+http://www.html5rocks.com/en/tutorials/async/deferred/
+
+Links on promises:
+
+http://www.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript
+
+http://stackoverflow.com/questions/6801283/what-are-the-differences-between-deferred-promise-and-future-in-javascript
+'
+http://flaviocopes.com/deferred-and-promises-in-javascript/
+
+http://blogs.msdn.com/b/ie/archive/2011/09/11/asynchronous-programming-in-javascript-with-promises.aspx
+
+https://github.com/kriskowal/uncommonjs/blob/master/promises/specification.md
+
+http://www.javascriptturnsmeon.com/promises-in-javascript/
+
+http://blog.thepete.net/blog/2011/07/02/javascript-promises/
+
+http://blog.danielpecos.com/2013/01/javascript-promises-101/
+
+http://domenic.me/2012/10/14/youre-missing-the-point-of-promises/
+
+http://www.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript
+
+http://blogs.msdn.com/b/ie/archive/2011/09/11/asynchronous-programming-in-javascript-with-promises.aspx
 ===== AJAX =====
 
-Using AngularJS resources and HTTP get
-
-Also HTTP  Interceptors
+Raw AJAX XHR open.. etc
 
 Long polling, short polling
 
-AJAX authentication and validation
+==== SEO for AJAX  ====
+
+HTML fragments
+
+Year of Moo
+
 ===== HTML5 APIs =====
 
 Browser level (for other stuff)
 
-Web Workers
-
 [[http://platform.html5.org/|List of HTML5 APIs]]
 
+==== Client Side Storage ====
+
+In the past before HTML5, the management of state/storage on the browser was limited to Browser Cache, Cookies, Headers, Query Parameters, or the Browser Daemon.
+
+However with HTML5, we have access to localStorage, IndexedDB, WebSQL and File API.
+
+==== Concurrent Processing ====
+
+Using WebWorkers
 ===== Dependency Management & Script Loaders =====
 
 Dependency Injection in AngularJS, and structuring in terms of modules.
@@ -1916,18 +2318,15 @@ Require.js or HeadJS
 Performance of minification, so minification vs asynchronous! Can work with Angular.
 
 http://www.peterbe.com/plog/requirejs-vs-headjs
+
 ===== Real Time Web =====
 
 Web Sockets using AutobahnJS and WAMP
 
 Operational Transformation using ShareJS
 
-===== Canvas =====
+===== Non-Browser Platforms =====
 
-2D graphics and EaselJS and Kinetic.JS
+Desktop: TideSDK or AppJS
 
-Also usage of D3.
-
-===== WebGL =====
-
-Using three.js!
+Mobile: Appcelerator or Phonegap
