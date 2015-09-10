@@ -10,3 +10,17 @@ data
 conf
 lib/plugins
 ```
+
+Heroku Deployment:
+
+```sh
+heroku login
+
+heroku create devhub-wiki-X
+
+git push heroku master
+
+heroku open
+
+heroku logs
+```

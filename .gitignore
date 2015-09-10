@@ -16,3 +16,5 @@ data/locks/*
 !data/locks/.gitkeep
 data/tmp/*
 !data/tmp/.gitkeep
+vendor
+bin
