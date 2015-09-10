@@ -1,10 +1,12 @@
-You are currently hosting this on Pagodabox
-To push to Pagodabox, you need to add the remote (check documentation), push --all
-You need to have an SSH key between Pagodabox and your git installation. This can be generated (check pagoda's documentation) and added
-Files in:
+Devhub for Polycademy
+=====================
+
+Runs on top of Dokuwiki. Which means it needs writable directories for editing.
+
+The directories that need to be writable are:
+
+```
 data
 conf
 lib/plugins
-are all in shared writable directories
-These are not handled by the git push, so when there is an update to the wiki on either side, there needs to be a git reconciliation AND a ssh sharable directory reconciliation.
-Conflicts will not be handled easily, so only modify one at a time, and always reconcile after writing
+```
