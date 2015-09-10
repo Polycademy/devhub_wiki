@@ -2,11 +2,17 @@
 ## Custom
 #################
 
+# .../* ignores all files inside a directory
+# ! negates the ignoring and keeps the .gitkeep file
+# these folders contain temporary files that don't need to be kept in the repository
+
 data/index/*
 !data/index/.gitkeep
 data/cache/*
 !data/cache/.gitkeep
 data/meta/*
 !data/meta/.gitkeep
+data/locks/*
+!data/locks/.gitkeep
 data/tmp/*
 !data/tmp/.gitkeep
