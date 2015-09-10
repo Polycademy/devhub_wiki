@@ -1,9 +1,0 @@
-<span class="kw2">&lt;?php</span> <a href="http://www.php.net/defined"><span class="kw3">defined</span></a><span class="br0">&#40;</span><span class="st_h">'BASEPATH'</span><span class="br0">&#41;</span> OR <a href="http://www.php.net/exit"><span class="kw3">exit</span></a><span class="br0">&#40;</span><span class="st_h">'No direct script access allowed'</span><span class="br0">&#41;</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;Example Page!&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;p&gt;Hello!&lt;/p&gt;
-    &lt;/body&gt;
-&lt;/html&gt;

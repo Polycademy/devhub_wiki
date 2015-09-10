@@ -1,8 +1,0 @@
-$routeProvider
-    .<span class="me1">when</span><span class="br0">&#40;</span>
-        <span class="st0">'/blog'</span><span class="sy0">,</span>
-        <span class="br0">&#123;</span>
-            templateUrl<span class="sy0">:</span> <span class="st0">'blog_index.html'</span><span class="sy0">,</span> <span class="co1">//&lt;- don't worry about this yet, this comes from an embedded template</span>
-            controller<span class="sy0">:</span> <span class="st0">'BlogIndexCtrl'</span> <span class="co1">//&lt;- here is our controller that is being routed to when the URL is at &quot;/blog&quot;</span>
-        <span class="br0">&#125;</span>
-    <span class="br0">&#41;</span><span class="sy0">;</span>

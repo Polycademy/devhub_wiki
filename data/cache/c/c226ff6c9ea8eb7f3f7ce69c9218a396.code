@@ -1,9 +1,0 @@
-<span class="co1">//use 'namespace' to define the namespace for the current code</span>
-<span class="kw2">namespace</span> Polycademy\MissonChecker<span class="sy0">;</span>
-&nbsp;
-<span class="co1">//use 'use' to import other namespaces into the code or as an alias</span>
-<span class="co1">//the use command cannot import functions or constants, which is why we follow OOP</span>
-<span class="kw2">use</span> Polycademy\Abstracts\aArmor<span class="sy0">;</span>
-&nbsp;
-<span class="co1">//rest of the code here...</span>
-<span class="kw2">class</span> SomeClass <span class="kw2">extends</span> aArmor<span class="br0">&#123;</span><span class="br0">&#125;</span>

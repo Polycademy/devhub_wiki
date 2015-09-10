@@ -1,9 +1,0 @@
-<span class="coMULTI">/*
- * --------------------------------------------------------------------
- * LOAD COMPOSER
- * --------------------------------------------------------------------
- */</span>
-<span class="kw1">include_once</span> <span class="st_h">'./vendor/autoload.php'</span><span class="sy0">;</span>
-&nbsp;
-&nbsp;
-<span class="co2">#ALSO WE NEED TO SEE HOW TO AUTOLOAD normally.</span>

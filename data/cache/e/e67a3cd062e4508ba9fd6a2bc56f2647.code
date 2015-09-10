@@ -1,7 +1,0 @@
-<span class="co1">//pre_system autoloader</span>
-<span class="re0">$hook</span><span class="br0">&#91;</span><span class="st_h">'pre_system'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
-    <span class="st_h">'class'</span> <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader'</span><span class="sy0">,</span>
-    <span class="st_h">'function'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'__construct'</span><span class="sy0">,</span>
-    <span class="st_h">'filename'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'Autoloader.php'</span><span class="sy0">,</span>
-    <span class="st_h">'filepath'</span>  <span class="sy0">=&gt;</span> <span class="st_h">'hooks'</span><span class="sy0">,</span>
-<span class="br0">&#41;</span><span class="sy0">;</span>

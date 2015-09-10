@@ -1,2 +1,0 @@
-<span class="sc-1">&lt;!-- the first parameter is the path to the partials folder, the second parameter is the extension of the files we want, the third parameter is an array of negated files or directories --&gt;</span>
-<span class="sc2">&lt;? Template::asset<span class="br0">&#40;</span><span class="st0">'application/views/partials'</span>, <span class="st0">'php'</span>, array<span class="br0">&#40;</span><span class="st0">'footer_partial.php'</span>, <span class="st0">'header_partial.php'</span><span class="br0">&#41;</span><span class="br0">&#41;</span> ?&gt;</span>

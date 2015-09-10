@@ -1,1 +1,0 @@
-Template<span class="sy0">::</span><span class="me2">partial</span><span class="br0">&#40;</span><span class="st_h">'row'</span><span class="sy0">,</span> <span class="re0">$row_data</span><span class="sy0">,</span> <span class="kw4">true</span><span class="br0">&#41;</span><span class="sy0">;</span>

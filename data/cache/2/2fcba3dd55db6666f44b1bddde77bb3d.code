@@ -1,3 +1,0 @@
-<span class="kw2">namespace</span> Polycademy\Abstracts<span class="sy0">;</span>
-&nbsp;
-<span class="kw2">abstract</span> aArmor<span class="br0">&#123;</span><span class="br0">&#125;</span>

@@ -1,9 +1,0 @@
-<span class="kw2">class</span> BaseClass <span class="br0">&#123;</span>
-   <span class="co1">//finalised method</span>
-   final <span class="kw2">public</span> <span class="kw2">function</span> do_something<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>
-<span class="br0">&#125;</span>
-&nbsp;
-<span class="co1">//finalised class</span>
-final <span class="kw2">class</span> NoChildren<span class="br0">&#123;</span>
-   <span class="kw2">public</span> <span class="kw2">function</span> do_something<span class="br0">&#40;</span><span class="br0">&#41;</span> <span class="br0">&#123;</span><span class="br0">&#125;</span>
-<span class="br0">&#125;</span>

@@ -1,8 +1,0 @@
-<span class="sc2">&lt;<a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>
-    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> ng-controller<span class="sy0">=</span><span class="st0">&quot;GreetCtrl&quot;</span>&gt;</span>Hello {{name}}!<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-    <span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> ng-controller<span class="sy0">=</span><span class="st0">&quot;ListCtrl&quot;</span>&gt;</span>
-        <span class="sc2">&lt;<a href="http://december.com/html/4/element/ol.html"><span class="kw2">ol</span></a>&gt;</span>
-            <span class="sc2">&lt;<a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a> ng-repeat<span class="sy0">=</span><span class="st0">&quot;name in names&quot;</span>&gt;</span>{{name}}<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/li.html"><span class="kw2">li</span></a>&gt;</span>
-        <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/ol.html"><span class="kw2">ol</span></a>&gt;</span>
-    <span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
-<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/body.html"><span class="kw2">body</span></a>&gt;</span>

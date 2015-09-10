@@ -1,9 +1,0 @@
-<span class="kw1">CREATE</span> <span class="kw1">TABLE</span> pages <span class="br0">&#40;</span>
-  id <span class="kw1">INT</span><span class="br0">&#40;</span><span class="nu0">10</span><span class="br0">&#41;</span> <span class="kw1">UNSIGNED</span> <span class="kw1">NOT</span> <span class="kw1">NULL</span> <span class="kw1">AUTO_INCREMENT</span><span class="sy0">,</span>
-  url text <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
-  title text <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
-  content text <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
-  updated datetime <span class="kw1">NOT</span> <span class="kw1">NULL</span><span class="sy0">,</span>
-  <span class="kw1">PRIMARY</span> <span class="kw1">KEY</span>  <span class="br0">&#40;</span>id<span class="br0">&#41;</span><span class="sy0">,</span>
-  FULLTEXT <span class="kw1">KEY</span> content <span class="br0">&#40;</span>content<span class="br0">&#41;</span>
-<span class="br0">&#41;</span> ENGINE<span class="sy0">=</span>MyISAM

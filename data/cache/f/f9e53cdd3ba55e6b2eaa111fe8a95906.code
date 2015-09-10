@@ -1,1 +1,0 @@
-<span class="re0">$autoload</span><span class="br0">&#91;</span><span class="st_h">'config'</span><span class="br0">&#93;</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="st_h">'ioc'</span><span class="br0">&#41;</span><span class="sy0">;</span>

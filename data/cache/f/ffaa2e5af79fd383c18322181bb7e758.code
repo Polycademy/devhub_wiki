@@ -1,5 +1,0 @@
-<span class="sy0">&lt;</span>div <span class="kw2">class</span><span class="sy0">=</span><span class="st0">&quot;main&quot;</span><span class="sy0">&gt;</span>
-    <span class="sy0">&lt;</span>div <span class="kw2">class</span><span class="sy0">=</span><span class="st0">&quot;container&quot;</span><span class="sy0">&gt;</span>
-        <span class="sy0">&lt;</span>div ng<span class="sy0">-</span>view<span class="sy0">&gt;&lt;/</span>div<span class="sy0">&gt;</span>
-    <span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span>
-<span class="sy0">&lt;/</span>div<span class="sy0">&gt;</span>

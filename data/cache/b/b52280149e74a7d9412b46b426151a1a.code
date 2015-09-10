@@ -1,7 +1,0 @@
-<span class="re0">$view_data</span> <span class="sy0">=</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span>
-    <span class="st_h">'header'</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
-    <span class="st_h">'footer'</span> <span class="sy0">=&gt;</span> <a href="http://www.php.net/array"><span class="kw3">array</span></a><span class="br0">&#40;</span><span class="br0">&#41;</span><span class="sy0">,</span>
-    <span class="st_h">'data'</span> <span class="sy0">=&gt;</span> <span class="st_h">'data_value'</span><span class="sy0">,</span>
-    <span class="co1">//... etc</span>
-<span class="br0">&#41;</span><span class="sy0">;</span>
-Template<span class="sy0">::</span><span class="me2">compose</span><span class="br0">&#40;</span><span class="st_h">'index'</span><span class="sy0">,</span> <span class="re0">$view_data</span><span class="br0">&#41;</span><span class="sy0">;</span>

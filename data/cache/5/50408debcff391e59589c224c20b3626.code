@@ -1,7 +1,0 @@
-<span class="sc-1">&lt;!-- Pass in PHP variables to Javascript --&gt;</span>
-<span class="sc2">&lt;<a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>
-    var serverVars = {
-        baseUrl: '<span class="sc2">&lt;?<span class="sy0">=</span> base_url<span class="br0">&#40;</span><span class="br0">&#41;</span> ?&gt;</span>',
-        csrfCookieName: '<span class="sc2">&lt;?<span class="sy0">=</span> $this-&gt;</span>config-&gt;item('cookie_prefix') . $this-&gt;config-&gt;item('csrf_cookie_name') ?&gt;'
-    };
-<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/script.html"><span class="kw2">script</span></a>&gt;</span>

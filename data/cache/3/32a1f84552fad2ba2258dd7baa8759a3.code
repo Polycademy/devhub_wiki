@@ -1,9 +1,0 @@
-<span class="co2">#this is a comment
-</span><span class="co1">//this is also a comment, most libraries use the // style because it looks nicer. Many languages use the // instead of the # so it keeps things consistent.</span>
-<span class="coMULTI">/*
-This
-is
-a
-multiline
-comment
-*/</span>

@@ -1,8 +1,0 @@
-&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;Example Page!&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;p&gt;Hello! <span class="sy1">&lt;?</span> <span class="kw1">echo</span> <span class="st_h">'World!'</span><span class="sy0">;</span> <span class="sy1">?&gt;</span>&lt;/p&gt;
-    &lt;/body&gt;
-&lt;/html&gt;

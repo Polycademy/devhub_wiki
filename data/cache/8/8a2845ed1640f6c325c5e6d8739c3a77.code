@@ -1,3 +1,0 @@
-<span class="sc2">&lt;<a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a> camel-cased-directive-name-<span class="kw3">dir</span><span class="sy0">=</span><span class="st0">&quot;parameterToGoIntoTheDirective&quot;</span> another-directive-can-be-attached-too-dir&gt;</span>
-<span class="sc-1">&lt;!-- It is possible to have data and child elements in here too, they would need to be transcluded. --&gt;</span>
-<span class="sc2">&lt;<span class="sy0">/</span><a href="http://december.com/html/4/element/div.html"><span class="kw2">div</span></a>&gt;</span>
