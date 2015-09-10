@@ -24,3 +24,5 @@ heroku open
 
 heroku logs
 ```
+
+Eligible students can access it now at https://devhub-wiki.herokuapp.com/doku.php
