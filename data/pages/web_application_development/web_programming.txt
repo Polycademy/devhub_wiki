@@ -21,7 +21,7 @@ PHP:
 
   * [[http://www.php.net/manual/en/index.php|PHP.net]] - You do not need to read the whole manual. Instead use it as a reference for a particular function or object. The best way to search PHP.net is to use google. Please note the PHP version that you're running. Not all hosts run the most latest PHP version, and the versions between your development and host server may be different. You'll need to find the lowest common denominator.
   * [[http://prototype.php.net/manual/en/|Protoype PHP.net]] - This is a better starting point to get acquainted with the operators and functions of PHP.
-  * [[http://phpbounce.aws.af.cm|PHP Bounce]] - You should also try this application built in Polycademy. It is also a good tool to test out syntax, without loading up a web server.
+  * [[http://phpbounce.aws.af.cm|PHP Bounce]] - You should also try this application built in Polycademy. It is also a good tool to test out syntax, without loading up a web server. Make sure to use the Chrome browser.
   * [[http://www.phptherightway.com/|PHP The Right Way]]
 
 Javascript:
@@ -90,8 +90,3 @@ As you get deeper into software development, your workflow becomes important. An
 
   * [[Software Development Workflow]]
 
-===== External Code Libraries and Web Services =====
-
-A common philosophy among developers is to not reinvent the wheel. If someone else has created a library or framework that makes some task easier or more battle tested, then use their solution. This section contains a list of notable code libraries and web services that you can take advantage so you can develop faster.
-
-  * [[External Code Libraries and Web Services]]

@@ -1,8 +1,0 @@
-====== Long Term Road Map ======
-
-This is the roadmap of Polycademy. In no particular order.
-
-  * Expand to Sydney.
-  * Expand to Single Page Application Course focusing Node.js and Angular.js
-  * Expand to Hardware Hacking Course.
-  * Expand to 3D printing course.

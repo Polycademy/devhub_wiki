@@ -6,7 +6,7 @@ Javascript is a multi-paradigm language, that contains all of the features of a 
 
 In traditional non-threaded environment, [[http://stackoverflow.com/a/748189/582917|code is executed synchronously]]. In a multi-threaded environment, code can be executed in parallel. Javascript is mainly operated inside a browser which offers a single thread of execution, therefore javascript is not multi-threaded ([[http://www.html5rocks.com/en/tutorials/workers/basics/|except for Web Workers]]). This presents a bit of a problem for GUI programming, which is what javascript is mainly used for in browsers. Any complex or long running process in javascript will freeze the GUI making it non responsive. For javascript to be dynamic and good at rendering GUIs, it needs to be asynchronous. But multi-threading is a complex programming paradigm and it is a bit of an overkill for simple GUI applications. Therefore browsers offered event driven asynchronous APIs such as XHR for AJAX requests, and the javascript language itself can be event driven. This means that certain code blocks such as functions are bound to a particular event or signal, so the structure of the written code does not map directly to the flow of execution. The browser also offers an event handler that is running an event loop, this allows javascript to hook into the event loop through asynchronous callbacks. This basically means that the [[http://stackoverflow.com/questions/8963209/does-async-programming-means-multi-threading|flow of execution can move on to another function or statement without waiting for the previous function to complete]].
 
-It is recommended while working through javascript, to practice them using the real time coding service [[http://beta.plnkr.co/|Plunker]]. Also make sure to have your Firebug or Chrome web developer tools open to the console tab. You'll be able to see logs and write javascript directly into your browser.
+It is recommended while working through javascript, to practice them using the real time coding service [[http://plnkr.co/|Plunker]]. Also make sure to have your Firebug or Chrome web developer tools open to the console tab. You'll be able to see logs and write javascript directly into your browser.
 
 ===== Javascript Implementations =====
 
@@ -57,7 +57,7 @@ In the browser host environment, javascript is simply loaded via script tags sim
 
 Before we get started in javascript we have to learn how to debug our javascript code. Because javascript often fails silently it is difficult to debug. By using Firebug or related tools, we can inspect our javascript code and its variables during run time. You should start using these commands to log variables to your console. Check out [[https://getfirebug.com/wiki/index.php/Console_API|Firebug's wiki for more console commands]].
 
-[[http://beta.plnkr.co/edit/iinTwz?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/iinTwz?p=preview|Plunker Demo]]
 
 <code javascript>
 var object = {};
@@ -146,7 +146,7 @@ In order to create objects in a classless programming language that is intended 
 
 This constructor pattern allows to create reusable modular units of code.
 
-[[http://beta.plnkr.co/edit/QTO6W1?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/QTO6W1?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict'; //everytime you write javascript code, make sure to do this, it forces you to write good javascript
@@ -177,7 +177,7 @@ console.log(typeof person1);
 
 However what happens to inheritance? After all one of the great advantages of OOP is the ability to have concrete classes inherit from abstract parent classes. This way you can share code between similar objects. Well in javascript we have to use [[wp>Prototype-based|prototypes]] instead. Everytime you create a function, it contains a prototype property. By setting properties onto the prototype, and then constructing an object from that function, the properties on that prototype gets shared among all object instances.
 
-[[http://beta.plnkr.co/edit/oM8QPa?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/oM8QPa?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -208,7 +208,7 @@ console.log(person1.sayName === person2.sayName); //in js, we use triple equals 
 
 Understanding prototypes is crucial to understanding OOP in javascript. The below code example combines the unique instantiations of the constructor pattern with the shared methods of the prototype pattern. This pattern of combination is probably the most common form of object creation you'll see in javascript land.
 
-[[http://beta.plnkr.co/edit/ZVo66w?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/ZVo66w?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -247,7 +247,7 @@ The question you should be asking is how does the ''sayName()'' function still w
 
 Because the object instances takes priority over the prototype, this allows method overriding. This is as simple as redeclaring a property with the same name onto the object instance. It shadows the property on the prototype. 
 
-[[http://beta.plnkr.co/edit/yW9srh?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/yW9srh?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -291,7 +291,7 @@ Person.prototype.sayName.apply(person1); //another binding function (will displa
 Person.prototype.sayName();
 </code>
 
-Note that there is also a shorter way of defining multiple properties onto the prototype. See [[http://beta.plnkr.co/edit/lGGH9p?p=preview|Plunker demo of short hand prototype definition]]. But make sure to be careful when iterating the object in a loop!
+Note that there is also a shorter way of defining multiple properties onto the prototype. See [[http://plnkr.co/edit/lGGH9p?p=preview|Plunker demo of short hand prototype definition]]. But make sure to be careful when iterating the object in a loop!
 
 If you need to determine whether a property is part of the object instance or part of the prototype you can use the ''hasOwnProperty()'' function. This is often used in ''for in'' [[http://stackoverflow.com/questions/921789/how-to-loop-through-javascript-object-literal-with-objects-as-members|loops that iterate through the object's properties]] and you need to avoid the prototype's properties when iterating.
 
@@ -311,7 +311,7 @@ A key concept in javascript OOP is that the "this" context changes based on wher
 
 Consider these examples of binding the "this":
 
-[[http://beta.plnkr.co/edit/p8m3ai?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/p8m3ai?p=preview|Plunker Demo]]
 
 <code javascript>
 //'use strict'; //this is commented out, as use strict would actually make this demonstration impossible, it tells you when you have binding loss, uncomment it to see it working!
@@ -321,21 +321,21 @@ Consider these examples of binding the "this":
 var name = 'I am in the window! You should not see me!';
 
 var object = {
-	name: 'Hi I am an object!',
-	greet: function(){
-		console.log('Message: ' + this.name);
-	},
-	timeoutMethod: function(){
-		setTimeout(function(){
-			console.log('Timeout Method: ' + this.name);
-		}, 2000);
-	},
-	bindingTimeoutMethod: function(){
-		setTimeout(this.funcToBeTimedOut, 3000);
-	},
-	funcToBeTimedOut: function(){
-		console.log('Second Timeout Method ' + this.name);
-	}
+    name: 'Hi I am an object!',
+    greet: function(){
+        console.log('Message: ' + this.name);
+    },
+    timeoutMethod: function(){
+        setTimeout(function(){
+            console.log('Timeout Method: ' + this.name);
+        }, 2000);
+    },
+    bindingTimeoutMethod: function(){
+        setTimeout(this.funcToBeTimedOut, 3000);
+    },
+    funcToBeTimedOut: function(){
+        console.log('Second Timeout Method ' + this.name);
+    }
 };
 //"METHOD CALL"
 object.greet(); //works
@@ -349,9 +349,9 @@ funcToBeExecutedOutside(); //does not work
 //"METHOD CALLBACK"
 //still loses the binding
 var anotherObject = {
-	highFunc: function(callback){
-		callback(); //executes object.greet();
-	}
+    highFunc: function(callback){
+        callback(); //executes object.greet();
+    }
 };
 anotherObject.highFunc(object.greet);
 
@@ -365,9 +365,9 @@ object.bindingTimeoutMethod();
 
 //this one will still work, because it is still a "METHOD CALL"
 var thirdObject = {
-	thirdPartyMethod: function(){
-		object.greet();
-	}
+    thirdPartyMethod: function(){
+        object.greet();
+    }
 };
 
 thirdObject.thirdPartyMethod();
@@ -379,7 +379,7 @@ The [[https://developer.mozilla.org/en-US/docs/JavaScript/Reference/Global_Objec
 
 Note that in ES6 which currently is under development, there will be a new way of declaring functions that have implicit "this" binding. It's called the [[http://css.dzone.com/articles/javascript-fat-city|fat arrow function]].
 
-[[http://beta.plnkr.co/edit/WejeTp?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/WejeTp?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict'; //strict works now
@@ -389,28 +389,28 @@ Note that in ES6 which currently is under development, there will be a new way o
 var name = 'I am in the window! You should not see me!';
 
 var object = {
-	name: 'Hi I am an object!',
-	greet: function(parameter){
-		console.log('Message: ' + this.name);
-		if(typeof parameter !== 'undefined'){
-			console.log(parameter);
-		}
-	},
-	timeoutMethod: function(){
-		//closure, fix the "this"
-		var self = this;
-		setTimeout(function(){
-			console.log('Timeout Method: ' + self.name + ' (FROM CLOSURE)');
-		}, 2000);
-	},
-	bindingTimeoutMethod: function(){
-		//the first this works (implicit binding)
-		//the second this is explicitly binded to the funcToBeTimedOut
-		setTimeout(this.funcToBeTimedOut.bind(this), 3000);
-	},
-	funcToBeTimedOut: function(){
-		console.log('Second Timeout Method ' + this.name + ' (BIND WITHIN METHOD)');
-	}
+    name: 'Hi I am an object!',
+    greet: function(parameter){
+        console.log('Message: ' + this.name);
+        if(typeof parameter !== 'undefined'){
+            console.log(parameter);
+        }
+    },
+    timeoutMethod: function(){
+        //closure, fix the "this"
+        var self = this;
+        setTimeout(function(){
+            console.log('Timeout Method: ' + self.name + ' (FROM CLOSURE)');
+        }, 2000);
+    },
+    bindingTimeoutMethod: function(){
+        //the first this works (implicit binding)
+        //the second this is explicitly binded to the funcToBeTimedOut
+        setTimeout(this.funcToBeTimedOut.bind(this), 3000);
+    },
+    funcToBeTimedOut: function(){
+        console.log('Second Timeout Method ' + this.name + ' (BIND WITHIN METHOD)');
+    }
 };
 
 var funcToBeExecutedOutside = object.greet;
@@ -430,9 +430,9 @@ funcToBeExecutedOutside.bind(object)('FROM BIND');
 
 //"BIND WITH CALLBACK"
 var anotherObject = {
-	highFunc: function(callback){
-		callback('FROM CALLBACK BIND');
-	}
+    highFunc: function(callback){
+        callback('FROM CALLBACK BIND');
+    }
 };
 anotherObject.highFunc(object.greet.bind(object)); //this requires bind! No extra parantheses, since we're passing it in as a callback
 
@@ -458,7 +458,7 @@ While we have learned how to create objects via the combination of constructor a
 
 Prototype chaining is defined as the primary method of inheritance in ECMAScript. It is possible to assign the prototype of a constructor to an instance of another constructor, which could have it's own prototype. Think of [[http://johnkpaul.github.com/presentations/empirejs/javascript-bad-parts/#/11|prototypes as omnipresent shadows that follow all the instantiations around]].
 
-[[http://beta.plnkr.co/edit/hY0TiP?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/hY0TiP?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -467,16 +467,16 @@ Prototype chaining is defined as the primary method of inheritance in ECMAScript
 
 //parent object
 var Animal = function(){
-	this.weight = '100kg';
+    this.weight = '100kg';
 };
 
 Animal.prototype.getWeight = function(){
-	return this.weight;
+    return this.weight;
 };
 
 //child object
 var Pig = function(){
-	this.colour = 'Pink';
+    this.colour = 'Pink';
 };
 
 //Pig now inherits a prototype that is actually the constructor instantiation of Animal
@@ -484,7 +484,7 @@ Pig.prototype = new Animal();
 
 //we can add to the prototype in dynamic languages
 Pig.prototype.getColour = function(){
-	return this.colour;
+    return this.colour;
 }
 
 var pig = new Pig();
@@ -512,11 +512,11 @@ Remember that all objects in javascript inherit from the native ''Object.prototy
 
 Because prototypes are "shadows" that are shared across all instances, if you need a unique instance property to be on the parent object, this becomes impossible, as it will affect all instances. Consider this example:
 
-[[http://beta.plnkr.co/edit/Nq8f16?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/Nq8f16?p=preview|Plunker Demo]]
 
 <code javascript>
 var SuperType = function(){
-	this.colors = ['red', 'blue', 'green'];
+    this.colors = ['red', 'blue', 'green'];
 };
 
 var SubType = function(){};
@@ -539,7 +539,7 @@ console.log(instance2.colors); //'red,blue,green,black'
 
 In order to have unique parent instances, and to have the ability to call the constructor of the parent (as we do in PHP), we need to separate the inheritance chain, so that constructors inherit from constructors, and prototypes inherit from prototypes. This means a child constructor could call the parent's constructor and apply unique values to the parent. Furthermore since the prototype is chained, we can still have sharable functions across instances. If we stop at this point, we'd essentially be doing "Constructor Stealing", which is similar to calling parent constructor in PHP. However in order to link up prototypes, we would have to make the child prototype equal to the instantiation of the parent constructor. This is somewhat inefficient, as that leads us to executing the parent constructor twice, once when we steal the constructor, and a second time when we link up the prototype. We can employ a method called "Parasitic Combination Inheritance", in order to assign the parent prototype directly to the child's prototype. The below code example also demonstrates an augmentation of native object API in javascript, and also uses ES5 syntax.
 
-[[http://beta.plnkr.co/edit/bpuD9W?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/bpuD9W?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -551,26 +551,26 @@ In order to have unique parent instances, and to have the ability to call the co
 //adding an inherit method to the native Object (javascript is dynamic and flexible)
 //Essentially it assigns the superType's prototype to the subType's prototype
 Object.inherit = function(subType, superType){
-	//creates a new empty object with the superType's prototype
-	var prototype = Object.create(superType.prototype);
-	//preserving the reverse chain from the prototype back to the constructor, in this case subType
-	prototype.constructor = subType;
-	//finally assigns the prototype to subType
-	subType.prototype = prototype;
+    //creates a new empty object with the superType's prototype
+    var prototype = Object.create(superType.prototype);
+    //preserving the reverse chain from the prototype back to the constructor, in this case subType
+    prototype.constructor = subType;
+    //finally assigns the prototype to subType
+    subType.prototype = prototype;
 };
 
 var Animal = function(weight = '100 kg'){
-	this.weight = weight; //this is going to be added to the child instance
+    this.weight = weight; //this is going to be added to the child instance
 };
 
 Animal.prototype.getWeight = function(){
-	return this.weight;
+    return this.weight;
 };
 
 var Pig = function(colour = 'Pink'){
-	//executes the Animal constructor function, bringing in it's unique instance variables to the Pig's scope
-	Animal.apply(this, ['1000 kg']);
-	this.colour = colour;
+    //executes the Animal constructor function, bringing in it's unique instance variables to the Pig's scope
+    Animal.apply(this, ['1000 kg']);
+    this.colour = colour;
 };
 
 //assigns Animal's prototype to Pig's prototype
@@ -578,7 +578,7 @@ Object.inherit(Pig, Animal);
 
 //augment the prototype for Pig, but not for other animals (if any)
 Pig.prototype.getColour = function(){
-	return this.colour;
+    return this.colour;
 };
 
 var pig = new Pig('Yellow');
@@ -612,17 +612,17 @@ You can see this happening in javascript. All objects have a prototype pointing 
 
 Here's an example of using prototypical inheritance.
 
-[[http://beta.plnkr.co/edit/QCUYSV?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/QCUYSV?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
 
 //animal prototype! (no need to use StudlyCaps since it's not a constructor function)
 var animal = {
-	weight: '100 kg',
-	getWeight: function(){
-		return this.weight;
-	}
+    weight: '100 kg',
+    getWeight: function(){
+        return this.weight;
+    }
 };
 
 //pig is a prototype of animal
@@ -667,7 +667,7 @@ The above style is often used in jQuery plugins, since many different authors wo
 
 The block expressions in javascript such as ''for'' and ''if'' do not create scopes. However sometimes we'll need block scopes when each iteration of the block expression has something unique. We can also use self-executing anonymous function enclosures to simulate block expression scope. The below code shows how block expressions can confuse novice developers.
 
-[[http://beta.plnkr.co/edit/AFBt5e?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/AFBt5e?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -680,11 +680,11 @@ var out = [];
 
 //the for loop is a block expression, it has no scope
 for(var i = 0; i<arr.length;i++) {
-	var item = arr[i]; //therefore when the loop finishes, it will be as if item has been defined outside
-	//here we push a callback function into the out array
-	out.push(function(){
-		console.log(item); //this will access item which is defined outside of its scope
-	});
+    var item = arr[i]; //therefore when the loop finishes, it will be as if item has been defined outside
+    //here we push a callback function into the out array
+    out.push(function(){
+        console.log(item); //this will access item which is defined outside of its scope
+    });
 }
 
 console.log(item, '<- This is the item after the loop finishes!'); //the fact that I can access item, means that for did not scope that item
@@ -692,13 +692,13 @@ console.log(out, '<- This is the array of functions!');
 
 //the forEach is the ES5 command which executes a callback on each item of the array, the func is automatically injected from the javascript
 out.forEach(function(func){
-	func(); //the executes the callback on each array
+    func(); //the executes the callback on each array
 });
 </code>
 
 Because the block expression has no scope, the item variable remains at 3 when the callback is called. In order to avoid this problem, we have to wrap the block scope's code inside an anonymous self-executing function enclosure. Note that once ES6 takes place, we can simply use the ''let'' operator to automatically make a variable block scoped, however at this moment, it is not very well supported.
 
-[[http://beta.plnkr.co/edit/1GgFPd?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/1GgFPd?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -711,15 +711,15 @@ var out = [];
 
 //the for loop is a block expression, it has no scope
 for(var i = 0; i<arr.length;i++) {
-	(function(item){
-		out.push(function(){
-		   console.log(item); 
-		});
-	})(arr[i]);
+    (function(item){
+        out.push(function(){
+           console.log(item); 
+        });
+    })(arr[i]);
 }
 
 out.forEach(function(func){
-	func();
+    func();
 });
 
 //using "let" in ES6 also works (notice that it requires version=1.7 in the script tag!)
@@ -727,14 +727,14 @@ var arr2 = [1, 2, 3];
 var out = [];
 
 for(var i = 0; i < arr2.length; i++){
-	let item = arr2[i]; //can't really be used right now! No shims available
-	out.push(function(){
-		console.log(item);
-	});
+    let item = arr2[i]; //can't really be used right now! No shims available
+    out.push(function(){
+        console.log(item);
+    });
 }
 
 out.forEach(function(func){
-	func();
+    func();
 });
 </code>
 
@@ -742,7 +742,7 @@ out.forEach(function(func){
 
 As we learned in PHP, higher order functions are functions that either accept a callback function as a parameter, and/or return back a function to be used. You're going to use higher order functions often when programming for events, because you need to pass callback functions into the event handlers! One of the advantages of this ability is that it provides a more expressive functional alternative to loops. There's a number of higher order functional constructs for arrays that allow you to pass callbacks in, instead of looping.
 
-[[http://beta.plnkr.co/edit/7TPJ6o?p=preview|Plunker Demo]]
+[[http://plnkr.co/edit/7TPJ6o?p=preview|Plunker Demo]]
 
 <code javascript>
 'use strict';
@@ -753,68 +753,68 @@ As we learned in PHP, higher order functions are functions that either accept a 
 var array = ['one', 'two', 'three'];
 
 for(var i = 0; i < array.length; i++){
-	if(array[i] === 'two'){
-		array[i] = array[i].toUpperCase();
-	}
+    if(array[i] === 'two'){
+        array[i] = array[i].toUpperCase();
+    }
 }
 console.log(array, '<- LOOPING');
 
 //forEach method (runs a function when it encounters each value)
 var array = ['one', 'two', 'three'];
 array.forEach(function(value, index, originalArray){
-	if(value === 'two'){
-		array[index] = value.toUpperCase();
-	}
+    if(value === 'two'){
+        array[index] = value.toUpperCase();
+    }
 });
 console.log(array, '<- FOREACH METHOD');
 
 //map method (returns a new array and mutates the value)
 var array = ['one', 'two', 'three'];
 array = array.map(function(value, index, originalArray){
-	if(value === 'two'){
-		value = 'TWO';
-	}
-	return value;
+    if(value === 'two'){
+        value = 'TWO';
+    }
+    return value;
 }).join(','); //cool use of joins by mapping out an array and then joining into a string!
 console.log(array, '<- MAP METHOD');
 
 //filter method
 var array = ['one', 'two', 'three'];
 array = array.filter(function(value, index, originalArray){
-	if(value === 'two'){
-		return false;
-	}
-	return true;
+    if(value === 'two'){
+        return false;
+    }
+    return true;
 });
 console.log(array, '<- FILTER METHOD');
 
 //reduce method (iterates through two values at a time
 var array = ['one', 'two', 'three'];
 array = array.reduce(function(prev, next, index, originalArray){
-	if(next === 'two'){
-		next = next.toUpperCase();
-	}
-	return prev + next;
+    if(next === 'two'){
+        next = next.toUpperCase();
+    }
+    return prev + next;
 });
 console.log(array, '<- REDUCE METHOD');
 
 //you can combine all of these methods together via method chaining
 var array = ['one', 'two', 'three'];
 array = array.map(function(value){
-	if(value === 'two'){
-		return 'TWO';
-	}
-	return value; //without this it'll be almost like filtering
+    if(value === 'two'){
+        return 'TWO';
+    }
+    return value; //without this it'll be almost like filtering
 }).filter(function(value){
-	if(value === 'three'){
-		return false;
-	}
-	return true;
+    if(value === 'three'){
+        return false;
+    }
+    return true;
 }).reduce(function(prev, next){
-	if(next === 'one'){
-		next = 'oNe';
-	}
-	return prev + next;
+    if(next === 'one'){
+        next = 'oNe';
+    }
+    return prev + next;
 }, ''); //second parameter to reduce is initial value, if you want to start "next" at the first elemnt of array
 console.log(array, '<- COMBINED METHOD');
 </code>
@@ -958,12 +958,12 @@ Inside of each of those script files, we register them as a module, and we also 
 
 //app is an module that is dependent on several top level modules
 var app = angular.module('App', [
-	'Controllers',
-	'Filters',
-	'Services',
-	'Directives',
-	'ngResource', //for RESTful resources
-	'ngCookies' //for manipulation of cookies
+    'Controllers',
+    'Filters',
+    'Services',
+    'Directives',
+    'ngResource', //for RESTful resources
+    'ngCookies' //for manipulation of cookies
 ]);
 
 //Define all the page level controllers (Application Logic)
@@ -1431,7 +1431,7 @@ Scopes are very powerful, they are not only used to establish contexts inside th
 
 Scopes are objects that can contain primitive properties or reference types such as objects and arrays. Scope inheritance is based on prototypical inheritance that is happening behind the scenes. Therefore it's important to understand how scope properties are created and accessed and modified. This often causes confusion because if you set a property on a scope, and you actually want to change a property on the parent (which is in the child scope's prototype), it may sometimes simply create that property on the child which shadows the property on the parent. The problem comes from a misunderstanding of how properties are accessed. The resource below will go into detail over how to resolve this problem:
 
-  * [[https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance|The Nuances of Scope Prototypical Inheritance]] - Here is a [[http://beta.plnkr.co/edit/7H4ZZKhcfm2OLodz6FVS?p=preview|Plunker Demo showing one of the nuances of scope inheritance]].
+  * [[https://github.com/angular/angular.js/wiki/The-Nuances-of-Scope-Prototypal-Inheritance|The Nuances of Scope Prototypical Inheritance]] - Here is a [[http://plnkr.co/edit/7H4ZZKhcfm2OLodz6FVS?p=preview|Plunker Demo showing one of the nuances of scope inheritance]].
 
 2. Confusion about why running a AngularJS function inside a callback of a third party function, or native javascript function doesn't update the scope bindings:
 
@@ -1515,7 +1515,7 @@ Notice that we do not need to use the ''ng-controller'' directive to bind the co
 
 Finally remember that not all controller modules inside the ''js/controllers'' directory need to be a particular page. They can just be sections of a page. For example, the headers and footers of a page may be shared across many pages. Then you can make them top level modules inside the ''js/controllers'' directory.
 
-All of the above may be a bit confusing, since there's a lot of interlinking parts that need to come together to work. Check out this [[http://beta.plnkr.co/edit/XZs1zNLpZubPBjnULJ3n?p=preview|Plunker demo with a working configuration of nested controllers]]. It won't match your file/directory structure because everything needs to be in files. However you can see what the end result may look like.
+All of the above may be a bit confusing, since there's a lot of interlinking parts that need to come together to work. Check out this [[http://plnkr.co/edit/XZs1zNLpZubPBjnULJ3n?p=preview|Plunker demo with a working configuration of nested controllers]]. It won't match your file/directory structure because everything needs to be in files. However you can see what the end result may look like.
 
 === Communication between Controllers ===
 
@@ -1525,7 +1525,7 @@ You will need to eventually [[http://stackoverflow.com/questions/11252780/whats-
 
 This example shows how to use shared services along with the ''$watch'' function to allow messaging between controllers. The ''$watch'' service observes changes in a model variable and then runs a function when it changes. This is probably the most common method, however [[http://eburley.github.com/2013/01/31/angularjs-watch-pub-sub-best-practices.html|sometimes it won't solve your problem when you have more complicated messaging needs]].
 
-  * [[http://beta.plnkr.co/edit/X8txKfVBotWTDfD9au8x?p=preview|Plunker Demo of Shared Services & $watch]]
+  * [[http://plnkr.co/edit/X8txKfVBotWTDfD9au8x?p=preview|Plunker Demo of Shared Services & $watch]]
 
 **Event Method**
 
@@ -1543,7 +1543,7 @@ As you can see the hierarchy of scopes matter when deciding to broadcast, emit o
 
 The disadvantage of using the broadcast, is that the event propagation cannot be cancelled. That is, if you were to emit an event, a listener could handle the event and then stop propagation. However if an event is broadcasted to children, then all children will get it.
 
-Here's a [[http://beta.plnkr.co/edit/ZU0XNK?p=preview|Plunker demo showing these event methods in action]]. Pay attention to the console, and play around with how the messages are sent, plus make sure to check out the ''event'' and ''arg'' parameters that can be displayed in the handler function.
+Here's a [[http://plnkr.co/edit/ZU0XNK?p=preview|Plunker demo showing these event methods in action]]. Pay attention to the console, and play around with how the messages are sent, plus make sure to check out the ''event'' and ''arg'' parameters that can be displayed in the handler function.
 
 **Event Bus Method**
 
@@ -1683,7 +1683,7 @@ Then it's possible to use this widget and have the template come out by doing th
 
 Now that widget's template will be placed whenever you add ''widget-dir'' on any DOM element. The template will be inserted inside of it. Try using jQuery to manipulate the template's own elements. Notice that since you didn't define scope, the scope actually points to the nearest containing controller's scope. This won't be very useful for reusable directives, so you should actually create a prototypical scope by setting ''scope: true'' or isolate scope ''scope: {}'', that way the directives won't step on each others shoes and it won't overwrite or accidentally change the parent scope properties. Also note that if you don't have jQuery loaded before AngularJS, the [[http://docs.angularjs.org/api/angular.element|element is a jQlite wrapped object instead]], check out the Angular documentation on jQlite and ''angular.element'' to find out more.
 
-Here is a [[http://beta.plnkr.co/edit/F6JrOGtT3QJB841Cii0r?p=preview|Plunker Demo demonstrating using directives with jQuery]], which integrates a number of nuances regarding ''scope.$apply'' and ''angular.element''.
+Here is a [[http://plnkr.co/edit/F6JrOGtT3QJB841Cii0r?p=preview|Plunker Demo demonstrating using directives with jQuery]], which integrates a number of nuances regarding ''scope.$apply'' and ''angular.element''.
 
 === Using scope in Directives ===
 
@@ -1707,7 +1707,7 @@ scope: {
 //now all for local properties will be accessible inside the directive's scope, such as scope.localProp
 </code>
 
-Refer to this [[http://beta.plnkr.co/edit/WK1lvOCxz8HeMDRr56vd?p=preview|Plunker Demo]] which demonstrates how the model variables are bound using the three types of isolate scope hashing. Open up your console and see the logging working. Then refer to this sticky notes [[http://jsfiddle.net/simpulton/VJ94U/|Fiddle example]] of wiring up nested directives with a controller. It even demonstrates using the directive controller instead of a linking function. Though both could have been used.
+Refer to this [[http://plnkr.co/edit/WK1lvOCxz8HeMDRr56vd?p=preview|Plunker Demo]] which demonstrates how the model variables are bound using the three types of isolate scope hashing. Open up your console and see the logging working. Then refer to this sticky notes [[http://jsfiddle.net/simpulton/VJ94U/|Fiddle example]] of wiring up nested directives with a controller. It even demonstrates using the directive controller instead of a linking function. Though both could have been used.
 
 All of these properties in the object hash have to be defined on the attributes of the directive attached DOM element. In javascript they will be written as camel case, but in the attribute, they are always written with dashes. So if ''localProp'' would be ''local-prop'' on the DOM element.
 
@@ -1800,7 +1800,7 @@ Try experimenting with these object hashes. Remember to always use isolate scope
 
 Directives can also be used to manipulate the child DOM elements of the DOM element which was attached to a directive. You may wish to do this when you need to provide large pieces of data or to provide a custom template to be injected into the directive template. You can do this by either using the transclusion method or compile function method.
 
-Transclusion simply means moving the children of the original directive element into the directive's template. The directive's template would also need to attach ''ng-transclude'' to a container. The children would be interpolated and processed in the parent container's scope, and when they get injected into the directive template, they get their own transclude scope, that would be a sibling to any isolate/prototypical directive scope. Here's a [[http://beta.plnkr.co/edit/ZKrSGdrDH0iZpnEGMldG?p=preview|Plunker Demo showing basic transclusion]]. 
+Transclusion simply means moving the children of the original directive element into the directive's template. The directive's template would also need to attach ''ng-transclude'' to a container. The children would be interpolated and processed in the parent container's scope, and when they get injected into the directive template, they get their own transclude scope, that would be a sibling to any isolate/prototypical directive scope. Here's a [[http://plnkr.co/edit/ZKrSGdrDH0iZpnEGMldG?p=preview|Plunker Demo showing basic transclusion]]. 
 
 <code javascript>
 //assuming HTML
@@ -1831,13 +1831,13 @@ This [[http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html|blog arti
 
 The basic form of transclusion isn't very flexible, it simply moves all the children to where ''ng-transclude'' is defined. Sometimes we need to be able to manipulate the DOM before it is compiled into scopes by AngularJS, so we can change the structure of the transclusion. We can of course just use jQuery via the linking function's element parameter to change everything, however this may not be desirable, as it is faster to work on the pre-compiled DOM. To do this, we can use the compile function instead of the link function. Note that this means using ''ng-transclude'' is optional, as we are essentially manually transcluding it.
 
-Here's a [[http://beta.plnkr.co/edit/lhhJhbAHjwXJeYWYYANP?p=preview|Plunker Demo that uses a compile function along with transclusion]] to manipulate the transcluded HTML rather than just doing a dump of ''ng-transclude''.
+Here's a [[http://plnkr.co/edit/lhhJhbAHjwXJeYWYYANP?p=preview|Plunker Demo that uses a compile function along with transclusion]] to manipulate the transcluded HTML rather than just doing a dump of ''ng-transclude''.
 
 === Interdirective Communication ===
 
 Communicating between directives can be done in the same way controllers communicate between each other. You can use a shared service, custom events, or a dedicated event bus. Directives can even use a parent containing controller's scope to communicate as well. However directives have two more ways to communicate between themselves. The first is through the directive element's attributes. You can setup multiple directives to bind to the same attributes, and have one directive change the attributes, which will be reflected in the other attributes. However this is not very flexible, so AngularJS also provides a construct called directive controllers. These are controllers that are bound to the directive itself, and its properties are shared across the directives.
 
-Refer to this [[http://beta.plnkr.co/edit/7lMDPqF3EYv5dyR5sLRA?p=preview|Plunker Demo]] of using multiple directives with directive controllers on one element, and also having a child directive requesting the parent's directive controllers. It also incorporates a demonstration of the [[http://docs.angularjs.org/api/ngSanitize.$sanitize|ngSanitize module]] and ''ng-bind-html'' directive which will render HTML from your models. Note the nuances of scope, you cannot have multiple isolate scopes on the same element, and you cannot have multiple templates attached to the same element.
+Refer to this [[http://plnkr.co/edit/7lMDPqF3EYv5dyR5sLRA?p=preview|Plunker Demo]] of using multiple directives with directive controllers on one element, and also having a child directive requesting the parent's directive controllers. It also incorporates a demonstration of the [[http://docs.angularjs.org/api/ngSanitize.$sanitize|ngSanitize module]] and ''ng-bind-html'' directive which will render HTML from your models. Note the nuances of scope, you cannot have multiple isolate scopes on the same element, and you cannot have multiple templates attached to the same element.
 
 Often you would use this when you have a main directive that handles the templates and transclusion, but you also need some other "plugin" directives that can augment the capability of the main directive. Child directives can also communicate through directive controllers allowing you to create multidimentional directives. That is directives that encompass several elements. One example would be creating tab panels.
 
@@ -2207,21 +2207,131 @@ All the functions that are part of the ''then()'' in the promise will be evaluat
 There will be more on promises, continuation passing style and asynchronous operations in the [[#events_asynchronous_programming|Events and Asynchronous Programming section]], you just have to accept the way it's being used here.
 ===== Authentication =====
 
-Authentication on the client side depends on your server side configuration of authentication. Supporters of single page applications usually recommend using Oauth 2.0 for your authentication schemes, as that allow multiple client consumers of your server side application, especially since session based cookies only work on the browser. In that case you should look into integrating [[https://github.com/andreassolberg/jso/tree/version2|JSO library, which is a javascript library for managing Oauth authentication]]. You should wrap it's API in an Angular service.
+Authentication on the client side depends on your server side configuration of authentication. Supporters of single page applications usually recommend using OAuth 2.0 for your authentication schemes, as that allows multiple client platforms as consumers of your server side application, especially since session based cookies only work on the browser platform. If you intend to implement OAuth 2.0, you should look into integrating [[https://github.com/andreassolberg/jso/tree/version2|JSO library, which is a javascript library for managing Oauth authentication]]. You should wrap its API in an Angular service.
 
 However if you're working on a session based cookie authentication system, client side authentication is simply a matter of intercepting HTTP responses for their status code, we need to check for a [[wp>HTTP 403|403 status code]]. This means that the user tried to access a resource that needed authentication. Note that the 403 is not the same as a 401. 401 is used for [[wp>Basic access authentication|HTTP based authentication]]. If you have a session based authentication system, so 401 is not suitable, you will need to respond with a 403 status code on the server. Once Angular detects this 403 code, you either save his current URL state, redirect to a login page, when they login, redirect back to where they were. However if you have more complex UI states, where one could be on a page where there are publicly available resources and authenticated resources present at the same time, you may need to save all the 403 requests, display a login modal box, and when the person logs in, resend all the 403 requests so that the person can keep working on the same page. One example would be like a dashboard in which someone clicks on a button that opens up some authenticated resource, this would show a login modal box, when the person logs in, the modal box disappears, the request is resent, and the resource comes back properly from the server.
 
-We'll attempt to do both styles here:
+Single page application authentication and authorisation is tricky, tedious and very time consuming to get right, as there are many cross cutting concerns that has be dealt with, on both the client side and server side. If you get it wrong, it's easy for there to be holes in your security. It is recommended that for your first application, that if you need authentication, integrate with the [[https://auth0.com/|Auth0 service]]. They have a dedicated guide that deals with [[https://auth0.com/docs/quickstart/spa|single page application authentication]] including AngularJS integration.
 ===== BOM & DOM =====
 
-Using jQuery for DOM manipulation or jQLite
+The BOM (Browser Object Model) and its subset the DOM (Document Object Model) is the entire environment, primitives and API that the browser platform presents to the JavaScript runtime. The BOM includes unique browser specific features that aren't necessarily standardised. While the DOM is a mostly standardised tree-oriented convention for representing and manipulating XML documents (including HTML).
 
-But also talk about BOM
+Note that the JavaScript language is specified by the ECMAScript standard, and this focuses solely on the language semantics and syntax. When you're interacting with HTML, or telling the browser to perform actions, these features are not part of JavaScript, but part of the browser exposing an API to its BOM and DOM.
 
-Cookies.. etc
+Practically, this means in client-side JavaScript, the top-level object context which exposes the entire BOM and DOM is called ''window''. And you can access it via ''console.log(window)''. Try opening Firebug console on any website, and running ''console.log(this)''. Since ''this'' refers to the current object context, a top-level statement should return the window context.
 
-Location object...
+Similarly the DOM can be accessed via the ''document'' object which is formally a subset of the ''window'' object. Try ''console.log(window.document)''. Now it is possible to also access the DOM via ''console.log(document)'', that's because ''window'' is the global object equivalent to ''this''. This makes all statements implicitly accessed within the context of ''window''. That is when you write ''console.log('example')'', under the hood, this is translated to ''window.console.log('example')''. This of course does not apply in non-browser JavaScript environments, because a BOM would not exist in those platforms.
 
+Here we shall examine some basic methods to manipulate the BOM and DOM, and later introduce jQuery as library that makes manipulating the DOM far easier. All of the JavaScript code blocks below should be written directly into the Firebug console, just open your browser to the example HTML file displayed below.
+
+First let's create a simple HTML file locally called ''example.html''. Then save the file, and open it up in your browser.
+
+<code html example.html>
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <script src="script.js"></script>
+  </head>
+
+  <body>
+    <h1 id="title">Title</h1>
+    <p class="para">Some Text1</p>
+    <p class="para">Some Text2</p>
+    <ul id="list">
+        <li>First Point</li>
+        <li class="interesting">Second Point</li>
+    </ul>
+  </body>
+
+</html>
+</code>
+
+Write this into your console (notice that we are assuming an implicit ''window'' global context):
+
+<code javascript>
+console.log(document.getElementById("title"));
+</code>
+
+It will return you a reference to an ''Element'' object on the DOM that represents:
+
+<code html>
+<h1 id="title">Title</h1>
+</code>
+
+This a reference to the object, meaning that anything you do this node object will be reflected directly onto the DOM. It is a not a copy of the object. Make sure to reference this documentation on the [[https://developer.mozilla.org/en-US/docs/Web/API/element|Element]] object to understand all the capabilities.
+
+To demonstrate, let's change something about the node.
+
+<code javascript>
+var titleNode = document.getElementById("title");
+titleNode.textContent = "Changed Title";
+</code>
+
+We can also change the HTML of the node itself.
+
+<code javascript>
+var titleNode = document.getElementById("title");
+titleNode.outerHTML = "<h2 id=\"title\">Different Size Header</h2>";
+</code>
+
+We can also inject or change the HTML inside a particular node. Note the difference between this and ''outerHTML''.
+
+<code javascript>
+var listNode = document.getElementById("list");
+listNode.innerHTML = "<li>Changed Point</li>";
+</code>
+
+Let's also add some CSS to style it.
+
+<code javascript>
+document.getElementById("title").style.color = "#abc123";
+</code>
+
+The above is roughly equivalent to writing the CSS code:
+
+<code css>
+#title {
+    color: #abc123;
+}
+</code>
+
+It is not exactly the same, because the JavaScript version embeds the CSS style into a HTML ''style'' attribute attached to the node. You can see this by visually inspecting the node. This is a good thing because ''style'' attributes have the highest precedence in applying their rules, so they can override styles specified elsewhere. 
+
+If you want set multiple styles in one go, you can use:
+
+<code javascript>
+document.getElementById("title").style.cssText = "color: #abc123; font-size:40px;";
+</code>
+
+Try ''console.log'' on everything you see here, and clicking on the console's output will get Firebug to inspect the object.
+
+The ''getElementById'' is a very fast operation. But it's not particular flexible. We also want to acquire nodes by their classes, tag names, or even utilise css style selector syntax. We can review these now:
+
+<code javascript>
+# returns a collection of elements
+console.log(document.getElementsByClassName("para"));
+console.log(document.getElementsByTagName("li"));
+console.log(document.querySelectorAll("p.para, li.interesting"));
+# returns exactly 1 element
+console.log(document.querySelector("#list > .interesting"));
+</code>
+
+
+NodeList vs HTMLCollections
+
+The concepts of liveness.
+
+
+
+
+
+
+
+
+The DOM provides a significant range of functions and properties that you can manipulate that can make the webpage incredibly dynamic. There is much more to explore, review [[https://developer.mozilla.org/en-US/docs/Web/API/Document|MDN's documentation]] on the DOM and try all the different properties and functions that is relevant to your application. The key point here is that you can use JavaScript to manipulate the BOM and DOM in real time or event-driven from user interaction. This gives you the ability to create dynamic interactions and animations that isn't possible with just HTML/CSS and/or server side coding alone.
+
+[[http://plnkr.co/edit/vaRTxk?p=preview|Plunker Demo]]
 ===== Events & Asynchronous Programming =====
 
 Firstly Javascript is always synchronous. The event loop, is a long running queue of tasks to do. The only parts of javascript that is asynchronous is the I/O APIs exposed by the browser and the setTimeout and setInterval methods.
@@ -2288,45 +2398,11 @@ Long polling, short polling
 
 ==== SEO for AJAX  ====
 
-HTML fragments
+Single page applications often have problems being indexed by search engines and social network robots. This is because, when the web began, the primary medium of content was just HTML. Nowadays, we have HTML, CSS, JavaScript and other kinds of rich media. Javascript specifically requires a power browser to be able to execute. Most search engines (Google included), do not execute advanced Javascript on websites. For single page applications, this means the search engine crawler will scrape no useful information from the website.
 
-Year of Moo
-
+There are a number of different workarounds, but this a problem that Polycademy has already solved. Polycademy produced a service called [[https://snapsearch.io/|SnapSearch (https://snapsearch.io/)]], that provides client middleware which you can integrate into your server side application. This intercepts requests from relevant crawlers and presents them a fully rendered snapshot of your website with all of the Javascript already executed.
 ===== HTML5 APIs =====
 
-Browser level (for other stuff)
+The HTML 5 standard has provided browsers will incredible capabilities to produce rich media applications. The possibilities of using a browser a platform are endless. Many desktop-orientated applications including graphic intensive programs are being migrated to the HTML5 platform for greater accessibility. It is beyond the scope of this course to cover all of the HTML 5 standard, but your ability to work with Javascript, HTML, and the DOM should allow you to experiment further after this course.
 
 [[http://platform.html5.org/|List of HTML5 APIs]]
-
-==== Client Side Storage ====
-
-In the past before HTML5, the management of state/storage on the browser was limited to Browser Cache, Cookies, Headers, Query Parameters, or the Browser Daemon.
-
-However with HTML5, we have access to localStorage, IndexedDB, WebSQL and File API.
-
-==== Concurrent Processing ====
-
-Using WebWorkers
-===== Dependency Management & Script Loaders =====
-
-Dependency Injection in AngularJS, and structuring in terms of modules.
-
-AMD
-
-Require.js or HeadJS
-
-Performance of minification, so minification vs asynchronous! Can work with Angular.
-
-http://www.peterbe.com/plog/requirejs-vs-headjs
-
-===== Real Time Web =====
-
-Web Sockets using AutobahnJS and WAMP
-
-Operational Transformation using ShareJS
-
-===== Non-Browser Platforms =====
-
-Desktop: TideSDK or AppJS
-
-Mobile: Appcelerator or Phonegap

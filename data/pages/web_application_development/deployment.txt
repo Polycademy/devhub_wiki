@@ -1,21 +1,10 @@
 ====== Deployment ======
 
+TBD
+
 ===== Domains =====
 
-Domain hacking
 
-Talk about subdomains
 
 ===== Hosting =====
 
-Cloud Hosting
-
-SSH
-
-Cloud Foundry
-
-VPS
-
-===== Entrepreneurship =====
-
-Some stuff about this thing

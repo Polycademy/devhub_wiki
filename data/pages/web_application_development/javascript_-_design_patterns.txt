@@ -4,62 +4,28 @@ Javascript is a very flexible language which is a double edged sword. It gives a
 
 ===== Javascript Language & Standards =====
 
-JS Hint and Linting
-
-Coffeescript & Typescript
+Placeholder
 
 ===== Third Party Libraries =====
 
-Angular Modules
-
-Using Bower (vendor)
-
-CDNs
+Placeholder
 
 ===== Validation =====
 
-Client side form validation using Angular UI Ui validate
-
-UX side of validation
+Placeholder
 
 ===== Animation =====
 
-UX side of animation
-
-ngAnimate & jQuery http://www.yearofmoo.com/2013/04/animation-in-angularjs.html
-
-Canvas
-
-WebGL
-
-Using AngularUI and Angular UI Bootstrap
+Placeholder
 
 ===== Advanced Functional Javascript =====
 
-Using functional.js
+Placeholder
 
 ===== Advanced DOM Manipulation =====
 
-Using native javascript, DOM traversal, XML... etc
+Placeholder
 
 ===== Advanced User Interface States =====
 
-Routing
-
-Angular UI Router
-
-Finite State Machines
-
-State Trees/Charts
-
-http://en.wikipedia.org/wiki/State_diagram
-
-http://en.wikipedia.org/wiki/Finite-state_machine
-
-https://github.com/yaptv/StateTree
-
-https://github.com/DavidDurman/statechart
-
-https://github.com/etgryphon/stativus
-
-http://www.amazon.com/Constructing-User-Interface-Statecharts-Horrocks/dp/0201342782
+Placeholder
