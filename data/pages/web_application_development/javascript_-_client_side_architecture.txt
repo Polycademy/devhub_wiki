@@ -2620,68 +2620,92 @@ Once you have understood jQuery, you can now see how powerful it can when it's c
 In summary, JavaScript gives you the ability to create dynamic interactions and animations that isn't possible with just HTML/CSS and/or server side coding alone.
 ===== Events & Asynchronous Programming =====
 
-Firstly Javascript is always synchronous. The event loop, is a long running queue of tasks to do. The only parts of javascript that is asynchronous is the I/O APIs exposed by the browser and the setTimeout and setInterval methods.
+JavaScript has a very different runtime environment compare to other languages like PHP, Ruby, Python... etc. It is single-threaded, it's runtime environment contains not only the stack and heap, but also queue which is processed through an event loop. This results in a situation where JavaScript's IO operations lean towards an asynchronous execution model, and that JavaScript applications are generally architected using the event-driven [[https://en.wikipedia.org/wiki/Reactor_pattern|reactor pattern]]. 
 
-Also Asynchronous NOT EQUAL concurrency.
+JavaScript is written with "event-driven" as a philosophy. Simply put, it's a paradigm where the control flow (where execution and computation is taking place) of the program is determined by external events. This means the control flow of the program does not necessarily match the flow of the source code. This is highly compatible with user interface programming, as almost all computation in user interfaces is a reaction some user submitted event.
 
-Also managing asynchronous code:
+A single threaded runtime means that only one computation can be taking place at a time. There's no parallelism. The choice of a single threaded runtime was probably chosen for convenience when JavaScript was first implemented, and now its continued use is more of a legacy factor than any specific technical limitation. Using a single threaded runtime means we need some clever algorithms to produce concurrency. A graphical user interface that isn't concurrent will be quite limiting, as this means the program cannot "multitask". In practice this would mean you could never see the user interface changing in multiple places at the "same time". Note that when we are talking about concurrency, we are talking about the perception of parallel operations from a human perspective, and when we talk about parallelism, we are talking about simultaneous calculations from a physical perspective. The clever algorithm is a combination of the runtime queue, event loop and asynchronous IO. This combination leads to a reactor pattern, that scales up efficiently for [[https://en.wikipedia.org/wiki/I/O_bound|IO bound programs]], but does scale at all for CPU bound programs. The great thing about web user interfaces, is that it is mostly an IO bound problem.
 
-1. Continuation Passing Style of Callbacks (usually when using APIs/SetTimeOut)
+Let's focus on just the stack and the queue. These 2 concepts will allow us to understand how JavaScript runtime executes your source code. The heap has more to do with garbage collection which is an advanced topic that you can invesitgate later.
 
-2. Events (either using DOM based events (include the custom events.. etc), when the processing and handling needs to be distributed and isolated like Pub/Sub) OR using a custom event bus which simply keeps a list of callbacks to call when it receives an event.
+A stack is a collection data structure that has 2 operations ''push'' and ''pop''. A ''push'' places an element at the top of the collection. A ''pop'' takes an element out of the top of the collection. This means a subsequent push will place an element on top of the previous push. While popping will always take out the most recently pushed element. Every function call in JavaScript creates a "stack frame", and this is an element that is pushed onto the stack. Functions that call other functions, will push the nested function's stack frame onto the stack, on top of its own stack frame. Evaluation occurs at the top of the stack by popping one stack frame at a time.
 
-3. Using promises - Provides an an API to manage CPS
+<code javascript>
+function a (x) {
+    return b (x);    
+}
 
-4. Uses async.js (to manage callback chaining) - Provides another API to manage CPS
+function b (y) {
+    return y + 1;
+}
 
-5. Using setTimeout(fn, 0) or $timeout(fn, 0) to yield the function, or do bits and pieces code breaking up the execution of your large function to allow the browser to catch up)
+a (3);
+</code>
 
-For true concurrency: look at web workers. The code is still executed synchronously in the end.
+Consider the above source code, the statement ''a (3);'', will push ''a'' stack frame containing the argument and local variables of ''a'' function. Since ''a'' calls ''b'', the ''b'' stack frame will get pushed on top of ''a'' stack frame. As ''b'' gets evaluated, its associated stack frame is popped. Once ''b'' has been popped, we can now evaluate ''a'', and once that is done, its stack frame will be popped. Once the stack is empty, all code has finished evaluation. The stack basically represents how your own mind processes a function a call in JavaScript.
 
-Priority is important too!
+A queue is a collection data structure that has 2 operations ''enqueue'' and ''dequeue''. An ''enqueue'' pushes an element into the head of the collection. A ''dequeue'' takes an element out from the tail of the collection. The queue in JavaScript contains events to be processed. These events are enqueued either by the programmer via ''setTimeout'' or by the runtime (AJAX events) or from the user (mouse clicks). The runtime's event loop will dequeue the queue only when the stack is empty. It will get empty only when the main thread is not busy. An event driven application should have an empty stack most of the time, since after initialisation, there shouldn't be anything running. When a message gets dequeued, associated event handlers gets executed, this execution results in stack frames being created, and pushed onto the stack, and then subsequently popped for execution.
 
+There are some interesting behaviours that arise from this architecture. You may have experienced "lag" in various web applications, this is when the application becomes unresponsive to your mouse clicks. In Firefox this can freeze the browser, whereas in Chrome, a tab can simply become frozen. This unresponsiveness is mostly due to a stack that is constantly in use, which can happen for CPU-intensive tasks. As long as the stack is still filled, no events including your mouse clicks will be handled. This is different from normal operating system processes, where computation can be pre-emptively interrupted due to the OS scheduler. But in JavaScript computations cannot be interrupted. To get around this problem, you should break apart CPU intensive operations by delaying your a portion of your program using ''setTimeout''.
 
-http://ejohn.org/blog/how-javascript-timers-work/
+You can see the effect of this from running this example in your Firebug console:
 
-http://stackoverflow.com/questions/4574940/settimeout-with-zero-delay-used-often-in-web-pages-why
+<code javascript>
+(function () {
 
-http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
+    console.log('this is the start');
 
-http://stackoverflow.com/questions/3294281/asynchronous-programming-in-javascript-not-ajax
+    setTimeout(function cb() {
+        console.log('this is a msg from call back');
+    });
 
-http://stackoverflow.com/questions/8982489/how-does-asynchronous-programming-work-in-a-single-threaded-programming-model
+    console.log('this is just a message');
 
-http://www.html5rocks.com/en/tutorials/async/deferred/
+    setTimeout(function cb1() {
+        console.log('this is a msg from call back1');
+    }, 0);
 
-Links on promises:
+    console.log('this is the  end');
 
-http://www.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript
+})();
+</code>
 
-http://stackoverflow.com/questions/6801283/what-are-the-differences-between-deferred-promise-and-future-in-javascript
-'
-http://flaviocopes.com/deferred-and-promises-in-javascript/
+The 2 ''setTimeout'' calls enqueue events onto the event queue. However because the stack is busy running the 3 ''console.log'' calls, the 2 events are not dequeued and resolved until the very end.
 
-http://blogs.msdn.com/b/ie/archive/2011/09/11/asynchronous-programming-in-javascript-with-promises.aspx
+To make this all work, we also need asynchronous IO. How do we perform IO in JavaScript? On the browser, ignoring user input, all IO is a matter of AJAX calls. The browser runtime provides a native API to execute AJAX calls. From JavaScript's point of view, when it calls a function to execute an AJAX request, it completes immediately and the main thread is free to proceed to the next statement. There is no waiting for the HTTP request to complete to the response. The browser may be implementing this asynchronicity using threads or other concurrency mechanisms, but it is invisible to JavaScript. The browser will know when the AJAX request finishes, and will enqueue an event onto the queue. If you have defined a function to handle the response to the AJAX request, once the event is dequeued and the event handler function's stack frame will be pushed onto the stack for evaluation.
 
-https://github.com/kriskowal/uncommonjs/blob/master/promises/specification.md
+We can now understand that JavaScript juggles between evaluating the stack and running the event loop to dequeue any events on the queue. It gives priority to the stack and will only iterate the event loop when the stack is empty.
 
-http://www.javascriptturnsmeon.com/promises-in-javascript/
+For more details on JavaScript's runtime, see the [[https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop|MDN documentation on JavaScript's concurrency model and event loop]].
 
-http://blog.thepete.net/blog/2011/07/02/javascript-promises/
+As with everything, things change, features are added, and while the above describes the general philosophy JavaScript, there are usually ways to get around them. See HTML5 features called Web Workers or Cross-Window messaging which can allow multi-threaded JavaScript.
 
-http://blog.danielpecos.com/2013/01/javascript-promises-101/
+Managing the control flow in asynchronous event-loop based applications is a very deep topic in computer science. The JavaScript ecosystem has come up a number of ways to deal with this issue.
 
-http://domenic.me/2012/10/14/youre-missing-the-point-of-promises/
+The default way is the continuation passing style, also known as the mountain/pyramid of callbacks.
 
-http://www.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript
+<code javascript>
+function id (x, cc) {
+    cc (x) ;
+}
+</code>
 
-http://blogs.msdn.com/b/ie/archive/2011/09/11/asynchronous-programming-in-javascript-with-promises.aspx
+The ''cc'' variable is another "continuation", that will continue running the a computation after the ''id'' function finishes. You'll see this pattern often when dealing with an asynchronous function call. You want to pass a function that will handle the result when the asynchronous execution finishes.
+
+This becomes unwieldy when there is multiple asynchronous functions that you want to control in sequence. [[http://callbackhell.com/|Here's an example of a callback pyramid]].
+
+A better solution is the [[https://www.promisejs.org/|promise pattern]]. This basically allows you to write chained asynchronous control flow code that looks like synchronous code. Check out the promise pattern if you're finding it difficult to maintain long chains of asynchronous control flow.
+
+Useful links to check out:
+
+  * http://ejohn.org/blog/how-javascript-timers-work/
+  * http://stackoverflow.com/questions/779379/why-is-settimeoutfn-0-sometimes-useful
+  * http://www.slideshare.net/domenicdenicola/callbacks-promises-and-coroutines-oh-my-the-evolution-of-asynchronicity-in-javascript
 ===== AJAX =====
 
-Raw AJAX XHR open.. etc
+AJAX is the primary means of how client-side JavaScript performs IO. Single page applications make heavy use of AJAX to bring in extra information from server side scripts or other resources available on the web dynamically. AJAX is how you can update the content of a webpage without forcing an explicit HTTP reload.
 
-Long polling, short polling
-
+It is very important for web developers to understand AJAX, as it's the backbone of modern dynamic web applications. It is recommended that students work through this: [[https://developer.mozilla.org/en-US/docs/AJAX/Getting_Started]]
 ==== SEO for AJAX  ====
 
 Single page applications often have problems being indexed by search engines and social network robots. This is because, when the web began, the primary medium of content was just HTML. Nowadays, we have HTML, CSS, JavaScript and other kinds of rich media. Javascript specifically requires a power browser to be able to execute. Most search engines (Google included), do not execute advanced Javascript on websites. For single page applications, this means the search engine crawler will scrape no useful information from the website.
