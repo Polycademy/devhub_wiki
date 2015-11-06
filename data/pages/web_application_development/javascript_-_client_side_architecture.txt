@@ -608,8 +608,6 @@ In class based languages, you often had to carefully plan out your taxonomy and 
 
 You can see this happening in javascript. All objects have a prototype pointing back the native Object.prototype. This makes sense because they are all related semantically to "object". If you need a new object to contain modular code or conceptualise some sort of state or actor, you can either create ex-nihilo via the object literal syntax, or create extend it from a previous related object. The practice is bottom-up, there's no need to categorise everything from an abstraction down to concrete, just write concrete examples, and when you see relationships form between concrete examples, then depending on the concrete object you're writing, you can then inherit one from the other. When you need a wider generalisation, then just create higher abstract object and make both prototypes inherit it.
 
-{{url>http://www.docstoc.com/docs/document-preview.aspx?doc_id=27581648 427px,356px noscroll noborder}}
-
 Here's an example of using prototypical inheritance.
 
 [[http://plnkr.co/edit/QCUYSV?p=preview|Plunker Demo]]
@@ -640,6 +638,141 @@ console.log(wildPig);
 console.log(wildPig.__proto__);
 console.log(wildPig.__proto__.__proto__);
 </code>
+
+==== Evaluation Strategy ====
+
+[[https://en.wikipedia.org/wiki/Evaluation_strategy|Evaluation strategy]] is core concept within programming languages that determine when arguments are evaluated and what kind of values are being passed into function calls. Before we go any further, let's to define what we mean by "statement", "values", "expression", "variables", "labels", "names", "arguments", "parameter", "function scope", "function call".
+
+The words "value" and "expression" ultimately represent the same thing. However "expression" is used in contexts where there is some computation that is pending. Consider:
+
+<code javascript>
+var x = 1;
+var y = 1 + 2;
+var z = x + y;
+</code>
+
+There are 3 lines ending with a semicolon, and each line represents an assignment statement. On the right hand side of the ''='' sign, we have 3 expressions, resolving to 3 values. Denotatively speaking, ''1 + 2'' is equivalent to ''3''. So what is the difference between ''x = 1 + 2'' and ''x = 3''. In denotational semantics, there is no difference. Operationally, there is a difference, as the ''1 + 2'' requires an extra addition computation. Often when talking about programming language theory, which has a denotative semantic point of view, "values" and "expressions" will be used interchangeably.
+
+The ''x, y, z'' are also called "variables"/"labels"/"names". It is important to understand that when programmers use the term "variable", they are talking about symbol ''x'' used in the context of the program, but not talking about the value that ''x'' holds. The very definition of "variable", means that we should realise that variable can mean a variable number of things and can hold a variable number of things.
+
+Furthermore, "arguments" and "parameters" also mean the same thing, but they can be used in 2 different places, in where the function is declared and defined, and where the function is being called.
+
+<code javascript>
+function f (x, y z) {
+    // ...
+}
+
+f (a, b, c);
+</code>
+
+The ''x, y, z, a, b, c'' are all arguments/parameters. However ''a, b, c'' are also values/expressions.
+
+Inside the curly braces of ''function f ... { }'', is the scope of the function. Outside of the curly braces is called "outside of the function scope". What appears above the function declaration/definition in the source code is the lexical closure of the function, which is outside the scope of the function.
+
+<code javascript>
+// outside the scope, and also part of the lexical closure of f
+
+function f (x, y z) {
+    // inside the scope
+}
+
+// outside of the scope
+
+f (a, b, c);
+
+// still outside of the scope
+</code>
+
+Now that we have got this jargon out of the way, we can start using them in our explanations.
+
+Programming languages are separated into strict and lazy languages. Strictness which is the most common style, as opposed to laziness means argument expressions are immediately evaluated before being passed into a function call. In strict evaluation, there is commonly call-by-value, call-by-reference and call-by-sharing. Call-by-value generally means all arguments are copied in memory when they are passed into a function call. Changes made to the argument inside the function is not reflected outside the function. Call-by-reference means that an implicit reference is made to the argument when they are passed into the function call. Changes made to the argument inside the function is reflected outside of the function. The below pseudocode shows this:
+
+<code>
+// assuming call-by-value semantics
+
+function add1Copy (arg) {
+    arg = arg + 1;
+}
+
+x = 1;
+ 
+add1Copy (x);
+
+// what is x?
+// it will stay as 1
+</code>
+
+<code>
+// assuming call-by-reference semantics
+function add1Reference (arg) {
+    arg = arg + 1;
+}
+
+x = 1;
+
+add1Reference (x);
+
+// what is x?
+// it will change to 2
+</code>
+
+JavaScript is a strict call-by-sharing (a.k.a call-by-object) language.  Call by sharing can be thought of as combining call-by-value and call-by-reference. Values are passed as values, but all values are references, which is possible because all values are "objects". Practically this means values are not just raw values, but are [[https://en.wikipedia.org/wiki/Object_type_(object-oriented_programming)|implicitly objects]].
+
+What this effectively means, is that if the argument is mutable, you can operate on the argument using the argument's properties and methods, and because the object itself is a reference, the effects of the operations will be made available to outside of the function scope. However if we assign a new object to the argument's variable name, this assignment won't affect the variable outside of the function scope.
+
+See this example here:
+
+<code javascript>
+function changeStuff(a, b, c) {
+    a = a * 10;
+    b.item = "changed";
+    c = {item: "changed"};
+}
+
+var num = 10;
+var obj1 = {item: "unchanged"};
+var obj2 = {item: "unchanged"};
+
+changeStuff(num, obj1, obj2);
+
+console.log(num);
+console.log(obj1.item);    
+console.log(obj2.item);
+</code>
+
+This produces the output:
+
+<code>
+10
+changed
+unchanged
+</code>
+
+The operation applied on ''b'' inside the scope of the functions was reflected outside of the function scope. But assignment to ''c'', did not work on ''c'''s object, but created a new object and assigned it to the variable ''c'' inside the scope of the function.
+
+For application development, you can make use of these semantics in order to make your program more efficient. You can create objects to represent some concept inside your program, and you can be sure that when this object is passed into a function, the function can operate on the same object, and there won't be 2 of the same objects in memory, thus reducing your memory usage.
+
+Alternatively, there are situations where you need to give a copy of your object to a function, and prevent the operations inside the function reflecting outside of the function. This usually happens when the object in question is more of a data object, or object representing a collection of data, that is to be processed independently by different functions. Remember that objects are being copied anyway, it's just that they also represent references. Then what we need to do is to explicitly break this reference and create a whole new object from the old object. We need to ''clone'' the object. But it turns out that this is a non-trival problem in prototype-based languages. Here's a list of concerns one might have to tackle:
+
+    * What happens when the object we are trying to clone, contains objects itself? 
+    * Do we try to recursively clone objects? 
+    * Do we leave it as a shallow copy? 
+    * What about the prototype? 
+    * Do we clone the prototype as well? 
+    * Do we recursively clone the prototype? 
+    * Do we clone the functions as well?
+    * What happens if the object is cyclical, and the object contains a prototype that contains itself?
+
+Fortunately for most usecases, and for your sanity, you can make use of jQuery's ''extend'' function. 
+
+<code javascript>
+// shallow copy
+var newShallowObj = $.extend({}, oldObj);
+// deep copy
+var newDeepObj = $.extend(true, {}, oldObj);
+</code>
+
+It will be good for 99% of usecases. You can read more about the specifics here: [[http://api.jquery.com/jquery.extend/]], and you can also check the [[http://james.padolsey.com/jquery/#v=git&fn=jQuery.extend|source code of the function]] to see how it deals with all the edge cases.
 ===== Functional Programming in Javascript =====
 
 Javascript is a very [[http://eloquentjavascript.net/chapter6.html|functional language]], its functions are very flexible, and because it's architecture is often event driven and asynchronous, it often uses callbacks. You've also seen how it uses functions to create objects. All functions in javascript are naturally closures, they access variables outside of its own scope. I usually refer to this as "functions can access things upwards, but cannot access things downwards". So a high level function can access variables inside of its functions. Another recommended practice is to always use functional expressions rather than function declarations. This is because using the ''var'' operator keeps the function within the local scope, that way you don't pollute the global scope. This section will discuss several important aspects of functions in javascript.
@@ -2259,7 +2392,7 @@ It will return you a reference to an ''Element'' object on the DOM that represen
 <h1 id="title">Title</h1>
 </code>
 
-This a reference to the object, meaning that anything you do this node object will be reflected directly onto the DOM. It is a not a copy of the object. Make sure to reference this documentation on the [[https://developer.mozilla.org/en-US/docs/Web/API/element|Element]] object to understand all the capabilities.
+This a reference to the object, meaning that anything you do this node object will be reflected directly onto the DOM and vice versa. It is a not a copy of the object. Make sure to reference this documentation on the [[https://developer.mozilla.org/en-US/docs/Web/API/element|Element]] object to understand all the capabilities.
 
 To demonstrate, let's change something about the node.
 
@@ -2317,21 +2450,79 @@ console.log(document.querySelectorAll("p.para, li.interesting"));
 console.log(document.querySelector("#list > .interesting"));
 </code>
 
+The expressions that returned a collection of elements look like as if they returned an array of element objects, but this is not correct. It is very important to be aware that the collection type is not the same as a JavaScript array. What they return is either a ''HTMLCollection'' or ''NodeList''. A ''NodeList'' represents a collection of DOM nodes, while ''HTMLCollection'' represents a collection of HTML elements. The difference between them is trivial and not important.
 
-NodeList vs HTMLCollections
+What is important is that although they behave "array-like", you cannot use like arrays. For example, the ''HTMLCollection'' or ''NodeList'' objects do not have the methods ''push'', ''concat'', ''splice'', ''forEach'', or even array index notation ''a[i]'' as part of their object context. However they do have a ''length'' property, which will be useful for iteration.
 
-The concepts of liveness.
+Furthermore these collection objects with the exception of the object returned by ''querySelectorAll'' are live objects. This means they not only contain live elements, but the collection itself is live. This is mostly applicable to the ''length'' property of the collection.
 
+<code javascript>
+var paragraphsStatic = document.querySelectorAll("p.para");
+var paragraphsLive = document.getElementsByClassName("para");
 
+console.log(paragraphsStatic.length); // 2
+console.log(paragraphsLive.length); // 2
 
+var newParagraph = document.createElement("p");
+newParagraph.className = "para";
+document.body.appendChild(newParagraph);
 
+console.log(paragraphsStatic.length); // still 2
+console.log(paragraphsLive.length); // updated to 3
+</code>
 
+As you can see, ''querySelectorAll'' collection object is a snapshot of what elements existed on the HTML page when it was called. This means changes made to the DOM such as creating more ''para'' class elements, will not be reflected in the ''paragraphsStatic'' collection. Do note that even though the collection is not live, the internal elements are still live.
 
+Being aware of whether your collection is live or not can help you avoid many bugs, specifically infinite loop kind of bugs.
 
+<code javascript>
+// program finishes because paras.length is static
+var paras = document.querySelectorAll("p");
+for(var i = 0; i < paras.length ; i++){
+    var newPara = document.createElement("p");
+    newPara.textContent = "new para";
+    document.body.appendChild(newPara);
+}
 
-The DOM provides a significant range of functions and properties that you can manipulate that can make the webpage incredibly dynamic. There is much more to explore, review [[https://developer.mozilla.org/en-US/docs/Web/API/Document|MDN's documentation]] on the DOM and try all the different properties and functions that is relevant to your application. The key point here is that you can use JavaScript to manipulate the BOM and DOM in real time or event-driven from user interaction. This gives you the ability to create dynamic interactions and animations that isn't possible with just HTML/CSS and/or server side coding alone.
+// infinite loop because paras.length is live
+// warning: it will make your browser unresponsive!
+// only run this inside google chrome console and kill the tab, otherwise you'll need to kill firefox if you run this
+var paras = document.getElementsByTagName("p");
+for(var i = 0; i < paras.length; i++){
+    var newPara = document.createElement("p");
+    newPara.textContent = "new para";
+    document.body.appendChild(newPara);
+}
+</code>
 
-[[http://plnkr.co/edit/vaRTxk?p=preview|Plunker Demo]]
+Even though these collections are not arrays, we may still want to iterate through them and interact with the elements. Below is the safest approach to do it:
+
+<code javascript>
+// this is static so it's easy
+var paragraphsStatic = document.querySelectorAll(".para");
+
+for (var i = 0; i < paragraphsStatic.length; i++) {
+    console.log(paragraphsStatic.item(i));
+}
+
+// for live collections, just remember to cache the length
+var paragraphsLive = document.getElementsByClassName("para");
+
+for (var i = 0, length = paragraphsLive.length; i < length; i++) {
+    // the length property is not fixed upon starting this loop
+    console.log(paragraphsLive.item(i));
+}
+</code>
+
+Say we want to actually make use of the functions available to arrays, we can can convert a ''HTMLCollection'' or ''NodeList'' into an array via ''Array.prototype.slice.call(elementCollection)''. If you pass in a live collection, the array will not preserve the liveness property of the collection. The elements of the array will still be references to the DOM elements.
+
+For more details on why ''HTMLCollection'' and ''NodeList'' are not arrays, see: [[https://developer.mozilla.org/en-US/docs/Web/API/NodeList]]
+
+jQuery... and integration with AngularJS directives
+
+Best way to learn jQuery is to practice it interactively. The [[https://www.codecademy.com/learn/jquery|Codecademy site on jQuery]] allows you to practice snippets of the jQuery API and see the results live on a website. It is simple to replicate the environment on your own machine. You can take our previous ''example.html'' and load in the jQuery script, and use your console to enter in commands to interact with jQuery.
+
+The DOM provides a significant range of functions and properties that you can manipulate, which will make the web application incredibly dynamic. There is much more to explore. Review [[https://developer.mozilla.org/en-US/docs/Web/API/Document|MDN's documentation]] on the DOM and try all the different properties and functions that is relevant to your application. The key point here is that you can use JavaScript to manipulate the BOM and DOM in real time or event-driven from user interaction. This gives you the ability to create dynamic interactions and animations that isn't possible with just HTML/CSS and/or server side coding alone.
 ===== Events & Asynchronous Programming =====
 
 Firstly Javascript is always synchronous. The event loop, is a long running queue of tasks to do. The only parts of javascript that is asynchronous is the I/O APIs exposed by the browser and the setTimeout and setInterval methods.
