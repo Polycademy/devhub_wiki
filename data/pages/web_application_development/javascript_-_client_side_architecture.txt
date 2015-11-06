@@ -2365,10 +2365,6 @@ First let's create a simple HTML file locally called ''example.html''. Then save
 <!DOCTYPE html>
 <html>
 
-  <head>
-    <script src="script.js"></script>
-  </head>
-
   <body>
     <h1 id="title">Title</h1>
     <p class="para">Some Text1</p>
@@ -2520,11 +2516,108 @@ Say we want to actually make use of the functions available to arrays, we can ca
 
 For more details on why ''HTMLCollection'' and ''NodeList'' are not arrays, see: [[https://developer.mozilla.org/en-US/docs/Web/API/NodeList]]
 
-jQuery... and integration with AngularJS directives
+The DOM provides a significant range of functions and properties that you can manipulate, which will make the web application incredibly dynamic. There is much more to explore. Review [[https://developer.mozilla.org/en-US/docs/Web/API/Document|MDN's documentation]] on the DOM and try all the different properties and functions that is relevant to your application. Another good resource is [[http://domenlightenment.com/|DOM Enlightenment]].
 
-Best way to learn jQuery is to practice it interactively. The [[https://www.codecademy.com/learn/jquery|Codecademy site on jQuery]] allows you to practice snippets of the jQuery API and see the results live on a website. It is simple to replicate the environment on your own machine. You can take our previous ''example.html'' and load in the jQuery script, and use your console to enter in commands to interact with jQuery.
+So far, we've only looked at the DOM, and we haven't seen the power of the BOM. Interacting with the browser mainly involves dealing with the viewport window, history, location and navigation. With the advent of HTML5, we can also interface with the BOM and perform operations dealing with file input output, persistent storage, web audio/video, and far more. These are quite advanced topics, and you should consult resources focusing on those areas if your application can make use of those technologies. Going back to our ''example.html'', open up your Firebug console, and try these code blocks.
 
-The DOM provides a significant range of functions and properties that you can manipulate, which will make the web application incredibly dynamic. There is much more to explore. Review [[https://developer.mozilla.org/en-US/docs/Web/API/Document|MDN's documentation]] on the DOM and try all the different properties and functions that is relevant to your application. The key point here is that you can use JavaScript to manipulate the BOM and DOM in real time or event-driven from user interaction. This gives you the ability to create dynamic interactions and animations that isn't possible with just HTML/CSS and/or server side coding alone.
+<code javascript>
+// creating popup windows and manipulating them
+
+// open is part of the window context, thus it's globally available
+newWindow = open("", "", "width=100, height=100");
+
+newWindow.resizeTo(500, 500);
+newWindow.moveTo(0,0);
+
+newWindow.document.write("<title>Window Title!</title>");
+newWindow.document.write("<h1>Hello World!</h1>");
+
+setTimeout(function () {
+    newWindow.close();
+}, 4000);
+</code>
+
+You should realise now that by disabling JavaScript, you will never meet a popup window!
+
+More information on the ''window'' object can be found at [[https://developer.mozilla.org/en-US/docs/Web/API/Window|MDN]].
+
+<code javascript>
+// let's try and get the current URI of the page and change to another website, a client side redirect
+
+console.log(location);
+console.log(location.href);
+
+// similar to HTTP redirect (replaces the current location in history)
+location.replace("http://google.com");
+// similar to clicking a link (appends to the history) (this is probably what you should prefer to use)
+location.assign("http://google.com");
+// reloads the current http site
+location.reload();
+</code>
+
+Redirecting or navigating to other pages on your site triggers an HTTP reload. With single page applications, the usage of these functions have decreased, and have been replaced with HTML 5 History push state API. This has allowed single page applications to couple history manipulation with dynamic content change without an explicit HTTP request response cycle. This improves response time for interactive applications, and makes the user experience of web applications closer to their desktop counterparts.
+
+<code javascript>
+// we can acquire more information about the navigator, the user's browser, operating system and hardware device
+
+// what kind of browser?
+console.log(navigator.userAgent);
+
+// what's the OS?
+console.log(navigator.oscpu);
+
+// what language does the user understand?
+console.log(navigator.language);
+
+// we can ask the browser to provide us the user's geolocation
+navigator.geolocation.getCurrentPosition(showMyLocation);
+
+function showMyLocation(position) {
+
+    var latitude  = position.coords.latitude;
+    var longitude = position.coords.longitude;
+
+    var img = new Image();
+    img.src = "https://maps.googleapis.com/maps/api/staticmap?center=" + latitude + "," + longitude + "&zoom=13&size=300x300&sensor=false";
+
+    var locationDiv = document.createElement("div");
+    locationDiv.innerHTML += '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
+    locationDiv.appendChild(img);
+    document.body.appendChild(locationDiv);
+
+};
+</code>
+
+None of the information acquired by the navigator is fullproof. It is possible for the browser to lie to web application or give incorrect results. The information acquired can be useful for SEO, market analytics, or customising the experience to the consumer. More properties are listed on [[https://developer.mozilla.org/en-US/docs/Web/API/Navigator|MDN]]. Are you surprised by how accurate the browser's geolocation is? Then you're probably been interacting with [[http://stackoverflow.com/questions/2873081/where-do-firefox-and-chrome-etc-get-their-geolocation-data-from|Google alot]].
+
+Originally browsers were not standardised, and making JavaScript work cross-platform was very tedious and error-prone. jQuery was developed to present an elegant and powerful standardised API to allow easier cross-platform development. It's still important to know how vanilla JavaScript works, as it often can be faster than the jQuery equivalent. Reach for jQuery when its power matches the problem space. The best way to learn jQuery is to learn it interactively. Codecademy provides a sequence of interactive tutorials which should introduce to you the power of jQuery [[https://www.codecademy.com/learn/jquery]].
+
+You can practice all of the examples involving jQuery using this new ''example.html'':
+
+<code html example.html>
+<!DOCTYPE html>
+<html>
+
+   <head>
+       <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+   </head>
+
+  <body>
+    <h1 id="title">Title</h1>
+    <p class="para">Some Text1</p>
+    <p class="para">Some Text2</p>
+    <ul id="list">
+        <li>First Point</li>
+        <li class="interesting">Second Point</li>
+    </ul>
+  </body>
+
+</html>
+</code>
+
+Once you have understood jQuery, you can now see how powerful it can when it's combined with AngularJS directives. Go back to your directives now, and consider what kinds of feature enhancements and dynamism you can add to your HTML widgets. The important part is the ''element'' argument that is passed into the function at the ''link'' property. Without jQuery, AngularJS automatically provides a jQlite object, with jQuery, that ''element'' object is equivalent to any DOM object that has been augmented by jQuery, except that the element refers specifically to HTML element where the directive has been applied.
+
+In summary, JavaScript gives you the ability to create dynamic interactions and animations that isn't possible with just HTML/CSS and/or server side coding alone.
 ===== Events & Asynchronous Programming =====
 
 Firstly Javascript is always synchronous. The event loop, is a long running queue of tasks to do. The only parts of javascript that is asynchronous is the I/O APIs exposed by the browser and the setTimeout and setInterval methods.
