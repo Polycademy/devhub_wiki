@@ -16,6 +16,7 @@ Heroku Deployment:
 ```sh
 heroku login
 
+# pass your own X in
 heroku create devhub-wiki-X
 
 git push heroku master
@@ -25,4 +26,4 @@ heroku open
 heroku logs
 ```
 
-Eligible students can access it now at https://devhub-wiki.herokuapp.com/doku.php
+Admin account, user: "codemasterinstitute", pass: "codemasterinstitute"
