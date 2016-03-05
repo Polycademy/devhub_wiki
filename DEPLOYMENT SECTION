@@ -1,0 +1,94 @@
+====== Deployment ======
+
+Once you have developed your web application, you need to deploy your application to production. This can take the form of deploying to the "public cloud" or to your own private servers. 
+
+The public cloud covers services like IAAS (infrastructure as a service) to PAAS (platform as a service). IAAS services provide virtual machines, which are like the computer you are running, but virtualised, which means they aren't a real physical machine. This allows IAAS businesses to run multiple virtual machines on a single physical machine concurrently, increasing the efficiency of operating a cloud service. Note that some IAAS services do provide bare metal services, which means they do provide access to a real physical machine, but these are for specialist usecases where the client needs greater performance. AWS (Amazon Web Services) is currently one the major providers of IAAS services. As for PAAS, instead of providing your access to machine, real or virtualised, they instead provide you access to an API (application programmatic interface) that abstracts the operations of running applications. PAAS providers generally make it easier to deploy applications, as long as your applications fit within the scope of what they expect to host. This makes them somewhat more expensive then running on an IAAS (assuming you're not counting the cost of system administration) and less flexible due to how their API constrains what can be done, but is easier to use and faster to deploy on. Heroku is one of the major providers of such PAAS services.
+
+Instead of the public cloud, you may decide to host your production application on your own private servers. This comes with much greater complexity, as you now need to manage the physical machine, power supply, hardware maintenance, and have the necessary premises to place the machine.
+
+For the purposes of this course, we are going to learn how to use Heroku the PAAS to deploy your web application. We wil need 3 things to set this up:
+
+1. A domain (actually this is optional)
+2. Github Account and Git Cli Application
+3. Heroku Account and Heroku CLI Application
+
+===== Domains =====
+
+You may want to acquire a custom domain for your web application. This is however optional, as any public cloud will assign you a subdomain when you deploy an application, and if you run on your own private servers, your application will be accessible through an IP (internet protocol) address.
+
+However understanding how domains work is important. Domains are a way of addressing a network location, specifically an IP address. Domains are aliases of these IP addresses, so the IPs that they represent can be changed. This is how ppeople buy and sell domains to point to new websites. IPs aren't the only information encoded at a domain address, there can be other data that the owners of the IP address have setup. A common usecase is to place MX (mail exchange) records at the domain address as well, in order to allow proper routing of email sent to the domain. Here is an example:
+
+<code>
+# linux/windows/mac
+dig +ALL www.example.com
+host www.example.com
+</code>
+
+When you write out a domain into your web browser such as <code>http://www.example.com/</code>, your web browser first contacts a DNS (domain name server) asking it to resolve the domain into an IP address. The DNS server may either be a recursive DNS or an authoritative DNS. Most likely it will go to a recursive DNS which is running on your local network's router. A recursive DNS acts like a cache, it may or may not have the corresponding IP to <code>http://www.example.com</code>. If another user or yourself had visited the website prior, then it is likely that your immediate recursive DNS has this record, and returns that IP to your computer to use. However if it doesn't have the record, the recursive DNS will contact an upstream DNS for this information. (IM NOT SURE IF THIS HAPPENS). This happens until you contact the root DNS, which are operated by international and national agencies, which points your query to an authoritative name server. This authoritative name server will be owned and operated by the domain name registrar you registered a domain with. Domain name registrars have to register themselves against one of the major agencies in order to sell domains. Finally the authoritative name server will have the right answer, and return the IP and other metadata to the client. This IP is the actual network address of where the website resides.
+
+Getting a domain is easy, you can go to any domain registrar and look for a trustworthy and cheap registrar. A good registrar is Gandi.com. You can register a domain, and it will be recorded as part of a nameserver. The next step is pointing this domain to the IP address where your production application is. This is where Heroku or your chosen hosting method comes in. They will have the IP address you need to associate to your domain. So keep your tab open on the domain configuration page, you'll need it in a short while.
+
+===== Heroku =====
+
+First go to Heroku and register an account. You should already have a Github account and a git CLI application. If not a standard git GUI can also work, but you'll need to understand how add remotes. We're going to assume you already have a git CLI application.
+
+Download the heroku CLI application for your OS. See heroku CLI app. There are some challenges to using it on Cygwin. See ...
+
+Heroku fully supports PHP applications. This means Heroku will know if your application has a `composer.json` and `composer.lock` file.
+
+Heroku uses "buildpacks" to provide the necessary infrastructure software to run PHP applications. This means things like http servers (Apache), PHP CGI/PHP-mod/PHP-fastcgi.
+
+In order to load the relevant PHP build pack, we need to add it as a dependencyb in our composer.json.
+
+Specifically:
+
+```
+{
+    "require": {
+        "php": "~5.4"
+    },
+    "require-dev": {
+        "heroku/heroku-buildpack-php": "*"
+    }
+}
+```
+
+Remember we can also specify the PHP version that is required for our PHP application to function.
+
+At the root of your project directory create a file <code>Procfile</code>.
+
+Inside the Procfile, you need the contents:
+
+<code>
+web: vendor/bin/heroku-php-apache2
+</code>
+
+This Procfile is used by heroku as a way to configure its actions when deploying the application. Here we are just specifying one web instance, and the instance is to be executed using the `heroku-php-apache2` executable. This executable is located in the <code>vendor/bin</code> directory. This directory is created when you deploy to Heroku, as it reads your composer.json and downloads all the necessary dependencies into project root.
+
+That executable will launch Apache with defaults suited to PHP, and will begin to accept HTTP connections, once a connection is made, the HTTP server will launch a PHP executable executing your index.php.
+
+When heroku launches the HTTP server, it can provide environment variables to the PHP runtime. These can include the IP address and other details. Which are usually more relevant to application frameworks like Nodejs.
+
+Matrix Website is deployed on Heroku:
+
+1. Add your SSH key to Heroku. `heroku keys:add ~/.ssh/id_rsa.pub`
+2. The git remote for this website is: `git@heroku.com:matrix-website.git`
+3. Add the remote to this blog repo: `git remote add heroku git@heroku.com:matrix-website.git`
+4. Scale the website via `heroku ps:scale web=1`
+5. Add the Postgresql database via `heroku addons:add heroku-postgresql`
+6. Deploy the website via `git push heroku master`
+7. Check out the site via `heroku open`
+8. Add your credit card to Heroku (free backups require credit card).
+9. Add Postgresql backups with `heroku addons:add pgbackups:auto-month`
+
+Adding the domain:
+
+1. Add the domain via `heroku domains:add matrix.ai`
+2. Add a root CNAME to the Heroku subdomain.
+
+Ok. we have to know that Heroku doesn't support a MySQL database it only supports postgresql database. Shit... this course supposes amysql database however! ACTUALLY. Heroku has a ClearDB plugin. So we can use that. And it has a free plan.
+
+We need an example deployment of a PHP app using MySQL on github, this should show it really easily. Kind of like the SnapSearch demo application. Just go through themotions.
+
+
+
