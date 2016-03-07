@@ -110,14 +110,29 @@ By changing your ''NS'' records to point to the above 2 name servers, this effec
 
 At this point, you've finished configuring Gandi, you just need to edit your DNS records on CloudFlare. You need 2 kinds of records:
 
-^ Type  ^ Name        ^ Value                             ^ TTL       ^
-| CNAME | example.com | polycademy-php-demo.herokuapp.com | Automatic |
-| CNAME | www         | polycademy-php-demo.herokuapp.com | Automatic |
+^ Type  ^ Name        ^ Value                 ^ TTL       ^
+| CNAME | example.com | example.herokuapp.com | Automatic |
+| CNAME | www         | example.herokuapp.com | Automatic |
 
 
-Replace the ''example.com'' with your chosen domain, and the ''polycademy-php-demo.herokuapp.com'' with the subdomain that Heroku gave your application.
+Replace the ''example.com'' with your chosen domain, and the ''example.herokuapp.com'' with the subdomain that Heroku gave your application.
 
-The first record makes use of the CNAME Flattening feature of CloudFlare. We need this feature due to a quirk in the DNS specification and how Heroku exposes its applications. Traditionally we would just add an ''A'' record pointing to an IP address of our web application server. However Heroku doesn't expose an IP address, it gives back a subdomain, because its internal IP address may change over time due to load balancing. Now if we want to make use of a custom domain, we can no longer use the ''A'' record to point to an IP address, we need a CNAME record which means "Canonical Name", it basically means that this ''Name'' is an alias for this ''Value''. The 2nd record in the above table uses CNAME to mean that the ''www'' subdomain of the current domain zone is an alias for ''polycademy-php-demo.herokuapp.com''. However the first record isn't actually part of the DNS specification, it is an overloaded CNAME, and what CloudFlare actually does, is derive the IP address of ''polycademy-php-demo.herokuapp.com'' in the backend, and present the IP address as an ''A'' record if a client queries ''example.com''. This allows you to make your entire domain an alias of another domain. Other third party DNS authorities call this an ''ALIAS'' record, which is something outside of the DNS specification as well.
+The first record makes use of the CNAME Flattening feature of CloudFlare. We need this feature due to a quirk in the DNS specification and how Heroku exposes its applications. Traditionally we would just add an ''A'' record pointing to an IP address of our web application server. However Heroku doesn't expose an IP address, it gives back a subdomain, because its internal IP address may change over time due to load balancing. Now if we want to make use of a custom domain, we can no longer use the ''A'' record to point to an IP address, we need a CNAME record which means "Canonical Name", it basically means that this ''Name'' is an alias for this ''Value''. The 2nd record in the above table uses CNAME to mean that the ''www'' subdomain of the current domain zone is an alias for ''example.herokuapp.com''. However the first record isn't actually part of the DNS specification, it is an overloaded CNAME, and what CloudFlare actually does, is derive the IP address of ''example.herokuapp.com'' in the backend, and present the IP address as an ''A'' record if a client queries ''example.com''. This allows you to make your entire domain an alias of another domain. Other third party DNS authorities call this an ''ALIAS'' record, which is something outside of the DNS specification as well.
+
+Finally go into Heroku's control panel navigate to your application's settings. Scroll down to the "Domains" section, add in 2 custom domain records:
+
+^ Domain Name     ^ DNS Target            ^
+| example.com     | example.herokuapp.com |
+| www.example.com | example.herokuapp.com |
+
+Alternatively use your ''heroku'' CLI tool and run:
+
+<code>
+ > heroku domains:add example.com
+ > heroku domains:add www.example.com
+</code>
+
+Wait 24 hours for your DNS to propagate, and then try visiting ''example.com'' and ''www.example.com''.
 
 ===== Heroku =====
 
