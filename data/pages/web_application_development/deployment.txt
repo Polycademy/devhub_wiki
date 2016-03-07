@@ -1,10 +1,312 @@
 ====== Deployment ======
 
-TBD
+Once you have developed your web application, you need to deploy your application to production. This can take the form of deploying to the "public cloud" or to your own private servers. 
+
+The public cloud covers services like IAAS (infrastructure as a service) to PAAS (platform as a service). IAAS services provide virtual machines, which are like the computer you are running, but virtualised, which means they aren't a real physical machine. This allows IAAS businesses to run multiple virtual machines on a single physical machine concurrently, increasing the efficiency of operating a cloud service. Note that some IAAS services do provide bare metal services, which means they do provide access to a real physical machine, but these are for specialist use cases where the client needs greater performance. [[https://aws.amazon.com/|AWS (Amazon Web Services)]] is currently one the major providers of IAAS services. As for PAAS, instead of providing you access to the machine, real or virtualised, they instead provide you access to an API (application programmatic interface) that abstracts the operations of running applications. PAAS providers generally make it easier to deploy applications, as long as your applications fit within the scope of what they expect to host. This makes them somewhat more expensive then running on an IAAS (assuming you're not counting the cost of system administration) and less flexible due to how their API constrains what can be done, but is easier to use and faster to deploy on. [[https://heroku.com/|Heroku]] is one of the major providers of such PAAS services.
+
+Instead of the public cloud, you may decide to host your production application on your own private servers. This comes with much greater complexity, as you now need to manage the physical machine, power supply, hardware maintenance, and have the necessary premises to place the machine.
+
+For the purposes of this course, we are going to learn how to use Heroku the PAAS to deploy your web application. We wil need 4 things to set this up:
+
+  * A domain (this is optional)
+  * Github Account and Git ClI Application (you should already have this)
+  * Heroku Account and Heroku CLI Application
+  * Composer CLI Application (you should already have this)
 
 ===== Domains =====
 
+You may want to acquire a custom domain for your web application. This is however optional, as any public cloud will assign you a subdomain when you deploy an application, and if you run on your own private servers, your application will be accessible through an IP (internet protocol) address.
+
+However understanding how domains work is important. Domain names are a way of addressing a network location, most commonly an IP address. Domains are aliases of these IP addresses, so the IPs that they represent can be changed. This is how people can buy and sell domains to point to new websites. IPs aren't the only information encoded at a domain address, there can also be other data relating to emails, service discovery and more.
+
+Domain names work via the DNS (domain name system) infrastructure. It is a hierarchical decentralised naming system consisting of servers that perform DNS resolution. Let's examine an example domain: ''www.example.com''. Implicitly there is a ''.'' at the end of a domain referring the root of the DNS system. If you explicitly add a trailing period, this makes the domain a FQDN (fully qualified domain name). Domains can be broken down into its constituent parts (it is easier if we reverse the order of the parts to reflect the hierarchy):
+
+<code>
+.com.example.www  - fully qualified domain
+.                 - root zone
+.com              - top level domain zone
+.com.example      - domain zone
+.com.example.www  - subdomain zone
+</code>
+
+The hierarchy of the domain syntax follows the hierarchy of resolving a domain its respective IP address.
+
+At the top of the DNS hierarchy, we have the 13 root name servers. These are the servers that can answer queries for root ''.'' zone. The 13 root name servers are listed here: http://www.root-servers.org/. Due to IP anycast technology, this doesn't mean there is only 13 physical servers, there can be many more, but they all masquerade under one of the 13 IP addresses. The IP addresses for these root name servers do not change, so information about these root name servers is hard coded into the recursive DNS resolver software.
+
+We can choose any of the 13 root name servers and ask them for ''www.example.com.''. The root name server will reply with a list of servers addressing the top level domain zone ''com.''.
+
+We can choose one server from the list, and ask them for ''www.example.com.''. The top level domain name server will reply with a list of servers addressing the domain zone ''example.com.''.
+
+We can choose one server from list, and ask them for ''www.example.com.''. At this point, the server we are asking is probably the authoritative DNS server, this means it is probably managed by the domain registrar or the cloud host. The server is most likely going to respond with an ''A'' record, which tells us the IP address for ''www.example.com.''. However it is also possible that it responds with further name servers, that we have to ask again.
+
+We can show this resolution process happen in real time, you'll need the command line tool ''dig'':
+
+<code>
+ > # we're contacting Google's recursive DNS server 8.8.8.8, and asking it for a illuminate.io A record
+ > dig @8.8.8.8 illuminate.io A +trace
+
+; <<>> DiG 9 <<>> @8.8.8.8 illuminate.io A
+; (1 server found)
+;; global options: +cmd
+.          16622   IN  NS  g.root-servers.net.
+.          16622   IN  NS  h.root-servers.net.
+.          16622   IN  NS  b.root-servers.net.
+.          16622   IN  NS  j.root-servers.net.
+.          16622   IN  NS  l.root-servers.net.
+.          16622   IN  NS  e.root-servers.net.
+.          16622   IN  NS  m.root-servers.net.
+.          16622   IN  NS  i.root-servers.net.
+.          16622   IN  NS  k.root-servers.net.
+.          16622   IN  NS  d.root-servers.net.
+.          16622   IN  NS  f.root-servers.net.
+.          16622   IN  NS  c.root-servers.net.
+.          16622   IN  NS  a.root-servers.net.
+;; Received 228 bytes from 8.8.8.8#53(8.8.8.8) in 8 ms
+
+io.            172800  IN  NS  ns-a4.io.
+io.            172800  IN  NS  ns-a1.io.
+io.            172800  IN  NS  ns-y1.io.
+io.            172800  IN  NS  ns-d1.io.
+io.            172800  IN  NS  ns-a3.io.
+io.            172800  IN  NS  ns-l1.io.
+io.            172800  IN  NS  ns-a2.io.
+;; Received 423 bytes from 2001:500:84::b#53(2001:500:84::b) in 161 ms
+
+illuminate.io.     86400   IN  NS  guy.ns.cloudflare.com.
+illuminate.io.     86400   IN  NS  mimi.ns.cloudflare.com.
+;; Received 85 bytes from 2607:feb8::5:5#53(2607:feb8::5:5) in 129 ms
+
+illuminate.io.     300 IN  A   104.27.173.49
+illuminate.io.     300 IN  A   104.27.172.49
+;; Received 63 bytes from 2400:cb00:2049:1::adf5:3bad#53(2400:cb00:2049:1::adf5:3bad) in 10 ms
+</code>
+
+While the above shows the DNS hierarchy responding to our request, going through the entire process each time we need to contact a domain would be computationally expensive. So the smart idea is to cache the results of a DNS resolution, so that the next time we need it, we don't need to go through the entire hierarchy. This has been implemented in a number of ways, and you most likely experience it every single time you go on the internet. There is a routing infrastructure that supports this caching methodology. Here's an actual list of things your computer does to resolve a domain name, and at each point there could be a cached record that short circuits the process:
+
+  - Application specific name resolution cache (e.g. The Firefox DNS cache.)
+  - Operating System Hosts File (e.g. Look at ''/etc/hosts''.)
+  - Forwarding DNS Server (e.g. Your router DNS server.)
+  - Recursive DNS Server (e.g. Your ISP DNS.)
+  - Authoritative DNS Server (e.g. From root servers and top-level-domain nameservers to domain name registrar nameservers and cloud hosting nameservers.)
+
+As shown above, DNS servers are separated into 3 types. A forwarding DNS server is essentially a cache, if it doesn't have a record, it forwards the query to its preset recursive DNS server. An example is your router's DNS server. A recursive DNS server takes it upon itself to find an answer to the query, this means a recursive DNS server will query authoritative DNS servers and traverse the ''NS'' records until it acquires the necessary records to answer the query. An example of a recursive DNS server is your ISP's DNS server or Google's DNS server at 8.8.8.8. The authoritative DNS server will not query or forward other DNS servers, it will only answer queries given the information it has.
+
+{{https://blog.opendns.com/wp-content/uploads/2014/07/Screen-Shot-2014-07-16-at-10.56.09-AM.png}}
+
+To setup a custom domain for Heroku we need an account with Heroku, a domain registrar (like [[https://www.gandi.net/|Gandi]]), and a [[https://www.cloudflare.com/|CloudFlare]] account. The CloudFlare account is necessary to setup a third party authoritative DNS server and to use their "[[https://support.cloudflare.com/hc/en-us/articles/200169056-CNAME-Flattening-RFC-compliant-support-for-CNAME-at-the-root|CNAME Flattening]]" feature, while the account with domain registrar is needed to register a custom domain.
+
+Before you continue with this section, you should jump to the [[deployment#heroku|Heroku section]] below and setup your application, you'll need it before you can complete this domain name setup process.
+
+For example, let's say you registered the domain <code>example.com</code> with Gandi, and you also signed up to CloudFlare. CloudFlare will provide you have a 2 nameserver domain names, something like:
+
+<code>
+guy.ns.cloudflare.com
+mimi.ns.cloudflare.com
+</code>
+
+Since you're using CloudFlare as your third party authoritative DNS server, these are the name server records that you need to give to Gandi. Inside Gandi's control panel, you will need to change the name server settings from Gandi's default DNS servers to CloudFlare's DNS servers. If you need further help on this, see this guide: https://wiki.gandi.net/en/dns/change
+
+By changing your ''NS'' records to point to the above 2 name servers, this effectively makes the ''com.'' top-level domain name servers  to answer a ''example.com'' query with these ''NS'' records. This forces any recursive DNS resolver to then query ''guy.ns.cloudflare.com'' or ''mimi.ns.cloudflare.com'' for ''example.com'', which should answer with the relevant ''A'' records.
+
+At this point, you've finished configuring Gandi, you just need to edit your DNS records on CloudFlare. You need 2 kinds of records:
+
+^ Type  ^ Name        ^ Value                             ^ TTL       ^
+| CNAME | example.com | polycademy-php-demo.herokuapp.com | Automatic |
+| CNAME | www         | polycademy-php-demo.herokuapp.com | Automatic |
 
 
-===== Hosting =====
+Replace the ''example.com'' with your chosen domain, and the ''polycademy-php-demo.herokuapp.com'' with the subdomain that Heroku gave your application.
 
+The first record makes use of the CNAME Flattening feature of CloudFlare. We need this feature due to a quirk in the DNS specification and how Heroku exposes its applications. Traditionally we would just add an ''A'' record pointing to an IP address of our web application server. However Heroku doesn't expose an IP address, it gives back a subdomain, because its internal IP address may change over time due to load balancing. Now if we want to make use of a custom domain, we can no longer use the ''A'' record to point to an IP address, we need a CNAME record which means "Canonical Name", it basically means that this ''Name'' is an alias for this ''Value''. The 2nd record in the above table uses CNAME to mean that the ''www'' subdomain of the current domain zone is an alias for ''polycademy-php-demo.herokuapp.com''. However the first record isn't actually part of the DNS specification, it is an overloaded CNAME, and what CloudFlare actually does, is derive the IP address of ''polycademy-php-demo.herokuapp.com'' in the backend, and present the IP address as an ''A'' record if a client queries ''example.com''. This allows you to make your entire domain an alias of another domain. Other third party DNS authorities call this an ''ALIAS'' record, which is something outside of the DNS specification as well.
+
+===== Heroku =====
+
+Heroku is a PAAS that will be hosting your PHP application. You need to go to [[https://heroku.com/|Heroku]] and register an account. We will assume that you already have a Github account and the ''git'' CLI application. If you don't have the ''git'' CLI application, the Git GUI application can also work as long as it allows you to manipulate remotes.
+
+You will need the ''heroku'' CLI application for your OS. You can download the appropriate version at https://toolbelt.heroku.com/
+
+The ''heroku'' command line tool is a interface to the Heroku API, it supports all the operations necessary for creating, deploying and maintaining applications.
+
+Once the Heroku toolbelt is installed, make sure ''heroku'' is available on your shell ''$PATH'' or CMD ''%PATH%''. 
+
+Heroku fully supports PHP applications. But first Heroku will try to detect the type of the application you're deploying. This is why your application needs the ''composer.json'' and ''composer.lock'' file in your repository. It will check for the existence of these 2 files.
+
+We have also created a complete example of a minimal PHP application deployed on Heroku that is using MySQL: https://github.com/Polycademy/PHPHerokuDemo Please refer to it when you get stuck.
+
+Run these in your shell (if you're on Windows, run this using CMD or Powershell):
+
+<code>
+ > heroku --help
+
+Usage: heroku COMMAND [--app APP] [command-specific-options]
+
+Primary help topics, type "heroku help TOPIC" for more details:
+
+  addons    #  manage add-on resources
+  apps      #  manage apps (create, destroy)
+  auth      #  authentication (login, logout)
+  config    #  manage app config vars
+  domains   #  manage domains
+  logs      #  display logs for an app
+  ps        #  manage dynos (dynos, workers)
+  releases  #  manage app releases
+  run       #  run one-off commands (console, rake)
+  sharing   #  manage collaborators on an app
+
+Additional topics:
+
+  2fa          #  manage two-factor authentication settings
+  buildpacks   #  manage the buildpack for an app
+  certs        #  manage ssl endpoints for an app
+  drains       #  display drains for an app
+  features     #  manage optional features
+  fork         #  clone an existing app
+  git          #  manage local git repository for app
+  help         #  list commands and display help
+  keys         #  manage authentication keys
+  labs         #  manage optional features
+  local        #  run heroku app locally
+  login        #  Login with your Heroku credentials.
+  maintenance  #  manage maintenance mode for an app
+  members      #  manage membership in organization accounts
+  orgs         #  manage organization accounts
+  pg           #  manage heroku-postgresql databases
+  pgbackups    #  manage backups of heroku postgresql databases
+  plugins      #  manage plugins to the heroku gem
+  regions      #  list available regions
+  repo         #  Slug manipulation
+  stack        #  manage the stack for an app
+  status       #  Status of Heroku Platform
+  twofactor    #  manage two-factor authentication settings
+  update       #  update the heroku client
+  version      #  display version
+
+ > heroku login
+
+Enter your Heroku credentials.
+Email: email@email.com
+Password (typing will be hidden):
+Logged in as email@email.com
+</code>
+
+Now navigate to your project root. It should already be initialised as a Git repository.
+
+<code>
+ > cd /path/to/my/project/root
+
+ > # by default Heroku will setup a git remote called heroku to the heroku git repository
+ > # the first URL is the heroku's generated subdomain for your new application
+ > # the second URL is a URL to the git repository, which you can use as the remote
+ > heroku apps:create polycademy-php-demo
+
+Creating polycademy-php-demo... done, stack is cedar-14
+https://polycademy-php-demo.herokuapp.com/ | https://git.heroku.com/polycademy-php-demo.git
+
+ > # as you can see, there's a heroku remote and a origin remote
+ > # origin remote points to the repository on github
+ > # heroku remote points to the repository on heroku
+ > git remote --verbose
+
+heroku  https://git.heroku.com/polycademy-php-demo.git (fetch)
+heroku  https://git.heroku.com/polycademy-php-demo.git (push)
+origin  git@github.com:Polycademy/PHPHerokuDemo.git (fetch)
+origin  git@github.com:Polycademy/PHPHerokuDemo.git (push)
+ 
+ > # in case the heroku remote was not added, you can add it manually by running:
+ > # git remote add heroku https://git.heroku.com/polycademy-php-demo.git
+ > # but it should work automatically
+
+ > # scale up your application
+ > heroku ps:scale web=1 
+</code>
+
+We have created an application Heroku, but the application is empty right now and it doesn't do anything. Before we deploy our application we need to address our application's dependencies. By default Heroky only offers PostgreSQL, however it has third party addons that allow different databases. Most likely you've been using MySQL, so we need to run a few commands to get Heroku to setup the [[https://elements.heroku.com/addons/cleardb|ClearDB MySQL addon]].
+
+<code>
+ > # again remember your own application name here
+ > heroku addons:create cleardb:ignite --app polycademy-php-demo
+
+Creating cleardb-concave-64997... done, (free)
+Adding cleardb-concave-64997 to polycademy-php-demo... done
+Setting CLEARDB_DATABASE_URL and restarting polycademy-php-demo... done, v5
+Use `heroku addons:docs cleardb` to view documentation.
+
+ > heroku addons --app polycademy-php-demo
+
+Add-on                           Plan    Price
+───────────────────────────────  ──────  ─────
+cleardb (cleardb-concave-64997)  ignite  free
+ └─ as CLEARDB_DATABASE
+
+The table above shows add-ons and the attachments to the current app (polycademy-php-demo) or other apps.
+</code>
+
+Ok now we can deploy the application, but we need to make some final preparations to our application so it's ready to be executed by Heroku. 
+
+We need to get ''composer'' to create its ''composer.lock'' file in order to lock our PHP dependency versions, and also to make sure our ''vendor'' directory is ignored in the ''.gitignore'', because Heroku will install all PHP dependencies, and it doesn't need your ''vendor'' directory.
+
+We also need a ''Procfile'' at the root of our project directory, this file specifies commands for Heroku to execute when deploying your application. For our purposes we only need one line:
+
+<file - Procfile>
+web: vendor/bin/heroku-php-apache2
+</file>
+
+This will execute the ''vendor/bin/heroku-php-apache2'' binary, which will bring up an Apache stack that will execute your PHP application. For more information on what can be put into the ''Procfile'', see: https://devcenter.heroku.com/articles/procfile The ''web:'' specifies that it is the command for just one web instance.
+
+Furthermore, we need to make use of the ''CLEARDB_DATABASE_URL'' environment variable so we can connect to the MySQL database, and perform the necessary migrations. The below shell session example doesn't show how to do that, to see how that is done, please see the ''index.php'' in this repository: https://github.com/Polycademy/PHPHerokuDemo
+
+Once all our preparations are done, we execute our final shell commands:
+
+<code>
+ > # run composer update, you need a composer.lock inside your github project
+ > composer update
+
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+
+ > git add --all
+ > git commit --message='preparing heroku deployment'
+ > # here we push to heroku repository master branch, remember to git push origin master to push back to your own github repository
+ > git push heroku master
+
+Counting objects: 3, done.
+Delta compression using up to 4 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 312 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Using set buildpack heroku/php
+remote: -----> PHP app detected
+remote: -----> Bootstrapping...
+remote: -----> Installing platform packages...
+remote:        - php (5.6.19)
+remote:        - apache (2.4.18)
+remote:        - nginx (1.8.1)
+remote: -----> Installing dependencies...
+remote:        Composer version 1.0.0-alpha11 2015-11-14 16:21:07
+remote:        Loading composer repositories with package information
+remote:        Installing dependencies from lock file
+remote:        Nothing to install or update
+remote:        Generating optimized autoload files
+remote: -----> Preparing runtime environment...
+remote: -----> Checking for additional extensions to install...
+remote:
+remote: -----> Discovering process types
+remote:        Procfile declares types -> web
+remote:
+remote: -----> Compressing...
+remote:        Done: 73.9M
+remote: -----> Launching...
+remote:        Released v7
+remote:        https://polycademy-php-demo.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy.... done.
+To https://git.heroku.com/polycademy-php-demo.git
+   aaf99cc..f899487  master -> master
+</code>
+
+Now go visit your new application at https://polycademy-php-demo.herokuapp.com/
+
+A final note, Heroku expects applications to be built in a stateless manner, with any statefulness contained within a database or in an object storage system like AWS S3. To learn more about this philosophy, read: http://12factor.net/
